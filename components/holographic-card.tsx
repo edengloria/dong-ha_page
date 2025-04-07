@@ -14,6 +14,7 @@ interface HolographicCardProps {
   reducedMotion?: boolean
   reducedGraphics?: boolean
   hideViewDetails?: boolean
+  disableClick?: boolean
 }
 
 export default function HolographicCard({ 
@@ -22,7 +23,8 @@ export default function HolographicCard({
   slug, 
   reducedMotion = false, 
   reducedGraphics = false,
-  hideViewDetails = false
+  hideViewDetails = false,
+  disableClick = false
 }: HolographicCardProps) {
   const router = useRouter()
   const [isHovered, setIsHovered] = useState(false)
@@ -64,7 +66,9 @@ export default function HolographicCard({
   const rotation = calculateRotation()
 
   const handleClick = () => {
-    router.push(`/sections/${slug}`)
+    if (!disableClick) {
+      router.push(`/sections/${slug}`)
+    }
   }
 
   // Simplified shadow for better performance
@@ -77,7 +81,10 @@ export default function HolographicCard({
   return (
     <motion.div
       ref={cardRef}
-      className="relative h-full cursor-pointer"
+      className={cn(
+        "relative h-full",
+        disableClick ? "cursor-default" : "cursor-pointer"
+      )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
