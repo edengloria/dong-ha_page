@@ -2,8 +2,8 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
-import { motion } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 
@@ -11,29 +11,46 @@ interface HolographicCardProps {
   title: string
   content: string
   slug: string
+  reducedMotion?: boolean
+  reducedGraphics?: boolean
 }
 
-export default function HolographicCard({ title, content, slug }: HolographicCardProps) {
+export default function HolographicCard({ 
+  title, 
+  content, 
+  slug, 
+  reducedMotion = false, 
+  reducedGraphics = false 
+}: HolographicCardProps) {
   const router = useRouter()
   const [isHovered, setIsHovered] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const cardRef = useRef<HTMLDivElement>(null)
-
+  const prefersReducedMotion = useReducedMotion()
+  
+  // Determine if we should use full effects
+  const shouldReduceMotion = reducedMotion || prefersReducedMotion
+  const shouldReduceGraphics = reducedGraphics || prefersReducedMotion
+  
+  // Use a more efficient event handler with throttling
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
+    if (!cardRef.current || shouldReduceMotion) return
 
     const rect = cardRef.current.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
 
-    setMousePosition({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
+    // Update position less frequently for better performance
+    requestAnimationFrame(() => {
+      setMousePosition({
+        x: (x / rect.width) * 100,
+        y: (y / rect.height) * 100,
+      })
     })
   }
 
   const calculateRotation = () => {
-    if (!isHovered) return { x: 0, y: 0 }
+    if (!isHovered || shouldReduceMotion) return { x: 0, y: 0 }
 
     // Convert percentage to degrees (max 15 degrees rotation)
     const rotateY = ((mousePosition.x - 50) / 50) * 15
@@ -48,49 +65,60 @@ export default function HolographicCard({ title, content, slug }: HolographicCar
     router.push(`/sections/${slug}`)
   }
 
+  // Simplified shadow for better performance
+  const boxShadow = isHovered 
+    ? shouldReduceGraphics
+      ? "0 10px 30px rgba(0, 0, 0, 0.4)"
+      : "0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.3)"
+    : "0 10px 30px rgba(0, 0, 0, 0.3)"
+
   return (
     <motion.div
       ref={cardRef}
       className="relative h-full cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
+      onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
       onClick={handleClick}
       style={{
-        perspective: "1000px",
+        perspective: shouldReduceMotion ? "none" : "1000px",
       }}
     >
       <motion.div
         className={cn(
-          "relative overflow-hidden rounded-xl p-6 h-full",
+          "relative overflow-hidden rounded-xl p-6 h-full will-change-transform",
           "bg-black/30 backdrop-blur-md border border-white/10",
           "transition-all duration-300 ease-out",
         )}
         animate={{
           rotateX: rotation.x,
           rotateY: rotation.y,
-          boxShadow: isHovered
-            ? "0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.3), inset 0 0 10px rgba(99, 102, 241, 0.2)"
-            : "0 10px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(99, 102, 241, 0.2)",
+          boxShadow,
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        transition={{ 
+          type: "spring", 
+          stiffness: shouldReduceMotion ? 500 : 300, 
+          damping: shouldReduceMotion ? 30 : 20 
+        }}
       >
-        {/* Holographic gradient overlay */}
-        <motion.div
-          className="absolute inset-0 opacity-0 mix-blend-overlay pointer-events-none"
-          style={{
-            background: `linear-gradient(
-              ${mousePosition.x}deg,
-              rgba(99, 102, 241, 0.5) 0%,
-              rgba(168, 85, 247, 0.5) 33%,
-              rgba(236, 72, 153, 0.5) 66%,
-              rgba(99, 102, 241, 0.5) 100%
-            )`,
-          }}
-          animate={{
-            opacity: isHovered ? 0.7 : 0,
-          }}
-        />
+        {/* Holographic gradient overlay - only shown when not in reduced graphics mode */}
+        {!shouldReduceGraphics && (
+          <motion.div
+            className="absolute inset-0 opacity-0 mix-blend-overlay pointer-events-none"
+            style={{
+              background: `linear-gradient(
+                ${mousePosition.x}deg,
+                rgba(99, 102, 241, 0.5) 0%,
+                rgba(168, 85, 247, 0.5) 33%,
+                rgba(236, 72, 153, 0.5) 66%,
+                rgba(99, 102, 241, 0.5) 100%
+              )`,
+            }}
+            animate={{
+              opacity: isHovered ? 0.7 : 0,
+            }}
+          />
+        )}
 
         {/* Card content */}
         <div className="relative z-10">
@@ -100,7 +128,9 @@ export default function HolographicCard({ title, content, slug }: HolographicCar
               textShadow: "0 0 10px rgba(99, 102, 241, 0.3)",
             }}
             animate={{
-              textShadow: isHovered ? "0 0 15px rgba(99, 102, 241, 0.5)" : "0 0 10px rgba(99, 102, 241, 0.3)",
+              textShadow: isHovered && !shouldReduceGraphics 
+                ? "0 0 15px rgba(99, 102, 241, 0.5)" 
+                : "0 0 10px rgba(99, 102, 241, 0.3)",
             }}
           >
             {title}

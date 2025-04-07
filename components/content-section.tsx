@@ -1,11 +1,32 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import HolographicCard from "@/components/holographic-card"
 
 export default function ContentSection() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [visibleSections, setVisibleSections] = useState<string[]>([])
+
+  // Only start animations after component is mounted
+  useEffect(() => {
+    setIsLoaded(true)
+    // Start with first 4 sections visible
+    setVisibleSections(['about', 'research', 'publications', 'experience'])
+    
+    // Add more sections as user scrolls down
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setVisibleSections(prev => 
+          [...new Set([...prev, 'patents', 'awards', 'gallery', 'contact'])]
+        )
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const sections = [
     {
@@ -131,21 +152,43 @@ export default function ContentSection() {
     },
   ]
 
+  // Simplified animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.3 }
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-20" ref={containerRef}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {sections.map((section, index) => (
-          <motion.div
-            key={section.id}
-            id={section.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-          >
-            <HolographicCard title={section.title} content={section.content} slug={section.slug} />
-          </motion.div>
-        ))}
+        {sections.map((section) => {
+          // Only render sections that should be visible
+          const shouldRender = visibleSections.includes(section.id)
+          
+          return shouldRender ? (
+            <motion.div
+              key={section.id}
+              id={section.id}
+              initial="hidden"
+              animate={isLoaded ? "visible" : "hidden"}
+              variants={containerVariants}
+              className="will-change-opacity"
+            >
+              <HolographicCard 
+                title={section.title} 
+                content={section.content} 
+                slug={section.slug}
+                reducedMotion={false} // Apply tilting effect to all cards
+                reducedGraphics={false} // Apply full graphical effects to all cards
+              />
+            </motion.div>
+          ) : (
+            <div key={section.id} id={section.id} className="opacity-0 h-0"></div>
+          )
+        })}
       </div>
     </div>
   )

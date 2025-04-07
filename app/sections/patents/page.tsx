@@ -1,10 +1,19 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ArrowLeft, FileText } from "lucide-react"
 import Link from "next/link"
 
 export default function PatentsPage() {
+  // Use state to control animation loading
+  const [isLoaded, setIsLoaded] = useState(false)
+  
+  // Delay animation start until component is mounted
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+  
   const patents = [
     {
       title: "Communication System Using Extended Reality, And Its Communication Method",
@@ -69,6 +78,24 @@ export default function PatentsPage() {
     },
   ]
 
+  // Container animation - simplified
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  }
+  
+  // Reduce staggered animations and simplify
+  const itemVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.3 }
+    }
+  }
+
   return (
     <div className="container mx-auto px-4">
       <Link href="/" className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors">
@@ -78,27 +105,22 @@ export default function PatentsPage() {
 
       <motion.div
         className="max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial="hidden"
+        animate={isLoaded ? "visible" : "hidden"}
+        variants={containerVariants}
       >
-        <motion.h1
-          className="text-4xl font-light text-white mb-8 tracking-tight"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
+        <h1 className="text-4xl font-light text-white mb-8 tracking-tight">
           Patents
-        </motion.h1>
+        </h1>
 
         <div className="space-y-6">
           {patents.map((patent, index) => (
             <motion.div
               key={patent.title}
               className="bg-black/30 backdrop-blur-md border border-white/10 rounded-xl p-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
+              // Use hardware acceleration
+              style={{ willChange: "opacity" }}
             >
               <div className="flex items-start">
                 <FileText className="h-6 w-6 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
