@@ -35,9 +35,8 @@ export default function AboutPage() {
         >
           <div className="grid md:grid-cols-2 gap-8 items-start">
             <p className="leading-relaxed">
-              I'm a researcher specializing in photonics and holography, with a focus on developing next-generation 3D
-              imaging technologies. My work bridges the gap between theoretical physics and practical applications,
-              exploring how light can be manipulated to create immersive visual experiences.
+            I am a Machine Learning/Optical Engineer at DareeSoft, currently fulfilling my national defense duty in South Korea. 
+            My work and research combine various fields from digital holography and photonics to on-device AI and computer vision.
             </p>
 
             <motion.div className="relative">
@@ -53,30 +52,34 @@ export default function AboutPage() {
           </div>
 
           <p className="leading-relaxed">
-            My journey in the field of optics began during my undergraduate studies, where I was fascinated by the
-            fundamental principles of wave optics and interference patterns. This interest evolved into a passion for
-            holography when I realized the potential of wavefront manipulation to create true three-dimensional visual
-            representations.
+          I graduated from the Department of Electronic Engineering at Kyungpook National University in March 2024, having enrolled in February 2020. 
+          I maintained a GPA of 4.12/4.5 and minored in Computer Engineering. 
+          During my undergraduate years, I served as the leader of BITDOL (Hardware Research Group), 
+          where I secured funding of 55M KRW(~40,000 USD) and oversaw various projects. 
+          Through these experiences, I developed extensive expertise in designing and prototyping diverse embedded systems.
           </p>
 
           <p className="leading-relaxed">
-            Currently, my research focuses on the intersection of computational optics, nanophotonics, and display
-            technologies. I'm particularly interested in developing novel algorithms and optical systems that can
-            generate high-quality, real-time holographic content for applications in augmented reality, scientific
-            visualization, and entertainment.
+          My journey in the field of optics began as an undergraduate in Professor Seung-Yeol Lee's Integrated Plasmonic Optical Device (IPOD) Laboratory, 
+          where I was fascinated by the fundamental principles of wave optics and interference patterns. 
+          This interest evolved into a passion for holography when I realized the potential of wavefront manipulation to create true three-dimensional visual representations.
           </p>
 
           <p className="leading-relaxed">
-            Beyond my academic pursuits, I'm an advocate for interdisciplinary collaboration. I believe that the most
-            innovative solutions emerge when expertise from different fields converges. This philosophy has led me to
-            work with computer scientists, electrical engineers, and even artists to explore new possibilities in
-            holographic display technology.
+          Currently, my research focuses on the intersection of computational optics, nanophotonics, and display technologies. 
+          I'm particularly interested in developing novel algorithms and optical systems that can generate high-quality, 
+          real-time holographic content for applications in augmented reality, scientific visualization, and entertainment.
           </p>
 
           <p className="leading-relaxed">
-            When I'm not in the lab, you might find me experimenting with DIY holography setups, attending optics
-            conferences, or exploring the latest developments in computational imaging. I'm always open to discussions
-            about potential collaborations or simply sharing ideas about the future of visual technology.
+          Beyond my academic pursuits, I'm an advocate for interdisciplinary collaboration. 
+          I believe that the most innovative solutions emerge when expertise from different fields converges. 
+          This philosophy has led me to work with computer scientists, electrical engineers, and even artists to explore new possibilities.
+          </p>
+
+          <p className="leading-relaxed">
+          My hobbies include drawing, media art, collecting vinyl LPs, and visiting exhibitions. 
+          Feel free to reach out if you'd like to chat over coffee!
           </p>
         </motion.div>
       </motion.div>
