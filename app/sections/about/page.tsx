@@ -47,9 +47,15 @@ export default function AboutPage() {
                 className="relative w-full aspect-[3/4]"
               >
                 <img
-                  src="/asset/gradshot.jpg"
+                  src="/dong-ha_page/asset/gradshot.jpg"
                   alt="Graduation photo"
                   className="rounded-lg object-cover shadow-lg w-full h-full"
+                  onError={(e) => {
+                    console.error('Image failed to load');
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null; // Prevent infinite error loop
+                    target.src = "/fallback-image.png"; // Optional fallback
+                  }}
                 />
               </motion.div>
             </motion.div>
