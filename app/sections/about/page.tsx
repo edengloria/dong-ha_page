@@ -3,8 +3,18 @@
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function AboutPage() {
+  // Dynamic base path detection
+  const [basePath, setBasePath] = useState('')
+  
+  useEffect(() => {
+    // Check if we're on GitHub Pages by looking at the URL
+    const isGitHubPages = window.location.hostname.includes('github.io')
+    setBasePath(isGitHubPages ? '/dong-ha_page' : '')
+  }, [])
+
   return (
     <div className="container mx-auto px-4">
       <Link href="/" className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors">
@@ -44,17 +54,16 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
-                className="relative w-full aspect-[3/4]"
+                className="relative w-full aspect-square"
               >
                 <img
-                  src="/dong-ha_page/asset/gradshot.jpg"
+                  src={`${basePath}/asset/gradshot.jpg`}
                   alt="Graduation photo"
                   className="rounded-lg object-cover shadow-lg w-full h-full"
                   onError={(e) => {
-                    console.error('Image failed to load');
+                    console.error('Image failed to load with path:', `${basePath}/asset/gradshot.jpg`);
                     const target = e.target as HTMLImageElement;
                     target.onerror = null; // Prevent infinite error loop
-                    target.src = "/fallback-image.png"; // Optional fallback
                   }}
                 />
               </motion.div>
