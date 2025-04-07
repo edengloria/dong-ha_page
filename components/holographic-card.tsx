@@ -36,8 +36,8 @@ export default function HolographicCard({ title, content, slug }: HolographicCar
     if (!isHovered) return { x: 0, y: 0 }
 
     // Convert percentage to degrees (max 10 degrees rotation)
-    const rotateY = ((mousePosition.x - 50) / 50) * 5
-    const rotateX = ((50 - mousePosition.y) / 50) * 5
+    const rotateY = ((mousePosition.x - 50) / 50) * 10
+    const rotateX = ((50 - mousePosition.y) / 50) * 10
 
     return { x: rotateX, y: rotateY }
   }
