@@ -4,29 +4,44 @@ import { motion } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import HolographicCard from "@/components/holographic-card"
 
+// Throttle function to limit how often a function can be called
+function throttle(func: Function, limit: number) {
+  let inThrottle: boolean
+  return function(this: any, ...args: any[]) {
+    if (!inThrottle) {
+      func.apply(this, args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }
+}
+
 export default function ContentSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [visibleSections, setVisibleSections] = useState<string[]>([])
+  
+  // Memoize all sections initially to prevent recreating them on each render
+  const initialVisibleSections = ['about', 'research', 'publications', 'experience']
+  const allSections = ['about', 'research', 'publications', 'experience', 'patents', 'awards', 'gallery', 'contact']
 
   // Only start animations after component is mounted
   useEffect(() => {
     setIsLoaded(true)
     // Start with first 4 sections visible
-    setVisibleSections(['about', 'research', 'publications', 'experience'])
+    setVisibleSections(initialVisibleSections)
     
     // Add more sections as user scrolls down
-    const handleScroll = () => {
-      if (window.scrollY > 800) {
-        setVisibleSections(prev => 
-          [...new Set([...prev, 'patents', 'awards', 'gallery', 'contact'])]
-        )
+    // Using throttled scroll handler to avoid excessive updates
+    const handleScroll = throttle(() => {
+      if (window.scrollY > 800 && visibleSections.length < allSections.length) {
+        setVisibleSections(allSections)
       }
-    }
+    }, 200) // Throttle to once every 200ms
     
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, []) // Remove dependency on visibleSections to prevent recreating event handlers
 
   const sections = [
     {
@@ -152,12 +167,16 @@ export default function ContentSection() {
     },
   ]
 
-  // Simplified animation variants
+  // Simplified animation variants with better performance
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { duration: 0.3 }
+      transition: { 
+        duration: 0.3,
+        // Don't animate again once visible
+        when: "beforeChildren"
+      }
     }
   }
 
@@ -176,15 +195,19 @@ export default function ContentSection() {
               animate={isLoaded ? "visible" : "hidden"}
               variants={containerVariants}
               className="will-change-opacity"
+              // Add layout prop to help smooth layout changes
+              layout="position"
+              // Prevent unnecessary re-animations
+              layoutId={section.id}
             >
               <HolographicCard 
                 title={section.title} 
                 content={section.content} 
                 slug={section.slug}
-                reducedMotion={false} // Apply tilting effect to all cards
-                reducedGraphics={false} // Apply full graphical effects to all cards
-                hideViewDetails={section.id === 'research'} // Hide View details button for Interests section
-                disableClick={section.id === 'research'} // Disable click for Interests section
+                reducedMotion={false}
+                reducedGraphics={false}
+                hideViewDetails={section.id === 'research'}
+                disableClick={section.id === 'research'}
               />
             </motion.div>
           ) : (
