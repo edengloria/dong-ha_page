@@ -55,12 +55,20 @@ export default function ContentSection() {
       content: `
         <div class="space-y-4">
           <div>
+            <h4 class="font-medium text-white">DareeSoft</h4>
+            <p class="text-sm text-white/70">Senior Associate, AI Research, 2024-present</p>
+          </div>
+          <div>
             <h4 class="font-medium text-white">POSTECH Computer Graphics Laboratory</h4>
             <p class="text-sm text-white/70">Research Engineer, 2024-present</p>
           </div>
           <div>
             <h4 class="font-medium text-white">Kyungpook National University IPOD Lab</h4>
             <p class="text-sm text-white/70">Undergraduate Researcher, 2021-2024</p>
+          </div>
+                    <div>
+            <h4 class="font-medium text-white">Kyungpook National University Video Intelligence Lab</h4>
+            <p class="text-sm text-white/70">Intern, 2023</p>
           </div>
         </div>
       `,

@@ -33,11 +33,24 @@ export default function AboutPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <p className="leading-relaxed">
-            I'm a researcher specializing in photonics and holography, with a focus on developing next-generation 3D
-            imaging technologies. My work bridges the gap between theoretical physics and practical applications,
-            exploring how light can be manipulated to create immersive visual experiences.
-          </p>
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <p className="leading-relaxed">
+              I'm a researcher specializing in photonics and holography, with a focus on developing next-generation 3D
+              imaging technologies. My work bridges the gap between theoretical physics and practical applications,
+              exploring how light can be manipulated to create immersive visual experiences.
+            </p>
+
+            <motion.div className="relative">
+              <motion.img
+                src="/asset/gradshot.jpg"
+                alt="Graduation photo"
+                className="rounded-lg w-full shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              />
+            </motion.div>
+          </div>
 
           <p className="leading-relaxed">
             My journey in the field of optics began during my undergraduate studies, where I was fascinated by the
