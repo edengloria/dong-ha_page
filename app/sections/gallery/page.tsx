@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Info } from "lucide-react"
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Info, Construction } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -116,6 +116,21 @@ export default function GalleryPage() {
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back to Home
       </Link>
+
+      {/* Under Construction Banner */}
+      <motion.div 
+        className="max-w-3xl mx-auto bg-black/30 backdrop-blur-md border border-yellow-500/30 rounded-xl p-10 mb-10 text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-4xl md:text-6xl font-bold text-yellow-500 mb-6 tracking-tight">
+          Under Construction
+        </h2>
+        <p className="text-xl md:text-2xl text-white/90 mb-4">
+          Gallery page is currently being built.
+        </p>
+      </motion.div>
 
       <motion.div
         className="max-w-6xl mx-auto"
