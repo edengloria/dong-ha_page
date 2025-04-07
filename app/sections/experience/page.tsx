@@ -7,62 +7,69 @@ import Link from "next/link"
 export default function ExperiencePage() {
   const experiences = [
     {
-      title: "IPOD Lab",
-      role: "Research Assistant",
-      period: "2020-Present",
-      location: "University of Technology",
+      title: "DareeSoft",
+      role: "Senior Associate, AI Research",
+      period: "January 2025 - Present",
+      location: "Seongnam, Gyeonggi-do, South Korea",
       description:
-        "Developing novel holographic display technologies and computational imaging methods. My work focuses on creating next-generation 3D displays using a combination of custom optics and advanced algorithms.",
+        "Working on edge AI and camera engineering solutions, focusing on efficient vision models and hardware-specific optimizations.",
       responsibilities: [
-        "Lead researcher on the real-time holographic rendering project",
-        "Designed and implemented a GPU-accelerated phase retrieval algorithm",
-        "Built and calibrated experimental holographic display prototypes",
-        "Mentored junior researchers and graduate students",
-        "Collaborated with industry partners to develop practical applications",
-      ],
-      achievements: [
-        "Reduced hologram computation time by 80% through algorithm optimization",
-        "Published 4 papers in top-tier journals and conferences",
-        "Secured $250,000 in additional research funding",
-        "Filed 2 patents for novel holographic display techniques",
+        "Developing efficient vision models for road hazard detection: from large-scale training to edge deployment optimization",
+        "Specializing in AI model porting and acceleration for edge devices leveraging hardware-specific optimizations",
+        "Developing advanced camera engineering solutions and vision processing pipelines",
+        "Led development of on-device STT-LLM-TTS AI system showcased at CES 2025, achieving ~1.5s latency by leveraging NPU on Qualcomm's entry-level SoC",
       ],
     },
     {
-      title: "POSTECH CG Lab",
-      role: "Graduate Researcher",
-      period: "2018-2020",
-      location: "Pohang University of Science and Technology",
+      title: "DareeSoft",
+      role: "AI Research Scientist",
+      period: "February 2024 - December 2024",
+      location: "Seongnam, Gyeonggi-do, South Korea",
       description:
-        "Worked on computational imaging and rendering algorithms for novel display technologies. Focused on the intersection of computer graphics and optics to create more realistic and immersive visual experiences.",
+        "Fulfilling mandatory military service in the IT sector as part of the Advanced Development Team.",
       responsibilities: [
-        "Developed rendering algorithms for light field displays",
-        "Implemented and evaluated various phase retrieval methods",
-        "Created simulation tools for optical system design",
-        "Collaborated with the display engineering team on prototype development",
-        "Presented research findings at international conferences",
-      ],
-      achievements: [
-        "Best Paper Award at SIGGRAPH Asia 2019 for work on light field rendering",
-        "Developed a novel depth-based rendering technique that improved visual quality by 40%",
-        "Created an open-source library for holographic simulation that has been adopted by several research groups",
+        "Working on deep learning projects and AI model development",
+        "Contributing to the company's advanced development initiatives",
+        "Collaborating with team members on research and implementation",
       ],
     },
     {
-      title: "Dareesoft",
-      role: "Research Intern",
-      period: "Summer 2017",
-      location: "Seoul, South Korea",
+      title: "Kyungpook National University",
+      role: "Undergraduate Researcher",
+      period: "September 2021 - February 2024",
+      location: "Daegu, South Korea",
       description:
-        "Worked on augmented reality applications for industrial training and visualization. Explored the use of holographic techniques to enhance AR experiences.",
+        "Research at IPOD (Integrated Plasmonics and Optical Device) Lab under the guidance of Prof. Seung-Yeol Lee.",
       responsibilities: [
-        "Developed prototype AR applications for industrial training",
-        "Researched methods for improving depth perception in AR displays",
-        "Collaborated with UX designers to create intuitive interfaces",
-        "Participated in user testing and feedback sessions",
+        "Participated in research project on Holo-TV, ETRI (using MATLAB, PyTorch)",
+        "Developed CGH (Computer Generated Holography) optimization model based on gradient descent method and Genetic Algorithm",
+        "Implemented Light Field Object Depth Transformation Using Object Detection Algorithm",
+        "Analyzed nano-scale optical devices such as metasurface with RCWA, Lumerical FDTD",
+        "Gained experience with various optical table experimental setups",
       ],
-      achievements: [
-        "Created a proof-of-concept for holographic AR overlays that was incorporated into the company's product roadmap",
-        "Improved rendering performance by 35% through shader optimization",
+    },
+    {
+      title: "Kyungpook National University",
+      role: "Undergraduate Research Assistant",
+      period: "July 2023 - August 2023",
+      location: "Daegu, South Korea",
+      description:
+        "Research at Video Intelligence Lab under the guidance of Prof. Sang-hyo Park.",
+      responsibilities: [
+        "Researched on light-weighting MotionBERT (3D pose estimation) deep learning model",
+        "Contributed to model optimization and implementation",
+      ],
+    },
+    {
+      title: "Pohang University of Science and Technology (POSTECH)",
+      role: "Undergraduate Researcher",
+      period: "January 2023 - September 2023",
+      location: "Pohang, Gyeongbuk, South Korea",
+      description:
+        "Research at Computer Graphics Lab under the guidance of Prof. Seung-Hwan Beak.",
+      responsibilities: [
+        "Developed differentiable light-wave simulation and optimization for CGH, diffractive optics",
+        "Contributed to research on computational imaging and rendering algorithms",
       ],
     },
   ]
@@ -86,7 +93,7 @@ export default function ExperiencePage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          Research Experience
+          Experience
         </motion.h1>
 
         <div className="space-y-8">
@@ -112,17 +119,6 @@ export default function ExperiencePage() {
                 <h3 className="text-lg font-light text-white mb-2">Responsibilities:</h3>
                 <ul className="list-disc pl-5 text-white/80 space-y-1">
                   {exp.responsibilities.map((item, i) => (
-                    <li key={i} className="leading-relaxed">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-light text-white mb-2">Key Achievements:</h3>
-                <ul className="list-disc pl-5 text-white/80 space-y-1">
-                  {exp.achievements.map((item, i) => (
                     <li key={i} className="leading-relaxed">
                       {item}
                     </li>

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function AboutPage() {
   return (
@@ -47,13 +46,10 @@ export default function AboutPage() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="relative w-full aspect-[3/4]"
               >
-                <Image
+                <img
                   src="/asset/gradshot.jpg"
                   alt="Graduation photo"
-                  width={500}
-                  height={667}
-                  className="rounded-lg object-cover shadow-lg"
-                  priority
+                  className="rounded-lg object-cover shadow-lg w-full h-full"
                 />
               </motion.div>
             </motion.div>
