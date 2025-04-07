@@ -7,57 +7,65 @@ import Link from "next/link"
 export default function PatentsPage() {
   const patents = [
     {
-      title: "Method for Generating Computer Holograms",
-      number: "US Patent #10,123,456",
-      year: 2022,
-      inventors: "Shin, D.H., Park, J., & Kim, S.",
-      abstract:
-        "A method for generating computer holograms using a novel phase retrieval algorithm that significantly reduces computation time while maintaining high image quality. The method employs a hybrid approach combining iterative and neural network-based techniques to achieve optimal results for real-time holographic displays.",
-      claims: [
-        "A method for generating computer holograms comprising steps of: receiving a target image; preprocessing the target image to extract depth information; applying a neural network to predict an initial phase pattern; refining the phase pattern using an iterative algorithm; and outputting the final hologram.",
-        "The method of claim 1, wherein the neural network is trained on a dataset of paired images and corresponding optimal phase patterns.",
-        "The method of claim 1, wherein the iterative algorithm employs a perceptually-weighted error metric to prioritize visually significant regions.",
-      ],
-      applications: [
-        "Real-time holographic displays",
-        "Augmented reality headsets",
-        "Holographic projection systems",
-        "Medical visualization",
-      ],
-    },
-    {
-      title: "Optical System for 3D Holographic Displays",
-      number: "KR Patent #20-1234567",
-      year: 2021,
-      inventors: "Lee, K., Shin, D.H., & Cho, M.",
-      abstract:
-        "An optical system for 3D holographic displays that uses a novel arrangement of spatial light modulators and custom optical elements to achieve wide viewing angles and high image quality. The system incorporates polarization management and pupil tracking to optimize the viewing experience.",
-      claims: [
-        "An optical system for 3D holographic displays comprising: at least one spatial light modulator; a polarization management subsystem; a custom diffractive optical element; and a pupil tracking system that adjusts the hologram based on viewer position.",
-        "The optical system of claim 1, wherein the polarization management subsystem includes a quarter-wave plate and a polarizing beamsplitter.",
-        "The optical system of claim 1, wherein the diffractive optical element is designed to correct for aberrations in the optical path.",
-      ],
-      applications: [
-        "Head-mounted displays",
-        "Automotive head-up displays",
-        "Medical imaging systems",
-        "Entertainment and gaming",
-      ],
-    },
-    {
-      title: "Metasurface Design for Holographic Projection",
-      number: "US Patent Application #17/123,456",
+      title: "Communication System Using Extended Reality, And Its Communication Method",
+      number: "Korea - Application No. 10-2023-0186048",
       year: 2023,
+      date: "December 7, 2023",
       status: "Pending",
-      inventors: "Shin, D.H., Wang, L., & Garcia, M.",
+      inventors: "Shin, D.H., et al.",
       abstract:
-        "A novel metasurface design for holographic projection that achieves high efficiency and color fidelity. The metasurface incorporates nanopillars with varying geometries to control the phase, amplitude, and polarization of light with subwavelength precision.",
+        "A communication system and method utilizing extended reality technology to enhance user interaction and information sharing in virtual environments.",
       claims: [
-        "A metasurface for holographic projection comprising: a substrate; and an array of nanopillars with varying geometries arranged to modulate the phase and amplitude of incident light to produce a predetermined holographic image.",
-        "The metasurface of claim 1, wherein the nanopillars are composed of titanium dioxide on a glass substrate.",
-        "The metasurface of claim 1, wherein the arrangement of nanopillars is determined using a topology optimization algorithm.",
+        "A communication system using extended reality comprising: a user interface for interaction in a virtual environment; a data processing module for handling communication data; and a rendering engine for displaying virtual content.",
+        "The system of claim 1, wherein the user interface adapts based on user preferences and interaction patterns.",
+        "The system of claim 1, further comprising a synchronization mechanism for real-time data exchange between multiple users.",
       ],
-      applications: ["Compact projectors", "Security holograms", "Wearable displays", "Optical sensors"],
+      applications: [
+        "Virtual meetings",
+        "Remote collaboration",
+        "Educational platforms",
+        "Social networking in virtual environments",
+      ],
+    },
+    {
+      title: "Image processing apparatus and method for analyzing hazardous objects on road",
+      number: "Korea - Application No. 10-2024-0265893",
+      year: 2024,
+      status: "Pending",
+      inventors: "Shin, D.H., et al.",
+      abstract:
+        "This invention pertains to computer vision technology for enhancing image processing in the context of road safety. The patented method involves the use of image processing devices equipped with processors that handle real-time images captured from vehicle-mounted cameras. By assessing the need for pre-processing based on specific characteristics of road surface images, such as brightness and noise levels, the method improves the quality of images fed into AI models for object detection. Notably, the invention leverages genetic algorithms to optimize ISP parameters, thereby enhancing the detection accuracy of road hazards under varying environmental and lighting conditions. This selective pre-processing reduces system load while maintaining high analysis performance.",
+      claims: [
+        "An image processing apparatus for analyzing hazardous objects on road, comprising: a camera for capturing road surface images; a processor for analyzing image characteristics; and an AI model for object detection.",
+        "The apparatus of claim 1, wherein the processor determines pre-processing requirements based on image brightness and noise levels.",
+        "The apparatus of claim 1, further comprising a genetic algorithm module for optimizing ISP parameters.",
+      ],
+      applications: [
+        "Advanced driver assistance systems",
+        "Autonomous vehicles",
+        "Road safety monitoring",
+        "Traffic management systems",
+      ],
+    },
+    {
+      title: "Self-Driving Drug Delivery Robot System",
+      number: "Korea - Application No. 10-2022-0152452",
+      year: 2022,
+      status: "Pending",
+      inventors: "Shin, D.H., et al.",
+      abstract:
+        "A robotic system designed for autonomous delivery of medications and medical supplies. The system incorporates navigation algorithms, obstacle avoidance, and secure storage mechanisms to ensure safe and efficient delivery of medical items.",
+      claims: [
+        "A self-driving drug delivery robot system comprising: a navigation module; a secure storage compartment; and a delivery mechanism.",
+        "The system of claim 1, wherein the navigation module includes obstacle detection and avoidance capabilities.",
+        "The system of claim 1, further comprising a user authentication system for secure access to delivered medications.",
+      ],
+      applications: [
+        "Hospital logistics",
+        "Pharmacy delivery services",
+        "Elderly care facilities",
+        "Medical supply distribution",
+      ],
     },
   ]
 
@@ -98,6 +106,7 @@ export default function PatentsPage() {
                   <h2 className="text-xl font-medium text-white mb-1">{patent.title}</h2>
                   <p className="text-indigo-400 mb-1">
                     {patent.number}, {patent.year}
+                    {patent.date && <span className="ml-2">(Filed: {patent.date})</span>}
                     {patent.status && <span className="ml-2 text-yellow-400">({patent.status})</span>}
                   </p>
                   <p className="text-white/70 mb-4 italic">Inventors: {patent.inventors}</p>
