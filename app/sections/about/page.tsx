@@ -49,8 +49,9 @@ export default function AboutPage() {
               >
                 <Image
                   src="/asset/gradshot.jpg"
-                  alt="gradshot.jpg"
-                  fill
+                  alt="Graduation photo"
+                  width={500}
+                  height={667}
                   className="rounded-lg object-cover shadow-lg"
                   priority
                 />
