@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Dong-Ha Shin | Photonics & Holography Researcher",
+  title: "Dong-Ha Shin | Holography Researcher & Machine Learning Engineer",
   description:
     "Personal website of Dong-Ha Shin, a researcher specializing in photonics, holography, and 3D imaging technologies.",
     generator: 'v0.dev'

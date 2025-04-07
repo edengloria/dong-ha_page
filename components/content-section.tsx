@@ -12,18 +12,18 @@ export default function ContentSection() {
       id: "about",
       title: "About Me",
       slug: "about",
-      content: `I'm a researcher specializing in photonics and holography, with a focus on developing next-generation 3D imaging technologies. My work bridges the gap between theoretical physics and practical applications, exploring how light can be manipulated to create immersive visual experiences.`,
+      content: `I am a Machine Learning/Optical Engineer at DareeSoft. I am currently fulfilling my national defense duty in South Korea. My work and research combine various fields from digital holography and photonics to on-device AI and computer vision.`,
     },
     {
       id: "research",
-      title: "Research Interests",
+      title: "Interests",
       slug: "research",
       content: `
         <ul class="space-y-2">
-          <li><span class="text-indigo-400">Photonics</span> - Light-matter interactions at the nanoscale</li>
           <li><span class="text-indigo-400">Holography</span> - Computer-generated holography and display systems</li>
           <li><span class="text-indigo-400">3D Graphics</span> - Real-time rendering and computational imaging</li>
-          <li><span class="text-indigo-400">Metasurfaces</span> - Engineered surfaces for wavefront manipulation</li>
+          <li><span class="text-indigo-400">Computer Vision</span> - On-device AI and computer vision</li>
+          <li><span class="text-indigo-400">Art</span> - From classical art history to interactive media art</li>
         </ul>
       `,
     },
@@ -34,29 +34,33 @@ export default function ContentSection() {
       content: `
         <div class="space-y-4">
           <div>
-            <h4 class="font-medium text-white">Advances in Computer-Generated Holography for 3D Displays</h4>
-            <p class="text-sm text-white/70">Journal of Optics & Photonics, 2023</p>
+            <h4 class="font-medium text-white">PADO : Pytorch Automatic Differentiable Optics</h4>
+            <p class="text-sm text-white/70">Open-Source Python Library, 2025</p>
           </div>
           <div>
-            <h4 class="font-medium text-white">Metasurface-based Holographic Projections</h4>
-            <p class="text-sm text-white/70">Nature Photonics, 2022</p>
+            <h4 class="font-medium text-white">Hologram Upscaling for Viewing Angle Expansion Using Light Field Extrapolation with Object Detection Algorithm</h4>
+            <p class="text-sm text-white/70">Current Optics and Photonics, 2025</p>
+          </div>
+          <div>
+            <h4 class="font-medium text-white">Technique for Interpreting and Adjusting Depth Information of each Plane by Applying an Object Detection Algorithm to Multi-plane Light-field Image Converted from Hologram Image</h4>
+            <p class="text-sm text-white/70">Journal of Broadcast Engineering, 2023</p>
           </div>
         </div>
       `,
     },
     {
       id: "experience",
-      title: "Research Experience",
+      title: "Experience",
       slug: "experience",
       content: `
         <div class="space-y-4">
           <div>
-            <h4 class="font-medium text-white">IPOD Lab</h4>
-            <p class="text-sm text-white/70">Research Assistant, 2020-Present</p>
+            <h4 class="font-medium text-white">POSTECH Computer Graphics Laboratory</h4>
+            <p class="text-sm text-white/70">Research Engineer, 2024-present</p>
           </div>
           <div>
-            <h4 class="font-medium text-white">POSTECH CG Lab</h4>
-            <p class="text-sm text-white/70">Graduate Researcher, 2018-2020</p>
+            <h4 class="font-medium text-white">Kyungpook National University IPOD Lab</h4>
+            <p class="text-sm text-white/70">Undergraduate Researcher, 2021-2024</p>
           </div>
         </div>
       `,
@@ -68,12 +72,12 @@ export default function ContentSection() {
       content: `
         <div class="space-y-3">
           <div>
-            <h4 class="font-medium text-white">Method for Generating Computer Holograms</h4>
-            <p class="text-sm text-white/70">US Patent #10,123,456, 2022</p>
+            <h4 class="font-medium text-white">Image processing apparatus and method for analyzing hazardous objects on road</h4>
+            <p class="text-sm text-white/70">Korea - Application No. 10-2024-0265893</p>
           </div>
           <div>
-            <h4 class="font-medium text-white">Optical System for 3D Holographic Displays</h4>
-            <p class="text-sm text-white/70">KR Patent #20-1234567, 2021</p>
+            <h4 class="font-medium text-white">Communication System Using Extended Reality, And Its Communication Method</h4>
+            <p class="text-sm text-white/70">Korea - Application No. 10-2023-0186048</p>
           </div>
         </div>
       `,
@@ -85,12 +89,12 @@ export default function ContentSection() {
       content: `
         <div class="space-y-3">
           <div>
-            <h4 class="font-medium text-white">Outstanding Research Award</h4>
-            <p class="text-sm text-white/70">International Optics Society, 2023</p>
+            <h4 class="font-medium text-white">2023 Google Solution Challenge: Global Top 100</h4>
+            <p class="text-sm text-white/70">Google, 2023</p>
           </div>
           <div>
-            <h4 class="font-medium text-white">Best Paper Award</h4>
-            <p class="text-sm text-white/70">SIGGRAPH Asia, 2021</p>
+            <h4 class="font-medium text-white">National University Student Creative Design-Engineering Contest, Grand Prize</h4>
+            <p class="text-sm text-white/70">UNIST, 2021</p>
           </div>
         </div>
       `,
@@ -101,11 +105,7 @@ export default function ContentSection() {
       slug: "gallery",
       content: `
         <div class="space-y-3">
-          <p>Visual showcase of research projects, experimental setups, and holographic displays.</p>
-          <div class="grid grid-cols-2 gap-2 mt-2">
-            <div class="bg-indigo-900/30 aspect-square rounded-md"></div>
-            <div class="bg-indigo-900/30 aspect-square rounded-md"></div>
-          </div>
+          <p>My drawings, travel photos, personal pictures, and experimental photography, etc.</p>
         </div>
       `,
     },
@@ -115,9 +115,9 @@ export default function ContentSection() {
       slug: "contact",
       content: `
         <div class="space-y-3">
-          <p><span class="text-indigo-400">Email:</span> dongha.shin@research.edu</p>
-          <p><span class="text-indigo-400">Lab:</span> IPOD Laboratory, Room 301</p>
-          <p><span class="text-indigo-400">Address:</span> Department of Photonics, University of Technology</p>
+          <p><span class="text-indigo-400">Email:</span> 0218sdh@gmail.com</p>
+          <p><span class="text-indigo-400">Company:</span> DareeSoft</p>
+          <p><span class="text-indigo-400">Address:</span> 37 Hwangsaeul-ro, 258 beon-gil, Bundang-gu, Seongnam-si, Gyeonggi-do, Republic of Korea</p>
         </div>
       `,
     },
