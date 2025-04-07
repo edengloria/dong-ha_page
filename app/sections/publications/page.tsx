@@ -1,60 +1,41 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft, Download, ExternalLink } from "lucide-react"
+import { ArrowLeft, Download, ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
 
 export default function PublicationsPage() {
   const publications = [
     {
-      title: "Advances in Computer-Generated Holography for 3D Displays",
-      journal: "Journal of Optics & Photonics",
+      title: "Hologram Upscaling for Viewing Angle Expansion Using Light Field Extrapolation with Object Detection Algorithm",
+      journal: "Current Optics and Photonics",
+      year: 2025,
+      authors: "Shin, D.H., Song, C.H., & Lee, S.Y.",
+      abstract:
+        "As demand for high-resolution holographic displays in augmented and virtual reality (AR/VR) increases, the limitations of traditional computer-generated holography (CGH) upscaling methods, including bicubic interpolation and deep learning-based techniques, become apparent. These methods predominantly estimate additional pixels without considering the reduction of pixel pitch, inherently constraining their capacity to effectively expand the viewing angle. Our study introduces a novel approach for viewing angle expansion through light field (LF) extrapolation by applying an object detection algorithm. This process starts by analyzing the object position and depth information of each LF view extracted from CGH patterns with the object detection algorithm. The use of these data allows us to extrapolate LF views beyond their initial viewing angle limit. Subsequently, these expanded LF views are resynthesized into the CGH format to expand the viewing angle. With our approach, the viewing angle was successfully doubled from an initial 3.54 degrees to 7.09 degrees by upscaling a 2K 7.2 μm CGH to a 4K 3.6 μm CGH, which was verified with both numerical simulation and optical experiments.",
+      doi: "10.1364/COPP.499142",
+      url: "https://opg.optica.org/copp/abstract.cfm?URI=copp-9-1-55",
+      keywords: ["Augmented reality", "Holographic displays", "Numerical simulation", "Spatial light modulators", "Viewing angles", "Virtual reality"],
+    },
+    {
+      title: "PADO: Pytorch Automatic Differentiable Optics",
+      journal: "Open-Source Python Library",
+      year: 2025,
+      authors: "Baek, S.H., Shin, D.H., Jeon, Y., Yoon, S.W., Choi, E., Ban, G., & Kang, H.",
+      abstract:
+        "PADO (파도) is a cutting-edge framework for differentiable optical simulations powered by PyTorch. Inspired by the Korean word for 'wave,' PADO enables seamless and fully differentiable simulation workflows, perfect for researchers and developers in optical physics, computational imaging, and beyond. Features include full differentiability with PyTorch Autograd, CUDA acceleration, modular components, visualization tools, and a beginner-friendly API.",
+      github: "https://github.com/shwbaek/pado",
+      keywords: ["Differentiable optics", "PyTorch", "Optical simulation", "Computational imaging", "Computer-generated holography"],
+    },
+    {
+      title: "A Technique for Interpreting and Adjusting Depth Information of each Plane by Applying an Object Detection Algorithm to Multi-plane Light-field Image Converted from Hologram Image",
+      journal: "Journal of Broadcast Engineering",
       year: 2023,
-      authors: "Shin, D.H., Kim, J., Park, S., & Johnson, A.",
+      authors: "Bae, Y.G., Shin, D.H., & Lee, S.Y.",
       abstract:
-        "This paper presents novel algorithms for real-time computer-generated holography that significantly reduce computational complexity while maintaining high image quality. We demonstrate a 5x performance improvement over previous methods, enabling interactive holographic displays on consumer-grade hardware.",
-      doi: "10.1088/jopt/2023/12345",
-      keywords: ["Computer-generated holography", "Real-time algorithms", "3D displays", "Fourier optics"],
-    },
-    {
-      title: "Metasurface-based Holographic Projections",
-      journal: "Nature Photonics",
-      year: 2022,
-      authors: "Lee, K., Shin, D.H., Wang, L., & Garcia, M.",
-      abstract:
-        "We demonstrate a novel approach to holographic projection using dielectric metasurfaces. Our design enables high-efficiency, full-color holographic images with wide viewing angles and minimal crosstalk. The fabricated metasurfaces show exceptional performance in both simulated and experimental conditions.",
-      doi: "10.1038/nphoton.2022.789",
-      keywords: ["Metasurfaces", "Holographic projection", "Nanophotonics", "Dielectric resonators"],
-    },
-    {
-      title: "Real-time Hologram Generation Using Neural Networks",
-      journal: "SIGGRAPH Asia",
-      year: 2021,
-      authors: "Shin, D.H., Zhang, Y., & Miller, R.",
-      abstract:
-        "This paper introduces a deep learning approach to computer-generated holography that achieves unprecedented speed and quality. Our neural network architecture learns to predict phase patterns directly from target images, bypassing traditional iterative algorithms. We demonstrate real-time performance on consumer GPUs with visual quality comparable to offline methods.",
-      doi: "10.1145/3478513.3480499",
-      keywords: ["Neural holography", "Deep learning", "Real-time rendering", "Computer-generated holography"],
-    },
-    {
-      title: "Compact Holographic Display Using Polarization-Selective Metasurfaces",
-      journal: "Optics Express",
-      year: 2021,
-      authors: "Shin, D.H., Chen, H., & Williams, T.",
-      abstract:
-        "We present a novel design for a compact holographic display using polarization-selective metasurfaces. By leveraging the polarization state of light, our system can multiplex multiple holograms in a single optical element, effectively doubling the information density without sacrificing image quality.",
-      doi: "10.1364/OE.29.012345",
-      keywords: ["Polarization holography", "Metasurfaces", "Compact displays", "Multiplexing"],
-    },
-    {
-      title: "Perceptually-Optimized Phase Retrieval for Holographic Displays",
-      journal: "IEEE Transactions on Visualization and Computer Graphics",
-      year: 2020,
-      authors: "Park, J., Shin, D.H., & Thompson, S.",
-      abstract:
-        "This paper introduces a perceptually-optimized phase retrieval algorithm for holographic displays. By incorporating models of human visual perception into the optimization process, our method produces holograms that subjectively appear sharper and more contrast-rich than those generated by conventional methods, even with fewer iterations.",
-      doi: "10.1109/TVCG.2020.54321",
-      keywords: ["Phase retrieval", "Perceptual optimization", "Holographic displays", "Visual perception"],
+        "Directly converting the focal depth and image size of computer-generated-hologram (CGH), which is obtained by calculating the interference pattern of light from the 3D image, is known to be quite difficult because of the less similarity between the CGH and the original image. This paper proposes a method for separately converting the each of focal length of the given CGH, which is composed of multi-depth images. Firstly, the proposed technique converts the 3D image reproduced from the CGH into a Light-Field (LF) image composed of a set of 2D images observed from various angles, and the positions of the moving objects for each observed views are checked using an object detection algorithm YOLOv5 (You-Only-Look-Once-version-5). After that, by adjusting the positions of objects, the depth-transformed LF image and CGH are generated. Numerical simulations and experimental results show that the proposed technique can change the focal length within a range of about 3 cm without significant loss of the image quality when applied to the image which have original depth of 10 cm, with a spatial light modulator which has a pixel size of 3.6 ㎛ and a resolution of 3840⨯2160.",
+      doi: "10.5909/JBE.2023.28.1.31",
+      keywords: ["Computer-generated holography", "Light field", "Object detection", "YOLOv5", "Depth adjustment"],
     },
   ]
 
@@ -106,19 +87,39 @@ export default function PublicationsPage() {
               </div>
 
               <div className="flex items-center space-x-4 text-sm">
-                <a
-                  href={`https://doi.org/${pub.doi}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4 mr-1" />
-                  DOI: {pub.doi}
-                </a>
-                <a href="#" className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors">
-                  <Download className="h-4 w-4 mr-1" />
-                  Download PDF
-                </a>
+                {pub.doi && (
+                  <a
+                    href={`https://doi.org/${pub.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                  >
+                    <ExternalLink className="h-4 w-4 mr-1" />
+                    DOI: {pub.doi}
+                  </a>
+                )}
+                {pub.url && (
+                  <a
+                    href={pub.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                  >
+                    <ExternalLink className="h-4 w-4 mr-1" />
+                    View Publication
+                  </a>
+                )}
+                {pub.github && (
+                  <a
+                    href={pub.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                  >
+                    <Github className="h-4 w-4 mr-1" />
+                    GitHub Repository
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
