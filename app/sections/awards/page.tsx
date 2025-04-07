@@ -24,10 +24,6 @@ export default function AwardsPage() {
       year: 2023,
       description:
         "Awarded the grand prize for innovative energy-related project in the CLUTCH THE ENERGY CAMP competition.",
-      achievement:
-        "Developed a solution addressing energy challenges, demonstrating expertise in energy technology and innovation.",
-      impact:
-        "The recognition led to potential collaboration opportunities with Korea Gas Corporation and exposure in the energy sector.",
     },
     {
       title: "Career Exploration Capstone Project, Grand Prize",
@@ -35,54 +31,26 @@ export default function AwardsPage() {
       year: 2023,
       description:
         "Received the President's Award for outstanding capstone project in career exploration.",
-      achievement:
-        "Created an innovative solution that bridges academic knowledge with practical career applications.",
-      impact:
-        "The project demonstrated the ability to apply theoretical knowledge to real-world problems, earning recognition from university leadership.",
     },
     {
       title: "DAEGU METAVERSE CONTEST, 3rd Prize",
       organization: "DIP",
       year: 2023,
-      description:
-        "Secured third place in the Daegu Metaverse Contest for innovative metaverse applications.",
-      achievement:
-        "Developed a creative metaverse solution that showcases the potential of virtual environments in various applications.",
-      impact:
-        "The recognition established expertise in emerging metaverse technologies and potential for future collaborations in this field.",
     },
     {
       title: "Haninum Contest 2022, Winning work",
       organization: "Federation of Korean Information Industries",
       year: 2022,
-      description:
-        "Awarded for outstanding contribution in the Haninum Contest, a prestigious competition in the Korean IT industry.",
-      achievement:
-        "Created an innovative solution that addresses significant challenges in the information technology sector.",
-      impact:
-        "The recognition from FKII established credibility in the Korean IT industry and opened doors for professional opportunities.",
     },
     {
       title: "KNU EE Research Congress, Winning work",
       organization: "Kyungpook National University",
       year: 2022,
-      description:
-        "Recognized for exceptional research in the Electronic Engineering Research Congress at Kyungpook National University.",
-      achievement:
-        "Presented innovative research that advances the field of electronic engineering.",
-      impact:
-        "The award demonstrated research capabilities and academic excellence within the university's electronic engineering department.",
     },
     {
       title: "National University Student Creative Design-Engineering Contest, Grand Prize",
       organization: "UNIST",
       year: 2022,
-      description:
-        "Awarded the grand prize in the National University Student Creative Design-Engineering Contest organized by UNIST.",
-      achievement:
-        "Developed an innovative design-engineering solution that stood out among national university submissions.",
-      impact:
-        "The recognition established expertise in creative engineering design at a national level and potential for future collaborations.",
     },
   ]
 
