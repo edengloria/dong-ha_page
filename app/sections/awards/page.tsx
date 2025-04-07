@@ -7,59 +7,82 @@ import Link from "next/link"
 export default function AwardsPage() {
   const awards = [
     {
-      title: "Outstanding Research Award",
-      organization: "International Optics Society",
+      title: "Google Solution Challenge: Global Top 100",
+      organization: "Google",
       year: 2023,
       description:
-        "Awarded for exceptional contributions to the field of holographic display technology. This prestigious award recognizes researchers who have made significant advancements in optics and photonics with potential for real-world impact.",
+        "Awarded for the project 'Eywa: Invasive species detection and education application' in the Google Solution Challenge 2023.",
       achievement:
-        "Recognized for pioneering work in real-time computer-generated holography and the development of novel algorithms that significantly reduce the computational complexity of hologram generation while maintaining high image quality.",
+        "Developed an innovative application for detecting and educating about invasive species, contributing to environmental conservation efforts.",
       impact:
-        "The research has opened new possibilities for practical holographic displays in consumer applications, bringing this technology closer to widespread adoption.",
+        "The project was recognized among the top 100 global solutions, showcasing the potential of technology in addressing environmental challenges.",
+      link: "https://github.com/GDSC-KNU/2023-eywa-solution-challenge"
     },
     {
-      title: "Best Paper Award",
-      organization: "SIGGRAPH Asia",
-      year: 2021,
+      title: "CLUTCH THE ENERGY CAMP, Grand Prize",
+      organization: "Korea Gas Corporation",
+      year: 2023,
       description:
-        "Awarded for the paper 'Real-time Hologram Generation Using Neural Networks' which was recognized as the most innovative and impactful contribution to the conference.",
+        "Awarded the grand prize for innovative energy-related project in the CLUTCH THE ENERGY CAMP competition.",
       achievement:
-        "Developed a novel approach that combines deep learning with traditional optical principles to generate high-quality holograms at unprecedented speeds, demonstrating a 10x performance improvement over previous state-of-the-art methods.",
+        "Developed a solution addressing energy challenges, demonstrating expertise in energy technology and innovation.",
       impact:
-        "The paper has been cited over 150 times in the first year after publication and has inspired several follow-up research projects in both academia and industry.",
+        "The recognition led to potential collaboration opportunities with Korea Gas Corporation and exposure in the energy sector.",
     },
     {
-      title: "Young Researcher Grant",
-      organization: "National Science Foundation",
-      year: 2020,
+      title: "Career Exploration Capstone Project, Grand Prize",
+      organization: "Kyungpook National University",
+      year: 2023,
       description:
-        "Competitive grant awarded to promising early-career researchers to pursue innovative research directions in science and engineering.",
+        "Received the President's Award for outstanding capstone project in career exploration.",
       achievement:
-        "Secured $350,000 in funding for a three-year project titled 'Next-Generation Holographic Displays: Bridging Computation and Optics' that explores novel approaches to holographic display technology.",
+        "Created an innovative solution that bridges academic knowledge with practical career applications.",
       impact:
-        "The grant has enabled the establishment of a dedicated research lab and the recruitment of three graduate students, accelerating progress in holographic display research.",
+        "The project demonstrated the ability to apply theoretical knowledge to real-world problems, earning recognition from university leadership.",
     },
     {
-      title: "Innovation in Optics Prize",
-      organization: "Asian Society for Optical Engineering",
-      year: 2019,
+      title: "DAEGU METAVERSE CONTEST, 3rd Prize",
+      organization: "DIP",
+      year: 2023,
       description:
-        "Annual award recognizing innovative applications of optical principles that demonstrate potential for significant technological advancement.",
+        "Secured third place in the Daegu Metaverse Contest for innovative metaverse applications.",
       achievement:
-        "Developed a novel optical configuration for holographic displays that reduces system complexity while improving image quality, particularly in terms of color reproduction and viewing angle.",
+        "Developed a creative metaverse solution that showcases the potential of virtual environments in various applications.",
       impact:
-        "The technology has been patented and is currently being explored for commercialization through a university spin-off venture.",
+        "The recognition established expertise in emerging metaverse technologies and potential for future collaborations in this field.",
     },
     {
-      title: "Graduate Research Excellence Award",
-      organization: "Pohang University of Science and Technology",
-      year: 2018,
+      title: "Haninum Contest 2022, Winning work",
+      organization: "Federation of Korean Information Industries",
+      year: 2022,
       description:
-        "Institutional award recognizing outstanding research achievements by graduate students across all departments.",
+        "Awarded for outstanding contribution in the Haninum Contest, a prestigious competition in the Korean IT industry.",
       achievement:
-        "Selected from over 200 nominees for contributions to computational imaging and holography, particularly for work on efficient phase retrieval algorithms.",
+        "Created an innovative solution that addresses significant challenges in the information technology sector.",
       impact:
-        "The recognition led to additional institutional funding and collaborative opportunities with industry partners interested in display technology.",
+        "The recognition from FKII established credibility in the Korean IT industry and opened doors for professional opportunities.",
+    },
+    {
+      title: "KNU EE Research Congress, Winning work",
+      organization: "Kyungpook National University",
+      year: 2022,
+      description:
+        "Recognized for exceptional research in the Electronic Engineering Research Congress at Kyungpook National University.",
+      achievement:
+        "Presented innovative research that advances the field of electronic engineering.",
+      impact:
+        "The award demonstrated research capabilities and academic excellence within the university's electronic engineering department.",
+    },
+    {
+      title: "National University Student Creative Design-Engineering Contest, Grand Prize",
+      organization: "UNIST",
+      year: 2022,
+      description:
+        "Awarded the grand prize in the National University Student Creative Design-Engineering Contest organized by UNIST.",
+      achievement:
+        "Developed an innovative design-engineering solution that stood out among national university submissions.",
+      impact:
+        "The recognition established expertise in creative engineering design at a national level and potential for future collaborations.",
     },
   ]
 
@@ -114,6 +137,22 @@ export default function AwardsPage() {
                       <h3 className="text-lg font-light text-white mb-1">Impact</h3>
                       <p className="text-white/80 leading-relaxed">{award.impact}</p>
                     </div>
+                    
+                    {award.link && (
+                      <div>
+                        <a 
+                          href={award.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center"
+                        >
+                          View Project
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
