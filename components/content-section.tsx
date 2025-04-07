@@ -3,35 +3,7 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { useRef, useState, useEffect, useMemo } from "react"
-import dynamic from "next/dynamic"
 import HolographicCard from "@/components/holographic-card"
-
-// Only import IntersectionObserver on client side
-const useIntersectionObserver = () => {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-    
-    observer.observe(ref.current);
-    
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
-  
-  return { ref, isIntersecting };
-};
 
 // Pre-compute section content to avoid recomputing on each render
 const SECTIONS = [
@@ -158,6 +130,10 @@ const SECTIONS = [
   },
 ];
 
+// 첫 번째 그룹과 두 번째 그룹 섹션을 미리 정의
+const FIRST_GROUP = ['about', 'research', 'publications', 'experience'];
+const SECOND_GROUP = ['patents', 'awards', 'gallery', 'contact'];
+
 // Create an optimized card component that only re-renders when props change
 const MemoizedCard = React.memo(function MemoizedCard({
   title,
@@ -187,88 +163,59 @@ const MemoizedCard = React.memo(function MemoizedCard({
 
 export default function ContentSection() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<string[]>([]);
-  const bottomSentinelRef = useIntersectionObserver();
-  
-  // Memoize section groups
-  const initialVisibleSections = useMemo(() => 
-    ['about', 'research', 'publications', 'experience'], 
-  []);
-  
-  const additionalSections = useMemo(() => 
-    ['patents', 'awards', 'gallery', 'contact'], 
-  []);
+  const [showSecondGroup, setShowSecondGroup] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
-  // Effect for initial load
-  useEffect(() => {
-    setIsLoaded(true);
-    setVisibleSections(initialVisibleSections);
-    
-    // Preload (but don't render) the rest of the sections
-    const preloadAdditionalSections = () => {
-      if (!document.hidden) {
-        // Using requestIdleCallback for better performance
-        if ('requestIdleCallback' in window) {
-          (window as any).requestIdleCallback(() => {
-            setVisibleSections([...initialVisibleSections, ...additionalSections]);
-          });
-        } else {
-          // Fallback for browsers without requestIdleCallback
-          setTimeout(() => {
-            setVisibleSections([...initialVisibleSections, ...additionalSections]);
-          }, 1000);
-        }
-      }
-    };
-    
-    // Preload after a slight delay
-    const timer = setTimeout(preloadAdditionalSections, 1500);
-    
-    return () => clearTimeout(timer);
-  }, [initialVisibleSections, additionalSections]);
-  
-  // Show additional sections when sentinel is intersected
-  useEffect(() => {
-    if (bottomSentinelRef.isIntersecting) {
-      setVisibleSections(prev => {
-        if (prev.length === initialVisibleSections.length) {
-          return [...initialVisibleSections, ...additionalSections];
-        }
-        return prev;
-      });
-    }
-  }, [bottomSentinelRef.isIntersecting, initialVisibleSections, additionalSections]);
-
-  // Simplified animation variants with better performance
-  const containerVariants = {
-    hidden: { opacity: 0 },
+  // Animation variants
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 20 },
     visible: { 
-      opacity: 1,
-      transition: { 
-        duration: 0.3,
-        // Don't animate again once visible
-        when: "beforeChildren"
-      }
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.3 }
     }
   };
 
-  // Get sections based on current visible sections
-  const visibleSectionData = useMemo(() => 
-    SECTIONS.filter(section => visibleSections.includes(section.id)),
-  [visibleSections]);
-
+  // Use effect for initial load and IntersectionObserver setup
+  useEffect(() => {
+    // Mark as loaded to trigger initial animations
+    setIsLoaded(true);
+    
+    // Setup intersection observer for triggering second group
+    if (triggerRef.current && !observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setShowSecondGroup(true);
+            // Can disconnect after triggering once
+            observerRef.current?.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      
+      observerRef.current.observe(triggerRef.current);
+    }
+    
+    // Cleanup
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, []);
+  
   return (
-    <div className="container mx-auto px-4 py-20 content-container">
+    <div className="container mx-auto px-4 py-20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {visibleSectionData.map((section) => (
+        {/* First group - always render */}
+        {SECTIONS.filter(section => FIRST_GROUP.includes(section.id)).map((section) => (
           <motion.div
             key={section.id}
             id={section.id}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            variants={containerVariants}
+            variants={fadeInVariants}
             className="will-change-transform"
-            layoutId={section.id}
           >
             <MemoizedCard
               title={section.title}
@@ -279,10 +226,30 @@ export default function ContentSection() {
             />
           </motion.div>
         ))}
+        
+        {/* Intersection trigger element */}
+        <div ref={triggerRef} className="col-span-full h-4" />
+        
+        {/* Second group - rendered but initially hidden */}
+        {SECTIONS.filter(section => SECOND_GROUP.includes(section.id)).map((section) => (
+          <motion.div
+            key={section.id}
+            id={section.id}
+            initial="hidden"
+            animate={showSecondGroup ? "visible" : "hidden"}
+            variants={fadeInVariants}
+            className="will-change-transform"
+          >
+            <MemoizedCard
+              title={section.title}
+              content={section.content}
+              slug={section.slug}
+              hideViewDetails={false}
+              disableClick={false}
+            />
+          </motion.div>
+        ))}
       </div>
-      
-      {/* Sentinel for intersection detection */}
-      <div ref={bottomSentinelRef.ref} className="h-4 mt-8" />
     </div>
-  )
+  );
 }
