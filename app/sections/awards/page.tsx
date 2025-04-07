@@ -96,15 +96,19 @@ export default function AwardsPage() {
                   <p className="text-white/80 mb-4 leading-relaxed">{award.description}</p>
 
                   <div className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-light text-white mb-1">Achievement</h3>
-                      <p className="text-white/80 leading-relaxed">{award.achievement}</p>
-                    </div>
+                    {award.achievement && (
+                      <div>
+                        <h3 className="text-lg font-light text-white mb-1">Achievement</h3>
+                        <p className="text-white/80 leading-relaxed">{award.achievement}</p>
+                      </div>
+                    )}
 
-                    <div>
-                      <h3 className="text-lg font-light text-white mb-1">Impact</h3>
-                      <p className="text-white/80 leading-relaxed">{award.impact}</p>
-                    </div>
+                    {award.impact && (
+                      <div>
+                        <h3 className="text-lg font-light text-white mb-1">Impact</h3>
+                        <p className="text-white/80 leading-relaxed">{award.impact}</p>
+                      </div>
+                    )}
                     
                     {award.link && (
                       <div>
