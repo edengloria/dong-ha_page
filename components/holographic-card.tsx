@@ -13,6 +13,7 @@ interface HolographicCardProps {
   slug: string
   reducedMotion?: boolean
   reducedGraphics?: boolean
+  hideViewDetails?: boolean
 }
 
 export default function HolographicCard({ 
@@ -20,7 +21,8 @@ export default function HolographicCard({
   content, 
   slug, 
   reducedMotion = false, 
-  reducedGraphics = false 
+  reducedGraphics = false,
+  hideViewDetails = false
 }: HolographicCardProps) {
   const router = useRouter()
   const [isHovered, setIsHovered] = useState(false)
@@ -144,22 +146,24 @@ export default function HolographicCard({
             }}
           />
 
-          <motion.div
-            className="mt-4 text-indigo-400 text-sm flex items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-          >
-            View details
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {!hideViewDetails && (
+            <motion.div
+              className="mt-4 text-indigo-400 text-sm flex items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isHovered ? 1 : 0 }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </motion.div>
+              View details
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 ml-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </motion.div>

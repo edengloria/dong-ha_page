@@ -183,6 +183,7 @@ export default function ContentSection() {
                 slug={section.slug}
                 reducedMotion={false} // Apply tilting effect to all cards
                 reducedGraphics={false} // Apply full graphical effects to all cards
+                hideViewDetails={section.id === 'research'} // Hide View details button for Interests section
               />
             </motion.div>
           ) : (
