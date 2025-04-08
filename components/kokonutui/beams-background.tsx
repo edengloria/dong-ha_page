@@ -180,7 +180,7 @@ export default function BeamsBackground({ className, intensity = "strong" }: Ani
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Photonics, Holography & 3D Imaging Researcher
+            Holography Researcher & Machine Learning Engineer
           </motion.p>
         </div>
       </div>
