@@ -77,7 +77,7 @@ export default function BeamsBackground({
   const lastActivityRef = useRef<number>(Date.now())
   // 모바일/저사양 기기 감지
   const isLowPowerDevice = useRef<boolean>(false)
-  const minBeamsRef = useRef<number>(10) // 빔 개수 기본값 20 → 10으로 감소
+  const minBeamsRef = useRef<number>(25) // 빔 개수 기본값 20 → 10으로 감소
   
   // 비활성 상태 관리
   const [isInactive, setIsInactive] = useState(false)
