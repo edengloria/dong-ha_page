@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
@@ -42,6 +42,29 @@ function createBeam(width: number, height: number): Beam {
   }
 }
 
+// 이벤트 스로틀링 유틸리티 함수
+function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let lastFunc: number
+  let lastRan: number
+  return function(this: any, ...args: Parameters<T>) {
+    if (!lastRan) {
+      func.apply(this, args)
+      lastRan = Date.now()
+    } else {
+      clearTimeout(lastFunc)
+      lastFunc = window.setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(this, args)
+          lastRan = Date.now()
+        }
+      }, limit - (Date.now() - lastRan))
+    }
+  }
+}
+
 export default function BeamsBackground({ 
   className, 
   intensity = "strong", 
@@ -54,25 +77,29 @@ export default function BeamsBackground({
   const lastActivityRef = useRef<number>(Date.now())
   // 모바일/저사양 기기 감지
   const isLowPowerDevice = useRef<boolean>(false)
-  const minBeamsRef = useRef<number>(20) // MINIMUM_BEAMS를 ref로 변경
+  const minBeamsRef = useRef<number>(10) // 빔 개수 기본값 20 → 10으로 감소
   
   // 비활성 상태 관리
   const [isInactive, setIsInactive] = useState(false)
 
   const opacityMap = {
-    subtle: 0.7,
-    medium: 0.85,
-    strong: 1,
+    subtle: 0.6,
+    medium: 0.75,
+    strong: 0.9, // 전체적으로 약간 투명도 증가
   }
 
   // animate 함수 참조 저장
-  const animateRef = useRef<(() => void) | null>(null)
+  const animateRef = useRef<((timestamp: number) => void) | null>(null)
+  // 마지막 프레임 시간 추적
+  const lastFrameTimeRef = useRef<number>(0)
+  // 목표 FPS (저사양 기기에서는 30, 일반 기기에서는 60)
+  const targetFPSRef = useRef<number>(60)
 
   // 애니메이션 시작/중지 함수
   const startAnimation = () => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
       animationActiveRef.current = true;
-      animateRef.current();
+      animateRef.current(performance.now());
     }
   };
 
@@ -84,14 +111,14 @@ export default function BeamsBackground({
     }
   };
 
-  // 사용자 활동 감지
-  const trackUserActivity = () => {
+  // 사용자 활동 감지 (스로틀링 적용)
+  const trackUserActivity = useCallback(throttle(() => {
     lastActivityRef.current = Date.now();
     if (isInactive) {
       setIsInactive(false);
       startAnimation();
     }
-  };
+  }, 100), [isInactive]); // 100ms 스로틀링
 
   // 저사양 기기 감지
   useEffect(() => {
@@ -103,9 +130,10 @@ export default function BeamsBackground({
     // 저사양 기기로 판단하는 조건 (모바일이거나 저사양 브라우저 환경)
     isLowPowerDevice.current = isMobile || (window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     
-    // 저사양 기기라면 빔 개수 줄이기
+    // 저사양 기기 최적화
     if (isLowPowerDevice.current) {
-      minBeamsRef.current = 10; // 저사양 기기에서는 빔 수 절반으로 감소
+      minBeamsRef.current = 5; // 저사양 기기에서는 빔 수 크게 감소
+      targetFPSRef.current = 30; // 저사양 기기에서는 30 FPS로 제한
     }
   }, []);
 
@@ -119,7 +147,7 @@ export default function BeamsBackground({
     })
     if (!ctx) return
 
-    // 사용자 활동 이벤트 리스너
+    // 사용자 활동 이벤트 리스너 (스로틀링 적용됨)
     window.addEventListener('mousemove', trackUserActivity);
     window.addEventListener('click', trackUserActivity);
     window.addEventListener('scroll', trackUserActivity);
@@ -127,14 +155,15 @@ export default function BeamsBackground({
     window.addEventListener('touchstart', trackUserActivity);
 
     const updateCanvasSize = () => {
-      const dpr = isLowPowerDevice.current ? 1 : (window.devicePixelRatio || 1);
+      // 모든 기기에서 DPR=1로 고정하여 성능 향상
+      const dpr = isLowPowerDevice.current ? 0.75 : 1;
       canvas.width = window.innerWidth * dpr
       canvas.height = window.innerHeight * dpr
       canvas.style.width = `${window.innerWidth}px`
       canvas.style.height = `${window.innerHeight}px`
       ctx.scale(dpr, dpr)
 
-      const totalBeams = minBeamsRef.current * (isLowPowerDevice.current ? 1 : 1.5)
+      const totalBeams = minBeamsRef.current * (isLowPowerDevice.current ? 1 : 1.2)
       // 이미 생성된 빔이 있으면 재사용
       if (beamsRef.current.length === 0) {
         beamsRef.current = Array.from({ length: totalBeams }, () => createBeam(canvas.width, canvas.height))
@@ -158,7 +187,7 @@ export default function BeamsBackground({
     }
 
     updateCanvasSize()
-    window.addEventListener("resize", updateCanvasSize)
+    window.addEventListener("resize", throttle(updateCanvasSize, 250))
 
     function resetBeam(beam: Beam, index: number, totalBeams: number) {
       if (!canvas) return beam
@@ -185,12 +214,11 @@ export default function BeamsBackground({
 
       const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
 
-      // Enhanced gradient with multiple color stops
+      // Enhanced gradient with multiple color stops - 색상 단계 줄임
       gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`)
-      gradient.addColorStop(0.1, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
-      gradient.addColorStop(0.4, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`)
-      gradient.addColorStop(0.6, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`)
-      gradient.addColorStop(0.9, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
+      gradient.addColorStop(0.2, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
+      gradient.addColorStop(0.5, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`)
+      gradient.addColorStop(0.8, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
       gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`)
 
       ctx.fillStyle = gradient
@@ -211,7 +239,18 @@ export default function BeamsBackground({
       }
     }
 
-    function animate() {
+    function animate(timestamp: number) {
+      // 프레임 속도 제한 (기본 60fps 또는 저사양 30fps)
+      const frameInterval = 1000 / targetFPSRef.current;
+      const elapsed = timestamp - lastFrameTimeRef.current;
+      
+      if (elapsed < frameInterval) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      
+      lastFrameTimeRef.current = timestamp - (elapsed % frameInterval);
+      
       // 애니메이션 활성화 상태가 아니면 중지
       if (!animationActiveRef.current) return;
       
@@ -221,7 +260,9 @@ export default function BeamsBackground({
       checkInactivity();
 
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.filter = isLowPowerDevice.current ? "blur(15px)" : "blur(25px)"
+      
+      // Canvas 컨텍스트 블러를 감소시키고, CSS 블러만 사용
+      // ctx.filter = isLowPowerDevice.current ? "blur(10px)" : "blur(15px)" 
 
       const totalBeams = beamsRef.current.length
       beamsRef.current.forEach((beam, index) => {
@@ -256,7 +297,8 @@ export default function BeamsBackground({
 
     // 초기 애니메이션 시작
     animationActiveRef.current = true;
-    animate();
+    lastFrameTimeRef.current = performance.now();
+    animate(performance.now());
 
     // 메모리 누수 방지를 위한 클린업
     return () => {
@@ -273,7 +315,7 @@ export default function BeamsBackground({
       // 큰 배열 참조 정리
       beamsRef.current = [];
     }
-  }, [intensity, inactivityTimeout, isInactive])
+  }, [intensity, inactivityTimeout, isInactive, trackUserActivity])
 
   // 화면에 다시 포커스될 때 애니메이션 재개
   useEffect(() => {
@@ -284,12 +326,12 @@ export default function BeamsBackground({
 
   return (
     <div className={cn("relative min-h-screen w-full overflow-hidden bg-neutral-950", className)}>
-      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(10px)" }} />
+      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
 
       <motion.div
-        className="absolute inset-0 bg-neutral-950/5"
+        className="absolute inset-0 bg-neutral-950/20"
         animate={{
-          opacity: [0.05, 0.15, 0.05],
+          opacity: [0.2, 0.3, 0.2],
         }}
         transition={{
           duration: 10,
@@ -297,7 +339,7 @@ export default function BeamsBackground({
           repeat: Number.POSITIVE_INFINITY,
         }}
         style={{
-          backdropFilter: "blur(50px)",
+          backdropFilter: "blur(10px)",
         }}
       />
 
