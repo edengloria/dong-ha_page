@@ -118,7 +118,7 @@ export default function BeamsBackground({
       setIsInactive(false);
       startAnimation();
     }
-  }, 100), [isInactive]); // 100ms 스로틀링
+  }, 150), [isInactive]); // 100ms 스로틀링
 
   // 저사양 기기 감지
   useEffect(() => {
