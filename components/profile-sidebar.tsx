@@ -9,7 +9,6 @@ import { cn, withBasePath } from "@/lib/utils"
 
 const navItems = [
   { name: "About", href: "/" },
-  { name: "Publications", href: "/publications" },
   { name: "Gallery", href: "/gallery" },
 ]
 
