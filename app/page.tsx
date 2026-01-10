@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { withBasePath } from "@/lib/utils"
+import { PublicationsSection } from "@/components/publications-section"
 
 export default function HomePage() {
   return (
@@ -22,37 +23,20 @@ export default function HomePage() {
         </motion.h1>
 
         <motion.div
-          className="space-y-6 text-muted-foreground"
+          className="space-y-10 text-foreground/80"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <div className="grid gap-8 lg:grid-cols-[16rem,1fr] items-start">
-            <motion.div
-              className="relative mx-auto w-40 lg:w-56"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.35, duration: 0.4 }}
-            >
-              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border/50">
-                <Image
-                  src={withBasePath("/asset/gradshot.jpg")}
-                  alt="Dong-Ha Shin"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
-
-            <div className="space-y-5">
+          <div className="grid gap-8 items-start md:grid-cols-3">
+            <div className="md:col-span-2 space-y-5">
               <p className="text-base leading-relaxed">
                 I am Dong-Ha Shin, a first-year M.S. student in the{" "}
                 <a
                   href="https://www.shbaek.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
                 >
                   Computational Imaging Group
                 </a>
@@ -61,7 +45,7 @@ export default function HomePage() {
                   href="https://www.shbaek.com/team/biography"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
                 >
                   Prof. Seung-Hwan Baek
                 </a>
@@ -74,7 +58,7 @@ export default function HomePage() {
                   href="https://www.ipodlab.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
                 >
                   Integrated Plasmonics and Optical Device Laboratory
                 </a>
@@ -83,7 +67,7 @@ export default function HomePage() {
                   href="https://www.ipodlab.com/members-1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
                 >
                   Prof. Seung-Yeol Lee
                 </a>
@@ -105,7 +89,7 @@ export default function HomePage() {
                   href="https://www.namuhx.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
                 >
                   NamuhX project
                 </a>
@@ -113,6 +97,27 @@ export default function HomePage() {
                 a voice-interactive AI agent.
               </p>
             </div>
+
+            <motion.div
+              className="relative md:col-span-1"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+            >
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border/50">
+                <Image
+                  src={withBasePath("/asset/gradshot.jpg")}
+                  alt="Dong-Ha Shin"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="border-t border-border/50 pt-10">
+            <PublicationsSection titleClassName="mb-8" />
           </div>
         </motion.div>
       </motion.div>
