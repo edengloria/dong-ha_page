@@ -30,14 +30,14 @@ export default function RootLayout({
           </div>
           
           {/* Main content container */}
-          <div className="relative z-10 min-h-screen">
-            <div className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-6 lg:py-8 gap-6 lg:gap-8">
+          <div className="relative z-10 min-h-svh">
+            <div className="container flex flex-col lg:flex-row py-6 lg:py-8 gap-6 lg:gap-8">
               {/* Left sidebar - Profile */}
               <ProfileSidebar />
               
               {/* Right content area with glassmorphism */}
               <main className="flex-1 min-w-0">
-                <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 lg:p-8 min-h-[calc(100vh-4rem)]">
+                <div className="glass-panel min-h-[calc(100svh-3rem)]">
                   {children}
                 </div>
               </main>

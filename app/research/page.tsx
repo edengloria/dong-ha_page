@@ -60,7 +60,7 @@ export default function ResearchPage() {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        className="page-title mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -72,16 +72,16 @@ export default function ResearchPage() {
         {researchAreas.map((area, index) => (
           <motion.div
             key={area.title}
-            className="bg-white/5 border border-white/10 rounded-xl p-6"
+            className="glass rounded-xl p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
           >
             <h2 className="text-2xl font-light text-indigo-400 mb-4">{area.title}</h2>
-            <p className="text-white/80 mb-4 leading-relaxed">{area.description}</p>
+            <p className="text-muted-foreground mb-4 leading-relaxed">{area.description}</p>
 
-            <h3 className="text-lg font-light text-white mb-2">Key Topics:</h3>
-            <ul className="list-disc pl-5 text-white/80 space-y-1">
+            <h3 className="text-lg font-light text-foreground mb-2">Key Topics:</h3>
+            <ul className="list-disc pl-5 text-muted-foreground space-y-1">
               {area.keyTopics.map((topic, i) => (
                 <li key={i} className="leading-relaxed">
                   {topic}

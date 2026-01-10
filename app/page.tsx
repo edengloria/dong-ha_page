@@ -12,7 +12,7 @@ export default function HomePage() {
         transition={{ duration: 0.5 }}
       >
         <motion.h1
-          className="text-3xl lg:text-4xl font-light text-white mb-6 tracking-tight"
+          className="page-title mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -21,7 +21,7 @@ export default function HomePage() {
         </motion.h1>
 
         <motion.div
-          className="space-y-6 text-white/80"
+          className="space-y-6 text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -40,7 +40,7 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-white/10">
+              <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-border/50">
                 <Image
                   src="/asset/gradshot.jpg"
                   alt="Graduation photo"
@@ -52,39 +52,39 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <h2 className="text-xl font-medium text-white mb-4">Education</h2>
+          <div className="border-t border-border/50 pt-6">
+            <h2 className="text-xl font-medium text-foreground mb-4">Education</h2>
             <p className="leading-relaxed">
               I graduated from the Department of Electronic Engineering at <span className="text-indigo-400">Kyungpook National University</span> in March 2024, having enrolled in February 2020. 
-              I maintained a GPA of <span className="text-white font-medium">4.12/4.5</span> and minored in Computer Engineering. 
+              I maintained a GPA of <span className="text-foreground font-medium">4.12/4.5</span> and minored in Computer Engineering. 
               During my undergraduate years, I served as the leader of <span className="text-indigo-400">BITDOL</span> (Hardware Research Group), 
               where I secured funding of 55M KRW (~40,000 USD) and oversaw various projects. 
               Through these experiences, I developed extensive expertise in designing and prototyping diverse embedded systems.
             </p>
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <h2 className="text-xl font-medium text-white mb-4">Research Journey</h2>
+          <div className="border-t border-border/50 pt-6">
+            <h2 className="text-xl font-medium text-foreground mb-4">Research Journey</h2>
             <p className="leading-relaxed">
-              My journey in the field of optics began as an undergraduate in Professor Seung-Yeol Lee's <span className="text-indigo-400">Integrated Plasmonic Optical Device (IPOD) Laboratory</span>, 
+              My journey in the field of optics began as an undergraduate in Professor Seung-Yeol Lee&apos;s <span className="text-indigo-400">Integrated Plasmonic Optical Device (IPOD) Laboratory</span>, 
               where I was fascinated by the fundamental principles of wave optics and interference patterns. 
               This interest evolved into a passion for holography when I realized the potential of wavefront manipulation to create true three-dimensional visual representations.
             </p>
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <h2 className="text-xl font-medium text-white mb-4">Current Focus</h2>
+          <div className="border-t border-border/50 pt-6">
+            <h2 className="text-xl font-medium text-foreground mb-4">Current Focus</h2>
             <p className="leading-relaxed">
               Currently, my research focuses on the intersection of computational optics, nanophotonics, and display technologies. 
-              I'm particularly interested in developing novel algorithms and optical systems that can generate high-quality, 
+              I&apos;m particularly interested in developing novel algorithms and optical systems that can generate high-quality, 
               real-time holographic content for applications in augmented reality, scientific visualization, and entertainment.
             </p>
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <h2 className="text-xl font-medium text-white mb-4">Interests & Hobbies</h2>
+          <div className="border-t border-border/50 pt-6">
+            <h2 className="text-xl font-medium text-foreground mb-4">Interests & Hobbies</h2>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white/5 rounded-lg p-4 border border-white/5">
+              <div className="glass rounded-lg p-4">
                 <h3 className="text-indigo-400 font-medium mb-2">Research Interests</h3>
                 <ul className="space-y-1 text-sm">
                   <li>• Holography & 3D Displays</li>
@@ -93,7 +93,7 @@ export default function HomePage() {
                   <li>• Photonics & Nanophotonics</li>
                 </ul>
               </div>
-              <div className="bg-white/5 rounded-lg p-4 border border-white/5">
+              <div className="glass rounded-lg p-4">
                 <h3 className="text-indigo-400 font-medium mb-2">Personal Interests</h3>
                 <ul className="space-y-1 text-sm">
                   <li>• Drawing & Visual Arts</li>
@@ -105,11 +105,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <p className="leading-relaxed text-white/60 italic">
-              Beyond my academic pursuits, I'm an advocate for interdisciplinary collaboration. 
+          <div className="border-t border-border/50 pt-6">
+            <p className="leading-relaxed text-muted-foreground italic">
+              Beyond my academic pursuits, I&apos;m an advocate for interdisciplinary collaboration. 
               I believe that the most innovative solutions emerge when expertise from different fields converges. 
-              Feel free to reach out if you'd like to chat over coffee!
+              Feel free to reach out if you&apos;d like to chat over coffee!
             </p>
           </div>
         </motion.div>

@@ -49,7 +49,7 @@ export default function PublicationsPage() {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        className="page-title mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -61,7 +61,7 @@ export default function PublicationsPage() {
         {publications.map((pub, index) => (
           <motion.div
             key={pub.title}
-            className="bg-white/5 border border-white/10 rounded-xl p-6"
+            className="glass rounded-xl p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
@@ -69,7 +69,7 @@ export default function PublicationsPage() {
             <div className="flex flex-col lg:flex-row gap-6">
               {pub.image && (
                 <div className="w-full lg:w-1/3 flex-shrink-0">
-                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/10">
+                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50">
                     <Image
                       src={pub.image}
                       alt={pub.title}
@@ -80,13 +80,13 @@ export default function PublicationsPage() {
                 </div>
               )}
               <div className={pub.image ? "w-full lg:w-2/3" : "w-full"}>
-                <h2 className="text-xl font-medium text-white mb-2">{pub.title}</h2>
+                <h2 className="text-xl font-medium text-foreground mb-2">{pub.title}</h2>
                 <p className="text-indigo-400 mb-2">
                   {pub.journal}, {pub.year}
                 </p>
-                <p className="text-white/70 mb-4 italic text-sm">{pub.authors}</p>
+                <p className="text-muted-foreground mb-4 italic text-sm">{pub.authors}</p>
 
-                <p className="text-white/80 mb-4 leading-relaxed text-sm">{pub.abstract}</p>
+                <p className="text-muted-foreground mb-4 leading-relaxed text-sm">{pub.abstract}</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {pub.keywords.map((keyword, i) => (

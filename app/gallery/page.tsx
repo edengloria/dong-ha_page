@@ -96,13 +96,13 @@ export default function GalleryPage() {
         <h2 className="text-xl font-medium text-yellow-500 mb-2">
           Under Construction
         </h2>
-        <p className="text-white/70 text-sm">
+        <p className="text-muted-foreground text-sm">
           Gallery page is currently being built. Check back soon!
         </p>
       </motion.div>
 
       <motion.h1
-        className="text-3xl lg:text-4xl font-light text-white mb-6 tracking-tight"
+        className="page-title mb-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -111,7 +111,7 @@ export default function GalleryPage() {
       </motion.h1>
 
       <motion.p
-        className="text-white/70 mb-6 text-sm"
+        className="text-muted-foreground mb-6 text-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -128,7 +128,7 @@ export default function GalleryPage() {
         {categories.map((category) => (
           <button
             key={category}
-            className="bg-white/5 text-white/70 text-xs px-3 py-1 rounded-full hover:bg-indigo-600/50 transition-colors"
+            className="bg-background/20 text-muted-foreground text-xs px-3 py-1 rounded-full hover:bg-indigo-600/30 transition-colors"
           >
             {category}
           </button>
@@ -140,7 +140,7 @@ export default function GalleryPage() {
         {galleryItems.map((item) => (
           <motion.div
             key={item.id}
-            className="bg-white/5 border border-white/10 rounded-xl overflow-hidden group cursor-pointer"
+            className="glass rounded-xl overflow-hidden group cursor-pointer"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + item.id * 0.05, duration: 0.5 }}
@@ -163,8 +163,8 @@ export default function GalleryPage() {
             </div>
             <div className="p-3">
               <span className="text-indigo-400 text-xs">{item.date}</span>
-              <h3 className="text-white font-medium text-sm mt-1">{item.title}</h3>
-              <p className="text-white/60 text-xs mt-1 line-clamp-2">{item.description}</p>
+              <h3 className="text-foreground font-medium text-sm mt-1">{item.title}</h3>
+              <p className="text-muted-foreground/90 text-xs mt-1 line-clamp-2">{item.description}</p>
             </div>
           </motion.div>
         ))}
