@@ -27,91 +27,92 @@ export default function HomePage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <div className="grid md:grid-cols-3 gap-8 items-start">
-            <div className="md:col-span-2 space-y-4">
-              <p className="leading-relaxed text-lg">
-                I am a Machine Learning/Optical Engineer at <span className="text-indigo-400 font-medium">DareeSoft</span>, currently fulfilling my national defense duty in South Korea. 
-                My work and research combine various fields from digital holography and photonics to on-device AI and computer vision.
-              </p>
-            </div>
-
-            <motion.div 
-              className="relative"
-              initial={{ opacity: 0, scale: 0.95 }}
+          <div className="grid gap-8 lg:grid-cols-[16rem,1fr] items-start">
+            <motion.div
+              className="relative mx-auto w-40 lg:w-56"
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
             >
-              <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-border/50">
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border/50">
                 <Image
                   src={withBasePath("/asset/gradshot.jpg")}
-                  alt="Graduation photo"
+                  alt="Dong-Ha Shin"
                   fill
                   className="object-cover"
                   priority
                 />
               </div>
             </motion.div>
-          </div>
 
-          <div className="border-t border-border/50 pt-6">
-            <h2 className="text-xl font-medium text-foreground mb-4">Education</h2>
-            <p className="leading-relaxed">
-              I graduated from the Department of Electronic Engineering at <span className="text-indigo-400">Kyungpook National University</span> in March 2024, having enrolled in February 2020. 
-              I maintained a GPA of <span className="text-foreground font-medium">4.12/4.5</span> and minored in Computer Engineering. 
-              During my undergraduate years, I served as the leader of <span className="text-indigo-400">BITDOL</span> (Hardware Research Group), 
-              where I secured funding of 55M KRW (~40,000 USD) and oversaw various projects. 
-              Through these experiences, I developed extensive expertise in designing and prototyping diverse embedded systems.
-            </p>
-          </div>
+            <div className="space-y-5">
+              <p className="text-base leading-relaxed">
+                I am Dong-Ha Shin, a first-year M.S. student in the{" "}
+                <a
+                  href="https://www.shbaek.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                >
+                  Computational Imaging Group
+                </a>
+                , led by{" "}
+                <a
+                  href="https://www.shbaek.com/team/biography"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                >
+                  Prof. Seung-Hwan Baek
+                </a>
+                .
+              </p>
 
-          <div className="border-t border-border/50 pt-6">
-            <h2 className="text-xl font-medium text-foreground mb-4">Research Journey</h2>
-            <p className="leading-relaxed">
-              My journey in the field of optics began as an undergraduate in Professor Seung-Yeol Lee&apos;s <span className="text-indigo-400">Integrated Plasmonic Optical Device (IPOD) Laboratory</span>, 
-              where I was fascinated by the fundamental principles of wave optics and interference patterns. 
-              This interest evolved into a passion for holography when I realized the potential of wavefront manipulation to create true three-dimensional visual representations.
-            </p>
-          </div>
+              <p className="text-base leading-relaxed">
+                During my undergraduate studies, I was affiliated with the{" "}
+                <a
+                  href="https://www.ipodlab.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                >
+                  Integrated Plasmonics and Optical Device Laboratory
+                </a>
+                , advised by{" "}
+                <a
+                  href="https://www.ipodlab.com/members-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                >
+                  Prof. Seung-Yeol Lee
+                </a>
+                .
+              </p>
 
-          <div className="border-t border-border/50 pt-6">
-            <h2 className="text-xl font-medium text-foreground mb-4">Current Focus</h2>
-            <p className="leading-relaxed">
-              Currently, my research focuses on the intersection of computational optics, nanophotonics, and display technologies. 
-              I&apos;m particularly interested in developing novel algorithms and optical systems that can generate high-quality, 
-              real-time holographic content for applications in augmented reality, scientific visualization, and entertainment.
-            </p>
-          </div>
+              <p className="text-base leading-relaxed">
+                My research interests broadly lie in co-designing novel systems at the intersection of optics, vision,
+                graphics, and artificial intelligence. I believe the multi-dimensional nature of light holds expressive
+                power and untapped potential that extend well beyond conventional 2D intensity images.
+              </p>
 
-          <div className="border-t border-border/50 pt-6">
-            <h2 className="text-xl font-medium text-foreground mb-4">Interests & Hobbies</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="glass rounded-lg p-4">
-                <h3 className="text-indigo-400 font-medium mb-2">Research Interests</h3>
-                <ul className="space-y-1 text-sm">
-                  <li>• Holography & 3D Displays</li>
-                  <li>• Computer Vision & On-device AI</li>
-                  <li>• Computational Imaging</li>
-                  <li>• Photonics & Nanophotonics</li>
-                </ul>
-              </div>
-              <div className="glass rounded-lg p-4">
-                <h3 className="text-indigo-400 font-medium mb-2">Personal Interests</h3>
-                <ul className="space-y-1 text-sm">
-                  <li>• Drawing & Visual Arts</li>
-                  <li>• Media Art & Interactive Installations</li>
-                  <li>• Collecting Vinyl LPs</li>
-                  <li>• Visiting Exhibitions</li>
-                </ul>
-              </div>
+              <p className="text-base leading-relaxed">
+                As part of my military service, I led the development of a globally deployed Road-Information-as-a-Service
+                (RiaaS)—currently operating in real-world environments across cities including New York City and Seoul—
+                encompassing edge-device systems, AI model training, on-device AI deployment, and full web services.
+                Additionally, through the{" "}
+                <a
+                  href="https://www.namuhx.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                >
+                  NamuhX project
+                </a>
+                , I collaborated with Qualcomm, designing and implementing both an on-device NPU acceleration pipeline and
+                a voice-interactive AI agent.
+              </p>
             </div>
-          </div>
-
-          <div className="border-t border-border/50 pt-6">
-            <p className="leading-relaxed text-muted-foreground italic">
-              Beyond my academic pursuits, I&apos;m an advocate for interdisciplinary collaboration. 
-              I believe that the most innovative solutions emerge when expertise from different fields converges. 
-              Feel free to reach out if you&apos;d like to chat over coffee!
-            </p>
           </div>
         </motion.div>
       </motion.div>
