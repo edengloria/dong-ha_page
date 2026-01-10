@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft, ChevronRight, Info, Construction } from "lucide-react"
 import Image from "next/image"
+import { withBasePath } from "@/lib/utils"
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
@@ -149,7 +150,7 @@ export default function GalleryPage() {
           >
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
-                src={item.imageUrl || "/placeholder.svg"}
+                src={withBasePath(item.imageUrl || "/placeholder.svg")}
                 alt={item.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -213,7 +214,7 @@ export default function GalleryPage() {
             >
               <div className="relative w-full h-[70vh]">
                 <Image
-                  src={selectedItem.imageUrl || "/placeholder.svg"}
+                  src={withBasePath(selectedItem.imageUrl || "/placeholder.svg")}
                   alt={selectedItem.title}
                   fill
                   className="object-contain"
