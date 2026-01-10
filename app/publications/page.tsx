@@ -1,47 +1,57 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 import Image from "next/image"
 import { withBasePath } from "@/lib/utils"
 
 export default function PublicationsPage() {
   const publications = [
     {
-      title: "PADO: Pytorch Automatic Differentiable Optics",
-      journal: "Open-Source Python Library",
-      year: 2025,
-      authors: "Seung-Hwan Baek, Dong-Ha Shin, Yujin Jeon, Seung-Woo Yoon, Eunsue Choi, Gawoon Ban, Hyunmo Kang",
-      abstract:
-        "PADO (파도) is a cutting-edge framework for differentiable optical simulations powered by PyTorch. Inspired by the Korean word for 'wave,' PADO enables seamless and fully differentiable simulation workflows, perfect for researchers and developers in optical physics, computational imaging, and beyond. Features include full differentiability with PyTorch Autograd, CUDA acceleration, modular components, visualization tools, and a beginner-friendly API.",
-      github: "https://github.com/shwbaek/pado",
-      keywords: ["Differentiable optics", "PyTorch", "Optical simulation", "Computational imaging", "Computer-generated holography"],
-      image: "/asset/pado.png"
+      kind: "Open-source",
+      title: "PADO: PyTorch Automatic Differentiable Optics",
+      authors: "POSTECH Computational Imaging Group",
+      venue: "2025",
+      note: "Lead developer and main maintainer",
+      image: "/asset/pado.png",
+      links: [
+        { label: "Code", href: "https://github.com/shwbaek/pado" },
+        { label: "Document", href: "https://github.com/shwbaek/pado#readme" },
+      ],
     },
     {
+      kind: "Journals",
+      title: "Complex-Valued Holographic Radiance Fields",
+      authors: "Yicheng Zhan, Dong-Ha Shin, Seung-Hwan Baek, and Kaan Akşit",
+      venue: "arXiv 2025 (under review)",
+      image: "/placeholder.jpg",
+      links: [
+        {
+          label: "Paper",
+          href: "https://arxiv.org/search/?query=Complex-Valued%20Holographic%20Radiance%20Fields&searchtype=all&source=header",
+        },
+      ],
+    },
+    {
+      kind: "Journals",
       title: "Hologram Upscaling for Viewing Angle Expansion Using Light Field Extrapolation with Object Detection Algorithm",
-      journal: "Current Optics and Photonics",
-      year: 2025,
-      authors: "Dong-Ha Shin, Chee-Hyeok Song, Seung-Yeol Lee",
-      abstract:
-        "As demand for high-resolution holographic displays in augmented and virtual reality (AR/VR) increases, the limitations of traditional computer-generated holography (CGH) upscaling methods, including bicubic interpolation and deep learning-based techniques, become apparent. These methods predominantly estimate additional pixels without considering the reduction of pixel pitch, inherently constraining their capacity to effectively expand the viewing angle. Our study introduces a novel approach for viewing angle expansion through light field (LF) extrapolation by applying an object detection algorithm. This process starts by analyzing the object position and depth information of each LF view extracted from CGH patterns with the object detection algorithm. The use of these data allows us to extrapolate LF views beyond their initial viewing angle limit. Subsequently, these expanded LF views are resynthesized into the CGH format to expand the viewing angle. With our approach, the viewing angle was successfully doubled from an initial 3.54 degrees to 7.09 degrees by upscaling a 2K 7.2 μm CGH to a 4K 3.6 μm CGH, which was verified with both numerical simulation and optical experiments.",
-      doi: "10.1364/COPP.499142",
-      url: "https://opg.optica.org/copp/abstract.cfm?URI=copp-9-1-55",
-      keywords: ["Augmented reality", "Holographic displays", "Numerical simulation", "Spatial light modulators", "Viewing angles", "Virtual reality"],
-      image: "/asset/hologram-upscaling.png"
+      authors: "Dong-Ha Shin, Chee-Hyeok Song, and Seung-Yeol Lee",
+      venue: "Current Optics and Photonics, Vol. 9, Issue 1, pp. 55–64, 2025",
+      image: "/asset/hologram-upscaling.png",
+      links: [
+        { label: "Paper", href: "https://doi.org/10.1364/COPP.499142" },
+      ],
     },
     {
-      title: "A Technique for Interpreting and Adjusting Depth Information of each Plane by Applying an Object Detection Algorithm to Multi-plane Light-field Image Converted from Hologram Image",
-      journal: "Journal of Broadcast Engineering",
-      year: 2023,
-      authors: "Young-Gyu Bae, Dong-Ha Shin, Seung-Yeol Lee",
-      abstract:
-        "Directly converting the focal depth and image size of computer-generated-hologram (CGH), which is obtained by calculating the interference pattern of light from the 3D image, is known to be quite difficult because of the less similarity between the CGH and the original image. This paper proposes a method for separately converting the each of focal length of the given CGH, which is composed of multi-depth images. Firstly, the proposed technique converts the 3D image reproduced from the CGH into a Light-Field (LF) image composed of a set of 2D images observed from various angles, and the positions of the moving objects for each observed views are checked using an object detection algorithm YOLOv5 (You-Only-Look-Once-version-5). After that, by adjusting the positions of objects, the depth-transformed LF image and CGH are generated. Numerical simulations and experimental results show that the proposed technique can change the focal length within a range of about 3 cm without significant loss of the image quality when applied to the image which have original depth of 10 cm, with a spatial light modulator which has a pixel size of 3.6 ㎛ and a resolution of 3840⨯2160.",
-      doi: "10.5909/JBE.2023.28.1.31",
-      keywords: ["Computer-generated holography", "Light field", "Object detection", "YOLOv5", "Depth adjustment"],
-      image: "/asset/depth-adjustment.png"
+      kind: "Journals",
+      title:
+        "A Technique for Interpreting and Adjusting Depth Information of each Plane by Applying an Object Detection Algorithm to Multi-plane Light-field Image Converted from Hologram Image",
+      authors: "Young-Gyu Bae, Dong-Ha Shin, and Seung-Yeol Lee",
+      venue: "Journal of Broadcast Engineering, Vol. 28, No. 1, January 2023",
+      image: "/asset/depth-adjustment.png",
+      links: [{ label: "Paper", href: "https://doi.org/10.5909/JBE.2023.28.1.31" }],
     },
-  ]
+  ] as const
 
   return (
     <motion.div
@@ -58,79 +68,60 @@ export default function PublicationsPage() {
         Publications
       </motion.h1>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         {publications.map((pub, index) => (
           <motion.div
             key={pub.title}
-            className="glass rounded-xl p-6"
+            className="glass rounded-2xl p-5 sm:p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+            transition={{ delay: 0.15 + index * 0.06, duration: 0.45 }}
           >
-            <div className="flex flex-col lg:flex-row gap-6">
-              {pub.image && (
-                <div className="w-full lg:w-1/3 flex-shrink-0">
-                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50">
-                    <Image
-                      src={withBasePath(pub.image)}
-                      alt={pub.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+            <div className="grid gap-5 lg:grid-cols-[14rem,1fr] lg:items-start">
+              <div className="w-full">
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/50 bg-black/10">
+                  <Image
+                    src={withBasePath(pub.image)}
+                    alt={pub.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-              )}
-              <div className={pub.image ? "w-full lg:w-2/3" : "w-full"}>
-                <h2 className="text-xl font-medium text-foreground mb-2">{pub.title}</h2>
-                <p className="text-indigo-400 mb-2">
-                  {pub.journal}, {pub.year}
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                  <span className="rounded-full border border-border/50 bg-background/20 px-2 py-0.5">
+                    {pub.kind}
+                  </span>
+                  {pub.note ? <span className="truncate">{pub.note}</span> : null}
+                </div>
+
+                <h2 className="text-lg sm:text-xl font-medium text-foreground leading-snug">
+                  {pub.title}
+                </h2>
+
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {pub.authors}
                 </p>
-                <p className="text-muted-foreground mb-4 italic text-sm">{pub.authors}</p>
 
-                <p className="text-muted-foreground mb-4 leading-relaxed text-sm">{pub.abstract}</p>
+                <p className="mt-2 text-sm text-indigo-300/90">
+                  {pub.venue}
+                </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {pub.keywords.map((keyword, i) => (
-                    <span key={i} className="bg-indigo-900/30 text-indigo-300 text-xs px-2 py-1 rounded-full">
-                      {keyword}
-                    </span>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {pub.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-background/20 px-3 py-1 text-xs text-foreground/90 hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-colors"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5 text-indigo-300/90" />
+                      {link.label}
+                    </a>
                   ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 text-sm">
-                  {pub.doi && (
-                    <a
-                      href={`https://doi.org/${pub.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      DOI: {pub.doi}
-                    </a>
-                  )}
-                  {pub.url && (
-                    <a
-                      href={pub.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      View Publication
-                    </a>
-                  )}
-                  {pub.github && (
-                    <a
-                      href={pub.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                    >
-                      <Github className="h-4 w-4 mr-1" />
-                      GitHub Repository
-                    </a>
-                  )}
                 </div>
               </div>
             </div>
