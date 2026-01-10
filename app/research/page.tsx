@@ -1,8 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
 
 export default function ResearchPage() {
   const researchAreas = [
@@ -56,51 +54,43 @@ export default function ResearchPage() {
   ]
 
   return (
-    <div className="container mx-auto px-4">
-      <Link href="/" className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors">
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Home
-      </Link>
-
-      <motion.div
-        className="max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <motion.h1
-          className="text-4xl font-light text-white mb-8 tracking-tight"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Research Interests
-        </motion.h1>
+        Research Interests
+      </motion.h1>
 
-        <div className="space-y-8">
-          {researchAreas.map((area, index) => (
-            <motion.div
-              key={area.title}
-              className="bg-black/30 backdrop-blur-md border border-white/10 rounded-xl p-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-            >
-              <h2 className="text-2xl font-light text-indigo-400 mb-4">{area.title}</h2>
-              <p className="text-white/80 mb-4 leading-relaxed">{area.description}</p>
+      <div className="space-y-6">
+        {researchAreas.map((area, index) => (
+          <motion.div
+            key={area.title}
+            className="bg-white/5 border border-white/10 rounded-xl p-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+          >
+            <h2 className="text-2xl font-light text-indigo-400 mb-4">{area.title}</h2>
+            <p className="text-white/80 mb-4 leading-relaxed">{area.description}</p>
 
-              <h3 className="text-lg font-light text-white mb-2">Key Topics:</h3>
-              <ul className="list-disc pl-5 text-white/80 space-y-1">
-                {area.keyTopics.map((topic, i) => (
-                  <li key={i} className="leading-relaxed">
-                    {topic}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
+            <h3 className="text-lg font-light text-white mb-2">Key Topics:</h3>
+            <ul className="list-disc pl-5 text-white/80 space-y-1">
+              {area.keyTopics.map((topic, i) => (
+                <li key={i} className="leading-relaxed">
+                  {topic}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
   )
 }

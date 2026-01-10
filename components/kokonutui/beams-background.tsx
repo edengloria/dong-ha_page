@@ -11,6 +11,7 @@ interface AnimatedGradientBackgroundProps {
   children?: React.ReactNode
   intensity?: "subtle" | "medium" | "strong"
   inactivityTimeout?: number // 사용자 비활성 제한 시간(ms)
+  showHero?: boolean // 히어로 섹션 표시 여부
 }
 
 interface Beam {
@@ -68,7 +69,8 @@ function throttle<T extends (...args: any[]) => any>(
 export default function BeamsBackground({ 
   className, 
   intensity = "strong", 
-  inactivityTimeout = 60000 // 기본값: 1분
+  inactivityTimeout = 60000, // 기본값: 1분
+  showHero = false
 }: AnimatedGradientBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const beamsRef = useRef<Beam[]>([])
@@ -325,7 +327,7 @@ export default function BeamsBackground({
   }, [isInactive]);
 
   return (
-    <div className={cn("relative min-h-screen w-full overflow-hidden bg-neutral-950", className)}>
+    <div className={cn("relative w-full overflow-hidden bg-neutral-950", showHero ? "min-h-screen" : "h-full", className)}>
       <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
 
       <motion.div
@@ -343,41 +345,45 @@ export default function BeamsBackground({
         }}
       />
 
-      <div className="relative z-10 flex h-screen w-full items-center justify-center">
-        <div className="flex flex-col items-center justify-center gap-6 px-4 text-center">
-          <motion.h1
-            className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Dong-Ha Shin
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Holography Researcher & Machine Learning Engineer
-          </motion.p>
-        </div>
-      </div>
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="rgba(255, 255, 255, 0.5)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 5v14M5 12l7 7 7-7" />
-        </svg>
-      </div>
+      {showHero && (
+        <>
+          <div className="relative z-10 flex h-screen w-full items-center justify-center">
+            <div className="flex flex-col items-center justify-center gap-6 px-4 text-center">
+              <motion.h1
+                className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                Dong-Ha Shin
+              </motion.h1>
+              <motion.p
+                className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                Holography Researcher & Machine Learning Engineer
+              </motion.p>
+            </div>
+          </div>
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="rgba(255, 255, 255, 0.5)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+          </div>
+        </>
+      )}
     </div>
   )
 }

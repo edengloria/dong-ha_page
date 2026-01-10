@@ -1,8 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
 
 export default function ExperiencePage() {
   const experiences = [
@@ -75,60 +73,62 @@ export default function ExperiencePage() {
   ]
 
   return (
-    <div className="container mx-auto px-4">
-      <Link href="/" className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors">
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Home
-      </Link>
-
-      <motion.div
-        className="max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <motion.h1
-          className="text-4xl font-light text-white mb-8 tracking-tight"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Experience
-        </motion.h1>
+        Experience
+      </motion.h1>
 
-        <div className="space-y-8">
+      <div className="relative">
+        {/* Timeline line */}
+        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-purple-500 to-indigo-500/20 hidden md:block" />
+
+        <div className="space-y-6">
           {experiences.map((exp, index) => (
             <motion.div
-              key={exp.title}
-              className="bg-black/30 backdrop-blur-md border border-white/10 rounded-xl p-6 relative"
+              key={`${exp.title}-${exp.period}`}
+              className="relative md:pl-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
             >
-              <div className="mb-4">
-                <h2 className="text-2xl font-light text-indigo-400">{exp.title}</h2>
-                <p className="text-white font-medium">{exp.role}</p>
-                <p className="text-white/70">
-                  {exp.period} | {exp.location}
-                </p>
-              </div>
+              {/* Timeline dot */}
+              <div className="absolute left-2 top-6 w-4 h-4 rounded-full bg-indigo-500 border-2 border-indigo-300 hidden md:block" />
 
-              <p className="text-white/80 mb-4 leading-relaxed">{exp.description}</p>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                <div className="mb-4">
+                  <h2 className="text-xl font-medium text-indigo-400">{exp.title}</h2>
+                  <p className="text-white font-medium">{exp.role}</p>
+                  <p className="text-white/60 text-sm">
+                    {exp.period} • {exp.location}
+                  </p>
+                </div>
 
-              <div className="mb-4">
-                <h3 className="text-lg font-light text-white mb-2">Responsibilities:</h3>
-                <ul className="list-disc pl-5 text-white/80 space-y-1">
-                  {exp.responsibilities.map((item, i) => (
-                    <li key={i} className="leading-relaxed">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-white/80 mb-4 leading-relaxed">{exp.description}</p>
+
+                <div>
+                  <h3 className="text-sm font-medium text-white/90 mb-2">Key Responsibilities:</h3>
+                  <ul className="list-disc pl-5 text-white/70 space-y-1 text-sm">
+                    {exp.responsibilities.map((item, i) => (
+                      <li key={i} className="leading-relaxed">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   )
 }

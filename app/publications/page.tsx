@@ -1,8 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft, Download, ExternalLink, Github } from "lucide-react"
-import Link from "next/link"
+import { ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
 
 export default function PublicationsPage() {
@@ -16,7 +15,7 @@ export default function PublicationsPage() {
         "PADO (파도) is a cutting-edge framework for differentiable optical simulations powered by PyTorch. Inspired by the Korean word for 'wave,' PADO enables seamless and fully differentiable simulation workflows, perfect for researchers and developers in optical physics, computational imaging, and beyond. Features include full differentiability with PyTorch Autograd, CUDA acceleration, modular components, visualization tools, and a beginner-friendly API.",
       github: "https://github.com/shwbaek/pado",
       keywords: ["Differentiable optics", "PyTorch", "Optical simulation", "Computational imaging", "Computer-generated holography"],
-      image: "/dong-ha_page/asset/pado.png"
+      image: "/asset/pado.png"
     },
     {
       title: "Hologram Upscaling for Viewing Angle Expansion Using Light Field Extrapolation with Object Detection Algorithm",
@@ -28,7 +27,7 @@ export default function PublicationsPage() {
       doi: "10.1364/COPP.499142",
       url: "https://opg.optica.org/copp/abstract.cfm?URI=copp-9-1-55",
       keywords: ["Augmented reality", "Holographic displays", "Numerical simulation", "Spatial light modulators", "Viewing angles", "Virtual reality"],
-      image: "/dong-ha_page/asset/hologram-upscaling.png"
+      image: "/asset/hologram-upscaling.png"
     },
     {
       title: "A Technique for Interpreting and Adjusting Depth Information of each Plane by Applying an Object Detection Algorithm to Multi-plane Light-field Image Converted from Hologram Image",
@@ -39,112 +38,104 @@ export default function PublicationsPage() {
         "Directly converting the focal depth and image size of computer-generated-hologram (CGH), which is obtained by calculating the interference pattern of light from the 3D image, is known to be quite difficult because of the less similarity between the CGH and the original image. This paper proposes a method for separately converting the each of focal length of the given CGH, which is composed of multi-depth images. Firstly, the proposed technique converts the 3D image reproduced from the CGH into a Light-Field (LF) image composed of a set of 2D images observed from various angles, and the positions of the moving objects for each observed views are checked using an object detection algorithm YOLOv5 (You-Only-Look-Once-version-5). After that, by adjusting the positions of objects, the depth-transformed LF image and CGH are generated. Numerical simulations and experimental results show that the proposed technique can change the focal length within a range of about 3 cm without significant loss of the image quality when applied to the image which have original depth of 10 cm, with a spatial light modulator which has a pixel size of 3.6 ㎛ and a resolution of 3840⨯2160.",
       doi: "10.5909/JBE.2023.28.1.31",
       keywords: ["Computer-generated holography", "Light field", "Object detection", "YOLOv5", "Depth adjustment"],
-      image: "/dong-ha_page/asset/depth-adjustment.png"
+      image: "/asset/depth-adjustment.png"
     },
   ]
 
   return (
-    <div className="container mx-auto px-4">
-      <Link href="/" className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors">
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Home
-      </Link>
-
-      <motion.div
-        className="max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <motion.h1
-          className="text-4xl font-light text-white mb-8 tracking-tight"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Publications
-        </motion.h1>
+        Publications
+      </motion.h1>
 
-        <div className="space-y-6">
-          {publications.map((pub, index) => (
-            <motion.div
-              key={pub.title}
-              className="bg-black/30 backdrop-blur-md border border-white/10 rounded-xl p-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-            >
-              <div className="flex flex-col md:flex-row gap-6">
-                {pub.image && (
-                  <div className="w-full md:w-1/3 flex-shrink-0">
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                      <Image
-                        src={pub.image}
-                        alt={pub.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className={pub.image ? "w-full md:w-2/3" : "w-full"}>
-                  <h2 className="text-xl font-medium text-white mb-2">{pub.title}</h2>
-                  <p className="text-indigo-400 mb-2">
-                    {pub.journal}, {pub.year}
-                  </p>
-                  <p className="text-white/70 mb-4 italic">{pub.authors}</p>
-
-                  <p className="text-white/80 mb-4 leading-relaxed">{pub.abstract}</p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {pub.keywords.map((keyword, i) => (
-                      <span key={i} className="bg-indigo-900/30 text-indigo-300 text-xs px-2 py-1 rounded-full">
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm">
-                    {pub.doi && (
-                      <a
-                        href={`https://doi.org/${pub.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-1" />
-                        DOI: {pub.doi}
-                      </a>
-                    )}
-                    {pub.url && (
-                      <a
-                        href={pub.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-1" />
-                        View Publication
-                      </a>
-                    )}
-                    {pub.github && (
-                      <a
-                        href={pub.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
-                      >
-                        <Github className="h-4 w-4 mr-1" />
-                        GitHub Repository
-                      </a>
-                    )}
+      <div className="space-y-6">
+        {publications.map((pub, index) => (
+          <motion.div
+            key={pub.title}
+            className="bg-white/5 border border-white/10 rounded-xl p-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+          >
+            <div className="flex flex-col lg:flex-row gap-6">
+              {pub.image && (
+                <div className="w-full lg:w-1/3 flex-shrink-0">
+                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/10">
+                    <Image
+                      src={pub.image}
+                      alt={pub.title}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                 </div>
+              )}
+              <div className={pub.image ? "w-full lg:w-2/3" : "w-full"}>
+                <h2 className="text-xl font-medium text-white mb-2">{pub.title}</h2>
+                <p className="text-indigo-400 mb-2">
+                  {pub.journal}, {pub.year}
+                </p>
+                <p className="text-white/70 mb-4 italic text-sm">{pub.authors}</p>
+
+                <p className="text-white/80 mb-4 leading-relaxed text-sm">{pub.abstract}</p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {pub.keywords.map((keyword, i) => (
+                    <span key={i} className="bg-indigo-900/30 text-indigo-300 text-xs px-2 py-1 rounded-full">
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 text-sm">
+                  {pub.doi && (
+                    <a
+                      href={`https://doi.org/${pub.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-1" />
+                      DOI: {pub.doi}
+                    </a>
+                  )}
+                  {pub.url && (
+                    <a
+                      href={pub.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-1" />
+                      View Publication
+                    </a>
+                  )}
+                  {pub.github && (
+                    <a
+                      href={pub.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-400 hover:text-indigo-300 flex items-center transition-colors"
+                    >
+                      <Github className="h-4 w-4 mr-1" />
+                      GitHub Repository
+                    </a>
+                  )}
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
   )
 }
