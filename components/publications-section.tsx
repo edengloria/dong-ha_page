@@ -38,7 +38,7 @@ const PUBLICATIONS: PublicationItem[] = [
     title: "Complex-Valued Holographic Radiance Fields",
     authors: "Yicheng Zhan, Dong-Ha Shin, Seung-Hwan Baek, and Kaan Akşit",
     venue: "arXiv 2025 (under review)",
-    image: "/placeholder.jpg",
+    image: "/asset/CVHNerF.PNG",
     links: [
       {
         label: "Paper",

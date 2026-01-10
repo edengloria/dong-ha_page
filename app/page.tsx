@@ -106,7 +106,7 @@ export default function HomePage() {
             >
               <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border/50">
                 <Image
-                  src={withBasePath("/asset/gradshot.jpg")}
+                  src={withBasePath("/asset/life-images/withbear.jpg")}
                   alt="Dong-Ha Shin"
                   fill
                   className="object-cover"

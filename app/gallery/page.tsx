@@ -13,57 +13,59 @@ export default function GalleryPage() {
   const galleryItems = [
     {
       id: 1,
-      title: "Holographic Display Prototype",
-      description:
-        "Our latest holographic display prototype capable of rendering full-color 3D images with a 45-degree viewing angle. This system uses a custom-designed spatial light modulator and proprietary phase retrieval algorithms.",
-      category: "Hardware",
-      date: "2023-05",
-      imageUrl: "/placeholder.svg",
+      title: "With Bear",
+      description: "A memorable moment with a bear friend.",
+      category: "Life",
+      date: "2024",
+      imageUrl: "/asset/life-images/withbear.jpg",
     },
     {
       id: 2,
-      title: "Metasurface Nanofabrication",
-      description:
-        "Scanning electron microscope image of our fabricated metasurface consisting of titanium dioxide nanopillars on a glass substrate. These structures are designed to manipulate the phase of incident light with subwavelength precision.",
-      category: "Nanophotonics",
-      date: "2022-11",
-      imageUrl: "/placeholder.svg",
+      title: "Graduation",
+      description: "Graduation day celebration.",
+      category: "Life",
+      date: "2024",
+      imageUrl: "/asset/life-images/gradshot.jpg",
     },
     {
       id: 3,
-      title: "Neural Holography Results",
-      description:
-        "Comparison between target images (left) and reconstructed holograms (right) using our neural network approach. The network was trained on a dataset of 10,000 image-hologram pairs to predict optimal phase patterns.",
-      category: "Computational",
-      date: "2022-08",
-      imageUrl: "/placeholder.svg",
+      title: "Formal Portrait",
+      description: "Professional formal portrait.",
+      category: "Life",
+      date: "2024",
+      imageUrl: "/asset/life-images/formal.jpg",
     },
     {
       id: 4,
-      title: "IPOD Lab Setup",
-      description:
-        "The optical bench setup in our lab featuring lasers, spatial light modulators, and custom-designed optical components for holographic experiments. This configuration allows for rapid prototyping of new display concepts.",
-      category: "Lab",
-      date: "2021-12",
-      imageUrl: "/placeholder.svg",
+      title: "With Coco",
+      description: "Spending time with Coco.",
+      category: "Life",
+      date: "2024",
+      imageUrl: "/asset/life-images/withcoco.jpg",
     },
     {
       id: 5,
-      title: "Holographic Projection Demo",
-      description:
-        "Live demonstration of our holographic projection system at SIGGRAPH Asia 2021. The system projects 3D content that appears to float in mid-air without requiring special glasses or headsets.",
-      category: "Demonstration",
-      date: "2021-12",
-      imageUrl: "/placeholder.svg",
+      title: "Tropical Vibes",
+      description: "Enjoying tropical scenery.",
+      category: "Travel",
+      date: "2024",
+      imageUrl: "/asset/life-images/withBGtrop.jpg",
     },
     {
       id: 6,
-      title: "Phase Pattern Visualization",
-      description:
-        "Visualization of the computed phase patterns used in our computer-generated holograms. The colors represent different phase delays applied to the incident light, creating constructive and destructive interference that forms the desired image.",
-      category: "Computational",
-      date: "2021-09",
-      imageUrl: "/placeholder.svg",
+      title: "Panoramic View",
+      description: "Beautiful panoramic background.",
+      category: "Travel",
+      date: "2024",
+      imageUrl: "/asset/life-images/withBGpan.jpg",
+    },
+    {
+      id: 7,
+      title: "Adventure Shot",
+      description: "An adventurous moment captured.",
+      category: "Travel",
+      date: "2024",
+      imageUrl: "/asset/life-images/withBGgun.jpg",
     },
   ]
 
@@ -108,7 +110,7 @@ export default function GalleryPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        Research Gallery
+        Gallery
       </motion.h1>
 
       <motion.p
@@ -117,8 +119,7 @@ export default function GalleryPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
-        Visual documentation of research projects, experimental setups, and holographic displays. 
-        Click on any image to view it in detail.
+        Moments from life and travels. Click on any image to view it in detail.
       </motion.p>
 
       {/* Category filters */}
