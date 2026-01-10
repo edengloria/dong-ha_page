@@ -5,17 +5,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Mail, MapPin, Github, Linkedin, Instagram } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, withBasePath } from "@/lib/utils"
 
 const navItems = [
   { name: "About", href: "/" },
-  { name: "Research", href: "/research" },
   { name: "Publications", href: "/publications" },
-  { name: "Experience", href: "/experience" },
-  { name: "Patents", href: "/patents" },
-  { name: "Awards", href: "/awards" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Contact", href: "/contact" },
 ]
 
 const socialLinks = [
@@ -56,7 +51,7 @@ export default function ProfileSidebar() {
         >
           <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-lg shadow-indigo-500/20">
             <Image
-              src="/asset/gradshot.jpg"
+              src={withBasePath("/asset/gradshot.jpg")}
               alt="Dong-Ha Shin"
               fill
               className="object-cover"
@@ -75,11 +70,8 @@ export default function ProfileSidebar() {
           <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground mb-2">
             Dong-Ha Shin
           </h1>
-          <p className="text-lg holographic-text font-medium">
-            ML/Optical Engineer
-          </p>
-          <p className="text-sm text-muted-foreground mt-2">
-            Holography Researcher
+          <p className="text-sm text-muted-foreground">
+            MS Student @ POSTECH AI
           </p>
         </motion.div>
 

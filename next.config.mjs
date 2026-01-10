@@ -12,6 +12,8 @@ try {
 }
 
 /** @type {import('next').NextConfig} */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -20,7 +22,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   output: 'export',
-  basePath: process.env.NODE_ENV === 'production' ? '/dong-ha_page' : '',
+  trailingSlash: true,
+  basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   images: {
     unoptimized: true,
   },

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft, ChevronRight, Info, Construction } from "lucide-react"
 import Image from "next/image"
+import { withBasePath } from "@/lib/utils"
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
@@ -17,7 +18,7 @@ export default function GalleryPage() {
         "Our latest holographic display prototype capable of rendering full-color 3D images with a 45-degree viewing angle. This system uses a custom-designed spatial light modulator and proprietary phase retrieval algorithms.",
       category: "Hardware",
       date: "2023-05",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
     {
       id: 2,
@@ -26,7 +27,7 @@ export default function GalleryPage() {
         "Scanning electron microscope image of our fabricated metasurface consisting of titanium dioxide nanopillars on a glass substrate. These structures are designed to manipulate the phase of incident light with subwavelength precision.",
       category: "Nanophotonics",
       date: "2022-11",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
     {
       id: 3,
@@ -35,7 +36,7 @@ export default function GalleryPage() {
         "Comparison between target images (left) and reconstructed holograms (right) using our neural network approach. The network was trained on a dataset of 10,000 image-hologram pairs to predict optimal phase patterns.",
       category: "Computational",
       date: "2022-08",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
     {
       id: 4,
@@ -44,7 +45,7 @@ export default function GalleryPage() {
         "The optical bench setup in our lab featuring lasers, spatial light modulators, and custom-designed optical components for holographic experiments. This configuration allows for rapid prototyping of new display concepts.",
       category: "Lab",
       date: "2021-12",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
     {
       id: 5,
@@ -53,7 +54,7 @@ export default function GalleryPage() {
         "Live demonstration of our holographic projection system at SIGGRAPH Asia 2021. The system projects 3D content that appears to float in mid-air without requiring special glasses or headsets.",
       category: "Demonstration",
       date: "2021-12",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
     {
       id: 6,
@@ -62,7 +63,7 @@ export default function GalleryPage() {
         "Visualization of the computed phase patterns used in our computer-generated holograms. The colors represent different phase delays applied to the incident light, creating constructive and destructive interference that forms the desired image.",
       category: "Computational",
       date: "2021-09",
-      imageUrl: "/placeholder.svg?height=800&width=1200",
+      imageUrl: "/placeholder.svg",
     },
   ]
 
@@ -149,7 +150,7 @@ export default function GalleryPage() {
           >
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
-                src={item.imageUrl || "/placeholder.svg"}
+                src={withBasePath(item.imageUrl || "/placeholder.svg")}
                 alt={item.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -213,7 +214,7 @@ export default function GalleryPage() {
             >
               <div className="relative w-full h-[70vh]">
                 <Image
-                  src={selectedItem.imageUrl || "/placeholder.svg"}
+                  src={withBasePath(selectedItem.imageUrl || "/placeholder.svg")}
                   alt={selectedItem.title}
                   fill
                   className="object-contain"

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { withBasePath } from "@/lib/utils"
 
 export default function HomePage() {
   return (
@@ -42,7 +43,7 @@ export default function HomePage() {
             >
               <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-border/50">
                 <Image
-                  src="/asset/gradshot.jpg"
+                  src={withBasePath("/asset/gradshot.jpg")}
                   alt="Graduation photo"
                   fill
                   className="object-cover"

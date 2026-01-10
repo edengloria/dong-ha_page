@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
+import { withBasePath } from "@/lib/utils"
 
 export default function PublicationsPage() {
   const publications = [
@@ -71,7 +72,7 @@ export default function PublicationsPage() {
                 <div className="w-full lg:w-1/3 flex-shrink-0">
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50">
                     <Image
-                      src={pub.image}
+                      src={withBasePath(pub.image)}
                       alt={pub.title}
                       fill
                       className="object-cover"
