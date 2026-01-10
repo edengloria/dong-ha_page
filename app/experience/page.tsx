@@ -79,7 +79,7 @@ export default function ExperiencePage() {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        className="page-title mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -103,20 +103,20 @@ export default function ExperiencePage() {
               {/* Timeline dot */}
               <div className="absolute left-2 top-6 w-4 h-4 rounded-full bg-indigo-500 border-2 border-indigo-300 hidden md:block" />
 
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <div className="glass rounded-xl p-6">
                 <div className="mb-4">
                   <h2 className="text-xl font-medium text-indigo-400">{exp.title}</h2>
-                  <p className="text-white font-medium">{exp.role}</p>
-                  <p className="text-white/60 text-sm">
+                  <p className="text-foreground font-medium">{exp.role}</p>
+                  <p className="text-muted-foreground text-sm">
                     {exp.period} • {exp.location}
                   </p>
                 </div>
 
-                <p className="text-white/80 mb-4 leading-relaxed">{exp.description}</p>
+                <p className="text-muted-foreground mb-4 leading-relaxed">{exp.description}</p>
 
                 <div>
-                  <h3 className="text-sm font-medium text-white/90 mb-2">Key Responsibilities:</h3>
-                  <ul className="list-disc pl-5 text-white/70 space-y-1 text-sm">
+                  <h3 className="text-sm font-medium text-foreground/90 mb-2">Key Responsibilities:</h3>
+                  <ul className="list-disc pl-5 text-muted-foreground space-y-1 text-sm">
                     {exp.responsibilities.map((item, i) => (
                       <li key={i} className="leading-relaxed">
                         {item}

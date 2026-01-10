@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useMemo, useRef, useState, useCallback } from "react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
@@ -27,6 +27,12 @@ interface Beam {
   pulseSpeed: number
 }
 
+const OPACITY_MAP = {
+  subtle: 0.6,
+  medium: 0.75,
+  strong: 0.9, // 전체적으로 약간 투명도 증가
+} as const
+
 function createBeam(width: number, height: number): Beam {
   const angle = -35 + Math.random() * 10
   return {
@@ -44,25 +50,30 @@ function createBeam(width: number, height: number): Beam {
 }
 
 // 이벤트 스로틀링 유틸리티 함수
-function throttle<T extends (...args: any[]) => any>(
+function throttle<T extends (...args: unknown[]) => void>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
-  let lastFunc: number
-  let lastRan: number
-  return function(this: any, ...args: Parameters<T>) {
+  let lastTimeout: ReturnType<typeof window.setTimeout> | undefined
+  let lastRan = 0
+
+  return (...args: Parameters<T>) => {
     if (!lastRan) {
-      func.apply(this, args)
+      func(...args)
       lastRan = Date.now()
-    } else {
-      clearTimeout(lastFunc)
-      lastFunc = window.setTimeout(() => {
-        if (Date.now() - lastRan >= limit) {
-          func.apply(this, args)
-          lastRan = Date.now()
-        }
-      }, limit - (Date.now() - lastRan))
+      return
     }
+
+    if (lastTimeout) {
+      clearTimeout(lastTimeout)
+    }
+
+    lastTimeout = window.setTimeout(() => {
+      if (Date.now() - lastRan >= limit) {
+        func(...args)
+        lastRan = Date.now()
+      }
+    }, Math.max(0, limit - (Date.now() - lastRan)))
   }
 }
 
@@ -84,12 +95,6 @@ export default function BeamsBackground({
   // 비활성 상태 관리
   const [isInactive, setIsInactive] = useState(false)
 
-  const opacityMap = {
-    subtle: 0.6,
-    medium: 0.75,
-    strong: 0.9, // 전체적으로 약간 투명도 증가
-  }
-
   // animate 함수 참조 저장
   const animateRef = useRef<((timestamp: number) => void) | null>(null)
   // 마지막 프레임 시간 추적
@@ -98,29 +103,33 @@ export default function BeamsBackground({
   const targetFPSRef = useRef<number>(60)
 
   // 애니메이션 시작/중지 함수
-  const startAnimation = () => {
+  const startAnimation = useCallback(() => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
       animationActiveRef.current = true;
       animateRef.current(performance.now());
     }
-  };
+  }, []);
 
-  const stopAnimation = () => {
+  const stopAnimation = useCallback(() => {
     animationActiveRef.current = false;
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = 0;
     }
-  };
+  }, []);
 
   // 사용자 활동 감지 (스로틀링 적용)
-  const trackUserActivity = useCallback(throttle(() => {
-    lastActivityRef.current = Date.now();
-    if (isInactive) {
-      setIsInactive(false);
-      startAnimation();
-    }
-  }, 150), [isInactive]); // 100ms 스로틀링
+  const trackUserActivity = useMemo(
+    () =>
+      throttle(() => {
+        lastActivityRef.current = Date.now()
+        if (isInactive) {
+          setIsInactive(false)
+          startAnimation()
+        }
+      }, 150),
+    [isInactive, startAnimation]
+  )
 
   // 저사양 기기 감지
   useEffect(() => {
@@ -212,7 +221,8 @@ export default function BeamsBackground({
       ctx.rotate((beam.angle * Math.PI) / 180)
 
       // Calculate pulsing opacity
-      const pulsingOpacity = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * opacityMap[intensity]
+      const pulsingOpacity =
+        beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * OPACITY_MAP[intensity]
 
       const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
 
@@ -317,14 +327,14 @@ export default function BeamsBackground({
       // 큰 배열 참조 정리
       beamsRef.current = [];
     }
-  }, [intensity, inactivityTimeout, isInactive, trackUserActivity])
+  }, [intensity, inactivityTimeout, isInactive, trackUserActivity, startAnimation, stopAnimation])
 
   // 화면에 다시 포커스될 때 애니메이션 재개
   useEffect(() => {
     if (!isInactive) {
       startAnimation();
     }
-  }, [isInactive]);
+  }, [isInactive, startAnimation]);
 
   return (
     <div className={cn("relative w-full overflow-hidden bg-neutral-950", showHero ? "min-h-screen" : "h-full", className)}>

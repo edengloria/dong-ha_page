@@ -60,7 +60,7 @@ export default function AwardsPage() {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-3xl lg:text-4xl font-light text-white mb-8 tracking-tight"
+        className="page-title mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -72,7 +72,7 @@ export default function AwardsPage() {
         {awards.map((award, index) => (
           <motion.div
             key={award.title}
-            className="bg-white/5 border border-white/10 rounded-xl p-5"
+            className="glass rounded-xl p-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
@@ -81,29 +81,29 @@ export default function AwardsPage() {
               <Award className="h-5 w-5 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
               <div className="flex-1">
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                  <h2 className="text-lg font-medium text-white">{award.title}</h2>
+                  <h2 className="text-lg font-medium text-foreground">{award.title}</h2>
                   <span className="text-indigo-400 text-sm">
                     {award.organization}, {award.year}
                   </span>
                 </div>
 
                 {award.description && (
-                  <p className="text-white/70 mb-3 text-sm leading-relaxed">{award.description}</p>
+                  <p className="text-muted-foreground mb-3 text-sm leading-relaxed">{award.description}</p>
                 )}
 
                 {(award.achievement || award.impact) && (
                   <div className="space-y-2 text-sm">
                     {award.achievement && (
                       <div>
-                        <span className="text-white/90 font-medium">Achievement: </span>
-                        <span className="text-white/70">{award.achievement}</span>
+                        <span className="text-foreground/90 font-medium">Achievement: </span>
+                        <span className="text-muted-foreground">{award.achievement}</span>
                       </div>
                     )}
 
                     {award.impact && (
                       <div>
-                        <span className="text-white/90 font-medium">Impact: </span>
-                        <span className="text-white/70">{award.impact}</span>
+                        <span className="text-foreground/90 font-medium">Impact: </span>
+                        <span className="text-muted-foreground">{award.impact}</span>
                       </div>
                     )}
                   </div>

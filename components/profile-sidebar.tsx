@@ -41,12 +41,12 @@ export default function ProfileSidebar() {
 
   return (
     <motion.aside
-      className="w-full lg:w-80 lg:min-h-screen lg:sticky lg:top-0 flex-shrink-0"
+      className="w-full lg:w-80 lg:min-h-screen lg:sticky lg:top-6 flex-shrink-0"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 lg:p-8 lg:min-h-screen">
+      <div className="glass-panel lg:min-h-screen">
         {/* Profile Image */}
         <motion.div
           className="flex justify-center mb-6"
@@ -72,13 +72,13 @@ export default function ProfileSidebar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <h1 className="text-2xl lg:text-3xl font-semibold text-white tracking-tight mb-2">
+          <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground mb-2">
             Dong-Ha Shin
           </h1>
           <p className="text-lg holographic-text font-medium">
             ML/Optical Engineer
           </p>
-          <p className="text-sm text-white/60 mt-2">
+          <p className="text-sm text-muted-foreground mt-2">
             Holography Researcher
           </p>
         </motion.div>
@@ -90,13 +90,13 @@ export default function ProfileSidebar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <div className="flex items-center text-white/70 hover:text-white transition-colors">
+          <div className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
             <Mail className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
             <a href="mailto:0218sdh@gmail.com" className="truncate">
               0218sdh@gmail.com
             </a>
           </div>
-          <div className="flex items-center text-white/70">
+          <div className="flex items-center text-muted-foreground">
             <MapPin className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
             <span>Seongnam, South Korea</span>
           </div>
@@ -115,7 +115,7 @@ export default function ProfileSidebar() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300"
+              className="p-2 rounded-full bg-background/20 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300"
               aria-label={link.name}
             >
               <link.icon className="h-5 w-5" />
@@ -124,7 +124,7 @@ export default function ProfileSidebar() {
         </motion.div>
 
         {/* Divider */}
-        <div className="border-t border-white/10 mb-6" />
+        <div className="border-t border-border/50 mb-6" />
 
         {/* Navigation */}
         <motion.nav
@@ -133,7 +133,7 @@ export default function ProfileSidebar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const isActive = pathname === item.href
             return (
               <Link
@@ -143,7 +143,7 @@ export default function ProfileSidebar() {
                   "block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                   isActive
                     ? "bg-indigo-500/20 text-indigo-300 border-l-2 border-indigo-500"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    : "text-muted-foreground hover:text-foreground hover:bg-background/20"
                 )}
               >
                 {item.name}
@@ -154,12 +154,12 @@ export default function ProfileSidebar() {
 
         {/* Footer */}
         <motion.div
-          className="mt-8 pt-6 border-t border-white/10 text-center"
+          className="mt-8 pt-6 border-t border-border/50 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-muted-foreground/70">
             © 2025 Dong-Ha Shin
           </p>
         </motion.div>
