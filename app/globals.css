@@ -143,6 +143,26 @@
   background: rgba(99, 102, 241, 0.7);
 }
 
+/* Vinyl spin animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Music equalizer bars animation */
+@keyframes musicBar {
+  0%, 100% {
+    height: 30%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
 /* Holographic text effect */
 @keyframes holographicShimmer {
   0% {
