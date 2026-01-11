@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Mail, MapPin, Github, Linkedin, Instagram } from "lucide-react"
+import { Mail, MapPin, FileText, Github, Linkedin, Instagram } from "lucide-react"
 import { cn, withBasePath } from "@/lib/utils"
 
 const navItems = [
@@ -13,6 +13,11 @@ const navItems = [
 ]
 
 const socialLinks = [
+  {
+    name: "CV",
+    href: "/asset/CV_Dong-ha_Shin.pdf",
+    icon: FileText,
+  },
   {
     name: "GitHub",
     href: "https://github.com/edengloria",
@@ -103,7 +108,7 @@ export default function ProfileSidebar() {
           {socialLinks.map((link) => (
             <a
               key={link.name}
-              href={link.href}
+              href={link.href.startsWith("/") ? withBasePath(link.href) : link.href}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-background/20 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300"
