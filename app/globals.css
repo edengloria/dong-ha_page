@@ -110,44 +110,45 @@
 @layer components {
   .optical-glass {
     /* 1. 기본 블러 및 채도 증가 (배경 색상을 쨍하게) */
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* saturate를 조금 낮춰서(180% -> 120%) 너무 쨍한 느낌 완화 */
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
     
-    /* 2. 표면 반사: 위쪽이 약간 더 밝은 그라데이션 */
+    /* 2. 표면 반사: 투명도를 획기적으로 낮춤 (0.25 -> 0.08) */
     background: linear-gradient(
       to bottom right, 
-      rgba(255, 255, 255, 0.25) 0%, 
-      rgba(255, 255, 255, 0.05) 100%
+      rgba(255, 255, 255, 0.08) 0%, 
+      rgba(255, 255, 255, 0.02) 100%
     );
     
     /* 3. 테두리 빛맺힘 및 두께감 표현 (핵심!) */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.5); /* 윗면은 더 밝게 */
-    border-left: 1px solid rgba(255, 255, 255, 0.5); /* 왼쪽도 빛을 받음 */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* 테두리도 더 투명하게 */
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* 하이라이트 유지하되 약하게 */
+    border-left: 1px solid rgba(255, 255, 255, 0.2); 
     
     /* 4. 내부 반사광 (Inner Glow) */
     box-shadow: 
-      inset 0 0 20px rgba(255, 255, 255, 0.05), /* 은은한 내부 광 */
-      0 4px 6px rgba(0, 0, 0, 0.05); /* 외부 그림자는 최소화하여 깔끔하게 */
+      inset 0 0 20px rgba(255, 255, 255, 0.02), /* 내부 광 매우 은은하게 */
+      0 4px 6px rgba(0, 0, 0, 0.05); 
       
     /* 둥근 모서리 및 블러 누수 방지 */
     border-radius: 24px;
-    overflow: hidden;
-    transform: translateZ(0); /* 렌더링 아티팩트 방지 */
+    /* overflow: hidden; -> LP판 애니메이션이 잘리지 않도록 제거 */
+    transform: translateZ(0); 
   }
   
-  /* 다크 모드 대응 (유리가 어두워져야 함) */
+  /* 다크 모드 대응 (유리가 어두워져야 함) - 투명도/톤 개선 */
   .dark .optical-glass {
     background: linear-gradient(
       to bottom right, 
-      rgba(30, 30, 30, 0.4) 0%, 
-      rgba(30, 30, 30, 0.1) 100%
+      rgba(0, 0, 0, 0.2) 0%, 
+      rgba(0, 0, 0, 0.05) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
-      inset 0 0 30px rgba(0, 0, 0, 0.3),
-      0 20px 40px rgba(0, 0, 0, 0.4);
+      inset 0 0 30px rgba(0, 0, 0, 0.2),
+      0 10px 20px rgba(0, 0, 0, 0.2);
   }
 
   .glass {

@@ -613,9 +613,14 @@ export default function LPCollection() {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Disc3 className="h-5 w-5 text-indigo-400" />
-          <span className="text-sm text-muted-foreground">
-            {totalItems} records in collection
-          </span>
+          <div className="flex flex-col">
+            <span className="text-sm text-muted-foreground">
+              {totalItems} records in collection
+            </span>
+            <span className="text-xs text-muted-foreground/60">
+              This is my actual vinyl collection. Feel free to visit my place if you want to listen!
+            </span>
+          </div>
         </div>
         <a
           href={`https://www.discogs.com/user/edengloria/collection`}
