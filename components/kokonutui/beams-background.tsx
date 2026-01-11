@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useMemo, useRef, useState, useCallback } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
@@ -10,7 +10,6 @@ interface AnimatedGradientBackgroundProps {
   className?: string
   children?: React.ReactNode
   intensity?: "subtle" | "medium" | "strong"
-  inactivityTimeout?: number // 사용자 비활성 제한 시간(ms)
   showHero?: boolean // 히어로 섹션 표시 여부
 }
 
@@ -80,21 +79,17 @@ function throttle<T extends (...args: unknown[]) => void>(
 export default function BeamsBackground({ 
   className, 
   intensity = "strong", 
-  inactivityTimeout = 60000, // 기본값: 1분
   showHero = false
 }: AnimatedGradientBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const beamsRef = useRef<Beam[]>([])
   const animationFrameRef = useRef<number>(0)
   const animationActiveRef = useRef<boolean>(true)
-  const lastActivityRef = useRef<number>(Date.now())
+  
   // 모바일/저사양 기기 감지
   const isLowPowerDevice = useRef<boolean>(false)
   const minBeamsRef = useRef<number>(25) // 빔 개수 기본값 20 → 10으로 감소
   
-  // 비활성 상태 관리
-  const [isInactive, setIsInactive] = useState(false)
-
   // animate 함수 참조 저장
   const animateRef = useRef<((timestamp: number) => void) | null>(null)
   // 마지막 프레임 시간 추적
@@ -117,19 +112,6 @@ export default function BeamsBackground({
       animationFrameRef.current = 0;
     }
   }, []);
-
-  // 사용자 활동 감지 (스로틀링 적용)
-  const trackUserActivity = useMemo(
-    () =>
-      throttle(() => {
-        lastActivityRef.current = Date.now()
-        if (isInactive) {
-          setIsInactive(false)
-          startAnimation()
-        }
-      }, 150),
-    [isInactive, startAnimation]
-  )
 
   // 저사양 기기 감지
   useEffect(() => {
@@ -158,37 +140,37 @@ export default function BeamsBackground({
     })
     if (!ctx) return
 
-    // 사용자 활동 이벤트 리스너 (스로틀링 적용됨)
-    window.addEventListener('mousemove', trackUserActivity);
-    window.addEventListener('click', trackUserActivity);
-    window.addEventListener('scroll', trackUserActivity);
-    window.addEventListener('keydown', trackUserActivity);
-    window.addEventListener('touchstart', trackUserActivity);
-
     const updateCanvasSize = () => {
       // 모든 기기에서 DPR=1로 고정하여 성능 향상
       const dpr = isLowPowerDevice.current ? 0.75 : 1;
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-      canvas.style.width = `${window.innerWidth}px`
-      canvas.style.height = `${window.innerHeight}px`
+      const logicalWidth = window.innerWidth;
+      const logicalHeight = window.innerHeight;
+
+      canvas.width = logicalWidth * dpr
+      canvas.height = logicalHeight * dpr
+      canvas.style.width = `${logicalWidth}px`
+      canvas.style.height = `${logicalHeight}px`
+      
+      // 스케일 설정 전에 기존 변환 초기화
+      ctx.resetTransform();
       ctx.scale(dpr, dpr)
 
       const totalBeams = minBeamsRef.current * (isLowPowerDevice.current ? 1 : 1.2)
       // 이미 생성된 빔이 있으면 재사용
       if (beamsRef.current.length === 0) {
-        beamsRef.current = Array.from({ length: totalBeams }, () => createBeam(canvas.width, canvas.height))
+        // 빔 생성 시 논리적 크기 사용 (scale이 적용되므로)
+        beamsRef.current = Array.from({ length: totalBeams }, () => createBeam(logicalWidth, logicalHeight))
       } else {
         // 사이즈에 맞게 빔 조정
         beamsRef.current.forEach(beam => {
-          beam.length = canvas.height * 2.5;
+          beam.length = logicalHeight * 2.5;
         });
         
         // 필요시 빔 개수 조정
         if (beamsRef.current.length < totalBeams) {
           const additionalBeams = Array.from(
             { length: totalBeams - beamsRef.current.length }, 
-            () => createBeam(canvas.width, canvas.height)
+            () => createBeam(logicalWidth, logicalHeight)
           );
           beamsRef.current = [...beamsRef.current, ...additionalBeams];
         } else if (beamsRef.current.length > totalBeams) {
@@ -203,10 +185,15 @@ export default function BeamsBackground({
     function resetBeam(beam: Beam, index: number, totalBeams: number) {
       if (!canvas) return beam
 
-      const column = index % 3
-      const spacing = canvas.width / 3
+      const dpr = isLowPowerDevice.current ? 0.75 : 1;
+      // 논리적 크기 계산
+      const logicalWidth = canvas.width / dpr;
+      const logicalHeight = canvas.height / dpr;
 
-      beam.y = canvas.height + 100
+      const column = index % 3
+      const spacing = logicalWidth / 3
+
+      beam.y = logicalHeight + 100
       beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
       beam.width = 100 + Math.random() * 100
       beam.speed = 0.5 + Math.random() * 0.4
@@ -238,19 +225,6 @@ export default function BeamsBackground({
       ctx.restore()
     }
 
-    function checkInactivity() {
-      const now = Date.now();
-      if (now - lastActivityRef.current > inactivityTimeout) {
-        if (!isInactive) {
-          setIsInactive(true);
-          stopAnimation();
-        }
-      } else if (isInactive) {
-        setIsInactive(false);
-        startAnimation();
-      }
-    }
-
     function animate(timestamp: number) {
       // 프레임 속도 제한 (기본 60fps 또는 저사양 30fps)
       const frameInterval = 1000 / targetFPSRef.current;
@@ -268,14 +242,13 @@ export default function BeamsBackground({
       
       if (!canvas || !ctx) return
 
-      // 사용자 비활성 확인
-      checkInactivity();
+      const dpr = isLowPowerDevice.current ? 0.75 : 1;
+      const logicalWidth = canvas.width / dpr;
+      const logicalHeight = canvas.height / dpr;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      // 논리적 크기만큼 clear (scale이 적용되어 있으므로)
+      ctx.clearRect(0, 0, logicalWidth, logicalHeight)
       
-      // Canvas 컨텍스트 블러를 감소시키고, CSS 블러만 사용
-      // ctx.filter = isLowPowerDevice.current ? "blur(10px)" : "blur(15px)" 
-
       const totalBeams = beamsRef.current.length
       beamsRef.current.forEach((beam, index) => {
         beam.y -= beam.speed
@@ -300,7 +273,8 @@ export default function BeamsBackground({
       if (document.hidden) {
         stopAnimation();
       } else {
-        trackUserActivity(); // 탭이 다시 활성화되면 사용자 활동으로 간주
+        startAnimation();
+        lastFrameTimeRef.current = performance.now();
       }
     };
     
@@ -316,25 +290,13 @@ export default function BeamsBackground({
     return () => {
       window.removeEventListener("resize", updateCanvasSize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('mousemove', trackUserActivity);
-      window.removeEventListener('click', trackUserActivity);
-      window.removeEventListener('scroll', trackUserActivity);
-      window.removeEventListener('keydown', trackUserActivity);
-      window.removeEventListener('touchstart', trackUserActivity);
       
       stopAnimation();
       
       // 큰 배열 참조 정리
       beamsRef.current = [];
     }
-  }, [intensity, inactivityTimeout, isInactive, trackUserActivity, startAnimation, stopAnimation])
-
-  // 화면에 다시 포커스될 때 애니메이션 재개
-  useEffect(() => {
-    if (!isInactive) {
-      startAnimation();
-    }
-  }, [isInactive, startAnimation]);
+  }, [intensity, startAnimation, stopAnimation])
 
   return (
     <div className={cn("relative w-full overflow-hidden bg-neutral-950", showHero ? "min-h-screen" : "h-full", className)}>

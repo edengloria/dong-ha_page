@@ -15,23 +15,21 @@ export function GalleryTabs() {
       <h1 className="page-title">Gallery</h1>
 
       {/* Tab Toggle */}
-      <div className="relative flex items-center bg-background/40 backdrop-blur-sm rounded-full p-1 border border-border/30">
+      <div className="relative flex items-center bg-background/40 backdrop-blur-sm rounded-full p-1 border border-border/30 w-[200px]">
         {/* Sliding indicator */}
         <motion.div
-          className="absolute h-[calc(100%-8px)] top-1 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-500 shadow-lg shadow-indigo-500/25"
+          className="absolute top-1 bottom-1 left-1 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-500 shadow-lg shadow-indigo-500/25"
           initial={false}
           animate={{
-            x: isVinyl ? "calc(100% - 4px)" : 4,
-            width: "calc(50% - 0px)", // width 조정
-            left: 0 
+            x: isVinyl ? "100%" : "0%",
           }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          style={{ width: "calc(50% - 4px)" }} // 초기 스타일
+          style={{ width: "calc(50% - 4px)" }}
         />
         
         <Link
           href="/gallery/photos"
-          className={`relative z-10 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+          className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isPhotos
               ? "text-white"
               : "text-muted-foreground hover:text-foreground"
@@ -43,7 +41,7 @@ export function GalleryTabs() {
         
         <Link
           href="/gallery/vinyl"
-          className={`relative z-10 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+          className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isVinyl
               ? "text-white"
               : "text-muted-foreground hover:text-foreground"
