@@ -40,12 +40,12 @@ export default function ProfileSidebar() {
 
   return (
     <motion.aside
-      className="w-full lg:w-80 lg:min-h-screen lg:sticky lg:top-6 flex-shrink-0"
+      className="w-full lg:w-80 h-fit flex-shrink-0"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="glass-panel lg:min-h-screen">
+      <div className="glass-panel">
         {/* Profile Image */}
         <motion.div
           className="flex justify-center mb-6"
