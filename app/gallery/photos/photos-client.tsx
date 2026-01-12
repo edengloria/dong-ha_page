@@ -60,16 +60,27 @@ export default function PhotosClient({
 }: { 
   galleryItems: GalleryItem[] 
 }) {
+  const [items, setItems] = useState<GalleryItem[]>(galleryItems)
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE)
   const loaderRef = useRef<HTMLDivElement>(null)
+
+  // Shuffle items on client-side mount
+  useEffect(() => {
+    const shuffled = [...galleryItems]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setItems(shuffled)
+  }, [galleryItems])
 
   // Infinite scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setVisibleCount((prev) => Math.min(prev + ITEMS_PER_PAGE, galleryItems.length))
+          setVisibleCount((prev) => Math.min(prev + ITEMS_PER_PAGE, items.length))
         }
       },
       { threshold: 0.1 }
@@ -80,32 +91,32 @@ export default function PhotosClient({
     }
 
     return () => observer.disconnect()
-  }, [galleryItems.length])
+  }, [items.length])
 
-  const visibleItems = useMemo(() => galleryItems.slice(0, visibleCount), [galleryItems, visibleCount])
+  const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount])
 
   const handlePrev = useCallback(() => {
     if (selectedImage === null) return
-    const currentIndex = galleryItems.findIndex(item => item.id === selectedImage)
-    const prevIndex = currentIndex === 0 ? galleryItems.length - 1 : currentIndex - 1
-    setSelectedImage(galleryItems[prevIndex].id)
-  }, [selectedImage, galleryItems])
+    const currentIndex = items.findIndex(item => item.id === selectedImage)
+    const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
+    setSelectedImage(items[prevIndex].id)
+  }, [selectedImage, items])
 
   const handleNext = useCallback(() => {
     if (selectedImage === null) return
-    const currentIndex = galleryItems.findIndex(item => item.id === selectedImage)
-    const nextIndex = currentIndex === galleryItems.length - 1 ? 0 : currentIndex + 1
-    setSelectedImage(galleryItems[nextIndex].id)
-  }, [selectedImage, galleryItems])
+    const currentIndex = items.findIndex(item => item.id === selectedImage)
+    const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
+    setSelectedImage(items[nextIndex].id)
+  }, [selectedImage, items])
 
   const selectedItem = useMemo(() => 
-    selectedImage !== null ? galleryItems.find((item) => item.id === selectedImage) : null,
-    [selectedImage, galleryItems]
+    selectedImage !== null ? items.find((item) => item.id === selectedImage) : null,
+    [selectedImage, items]
   )
   
   const currentIndex = useMemo(() => 
-    selectedImage !== null ? galleryItems.findIndex(item => item.id === selectedImage) + 1 : 0,
-    [selectedImage, galleryItems]
+    selectedImage !== null ? items.findIndex(item => item.id === selectedImage) + 1 : 0,
+    [selectedImage, items]
   )
 
   return (
@@ -122,7 +133,7 @@ export default function PhotosClient({
       </div>
       
       {/* Loading trigger */}
-      {visibleCount < galleryItems.length && (
+      {visibleCount < items.length && (
         <div ref={loaderRef} className="py-8 flex justify-center w-full">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
         </div>
@@ -181,7 +192,7 @@ export default function PhotosClient({
 
             {/* Image counter */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-sm">
-              {currentIndex} / {galleryItems.length}
+              {currentIndex} / {items.length}
             </div>
           </motion.div>
         )}
