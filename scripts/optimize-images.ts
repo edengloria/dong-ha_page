@@ -44,8 +44,9 @@ async function optimizeImage(inputPath: string, outputDir: string): Promise<{ or
       ? path.join(outputDir, `${nameWithoutExt}.jpg`)
       : path.join(outputDir, `${nameWithoutExt}.jpg`)
 
-    // Output optimized JPEG
+    // Output optimized JPEG (rotate() applies EXIF orientation automatically)
     await image
+      .rotate() // Auto-rotate based on EXIF orientation
       .resize(width, height, { fit: "inside", withoutEnlargement: true })
       .jpeg({ quality: JPEG_QUALITY, progressive: true })
       .toFile(tempPath)
