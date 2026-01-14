@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fetch-discogs": "tsx scripts/fetch-discogs.ts"
+    "fetch-discogs": "tsx scripts/fetch-discogs.ts",
+    "optimize-images": "tsx scripts/optimize-images.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.1",
@@ -67,9 +68,11 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sharp": "^0.31.1",
     "eslint": "^9.39.2",
     "eslint-config-next": "^15.2.4",
     "postcss": "^8",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.5",
     "typescript": "^5"

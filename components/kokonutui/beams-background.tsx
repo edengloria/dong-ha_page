@@ -113,20 +113,62 @@ export default function BeamsBackground({
     }
   }, []);
 
-  // 저사양 기기 감지
+  // 저사양 기기 감지 강화
   useEffect(() => {
     // 모바일 기기 감지
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       typeof navigator !== 'undefined' ? navigator.userAgent : ''
     );
     
-    // 저사양 기기로 판단하는 조건 (모바일이거나 저사양 브라우저 환경)
-    isLowPowerDevice.current = isMobile || (window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    // 저사양 기기 감지를 위한 추가 지표
+    const nav = navigator as Navigator & { 
+      deviceMemory?: number
+      getBattery?: () => Promise<{ charging: boolean; level: number }>
+    };
+    
+    // 메모리 기반 감지 (deviceMemory API - GB 단위)
+    // 4GB 이하를 저사양으로 간주
+    const isLowMemory = nav.deviceMemory !== undefined && nav.deviceMemory <= 4;
+    
+    // CPU 코어 수 기반 감지
+    // 4코어 이하를 저사양으로 간주
+    const isLowCPU = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4;
+    
+    // 움직임 감소 설정 감지
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // 저사양 기기로 판단하는 조건
+    isLowPowerDevice.current = isMobile || prefersReducedMotion || isLowMemory || isLowCPU;
     
     // 저사양 기기 최적화
     if (isLowPowerDevice.current) {
       minBeamsRef.current = 5; // 저사양 기기에서는 빔 수 크게 감소
       targetFPSRef.current = 30; // 저사양 기기에서는 30 FPS로 제한
+    }
+    
+    // 배터리 상태 감지 (Battery API)
+    if (nav.getBattery) {
+      nav.getBattery().then((battery) => {
+        // 배터리 20% 미만이고 충전 중이 아니면 더 강력한 최적화
+        if (!battery.charging && battery.level < 0.2) {
+          minBeamsRef.current = 3;
+          targetFPSRef.current = 20;
+          isLowPowerDevice.current = true;
+        }
+        
+        // 배터리 상태 변경 리스너
+        const handleBatteryChange = () => {
+          if (!battery.charging && battery.level < 0.2) {
+            minBeamsRef.current = 3;
+            targetFPSRef.current = 20;
+          }
+        };
+        
+        battery.addEventListener('levelchange', handleBatteryChange);
+        battery.addEventListener('chargingchange', handleBatteryChange);
+      }).catch(() => {
+        // Battery API not supported or permission denied
+      });
     }
   }, []);
 

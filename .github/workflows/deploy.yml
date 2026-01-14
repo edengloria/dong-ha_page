@@ -26,6 +26,8 @@ jobs:
           node-version: "20"
       - name: Install dependencies
         run: npm ci
+      - name: Optimize images
+        run: npm run optimize-images -- --replace
       - name: Build
         env:
           NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD }}

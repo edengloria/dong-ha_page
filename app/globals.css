@@ -232,4 +232,42 @@
   .holographic-text {
     animation: none;
   }
+  
+  /* Disable all CSS animations for reduced motion preference */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable vinyl spin animation */
+  @keyframes spin {
+    from, to {
+      transform: rotate(0deg);
+    }
+  }
+  
+  /* Disable music bar animation */
+  @keyframes musicBar {
+    from, to {
+      height: 50%;
+    }
+  }
+}
+
+/* Low-power device optimizations via media query */
+@media (prefers-reduced-motion: reduce), (prefers-contrast: more) {
+  /* Simplify backdrop filters for performance */
+  .optical-glass {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }

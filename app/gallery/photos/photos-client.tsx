@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
@@ -63,7 +64,13 @@ export default function PhotosClient({
   const [items, setItems] = useState<GalleryItem[]>(galleryItems)
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE)
+  const [mounted, setMounted] = useState(false)
   const loaderRef = useRef<HTMLDivElement>(null)
+
+  // Set mounted state for portal
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Shuffle items on client-side mount
   useEffect(() => {
@@ -139,64 +146,67 @@ export default function PhotosClient({
         </div>
       )}
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedImage !== null && selectedItem && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
-          >
-            <button
-              className="absolute top-4 right-4 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
+      {/* Lightbox - rendered via portal to escape transform context */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {selectedImage !== null && selectedItem && (
+            <motion.div
+              className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setSelectedImage(null)}
             >
-              <X className="h-6 w-6" />
-            </button>
+              <button
+                className="absolute top-4 right-4 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
+                onClick={() => setSelectedImage(null)}
+              >
+                <X className="h-6 w-6" />
+              </button>
 
-            <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation()
-                handlePrev()
-              }}
-            >
-              <ChevronLeft className="h-8 w-8" />
-            </button>
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handlePrev()
+                }}
+              >
+                <ChevronLeft className="h-8 w-8" />
+              </button>
 
-            <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation()
-                handleNext()
-              }}
-            >
-              <ChevronRight className="h-8 w-8" />
-            </button>
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 z-10 rounded-full hover:bg-white/10 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleNext()
+                }}
+              >
+                <ChevronRight className="h-8 w-8" />
+              </button>
 
-            <div
-              className="relative w-full max-w-6xl h-[85vh] flex items-center justify-center p-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={withBasePath(selectedItem.imageUrl || "/placeholder.svg")}
-                alt={`Photo ${selectedItem.id}`}
-                fill
-                className="object-contain"
-                priority
-                sizes="90vw"
-              />
-            </div>
+              <div
+                className="relative w-full max-w-6xl h-[85vh] flex items-center justify-center p-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Image
+                  src={withBasePath(selectedItem.imageUrl || "/placeholder.svg")}
+                  alt={`Photo ${selectedItem.id}`}
+                  fill
+                  className="object-contain"
+                  priority
+                  sizes="90vw"
+                />
+              </div>
 
-            {/* Image counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-sm">
-              {currentIndex} / {items.length}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {/* Image counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-sm">
+                {currentIndex} / {items.length}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   )
 }
