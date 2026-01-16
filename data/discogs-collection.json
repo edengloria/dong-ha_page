@@ -1,6 +1,66 @@
 {
-  "fetchedAt": "2026-01-11T16:11:20.727Z",
+  "fetchedAt": "2026-01-16T15:49:24.737Z",
   "releases": [
+    {
+      "id": 29223592,
+      "instance_id": 2102315753,
+      "title": "김광석 다시 부르기 I",
+      "artist": "Kim Kwang Seok",
+      "year": 2023,
+      "cover_image": "https://i.discogs.com/p8HpTe-BJg2vsWYYBARad6QrKSTbeaHCrVhEyKrjzF8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MjIz/NTkyLTE3MDI3ODIw/NzUtMTMyMy5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "이등병의 편지",
+          "duration": "4:25"
+        },
+        {
+          "position": "A2",
+          "title": "사랑이라는 이유로",
+          "duration": "3:50"
+        },
+        {
+          "position": "A3",
+          "title": "사랑 했지만",
+          "duration": "4:24"
+        },
+        {
+          "position": "A4",
+          "title": "그날들",
+          "duration": "5:18"
+        },
+        {
+          "position": "A5",
+          "title": "너에게",
+          "duration": "4:10"
+        },
+        {
+          "position": "B1",
+          "title": "거리에서",
+          "duration": "5:40"
+        },
+        {
+          "position": "B2",
+          "title": "말하지 못한 내사랑",
+          "duration": "4:32"
+        },
+        {
+          "position": "B3",
+          "title": "그루터기",
+          "duration": "3:41"
+        },
+        {
+          "position": "B4",
+          "title": "기다려줘",
+          "duration": "3:59"
+        },
+        {
+          "position": "B5",
+          "title": "흐린 가을 하늘에 편지를 써",
+          "duration": "4:40"
+        }
+      ]
+    },
     {
       "id": 36152434,
       "instance_id": 2100949480,
@@ -47,7 +107,7 @@
       "title": "23",
       "artist": "Hyukoh",
       "year": 2026,
-      "cover_image": "https://i.discogs.com/udMD47J6Mj9snFObUtLKYJGGAMKQnz_xkMHroR1flV0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MTUy/ODc4LTE3NjgwMzYw/OTItNTgwMC5qcGVn.jpeg",
+      "cover_image": "https://i.discogs.com/8mt60Mp3p8mEAEMnKc6x8F2x_9UVsjOXDSYiYZt4kwo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MTUy/ODc4LTE3NjgyNzY2/MzYtOTM4Mi5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
