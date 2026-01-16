@@ -91,7 +91,13 @@ export function PublicationsSection({
             <div className="grid gap-5 lg:grid-cols-[14rem,1fr] lg:items-start">
               <div className="w-full">
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/50 bg-black/10">
-                  <Image src={withBasePath(pub.image)} alt={pub.title} fill className="object-cover" />
+                  <Image
+                    src={withBasePath(pub.image)}
+                    alt={pub.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 14rem"
+                  />
                 </div>
               </div>
 

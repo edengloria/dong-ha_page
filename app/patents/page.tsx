@@ -1,16 +1,6 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
 import { FileText } from "lucide-react"
 
 export default function PatentsPage() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
-  
   const patents = [
     {
       title: "Communication System Using Extended Reality, And Its Communication Method",
@@ -75,39 +65,18 @@ export default function PatentsPage() {
     },
   ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { duration: 0.5 }
-    }
-  }
-  
-  const itemVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { duration: 0.3 }
-    }
-  }
-
   return (
-    <motion.div
-      initial="hidden"
-      animate={isLoaded ? "visible" : "hidden"}
-      variants={containerVariants}
-    >
-      <h1 className="page-title mb-8">
+    <div>
+      <h1 className="page-title mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150">
         Patents
       </h1>
 
       <div className="space-y-6">
-        {patents.map((patent) => (
-          <motion.div
+        {patents.map((patent, index) => (
+          <div
             key={patent.title}
-            className="glass rounded-xl p-6"
-            variants={itemVariants}
-            style={{ willChange: "opacity" }}
+            className="glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: `${200 + index * 80}ms`, willChange: "opacity" }}
           >
             <div className="flex items-start">
               <FileText className="h-6 w-6 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
@@ -148,9 +117,9 @@ export default function PatentsPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

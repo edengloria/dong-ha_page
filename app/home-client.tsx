@@ -11,13 +11,16 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ lifeImages }: HomeClientProps) {
-  const [randomImage, setRandomImage] = useState("withbear.png")
+  const [randomImage, setRandomImage] = useState<string | null>(null)
 
   useEffect(() => {
-    if (lifeImages && lifeImages.length > 0) {
-      const randomIndex = Math.floor(Math.random() * lifeImages.length)
-      setRandomImage(lifeImages[randomIndex])
+    if (lifeImages.length === 0) {
+      setRandomImage("withbear.jpg")
+      return
     }
+
+    const randomIndex = Math.floor(Math.random() * lifeImages.length)
+    setRandomImage(lifeImages[randomIndex])
   }, [lifeImages])
 
   return (
@@ -119,13 +122,18 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
               transition={{ delay: 0.35, duration: 0.4 }}
             >
               <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border/50">
-                <Image
-                  src={withBasePath(`/asset/life-images/${randomImage}`)}
-                  alt="Dong-Ha Shin"
-                  fill
-                  className="object-cover"
-                  priority
-                />
+                {randomImage ? (
+                  <Image
+                    src={withBasePath(`/asset/life-images/${randomImage}`)}
+                    alt="Dong-Ha Shin"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 25vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-background/10" aria-hidden />
+                )}
               </div>
             </motion.div>
           </div>

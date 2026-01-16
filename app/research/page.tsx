@@ -1,7 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
-
 export default function ResearchPage() {
   const researchAreas = [
     {
@@ -54,28 +50,17 @@ export default function ResearchPage() {
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.h1
-        className="page-title mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
+    <div>
+      <h1 className="page-title mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150">
         Research Interests
-      </motion.h1>
+      </h1>
 
       <div className="space-y-6">
         {researchAreas.map((area, index) => (
-          <motion.div
+          <div
             key={area.title}
-            className="glass rounded-xl p-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+            className="glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: `${200 + index * 80}ms` }}
           >
             <h2 className="text-2xl font-light text-indigo-400 mb-4">{area.title}</h2>
             <p className="text-muted-foreground mb-4 leading-relaxed">{area.description}</p>
@@ -88,9 +73,9 @@ export default function ResearchPage() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

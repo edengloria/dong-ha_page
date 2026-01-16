@@ -1,7 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
-
 export default function ExperiencePage() {
   const experiences = [
     {
@@ -73,19 +69,10 @@ export default function ExperiencePage() {
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.h1
-        className="page-title mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
+    <div>
+      <h1 className="page-title mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150">
         Experience
-      </motion.h1>
+      </h1>
 
       <div className="relative">
         {/* Timeline line */}
@@ -93,12 +80,10 @@ export default function ExperiencePage() {
 
         <div className="space-y-6">
           {experiences.map((exp, index) => (
-            <motion.div
+            <div
               key={`${exp.title}-${exp.period}`}
-              className="relative md:pl-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+              className="relative md:pl-12 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+              style={{ animationDelay: `${200 + index * 80}ms` }}
             >
               {/* Timeline dot */}
               <div className="absolute left-2 top-6 w-4 h-4 rounded-full bg-indigo-500 border-2 border-indigo-300 hidden md:block" />
@@ -125,10 +110,10 @@ export default function ExperiencePage() {
                   </ul>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

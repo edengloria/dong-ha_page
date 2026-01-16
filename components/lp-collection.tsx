@@ -5,10 +5,8 @@ import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Disc3, ExternalLink, Loader2, X, Volume2, VolumeX } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import discogsDataRaw from "@/data/discogs-collection.json"
-import prefsRaw from "@/data/track-preferences.json"
 
-type StaticRelease = {
+export type StaticRelease = {
   id: number
   instance_id: number
   title: string
@@ -18,12 +16,7 @@ type StaticRelease = {
   tracks: Array<{ position: string; title: string; duration: string }>
 }
 
-type DiscogsCollectionData = {
-  fetchedAt: string
-  releases: StaticRelease[]
-}
-
-type TrackPreferences = Record<
+export type TrackPreferences = Record<
   string,
   { selectedTrackIndex: number; selectedTrackTitle: string; customSearchQuery?: string }
 >
@@ -41,9 +34,6 @@ interface PreviewData {
   artistName: string
   albumName: string
 }
-
-const discogsData = discogsDataRaw as unknown as DiscogsCollectionData
-const prefsData = (prefsRaw as unknown as TrackPreferences) ?? {}
 
 // Cache for iTunes preview data
 const previewCache = new Map<string, PreviewData | null>()
@@ -142,6 +132,7 @@ function LPCard({
   isMobile,
   isActiveOnMobile,
   onMobileActivate,
+  prefs,
 }: { 
   release: StaticRelease
   index: number
@@ -150,6 +141,7 @@ function LPCard({
   isMobile: boolean
   isActiveOnMobile: boolean
   onMobileActivate: () => void
+  prefs: TrackPreferences
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -168,7 +160,7 @@ function LPCard({
   const searchItunesPreview = useCallback(async (): Promise<PreviewData | null> => {
     const originalArtist = release.artist || ""
     const originalAlbum = release.title
-    const pref = prefsData[String(release.id)]
+    const pref = prefs[String(release.id)]
     const customQuery = (pref?.customSearchQuery ?? "").trim()
     const selectedTitle = (pref?.selectedTrackTitle ?? "").trim()
     const preferredQuery =
@@ -655,7 +647,13 @@ function LPCard({
   )
 }
 
-export default function LPCollection() {
+export default function LPCollection({
+  releases: initialReleases,
+  prefs: initialPrefs,
+}: {
+  releases: StaticRelease[]
+  prefs: TrackPreferences
+}) {
   const [selectedLP, setSelectedLP] = useState<StaticRelease | null>(null)
   const [nowPlaying, setNowPlaying] = useState<{ trackName: string; artistName: string } | null>(null)
   const [activeMobileLP, setActiveMobileLP] = useState<number | null>(null)
@@ -667,7 +665,8 @@ export default function LPCollection() {
     setMounted(true)
   }, [])
 
-  const releases = useMemo(() => discogsData.releases ?? [], [])
+  const releases = useMemo(() => initialReleases ?? [], [initialReleases])
+  const prefs = useMemo(() => initialPrefs ?? {}, [initialPrefs])
   const totalItems = releases.length
 
   // Handle mobile LP activation (toggle behavior)
@@ -744,6 +743,7 @@ export default function LPCollection() {
             isMobile={isMobile}
             isActiveOnMobile={activeMobileLP === release.instance_id}
             onMobileActivate={() => handleMobileActivate(release.instance_id)}
+            prefs={prefs}
           />
         ))}
       </div>

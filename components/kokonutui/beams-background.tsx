@@ -2,8 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { motion } from "motion/react"
+import { useEffect, useRef, useCallback } from "react"
 import { cn } from "@/lib/utils"
 
 interface AnimatedGradientBackgroundProps {
@@ -24,6 +23,13 @@ interface Beam {
   hue: number
   pulse: number
   pulseSpeed: number
+}
+
+interface BatteryManagerLike {
+  charging: boolean
+  level: number
+  addEventListener: (type: "levelchange" | "chargingchange", listener: () => void) => void
+  removeEventListener: (type: "levelchange" | "chargingchange", listener: () => void) => void
 }
 
 const OPACITY_MAP = {
@@ -53,7 +59,7 @@ function throttle<T extends (...args: unknown[]) => void>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
-  let lastTimeout: ReturnType<typeof window.setTimeout> | undefined
+  let lastTimeout: ReturnType<typeof setTimeout> | undefined
   let lastRan = 0
 
   return (...args: Parameters<T>) => {
@@ -67,7 +73,7 @@ function throttle<T extends (...args: unknown[]) => void>(
       clearTimeout(lastTimeout)
     }
 
-    lastTimeout = window.setTimeout(() => {
+    lastTimeout = setTimeout(() => {
       if (Date.now() - lastRan >= limit) {
         func(...args)
         lastRan = Date.now()
@@ -123,7 +129,7 @@ export default function BeamsBackground({
     // 저사양 기기 감지를 위한 추가 지표
     const nav = navigator as Navigator & { 
       deviceMemory?: number
-      getBattery?: () => Promise<{ charging: boolean; level: number }>
+      getBattery?: () => Promise<BatteryManagerLike>
     };
     
     // 메모리 기반 감지 (deviceMemory API - GB 단위)
@@ -147,28 +153,38 @@ export default function BeamsBackground({
     }
     
     // 배터리 상태 감지 (Battery API)
+    let batteryRef: BatteryManagerLike | null = null
+    const handleBatteryChange = () => {
+      const battery = batteryRef
+      if (!battery) return
+      if (!battery.charging && battery.level < 0.2) {
+        minBeamsRef.current = 3
+        targetFPSRef.current = 20
+      }
+    }
+
     if (nav.getBattery) {
       nav.getBattery().then((battery) => {
+        batteryRef = battery
         // 배터리 20% 미만이고 충전 중이 아니면 더 강력한 최적화
-        if (!battery.charging && battery.level < 0.2) {
+        if (!batteryRef.charging && batteryRef.level < 0.2) {
           minBeamsRef.current = 3;
           targetFPSRef.current = 20;
           isLowPowerDevice.current = true;
         }
         
         // 배터리 상태 변경 리스너
-        const handleBatteryChange = () => {
-          if (!battery.charging && battery.level < 0.2) {
-            minBeamsRef.current = 3;
-            targetFPSRef.current = 20;
-          }
-        };
-        
-        battery.addEventListener('levelchange', handleBatteryChange);
-        battery.addEventListener('chargingchange', handleBatteryChange);
+        batteryRef.addEventListener('levelchange', handleBatteryChange);
+        batteryRef.addEventListener('chargingchange', handleBatteryChange);
       }).catch(() => {
         // Battery API not supported or permission denied
       });
+    }
+    return () => {
+      if (batteryRef) {
+        batteryRef.removeEventListener('levelchange', handleBatteryChange);
+        batteryRef.removeEventListener('chargingchange', handleBatteryChange);
+      }
     }
   }, []);
 
@@ -222,7 +238,8 @@ export default function BeamsBackground({
     }
 
     updateCanvasSize()
-    window.addEventListener("resize", throttle(updateCanvasSize, 250))
+    const throttledResize = throttle(updateCanvasSize, 250)
+    window.addEventListener("resize", throttledResize)
 
     function resetBeam(beam: Beam, index: number, totalBeams: number) {
       if (!canvas) return beam
@@ -330,7 +347,7 @@ export default function BeamsBackground({
 
     // 메모리 누수 방지를 위한 클린업
     return () => {
-      window.removeEventListener("resize", updateCanvasSize);
+      window.removeEventListener("resize", throttledResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       
       stopAnimation();
@@ -344,41 +361,18 @@ export default function BeamsBackground({
     <div className={cn("relative w-full overflow-hidden bg-neutral-950", showHero ? "min-h-screen" : "h-full", className)}>
       <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
 
-      <motion.div
-        className="absolute inset-0 bg-neutral-950/20"
-        animate={{
-          opacity: [0.2, 0.3, 0.2],
-        }}
-        transition={{
-          duration: 10,
-          ease: "easeInOut",
-          repeat: Number.POSITIVE_INFINITY,
-        }}
-        style={{
-          backdropFilter: "blur(10px)",
-        }}
-      />
+      <div className="absolute inset-0 beams-overlay" />
 
       {showHero && (
         <>
           <div className="relative z-10 flex h-screen w-full items-center justify-center">
             <div className="flex flex-col items-center justify-center gap-6 px-4 text-center">
-              <motion.h1
-                className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter animate-in fade-in-0 slide-in-from-bottom-5 duration-700">
                 Dong-Ha Shin
-              </motion.h1>
-              <motion.p
-                className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
+              </h1>
+              <p className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter animate-in fade-in-0 slide-in-from-bottom-5 duration-700 delay-200">
                 Holography Researcher & Machine Learning Engineer
-              </motion.p>
+              </p>
             </div>
           </div>
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">

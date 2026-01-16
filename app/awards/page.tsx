@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import { Award, ExternalLink } from "lucide-react"
 
 export default function AwardsPage() {
@@ -54,28 +51,17 @@ export default function AwardsPage() {
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.h1
-        className="page-title mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
+    <div>
+      <h1 className="page-title mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150">
         Awards & Recognition
-      </motion.h1>
+      </h1>
 
       <div className="space-y-4">
         {awards.map((award, index) => (
-          <motion.div
+          <div
             key={award.title}
-            className="glass rounded-xl p-5"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
+            className="glass rounded-xl p-5 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+            style={{ animationDelay: `${200 + index * 60}ms` }}
           >
             <div className="flex items-start">
               <Award className="h-5 w-5 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
@@ -122,9 +108,9 @@ export default function AwardsPage() {
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

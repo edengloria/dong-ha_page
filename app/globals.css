@@ -219,6 +219,23 @@
   }
 }
 
+@keyframes beamsOverlayPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.beams-overlay {
+  background: rgb(10 10 10 / 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: beamsOverlayPulse 10s ease-in-out infinite;
+}
+
 .holographic-text {
   background: linear-gradient(90deg, #4f46e5, #9333ea, #ec4899, #4f46e5);
   background-size: 300% 100%;

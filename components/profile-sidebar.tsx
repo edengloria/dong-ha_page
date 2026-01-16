@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -39,19 +38,12 @@ export default function ProfileSidebar() {
   const pathname = usePathname()
 
   return (
-    <motion.aside
-      className="w-full lg:w-80 h-fit flex-shrink-0"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-    >
+    <aside className="w-full lg:w-80 h-fit flex-shrink-0 animate-in fade-in-0 slide-in-from-left-4 duration-500">
       <div className="glass-panel">
         {/* Profile Image */}
-        <motion.div
-          className="flex justify-center mb-6"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <div
+          className="flex justify-center mb-6 animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
+          style={{ animationDelay: "200ms" }}
         >
           <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-lg shadow-indigo-500/20">
             <Image
@@ -59,17 +51,15 @@ export default function ProfileSidebar() {
               alt="Dong-Ha Shin"
               fill
               className="object-cover"
-              priority
+              sizes="(max-width: 1024px) 10rem, 12rem"
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Name and Title */}
-        <motion.div
-          className="text-center mb-6"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+        <div
+          className="text-center mb-6 animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
+          style={{ animationDelay: "300ms" }}
         >
           <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground mb-2">
             Dong-Ha Shin
@@ -77,14 +67,12 @@ export default function ProfileSidebar() {
           <p className="text-sm text-muted-foreground">
             MS Student @ POSTECH AI
           </p>
-        </motion.div>
+        </div>
 
         {/* Contact Info */}
-        <motion.div
-          className="space-y-3 mb-8 text-sm"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+        <div
+          className="space-y-3 mb-8 text-sm animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
+          style={{ animationDelay: "400ms" }}
         >
           <div className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
             <Mail className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
@@ -96,14 +84,12 @@ export default function ProfileSidebar() {
             <MapPin className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
             <span>Seongnam, South Korea</span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Social Links */}
-        <motion.div
-          className="flex justify-center gap-4 mb-8"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+        <div
+          className="flex justify-center gap-4 mb-8 animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
+          style={{ animationDelay: "500ms" }}
         >
           {socialLinks.map((link) => (
             <a
@@ -117,17 +103,15 @@ export default function ProfileSidebar() {
               <link.icon className="h-5 w-5" />
             </a>
           ))}
-        </motion.div>
+        </div>
 
         {/* Divider */}
         <div className="border-t border-border/50 mb-6" />
 
         {/* Navigation */}
-        <motion.nav
-          className="space-y-1"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+        <nav
+          className="space-y-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
+          style={{ animationDelay: "600ms" }}
         >
           {navItems.map((item) => {
             const isActive = pathname === item.href
@@ -146,20 +130,18 @@ export default function ProfileSidebar() {
               </Link>
             )
           })}
-        </motion.nav>
+        </nav>
 
         {/* Footer */}
-        <motion.div
-          className="mt-8 pt-6 border-t border-border/50 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
+        <div
+          className="mt-8 pt-6 border-t border-border/50 text-center animate-in fade-in-0 duration-500"
+          style={{ animationDelay: "700ms" }}
         >
           <p className="text-xs text-muted-foreground/70">
             © 2025 Dong-Ha Shin
           </p>
-        </motion.div>
+        </div>
       </div>
-    </motion.aside>
+    </aside>
   )
 }

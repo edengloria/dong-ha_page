@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import { Mail, MapPin, Clock, Github, Linkedin, Instagram } from "lucide-react"
 
 export default function ContactPage() {
@@ -26,27 +23,16 @@ export default function ContactPage() {
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.h1
-        className="page-title mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
+    <div>
+      <h1 className="page-title mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-150">
         Contact
-      </motion.h1>
+      </h1>
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Contact Information */}
-        <motion.div
-          className="glass rounded-xl p-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+        <div
+          className="glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+          style={{ animationDelay: "200ms" }}
         >
           <h2 className="text-xl font-medium text-foreground mb-6">Get in Touch</h2>
 
@@ -86,14 +72,12 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Social Links */}
-        <motion.div
-          className="glass rounded-xl p-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+        <div
+          className="glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+          style={{ animationDelay: "260ms" }}
         >
           <h2 className="text-xl font-medium text-foreground mb-6">Connect Online</h2>
 
@@ -116,15 +100,13 @@ export default function ContactPage() {
               </a>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Additional Info */}
-      <motion.div
-        className="mt-6 glass rounded-xl p-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
+      <div
+        className="mt-6 glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+        style={{ animationDelay: "320ms" }}
       >
         <h2 className="text-xl font-medium text-foreground mb-4">Open for Collaboration</h2>
         <p className="text-muted-foreground leading-relaxed">
@@ -133,7 +115,7 @@ export default function ContactPage() {
           Whether you&apos;re a fellow researcher, a potential collaborator, or someone curious about my work, 
           feel free to reach out!
         </p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }
