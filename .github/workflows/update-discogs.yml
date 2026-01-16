@@ -1,0 +1,51 @@
+name: Update Discogs Collection
+
+on:
+  schedule:
+    # 매주 월요일 오전 9시 (UTC 0시)에 실행
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # 수동 실행도 가능하도록
+
+permissions:
+  contents: write
+
+jobs:
+  update-collection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch latest Discogs collection
+        env:
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+          DISCOGS_USERNAME: edengloria
+        run: npm run fetch-discogs
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet data/discogs-collection.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in collection"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in collection"
+          fi
+
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/discogs-collection.json
+          git commit -m "chore: update Discogs collection data [skip ci]"
+          git push
