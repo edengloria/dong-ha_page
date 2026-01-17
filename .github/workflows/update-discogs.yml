@@ -30,6 +30,9 @@ jobs:
           DISCOGS_USERNAME: edengloria
         run: npm run fetch-discogs
 
+      - name: Sort by color gradient
+        run: npm run sort-by-color
+
       - name: Check for changes
         id: check_changes
         run: |
