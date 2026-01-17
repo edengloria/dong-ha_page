@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-01-16T15:49:24.737Z",
+  "fetchedAt": "2026-01-17T09:19:56.992Z",
   "releases": [
     {
       "id": 29223592,
@@ -62,41 +62,815 @@
       ]
     },
     {
-      "id": 36152434,
-      "instance_id": 2100949480,
-      "title": "24: How To Find True Love And Happiness",
-      "artist": "Hyukoh",
-      "year": 2026,
-      "cover_image": "https://i.discogs.com/DOr8bK57RYS7SMFyKFIUQROUei6cb__K4up49JzmB4c/rs:fit/g:sm/q:90/h:564/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MTUy/NDM0LTE3NjgwMzA1/NjctNDc2OS5qcGVn.jpeg",
+      "id": 12359718,
+      "instance_id": 2100886839,
+      "title": "Vol.1",
+      "artist": "Yoonsang",
+      "year": 1990,
+      "cover_image": "https://i.discogs.com/Yws7P-7YUSlmragZZK8jY2gJUHpi7NF34Dqrfctp3xA/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMzU5/NzE4LTE1MzM2NjA3/NjUtMTkwOC5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "Graduation",
+          "title": "이별의 그늘",
+          "duration": "4:20"
+        },
+        {
+          "position": "A2",
+          "title": "잊혀진 것들",
+          "duration": "3:34"
+        },
+        {
+          "position": "A3",
+          "title": "행복을 기다리며",
+          "duration": "4:20"
+        },
+        {
+          "position": "A4",
+          "title": "무지개 너머",
+          "duration": "4:57"
+        },
+        {
+          "position": "B1",
+          "title": "남겨진 이야기",
+          "duration": "3:37"
+        },
+        {
+          "position": "B2",
+          "title": "알 수 없는 일",
+          "duration": "4:28"
+        },
+        {
+          "position": "B3",
+          "title": "한 걸음 더",
+          "duration": "3:07"
+        },
+        {
+          "position": "B4",
+          "title": "시간의 얼굴",
+          "duration": "5:02"
+        }
+      ]
+    },
+    {
+      "id": 13899396,
+      "instance_id": 1870183398,
+      "title": "詩人의 마을",
+      "artist": "Cheong Tae Choon",
+      "year": 1978,
+      "cover_image": "https://i.discogs.com/V14aNGS2qTufFb0Hj50gWlnaPkjS7TmTyhzmVv6rN8s/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODk5/Mzk2LTE1NjM2MjYw/OTctNDkyOS5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "詩人의 마을",
           "duration": ""
         },
         {
           "position": "A2",
-          "title": "하늘나라",
+          "title": "사랑하고 싶소",
           "duration": ""
         },
         {
           "position": "A3",
-          "title": "Love Ya!",
+          "title": "촛불",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "西海에서",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "그네",
           "duration": ""
         },
         {
           "position": "B1",
-          "title": "Citizen Kane",
+          "title": "木浦의 노래 (여드레 팔십리)",
           "duration": ""
         },
         {
           "position": "B2",
-          "title": "Gang Gang Schiele",
+          "title": "아하! 날개여",
           "duration": ""
         },
         {
           "position": "B3",
-          "title": "Goodbye Seoul",
+          "title": "겨울나무",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "사랑의 보슬비",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "산너머 두메",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 12763692,
+      "instance_id": 1870181703,
+      "title": "'89 해바라기",
+      "artist": "해바라기",
+      "year": 1989,
+      "cover_image": "https://i.discogs.com/zRTsLR_KZWwdizcYaEDJ7zlmC5aMNOvV1dyBB2wQlvU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzYz/NjkyLTE1NDE0ODE5/NjYtNDU5NS5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "사랑으로",
+          "duration": "4:41"
+        },
+        {
+          "position": "A2",
+          "title": "사랑이예요",
+          "duration": "3:06"
+        },
+        {
+          "position": "A3",
+          "title": "사랑의 진실",
+          "duration": "4:02"
+        },
+        {
+          "position": "A4",
+          "title": "헤어지지 않을 그대와 나",
+          "duration": "3:54"
+        },
+        {
+          "position": "A5",
+          "title": "행복",
+          "duration": "3:51"
+        },
+        {
+          "position": "B1",
+          "title": "슬픔만은 아니겠죠",
+          "duration": "4:09"
+        },
+        {
+          "position": "B2",
+          "title": "사랑노래",
+          "duration": "5:12"
+        },
+        {
+          "position": "B3",
+          "title": "이젠 사랑할 수 있어요",
+          "duration": "4:37"
+        },
+        {
+          "position": "B4",
+          "title": "어서말을 해",
+          "duration": "3:14"
+        },
+        {
+          "position": "B5",
+          "title": "내 마음에 보석상자",
+          "duration": "4:09"
+        },
+        {
+          "position": "B6",
+          "title": "행복을 주는 사람",
+          "duration": "3:29"
+        }
+      ]
+    },
+    {
+      "id": 14981888,
+      "instance_id": 1870179255,
+      "title": "13집 'The Dreams",
+      "artist": "Cho Yong-Pil",
+      "year": 1991,
+      "cover_image": "https://i.discogs.com/i0XV79pzBRKgzFamClYAocVt435GMcSe0ukZpNvV0hg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTgx/ODg4LTE1ODUwNjYx/OTctOTEyOS5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "꿈",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "꿈꾸던 사랑",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "기다림",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "꿈의요정",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "지울 수 없는 꿈",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "아이마미",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "꿈을 꾸며",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "추억이 잠든거리",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "장미꽃 불을켜요",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "어제밤 꿈속에서",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 6215913,
+      "instance_id": 1870179636,
+      "title": "숲",
+      "artist": "Siinkwa Chonjang",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/bHdrzg1uYvU3wngt0jPGRCG-DGuoOc1nMGqgN1o2euU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyMTU5/MTMtMTQ2MjcxNTcz/MS04ODg0LnBuZw.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "가시나무",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "새벽",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "새털구름",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "나무",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "새날",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "때",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "새봄나라에서 살던 시원한 바람",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "좋은 나라",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "푸른 애벌레의 꿈",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "숲",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 12248537,
+      "instance_id": 2100886128,
+      "title": "Le Quattro Stagioni",
+      "artist": "Antonio Vivaldi, I Musici, Félix Ayo",
+      "year": 1959,
+      "cover_image": "https://i.discogs.com/1982m0vq01Zdv2T31TEwSyxi9HZhg-dUXEpPEANZtCw/rs:fit/g:sm/q:90/h:600/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjQ4/NTM3LTE1MzE5Mzky/MzctODcyOC5qcGVn.jpeg",
+      "tracks": []
+    },
+    {
+      "id": 32155404,
+      "instance_id": 1870184235,
+      "title": "다시부르기 II",
+      "artist": "Kim Kwang Seok",
+      "year": 2024,
+      "cover_image": "https://i.discogs.com/gtWrohp3hPlNFgXjwakDHEdO0cY4AGC_YGTOeasQlgs/rs:fit/g:sm/q:90/h:600/w:583/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyMTU1/NDA0LTE3MzA3MTgx/ODUtNzU4OC5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "바람과 나",
+          "duration": "3:53"
+        },
+        {
+          "position": "A2",
+          "title": "그녀가 처음 울던날",
+          "duration": "2:52"
+        },
+        {
+          "position": "A3",
+          "title": "두바퀴로 가는 자동차",
+          "duration": "3:15"
+        },
+        {
+          "position": "A4",
+          "title": "잊혀지는 것",
+          "duration": "4:14"
+        },
+        {
+          "position": "A5",
+          "title": "불행아",
+          "duration": "3:40"
+        },
+        {
+          "position": "A6",
+          "title": "어느 60대 노부부 이야기",
+          "duration": "4:24"
+        },
+        {
+          "position": "B1",
+          "title": "내 사람이여",
+          "duration": "5:54"
+        },
+        {
+          "position": "B2",
+          "title": "변해가네",
+          "duration": "4:32"
+        },
+        {
+          "position": "B3",
+          "title": "새장속의 친구",
+          "duration": "4:54"
+        },
+        {
+          "position": "B4",
+          "title": "나의 노래",
+          "duration": "3:12"
+        },
+        {
+          "position": "B5",
+          "title": "너무 아픈 사랑은 사랑이 아니였음을",
+          "duration": "4:58"
+        }
+      ]
+    },
+    {
+      "id": 14689948,
+      "instance_id": 2100889448,
+      "title": "박학기",
+      "artist": "박학기",
+      "year": 1989,
+      "cover_image": "https://i.discogs.com/oyI0OAdO74Oc_-9l2V5j-CU4H5DlBIUBCNxDNYZq1rc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0Njg5/OTQ4LTE1Nzk3MDE4/ODQtMzczNC5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "이미 그댄",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "향기로운 추억",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "계절은 이렇게 내리네",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "아름다운 비밀",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "3:00 AM",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "내 소중한 사람에게",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "나른한 오후",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "여름을 지나는 바람",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "북강변",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 14981776,
+      "instance_id": 1870179006,
+      "title": "12집 Sailing Sound",
+      "artist": "Cho Yong-Pil",
+      "year": 1990,
+      "cover_image": "https://i.discogs.com/hJycd5dnXcNe5HgH0DHIU6R5kWyhaxnqfgZy9it3heU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTgx/Nzc2LTE1ODUwNjUy/ODItODg5Mi5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "추억속의 재회",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "이젠 그랬으면 좋겠네",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "그대의 향기는 흩날리고",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "그대 숨결속에서",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "고궁",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "해바라기",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "내모습",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "나비리본의 추억",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "나무야",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "돌고 도는 인생",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 9242418,
+      "instance_id": 2100888824,
+      "title": "제주도의 푸른 밤",
+      "artist": "최성원",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/78VXfZbpfbzApJEHp2fZ0hB2SxYiLVM_ClUYZsYYEMI/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDI0/MTgtMTQ3NzIzMDkz/My00ODQ1LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "제주도의 푸른밤",
+          "duration": "5:08"
+        },
+        {
+          "position": "A2",
+          "title": "이별이란 없는거야",
+          "duration": "4:57"
+        },
+        {
+          "position": "A3",
+          "title": "색 깔",
+          "duration": "4:12"
+        },
+        {
+          "position": "A4",
+          "title": "님을 찾으면",
+          "duration": "4:18"
+        },
+        {
+          "position": "B1",
+          "title": "오늘은",
+          "duration": "3:56"
+        },
+        {
+          "position": "B2",
+          "title": "파란 하늘만",
+          "duration": "3:36"
+        },
+        {
+          "position": "B3",
+          "title": "난 이제",
+          "duration": "3:44"
+        },
+        {
+          "position": "B4",
+          "title": "열여섯 열일곱",
+          "duration": "3:26"
+        },
+        {
+          "position": "B5",
+          "title": "우리의 소원",
+          "duration": "2:20"
+        }
+      ]
+    },
+    {
+      "id": 8553163,
+      "instance_id": 1870179474,
+      "title": "노래를 찾는 사람들 2",
+      "artist": "노래를 찾는 사람들",
+      "year": 1989,
+      "cover_image": "https://i.discogs.com/JnFmeejA9orm6zmi7tBGezMWh_LKLg6FH3BIqoZg61c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg1NTMx/NjMtMTQ2MzkyNDM5/Ny02MTY1LnBuZw.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "솔아솔아 푸르른 솔아",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "광야에서",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "사계",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "마른잎 다시 살아나",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "그날이 오면",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "저 평등의 땅에",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "이산하에",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "오월의 노래",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "잠들지 않는 남도",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 8875249,
+      "instance_id": 1870182078,
+      "title": "8집",
+      "artist": "Cho Yong-Pil",
+      "year": 1985,
+      "cover_image": "https://i.discogs.com/UCEStoRADfC46XJfutWlI1B2o9kDdDk_-zhhu-RyrZ4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzUy/NDktMTU4NDc0OTU5/My02MTY3LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "킬리만자로의 표범",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "허공",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "바람이 전하는 말",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "그 겨울의 찻집",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "벌써 잊었나",
+          "duration": ""
+        },
+        {
+          "position": "A6",
+          "title": "사랑의 만가",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "얄미운 님아",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "상처",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "내 청춘의 빈잔",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "내 마음 당신 곁으로",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "내 가슴에 내리는 비",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "진짜 사나이 [건전가요]",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 13187150,
+      "instance_id": 1870179357,
+      "title": "벗님들 '84",
+      "artist": "벗님들",
+      "year": 1984,
+      "cover_image": "https://i.discogs.com/66ZUjr64TLCtIUIa77al-orS8pMMvUnjZ_0r8f0PJ04/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMTg3/MTUwLTE1NDk1OTE5/NzctODc1NC5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "난몰라",
+          "duration": "2:45"
+        },
+        {
+          "position": "A2",
+          "title": "그대곁에",
+          "duration": "3:22"
+        },
+        {
+          "position": "A3",
+          "title": "느낌",
+          "duration": "2:49"
+        },
+        {
+          "position": "A4",
+          "title": "오래전부터",
+          "duration": "2:49"
+        },
+        {
+          "position": "A5",
+          "title": "당신만이",
+          "duration": "3:37"
+        },
+        {
+          "position": "A6",
+          "title": "우리는 육군",
+          "duration": "1:53"
+        },
+        {
+          "position": "B1",
+          "title": "늦은밤 깊은밤",
+          "duration": "3:56"
+        },
+        {
+          "position": "B2",
+          "title": "진실한 사랑",
+          "duration": "4:20"
+        },
+        {
+          "position": "B3",
+          "title": "솜사탕",
+          "duration": "3:17"
+        },
+        {
+          "position": "B4",
+          "title": "사연",
+          "duration": "3:13"
+        },
+        {
+          "position": "B5",
+          "title": "그리움만 남기고",
+          "duration": "3:32"
+        }
+      ]
+    },
+    {
+      "id": 13405140,
+      "instance_id": 1870180209,
+      "title": "골든 베스트 16",
+      "artist": "Jang-Hee Lee",
+      "year": 1977,
+      "cover_image": "https://i.discogs.com/eZDyMNU2sGBi1EuLE-auT7fhjrnlXa9KTKLaAUNzN4I/rs:fit/g:sm/q:90/h:600/w:489/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNDA1/MTQwLTE1NTM1NjU2/OTktMjYyMy5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "그건 너",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "그애와 나랑은",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "자정이 훨씬 넘었네",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "애인",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "비의 나그네",
+          "duration": ""
+        },
+        {
+          "position": "A6",
+          "title": "무지개",
+          "duration": ""
+        },
+        {
+          "position": "A7",
+          "title": "겨울이야기",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "한잔의 추억",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "창가에 홀로앉아",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "나야나",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "오늘밤엔 웬일인지",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "편지",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "당신을 처음본순간",
+          "duration": ""
+        },
+        {
+          "position": "B7",
+          "title": "아가씨는 어려요",
+          "duration": ""
+        },
+        {
+          "position": "B8",
+          "title": "바닷가 언덕",
           "duration": ""
         }
       ]
@@ -172,362 +946,247 @@
       ]
     },
     {
-      "id": 32843124,
-      "instance_id": 2100890139,
-      "title": "1집 (Vol.1)",
-      "artist": "빛과소금",
-      "year": 2024,
-      "cover_image": "https://i.discogs.com/Hlz2Yc505ZphwzV_Ivz33CGewFcQX-rZDOMGpvKrO1c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyODQz/MTI0LTE3MzY4NzA0/OTEtNDgyOS5qcGVn.jpeg",
+      "id": 8875497,
+      "instance_id": 2100886866,
+      "title": "사랑하기 때문에",
+      "artist": "유재하",
+      "year": 1987,
+      "cover_image": "https://i.discogs.com/VdA9c4woyHz0WExFnKp7oRAc6LSuMKBOKSlDMQeTv0g/rs:fit/g:sm/q:90/h:600/w:593/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzU0/OTctMTYxNDU5MTg3/MS01NTk1LmpwZWc.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "아침 (Instrumental)",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "슬픈인형",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "샴푸의 요정",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "Beautiful",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "돌아와 줘",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "빛 1990 (Instrumental)",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "그대 떠난 뒤",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "내겐 노래있어",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "그녀를 위해 (Instrumental)",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 1644216,
-      "instance_id": 2100889853,
-      "title": "Reincarnation = リ・インカーネーション",
-      "artist": "Yumi Matsutoya, Yumi Matsutoya",
-      "year": 1983,
-      "cover_image": "https://i.discogs.com/My0iIJ00xGDl_M1naWL8mCRj0tmeZaxi0TuGxIBk-u8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NDQy/MTYtMTUwMDM3MjQz/NS0xMzQ3LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "Reincarnation",
-          "duration": "5:41"
-        },
-        {
-          "position": "A2",
-          "title": "オールマイティー",
-          "duration": "4:24"
-        },
-        {
-          "position": "A3",
-          "title": "Night Walker",
-          "duration": "5:04"
-        },
-        {
-          "position": "A4",
-          "title": "星空の誘惑",
-          "duration": "4:48"
-        },
-        {
-          "position": "A5",
-          "title": "川景色",
-          "duration": "3:34"
-        },
-        {
-          "position": "B1",
-          "title": "Esper",
-          "duration": "4:09"
-        },
-        {
-          "position": "B2",
-          "title": "心のまま",
-          "duration": "4:45"
-        },
-        {
-          "position": "B3",
-          "title": "ずっとそばに",
-          "duration": "4:27"
-        },
-        {
-          "position": "B4",
-          "title": "ハートはもうつぶやかない",
-          "duration": "4:57"
-        },
-        {
-          "position": "B5",
-          "title": "経る時",
-          "duration": "4:15"
-        }
-      ]
-    },
-    {
-      "id": 3536268,
-      "instance_id": 2100889665,
-      "title": "Shady = シェイディ",
-      "artist": "Amii Ozaki, Amii Ozaki",
-      "year": 1976,
-      "cover_image": "https://i.discogs.com/4nYqMJZWk_dTje9WxfbgdNRYjAOXD6dEwk10DRBr-HI/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MzYy/NjgtMTUwMDg4MDk5/NC05MDk1LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "プロローグ",
-          "duration": "2:03"
-        },
-        {
-          "position": "A2",
-          "title": "影絵の街",
-          "duration": "3:09"
-        },
-        {
-          "position": "A3",
-          "title": "冬のポスター",
-          "duration": "4:51"
-        },
-        {
-          "position": "A4",
-          "title": "私は何色",
-          "duration": "2:50"
-        },
-        {
-          "position": "A5",
-          "title": "届かない春",
-          "duration": "2:36"
-        },
-        {
-          "position": "A6",
-          "title": "とまり木",
-          "duration": "5:18"
-        },
-        {
-          "position": "B1",
-          "title": "冥想",
-          "duration": "4:04"
-        },
-        {
-          "position": "B2",
-          "title": "風の中",
-          "duration": "2:57"
-        },
-        {
-          "position": "B3",
-          "title": "私を呼んで",
-          "duration": "4:36"
-        },
-        {
-          "position": "B4",
-          "title": "追いかけてきたけれど",
-          "duration": "3:07"
-        },
-        {
-          "position": "B5",
-          "title": "遠くの光が……",
+          "title": "우리들의 사랑",
           "duration": "4:35"
-        }
-      ]
-    },
-    {
-      "id": 14689948,
-      "instance_id": 2100889448,
-      "title": "박학기",
-      "artist": "박학기",
-      "year": 1989,
-      "cover_image": "https://i.discogs.com/oyI0OAdO74Oc_-9l2V5j-CU4H5DlBIUBCNxDNYZq1rc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0Njg5/OTQ4LTE1Nzk3MDE4/ODQtMzczNC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "이미 그댄",
-          "duration": ""
         },
         {
           "position": "A2",
-          "title": "향기로운 추억",
-          "duration": ""
+          "title": "그대 내품에",
+          "duration": "5:56"
         },
         {
           "position": "A3",
-          "title": "계절은 이렇게 내리네",
-          "duration": ""
+          "title": "텅빈 오늘밤",
+          "duration": "4:58"
         },
         {
           "position": "A4",
-          "title": "아름다운 비밀",
-          "duration": ""
+          "title": "내마음에 비친 내모습",
+          "duration": "4:52"
         },
         {
           "position": "A5",
-          "title": "3:00 AM",
-          "duration": ""
+          "title": "Minuet",
+          "duration": "2:41"
         },
         {
           "position": "B1",
-          "title": "내 소중한 사람에게",
-          "duration": ""
+          "title": "가리워진 길",
+          "duration": "3:17"
         },
         {
           "position": "B2",
-          "title": "나른한 오후",
-          "duration": ""
+          "title": "지난 날",
+          "duration": "5:03"
         },
         {
           "position": "B3",
-          "title": "여름을 지나는 바람",
-          "duration": ""
+          "title": "우울한 편지",
+          "duration": "5:06"
         },
         {
           "position": "B4",
-          "title": "북강변",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 9242418,
-      "instance_id": 2100888824,
-      "title": "제주도의 푸른 밤",
-      "artist": "최성원",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/78VXfZbpfbzApJEHp2fZ0hB2SxYiLVM_ClUYZsYYEMI/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDI0/MTgtMTQ3NzIzMDkz/My00ODQ1LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "제주도의 푸른밤",
-          "duration": "5:08"
-        },
-        {
-          "position": "A2",
-          "title": "이별이란 없는거야",
-          "duration": "4:57"
-        },
-        {
-          "position": "A3",
-          "title": "색 깔",
-          "duration": "4:12"
-        },
-        {
-          "position": "A4",
-          "title": "님을 찾으면",
-          "duration": "4:18"
-        },
-        {
-          "position": "B1",
-          "title": "오늘은",
-          "duration": "3:56"
-        },
-        {
-          "position": "B2",
-          "title": "파란 하늘만",
-          "duration": "3:36"
-        },
-        {
-          "position": "B3",
-          "title": "난 이제",
-          "duration": "3:44"
-        },
-        {
-          "position": "B4",
-          "title": "열여섯 열일곱",
-          "duration": "3:26"
+          "title": "사랑하기 때문에",
+          "duration": "6:15"
         },
         {
           "position": "B5",
-          "title": "우리의 소원",
-          "duration": "2:20"
+          "title": "건전가요",
+          "duration": ""
         }
       ]
     },
     {
-      "id": 12730896,
-      "instance_id": 2100888661,
-      "title": "벗님들",
+      "id": 15602275,
+      "instance_id": 1870183035,
+      "title": "Best Live Concert",
       "artist": "벗님들",
-      "year": 1986,
-      "cover_image": "https://i.discogs.com/d367rLu8gD6vJI9S1sbWbEU-Fy90WGwhzag22HJxsyY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzMw/ODk2LTE1NDA4Njc5/MDAtMzU4My5qcGVn.jpeg",
+      "year": 1989,
+      "cover_image": "https://i.discogs.com/aen7J2TYsfv7i6Yf1efqs4S5qn9XnkrcwAhLSQvEaT0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NjAy/Mjc1LTE1OTQzNTI5/NzktNDE1Ni5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "사랑의 슬픔",
+          "title": "다 가기 전에",
           "duration": ""
         },
         {
           "position": "A2",
-          "title": "돌아와요",
+          "title": "또 만났네",
           "duration": ""
         },
         {
           "position": "A3",
-          "title": "잃어버린 계절",
+          "title": "당싱만이 / 그대 / 사연 / 그대 손길",
           "duration": ""
         },
         {
           "position": "A4",
-          "title": "키작은 촛불",
+          "title": "솜사탕",
           "duration": ""
         },
         {
           "position": "A5",
-          "title": "공원에서",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "사랑의 슬픔 (경음악)",
+          "title": "진실한 사랑",
           "duration": ""
         },
         {
           "position": "B1",
+          "title": "그런 마음이었어",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "추억의 밤 / 돌아와요",
+          "duration": ""
+        },
+        {
+          "position": "B3",
           "title": "그땐 외롭지 않았어",
           "duration": ""
         },
         {
-          "position": "B2",
-          "title": "모습",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "그냥 이대로",
-          "duration": ""
-        },
-        {
           "position": "B4",
-          "title": "둘만의 느낌",
+          "title": "늦은 밤 깊은 밥",
           "duration": ""
         },
         {
           "position": "B5",
-          "title": "안녕",
+          "title": "사랑의 슬픔",
           "duration": ""
         },
         {
           "position": "B6",
-          "title": "이 세상의 어린이 [건전가요]",
+          "title": "안녕",
           "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 9970678,
+      "instance_id": 1870180782,
+      "title": "마그마",
+      "artist": "조하문",
+      "year": 1987,
+      "cover_image": "https://i.discogs.com/eHzEouN7dOVP2rKJSyeg5C09_-Q7yucsFjZJajtExkg/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk5NzA2/NzgtMTQ5MjI2NTgy/Mi0xNDI0LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "이밤을 다시한번",
+          "duration": "3:40"
+        },
+        {
+          "position": "A2",
+          "title": "눈오는 밤",
+          "duration": "3:23"
+        },
+        {
+          "position": "A3",
+          "title": "해야",
+          "duration": "5:18"
+        },
+        {
+          "position": "A4",
+          "title": "같은 하늘아래",
+          "duration": "4:14"
+        },
+        {
+          "position": "A5",
+          "title": "오늘밤내맘은",
+          "duration": "3:48"
+        },
+        {
+          "position": "B1",
+          "title": "사랑하는 우리",
+          "duration": "4:51"
+        },
+        {
+          "position": "B2",
+          "title": "그대",
+          "duration": "5:16"
+        },
+        {
+          "position": "B3",
+          "title": "슬픈이별",
+          "duration": "4:41"
+        },
+        {
+          "position": "B4",
+          "title": "어떻게 하나",
+          "duration": "3:17"
+        },
+        {
+          "position": "B5",
+          "title": "정화의노래 (건전가요)",
+          "duration": "2:40"
+        }
+      ]
+    },
+    {
+      "id": 10468816,
+      "instance_id": 1870182180,
+      "title": "Kim Hyun Sik Vol.6",
+      "artist": "김현식, 김현식",
+      "year": 1991,
+      "cover_image": "https://i.discogs.com/FjvYocskTGEvjmSfnUTNJXYgFFcva5Q3hWkdvrStt1M/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDY4/ODE2LTE2MTQ0OTIw/MTktNzU1NS5wbmc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "내사랑 내곁에",
+          "duration": "4:24"
+        },
+        {
+          "position": "A2",
+          "title": "나의 하루는",
+          "duration": "3:17"
+        },
+        {
+          "position": "A3",
+          "title": "겨울바다",
+          "duration": "3:47"
+        },
+        {
+          "position": "A4",
+          "title": "한국사람 - 김현식 하모니카 연주곡-",
+          "duration": "3:02"
+        },
+        {
+          "position": "A5",
+          "title": "사랑했어요",
+          "duration": "4:40"
+        },
+        {
+          "position": "B1",
+          "title": "추억만들기",
+          "duration": "3:08"
+        },
+        {
+          "position": "B2",
+          "title": "사랑 사랑 사랑",
+          "duration": "3:12"
+        },
+        {
+          "position": "B3",
+          "title": "내사랑 내곁에 -연주곡-",
+          "duration": "4:12"
+        },
+        {
+          "position": "B4",
+          "title": "이별의 종착역",
+          "duration": "4:19"
+        },
+        {
+          "position": "B5",
+          "title": "우리 이제 -김현식 하모니카 연주곡-",
+          "duration": "4:01"
         }
       ]
     },
@@ -608,520 +1267,6 @@
           "position": "B7",
           "title": "오랜 시간이 흘러",
           "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 9243770,
-      "instance_id": 2100887151,
-      "title": "항상 기뻐하는 사람들",
-      "artist": "봄여름가을겨울",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/Pt-3LT4rCjgDpe0QuNbiGc84njEElaisFCmBE9bJHnM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDM3/NzAtMTYxNDUwMDAz/OC0zMDIzLmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "항상 기뻐하는 사람들 (봄)",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "헤어지긴 정말로 싫어",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "내가 걷는 길",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "거리의 악사 (여름)",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "혼자걷는 너의 뒷모습",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "사람들은 모두 변하나봐 (가을)",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "방황",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "전화",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "보고싶은 친구",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "12월 31일 (겨울)",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 8875497,
-      "instance_id": 2100886866,
-      "title": "사랑하기 때문에",
-      "artist": "유재하",
-      "year": 1987,
-      "cover_image": "https://i.discogs.com/VdA9c4woyHz0WExFnKp7oRAc6LSuMKBOKSlDMQeTv0g/rs:fit/g:sm/q:90/h:600/w:593/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzU0/OTctMTYxNDU5MTg3/MS01NTk1LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "우리들의 사랑",
-          "duration": "4:35"
-        },
-        {
-          "position": "A2",
-          "title": "그대 내품에",
-          "duration": "5:56"
-        },
-        {
-          "position": "A3",
-          "title": "텅빈 오늘밤",
-          "duration": "4:58"
-        },
-        {
-          "position": "A4",
-          "title": "내마음에 비친 내모습",
-          "duration": "4:52"
-        },
-        {
-          "position": "A5",
-          "title": "Minuet",
-          "duration": "2:41"
-        },
-        {
-          "position": "B1",
-          "title": "가리워진 길",
-          "duration": "3:17"
-        },
-        {
-          "position": "B2",
-          "title": "지난 날",
-          "duration": "5:03"
-        },
-        {
-          "position": "B3",
-          "title": "우울한 편지",
-          "duration": "5:06"
-        },
-        {
-          "position": "B4",
-          "title": "사랑하기 때문에",
-          "duration": "6:15"
-        },
-        {
-          "position": "B5",
-          "title": "건전가요",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 12359718,
-      "instance_id": 2100886839,
-      "title": "Vol.1",
-      "artist": "Yoonsang",
-      "year": 1990,
-      "cover_image": "https://i.discogs.com/Yws7P-7YUSlmragZZK8jY2gJUHpi7NF34Dqrfctp3xA/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMzU5/NzE4LTE1MzM2NjA3/NjUtMTkwOC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "이별의 그늘",
-          "duration": "4:20"
-        },
-        {
-          "position": "A2",
-          "title": "잊혀진 것들",
-          "duration": "3:34"
-        },
-        {
-          "position": "A3",
-          "title": "행복을 기다리며",
-          "duration": "4:20"
-        },
-        {
-          "position": "A4",
-          "title": "무지개 너머",
-          "duration": "4:57"
-        },
-        {
-          "position": "B1",
-          "title": "남겨진 이야기",
-          "duration": "3:37"
-        },
-        {
-          "position": "B2",
-          "title": "알 수 없는 일",
-          "duration": "4:28"
-        },
-        {
-          "position": "B3",
-          "title": "한 걸음 더",
-          "duration": "3:07"
-        },
-        {
-          "position": "B4",
-          "title": "시간의 얼굴",
-          "duration": "5:02"
-        }
-      ]
-    },
-    {
-      "id": 12248537,
-      "instance_id": 2100886128,
-      "title": "Le Quattro Stagioni",
-      "artist": "Antonio Vivaldi, I Musici, Félix Ayo",
-      "year": 1959,
-      "cover_image": "https://i.discogs.com/1982m0vq01Zdv2T31TEwSyxi9HZhg-dUXEpPEANZtCw/rs:fit/g:sm/q:90/h:600/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjQ4/NTM3LTE1MzE5Mzky/MzctODcyOC5qcGVn.jpeg",
-      "tracks": []
-    },
-    {
-      "id": 17693596,
-      "instance_id": 2056824386,
-      "title": "이장희",
-      "artist": "Jang-Hee Lee",
-      "year": 1987,
-      "cover_image": "https://i.discogs.com/_INN16eJ-8zcRQ0jMCAL4Vpkqo43IydLCUFnZQdbFBU/rs:fit/g:sm/q:90/h:370/w:367/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3Njkz/NTk2LTE2MTQ5MDAw/OTUtMzc2Ny5wbmc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "그건너",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "나 그대에게 모두 드리리",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "자정이 훨씬 넘었네",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "그애와 나랑은",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "당신을 처음 본 순간",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "비의 나그네",
-          "duration": ""
-        },
-        {
-          "position": "A7",
-          "title": "그 여인 그 표정",
-          "duration": ""
-        },
-        {
-          "position": "A8",
-          "title": "나야 나",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "한잔의 추억",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "슬픔이여 안녕",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "휘파람을 부세요",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "잊혀진 사람",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "편지",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "바닷가 언덕",
-          "duration": ""
-        },
-        {
-          "position": "B7",
-          "title": "촛불을 켜세요",
-          "duration": ""
-        },
-        {
-          "position": "B8",
-          "title": "어허야 둥기둥기",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 9161305,
-      "instance_id": 2056824315,
-      "title": "동물원 두번째 노래모음",
-      "artist": "동물원",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/wSvLdveaA5TYFJcrsQ9TewhZxoxaAErQ2Fl_u_L1Rvc/rs:fit/g:sm/q:90/h:600/w:570/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxNjEz/MDUtMTQ3NTg1OTkx/Ny0zNzEwLmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "흐린 가을 하늘에 편지를 써",
-          "duration": "5:03"
-        },
-        {
-          "position": "A2",
-          "title": "새장 속의 친구",
-          "duration": "3:57"
-        },
-        {
-          "position": "A3",
-          "title": "동물원",
-          "duration": "4:28"
-        },
-        {
-          "position": "A4",
-          "title": "이별할때",
-          "duration": "4:27"
-        },
-        {
-          "position": "B1",
-          "title": "별 빛 가득한 밤에",
-          "duration": "4:39"
-        },
-        {
-          "position": "B2",
-          "title": "잘 가",
-          "duration": "4:17"
-        },
-        {
-          "position": "B3",
-          "title": "길 잃은 아이처럼",
-          "duration": "5:25"
-        },
-        {
-          "position": "B4",
-          "title": "혜화동",
-          "duration": "4:20"
-        }
-      ]
-    },
-    {
-      "id": 9242820,
-      "instance_id": 2056824282,
-      "title": "동물원",
-      "artist": "동물원",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/KjRfdWt03UfzcWGFZ0Tk04dMSPHWajS0X9GA__jm2-Q/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDI4/MjAtMTYxNDUxNzEx/My0xMzM2LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "거리에서",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "말하지 못한 내사랑",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "잊혀지는 것",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "지붕위의 별",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "어느 하루",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "무전여행",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "비결",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "변해가네",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "귀 기울여요",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "그리움",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "여기서 우리",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "아! 대한민국",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 15548384,
-      "instance_id": 1870184355,
-      "title": "Sugungga =  수궁가",
-      "artist": "LEENALCHI, LEENALCHI",
-      "year": 2020,
-      "cover_image": "https://i.discogs.com/7vjkMJdUOz50VlVC4sTuGr0lQF3P0hvF_t7y2F0WRT0/rs:fit/g:sm/q:90/h:450/w:450/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NTQ4/Mzg0LTE1OTM0MjM0/NjYtNDkwOS5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "어류 도감 = A Fish Map",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "좌우나졸 = Catch A Rabbit",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "범 내려온다 = Tiger Is Coming",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "별주부가 울며 여짜오되 = Crying Softshell Turtle",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "일개 한퇴 = You Are Just A Tiny Bunny!",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "호랑이 뒷다리 = Tiger's Third Leg",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "신의 고향 = You Know Who I Am?",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "약성가 = Ultimate Prescription",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "의사줌치 = A Magic Pocket",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "말을 허라니, 허오리다 = If You Want Me To Say",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 32155404,
-      "instance_id": 1870184235,
-      "title": "다시부르기 II",
-      "artist": "Kim Kwang Seok",
-      "year": 2024,
-      "cover_image": "https://i.discogs.com/gtWrohp3hPlNFgXjwakDHEdO0cY4AGC_YGTOeasQlgs/rs:fit/g:sm/q:90/h:600/w:583/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyMTU1/NDA0LTE3MzA3MTgx/ODUtNzU4OC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "바람과 나",
-          "duration": "3:53"
-        },
-        {
-          "position": "A2",
-          "title": "그녀가 처음 울던날",
-          "duration": "2:52"
-        },
-        {
-          "position": "A3",
-          "title": "두바퀴로 가는 자동차",
-          "duration": "3:15"
-        },
-        {
-          "position": "A4",
-          "title": "잊혀지는 것",
-          "duration": "4:14"
-        },
-        {
-          "position": "A5",
-          "title": "불행아",
-          "duration": "3:40"
-        },
-        {
-          "position": "A6",
-          "title": "어느 60대 노부부 이야기",
-          "duration": "4:24"
-        },
-        {
-          "position": "B1",
-          "title": "내 사람이여",
-          "duration": "5:54"
-        },
-        {
-          "position": "B2",
-          "title": "변해가네",
-          "duration": "4:32"
-        },
-        {
-          "position": "B3",
-          "title": "새장속의 친구",
-          "duration": "4:54"
-        },
-        {
-          "position": "B4",
-          "title": "나의 노래",
-          "duration": "3:12"
-        },
-        {
-          "position": "B5",
-          "title": "너무 아픈 사랑은 사랑이 아니였음을",
-          "duration": "4:58"
         }
       ]
     },
@@ -1226,6 +1371,186 @@
       ]
     },
     {
+      "id": 13508117,
+      "instance_id": 1870179936,
+      "title": "'91 Shin Hae Chul Myself Tour",
+      "artist": "신해철",
+      "year": 1992,
+      "cover_image": "https://i.discogs.com/KmHlSQlONXJx502uOhz3I_7NzbaV9ugu7xC6ylub1W8/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTA4/MTE3LTE1NTU2ODYx/NTEtNDIxMC5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "50년 후의 내모습",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "아주 오랜 후에야",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "나에게 쓰는 편지 & 안녕",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "The Greatest Love Of All",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "슬픈 표정하지 말아요",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "연극속에서",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "재즈카페",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "Rainbow Eyes",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "길 위에서",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "내마음 깊은 곳에 너",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 9959835,
+      "instance_id": 1870178388,
+      "title": "김현식 2집",
+      "artist": "김현식",
+      "year": 1984,
+      "cover_image": "https://i.discogs.com/zoRgTmAnzGUi9mYYpXC7tGN0_pfU1ad-IDl91hUwg6U/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk5NTk4/MzUtMTYxNDQ5MjM1/NS04NDA1LnBuZw.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "사랑했어요",
+          "duration": "4:23"
+        },
+        {
+          "position": "A2",
+          "title": "회상",
+          "duration": "4:04"
+        },
+        {
+          "position": "A3",
+          "title": "어둠 그 별빛",
+          "duration": "4:23"
+        },
+        {
+          "position": "A4",
+          "title": "떠나기 전에",
+          "duration": "4:16"
+        },
+        {
+          "position": "A5",
+          "title": "그대 외로워지면",
+          "duration": "3:13"
+        },
+        {
+          "position": "A6",
+          "title": "시장에 가면",
+          "duration": "1:20"
+        },
+        {
+          "position": "B1",
+          "title": "바람인 줄 알았는데",
+          "duration": "3:59"
+        },
+        {
+          "position": "B2",
+          "title": "당신의 모습",
+          "duration": "3:39"
+        },
+        {
+          "position": "B3",
+          "title": "너를 기다리며",
+          "duration": "3:50"
+        },
+        {
+          "position": "B4",
+          "title": "아무말도 하지 말아요",
+          "duration": "5:36"
+        },
+        {
+          "position": "B5",
+          "title": "변덕쟁이",
+          "duration": "3:28"
+        }
+      ]
+    },
+    {
+      "id": 32843124,
+      "instance_id": 2100890139,
+      "title": "1집 (Vol.1)",
+      "artist": "빛과소금",
+      "year": 2024,
+      "cover_image": "https://i.discogs.com/Hlz2Yc505ZphwzV_Ivz33CGewFcQX-rZDOMGpvKrO1c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyODQz/MTI0LTE3MzY4NzA0/OTEtNDgyOS5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "아침 (Instrumental)",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "슬픈인형",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "샴푸의 요정",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "Beautiful",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "돌아와 줘",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "빛 1990 (Instrumental)",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "그대 떠난 뒤",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "내겐 노래있어",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "그녀를 위해 (Instrumental)",
+          "duration": ""
+        }
+      ]
+    },
+    {
       "id": 9154480,
       "instance_id": 1870183749,
       "title": "이문세 4",
@@ -1282,191 +1607,6 @@
           "position": "B5",
           "title": "어허야 둥기둥기 [건전가요]",
           "duration": "2:06"
-        }
-      ]
-    },
-    {
-      "id": 13899396,
-      "instance_id": 1870183398,
-      "title": "詩人의 마을",
-      "artist": "Cheong Tae Choon",
-      "year": 1978,
-      "cover_image": "https://i.discogs.com/V14aNGS2qTufFb0Hj50gWlnaPkjS7TmTyhzmVv6rN8s/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODk5/Mzk2LTE1NjM2MjYw/OTctNDkyOS5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "詩人의 마을",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "사랑하고 싶소",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "촛불",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "西海에서",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "그네",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "木浦의 노래 (여드레 팔십리)",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "아하! 날개여",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "겨울나무",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "사랑의 보슬비",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "산너머 두메",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 15602275,
-      "instance_id": 1870183035,
-      "title": "Best Live Concert",
-      "artist": "벗님들",
-      "year": 1989,
-      "cover_image": "https://i.discogs.com/aen7J2TYsfv7i6Yf1efqs4S5qn9XnkrcwAhLSQvEaT0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NjAy/Mjc1LTE1OTQzNTI5/NzktNDE1Ni5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "다 가기 전에",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "또 만났네",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "당싱만이 / 그대 / 사연 / 그대 손길",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "솜사탕",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "진실한 사랑",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "그런 마음이었어",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "추억의 밤 / 돌아와요",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "그땐 외롭지 않았어",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "늦은 밤 깊은 밥",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "사랑의 슬픔",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "안녕",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 15203457,
-      "instance_id": 1870182768,
-      "title": "6",
-      "artist": "벗님들",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/qGJFaFXBQHmQ43JmOYbm8Ho4Vb9COh3qfUeDvJAq_aI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MjAz/NDU3LTE1ODgwNTk4/MDUtODk1Mi5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "짚시여인",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "지난 날",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "어색한 기억",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "너만을 위해",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "우리의 소원",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "이별의 미소",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "무표정",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "그대 사랑",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "눈빛 사랑",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "이별의 미소 (경음악)",
-          "duration": ""
         }
       ]
     },
@@ -1532,261 +1672,6 @@
           "position": "B6",
           "title": "사랑하는마음. 한걸음만. 이상해",
           "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 7026682,
-      "instance_id": 1870182345,
-      "title": " 2집 - 사랑할꺼야",
-      "artist": "이상은",
-      "year": 1989,
-      "cover_image": "https://i.discogs.com/SAGGmK5XoxvmMfByJYEmTloGxSkfDU5FOYgIUTcFTTE/rs:fit/g:sm/q:90/h:600/w:574/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwMjY2/ODItMTQzMTk3MzAy/Mi01NzI5LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "사랑할꺼야",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "눈뜨면 사랑이예요",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "추억만은 남아요",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "소중한 사랑",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "휴",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "언아그듣 (언제나 아침이면 그대목소리 듣고 싶어)",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "그대 떠난후",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "이별뒤의 그리움",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "아오아오아",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "혼자있는 건",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "야간비행",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 10468816,
-      "instance_id": 1870182180,
-      "title": "Kim Hyun Sik Vol.6",
-      "artist": "김현식, 김현식",
-      "year": 1991,
-      "cover_image": "https://i.discogs.com/FjvYocskTGEvjmSfnUTNJXYgFFcva5Q3hWkdvrStt1M/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDY4/ODE2LTE2MTQ0OTIw/MTktNzU1NS5wbmc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "내사랑 내곁에",
-          "duration": "4:24"
-        },
-        {
-          "position": "A2",
-          "title": "나의 하루는",
-          "duration": "3:17"
-        },
-        {
-          "position": "A3",
-          "title": "겨울바다",
-          "duration": "3:47"
-        },
-        {
-          "position": "A4",
-          "title": "한국사람 - 김현식 하모니카 연주곡-",
-          "duration": "3:02"
-        },
-        {
-          "position": "A5",
-          "title": "사랑했어요",
-          "duration": "4:40"
-        },
-        {
-          "position": "B1",
-          "title": "추억만들기",
-          "duration": "3:08"
-        },
-        {
-          "position": "B2",
-          "title": "사랑 사랑 사랑",
-          "duration": "3:12"
-        },
-        {
-          "position": "B3",
-          "title": "내사랑 내곁에 -연주곡-",
-          "duration": "4:12"
-        },
-        {
-          "position": "B4",
-          "title": "이별의 종착역",
-          "duration": "4:19"
-        },
-        {
-          "position": "B5",
-          "title": "우리 이제 -김현식 하모니카 연주곡-",
-          "duration": "4:01"
-        }
-      ]
-    },
-    {
-      "id": 8875249,
-      "instance_id": 1870182078,
-      "title": "8집",
-      "artist": "Cho Yong-Pil",
-      "year": 1985,
-      "cover_image": "https://i.discogs.com/UCEStoRADfC46XJfutWlI1B2o9kDdDk_-zhhu-RyrZ4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzUy/NDktMTU4NDc0OTU5/My02MTY3LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "킬리만자로의 표범",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "허공",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "바람이 전하는 말",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "그 겨울의 찻집",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "벌써 잊었나",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "사랑의 만가",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "얄미운 님아",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "상처",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "내 청춘의 빈잔",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "내 마음 당신 곁으로",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "내 가슴에 내리는 비",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "진짜 사나이 [건전가요]",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 11497211,
-      "instance_id": 1870181868,
-      "title": "Dream & Love",
-      "artist": "오석준",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/S6KsFAvsHxJEuaiZMyWU12aUF7K0zZJm4RB1z3Edcd8/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNDk3/MjExLTE1MjE5MjM4/MDEtNjE5NC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "꿈을 찾아서  (Looking For A Dream)",
-          "duration": "3:11"
-        },
-        {
-          "position": "A2",
-          "title": "우리들이 함께 있는 밤 (The Night We Are Together)",
-          "duration": "5:17"
-        },
-        {
-          "position": "A3",
-          "title": "돌아오는 계절에는 (In The Coming Season)",
-          "duration": "4:38"
-        },
-        {
-          "position": "A4",
-          "title": "나만의 그대 모슴 (Your Own Appearance)",
-          "duration": "4:16"
-        },
-        {
-          "position": "A5",
-          "title": "모래성 = 7300 (365 x 200) (Sand Casting)",
-          "duration": "3:55"
-        },
-        {
-          "position": "B1",
-          "title": "헤어지고 난 후 (After Breaking Up)",
-          "duration": "4:55"
-        },
-        {
-          "position": "B2",
-          "title": "기억속의 그대를 찾아 (Find You In Memory)",
-          "duration": "4:54"
-        },
-        {
-          "position": "B3",
-          "title": "젊음이 남아 있는 동안 (While The Youth Remains)",
-          "duration": "3:33"
-        },
-        {
-          "position": "B4",
-          "title": "이 다음에 우리 또 (Next, We)",
-          "duration": "4:47"
-        },
-        {
-          "position": "B5",
-          "title": "꿈을 찾아서 (반주) (Finding A Dream - Accompaniment)",
-          "duration": "3:11"
         }
       ]
     },
@@ -1866,67 +1751,117 @@
       ]
     },
     {
-      "id": 12763692,
-      "instance_id": 1870181703,
-      "title": "'89 해바라기",
-      "artist": "해바라기",
-      "year": 1989,
-      "cover_image": "https://i.discogs.com/zRTsLR_KZWwdizcYaEDJ7zlmC5aMNOvV1dyBB2wQlvU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzYz/NjkyLTE1NDE0ODE5/NjYtNDU5NS5qcGVn.jpeg",
+      "id": 14583171,
+      "instance_id": 1870178661,
+      "title": "이문세 5",
+      "artist": "이문세",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/xP9UoB0XjP9GpFfXOF_Su8hFG5_oz_V-nQi8dWeT46w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NTgz/MTcxLTE2MTA3MjMy/NDMtNTY5OS5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "사랑으로",
-          "duration": "4:41"
+          "title": "시를 위한 시",
+          "duration": "3:56"
         },
         {
           "position": "A2",
-          "title": "사랑이예요",
-          "duration": "3:06"
-        },
-        {
-          "position": "A3",
-          "title": "사랑의 진실",
-          "duration": "4:02"
-        },
-        {
-          "position": "A4",
-          "title": "헤어지지 않을 그대와 나",
-          "duration": "3:54"
-        },
-        {
-          "position": "A5",
-          "title": "행복",
-          "duration": "3:51"
-        },
-        {
-          "position": "B1",
-          "title": "슬픔만은 아니겠죠",
-          "duration": "4:09"
-        },
-        {
-          "position": "B2",
-          "title": "사랑노래",
+          "title": "안개꽃 추억으로",
           "duration": "5:12"
         },
         {
+          "position": "A3",
+          "title": "광화문 연가",
+          "duration": "3:50"
+        },
+        {
+          "position": "A4",
+          "title": "내 오랜 그녀",
+          "duration": "4:46"
+        },
+        {
+          "position": "A5",
+          "title": "이 밤에",
+          "duration": "3:56"
+        },
+        {
+          "position": "B1",
+          "title": "가로수 그늘아래 서면",
+          "duration": "5:30"
+        },
+        {
+          "position": "B2",
+          "title": "붉은 노을",
+          "duration": "3:50"
+        },
+        {
           "position": "B3",
-          "title": "이젠 사랑할 수 있어요",
-          "duration": "4:37"
+          "title": "기억의 초상",
+          "duration": "4:23"
         },
         {
           "position": "B4",
-          "title": "어서말을 해",
-          "duration": "3:14"
+          "title": "끝의 시작",
+          "duration": "4:38"
         },
         {
           "position": "B5",
-          "title": "내 마음에 보석상자",
-          "duration": "4:09"
+          "title": "사랑은 한줄기 햇살처럼",
+          "duration": "4:15"
+        }
+      ]
+    },
+    {
+      "id": 9242143,
+      "instance_id": 1870177800,
+      "title": "신촌Blues",
+      "artist": "Shinchon Blues",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/tRrUD5XVDZ6svOEN7CR2guQaWz3zlP2WlIQZS-AGzzQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDIx/NDMtMTU5NzkwODkz/OC04NTg3LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "그대없는 거리",
+          "duration": "3:15"
         },
         {
-          "position": "B6",
-          "title": "행복을 주는 사람",
-          "duration": "3:29"
+          "position": "A2",
+          "title": "오늘같은 밤",
+          "duration": "3:45"
+        },
+        {
+          "position": "A3",
+          "title": "나그네의 옛이야기",
+          "duration": "4:15"
+        },
+        {
+          "position": "A4",
+          "title": "한밤중에",
+          "duration": "4:14"
+        },
+        {
+          "position": "A5",
+          "title": "Overnight Blues",
+          "duration": "4:24"
+        },
+        {
+          "position": "B1",
+          "title": "아쉬움",
+          "duration": "3:42"
+        },
+        {
+          "position": "B2",
+          "title": "봄비",
+          "duration": "7:07"
+        },
+        {
+          "position": "B3",
+          "title": "바닷가에 선들",
+          "duration": "4:36"
+        },
+        {
+          "position": "B4",
+          "title": "바람인가",
+          "duration": "4:14"
         }
       ]
     },
@@ -2016,66 +1951,6 @@
       ]
     },
     {
-      "id": 9970678,
-      "instance_id": 1870180782,
-      "title": "마그마",
-      "artist": "조하문",
-      "year": 1987,
-      "cover_image": "https://i.discogs.com/eHzEouN7dOVP2rKJSyeg5C09_-Q7yucsFjZJajtExkg/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk5NzA2/NzgtMTQ5MjI2NTgy/Mi0xNDI0LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "이밤을 다시한번",
-          "duration": "3:40"
-        },
-        {
-          "position": "A2",
-          "title": "눈오는 밤",
-          "duration": "3:23"
-        },
-        {
-          "position": "A3",
-          "title": "해야",
-          "duration": "5:18"
-        },
-        {
-          "position": "A4",
-          "title": "같은 하늘아래",
-          "duration": "4:14"
-        },
-        {
-          "position": "A5",
-          "title": "오늘밤내맘은",
-          "duration": "3:48"
-        },
-        {
-          "position": "B1",
-          "title": "사랑하는 우리",
-          "duration": "4:51"
-        },
-        {
-          "position": "B2",
-          "title": "그대",
-          "duration": "5:16"
-        },
-        {
-          "position": "B3",
-          "title": "슬픈이별",
-          "duration": "4:41"
-        },
-        {
-          "position": "B4",
-          "title": "어떻게 하나",
-          "duration": "3:17"
-        },
-        {
-          "position": "B5",
-          "title": "정화의노래 (건전가요)",
-          "duration": "2:40"
-        }
-      ]
-    },
-    {
       "id": 9899187,
       "instance_id": 1870180374,
       "title": "VII",
@@ -2131,216 +2006,6 @@
         {
           "position": "10",
           "title": "5. 풋잠속에 문득",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 13405140,
-      "instance_id": 1870180209,
-      "title": "골든 베스트 16",
-      "artist": "Jang-Hee Lee",
-      "year": 1977,
-      "cover_image": "https://i.discogs.com/eZDyMNU2sGBi1EuLE-auT7fhjrnlXa9KTKLaAUNzN4I/rs:fit/g:sm/q:90/h:600/w:489/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNDA1/MTQwLTE1NTM1NjU2/OTktMjYyMy5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "그건 너",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "그애와 나랑은",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "자정이 훨씬 넘었네",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "애인",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "비의 나그네",
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "title": "무지개",
-          "duration": ""
-        },
-        {
-          "position": "A7",
-          "title": "겨울이야기",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "한잔의 추억",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "창가에 홀로앉아",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "나야나",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "오늘밤엔 웬일인지",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "편지",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "당신을 처음본순간",
-          "duration": ""
-        },
-        {
-          "position": "B7",
-          "title": "아가씨는 어려요",
-          "duration": ""
-        },
-        {
-          "position": "B8",
-          "title": "바닷가 언덕",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 13508117,
-      "instance_id": 1870179936,
-      "title": "'91 Shin Hae Chul Myself Tour",
-      "artist": "신해철",
-      "year": 1992,
-      "cover_image": "https://i.discogs.com/KmHlSQlONXJx502uOhz3I_7NzbaV9ugu7xC6ylub1W8/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTA4/MTE3LTE1NTU2ODYx/NTEtNDIxMC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "50년 후의 내모습",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "아주 오랜 후에야",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "나에게 쓰는 편지 & 안녕",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "The Greatest Love Of All",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "슬픈 표정하지 말아요",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "연극속에서",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "재즈카페",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "Rainbow Eyes",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "길 위에서",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "내마음 깊은 곳에 너",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 8875342,
-      "instance_id": 1870179819,
-      "title": "4집 - 사랑이 지는 이자리",
-      "artist": "이선희",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/-8TIvnsfUYexNXyn-irRj-393Z4ulDs4WlQd53KxipY/rs:fit/g:sm/q:90/h:497/w:490/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzUz/NDItMTU0OTc4OTM5/My00NDk4LmpwZWc.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "사랑이 지는 이자리",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "세월은 흘러도",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "길을 떠나자",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "천사는 울지 않아요",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "아름다운 강산",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "나 항상 그대를",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "밤이 찾아오면",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "그대의 얼굴",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "어려운 대답",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "안녕",
-          "duration": ""
-        },
-        {
-          "position": "B6",
-          "title": "시장에 가면 [건전가요]",
           "duration": ""
         }
       ]
@@ -2411,362 +2076,322 @@
       ]
     },
     {
-      "id": 6215913,
-      "instance_id": 1870179636,
-      "title": "숲",
-      "artist": "Siinkwa Chonjang",
-      "year": 1988,
-      "cover_image": "https://i.discogs.com/bHdrzg1uYvU3wngt0jPGRCG-DGuoOc1nMGqgN1o2euU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyMTU5/MTMtMTQ2MjcxNTcz/MS04ODg0LnBuZw.jpeg",
+      "id": 15548384,
+      "instance_id": 1870184355,
+      "title": "Sugungga =  수궁가",
+      "artist": "LEENALCHI, LEENALCHI",
+      "year": 2020,
+      "cover_image": "https://i.discogs.com/7vjkMJdUOz50VlVC4sTuGr0lQF3P0hvF_t7y2F0WRT0/rs:fit/g:sm/q:90/h:450/w:450/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1NTQ4/Mzg0LTE1OTM0MjM0/NjYtNDkwOS5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "가시나무",
+          "title": "어류 도감 = A Fish Map",
           "duration": ""
         },
         {
           "position": "A2",
-          "title": "새벽",
+          "title": "좌우나졸 = Catch A Rabbit",
           "duration": ""
         },
         {
           "position": "A3",
-          "title": "새털구름",
+          "title": "범 내려온다 = Tiger Is Coming",
           "duration": ""
         },
         {
           "position": "A4",
-          "title": "나무",
+          "title": "별주부가 울며 여짜오되 = Crying Softshell Turtle",
           "duration": ""
         },
         {
           "position": "A5",
-          "title": "새날",
+          "title": "일개 한퇴 = You Are Just A Tiny Bunny!",
           "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "때",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "새봄나라에서 살던 시원한 바람",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "좋은 나라",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "푸른 애벌레의 꿈",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "숲",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 8553163,
-      "instance_id": 1870179474,
-      "title": "노래를 찾는 사람들 2",
-      "artist": "노래를 찾는 사람들",
-      "year": 1989,
-      "cover_image": "https://i.discogs.com/JnFmeejA9orm6zmi7tBGezMWh_LKLg6FH3BIqoZg61c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg1NTMx/NjMtMTQ2MzkyNDM5/Ny02MTY1LnBuZw.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "솔아솔아 푸르른 솔아",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "광야에서",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "사계",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "마른잎 다시 살아나",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "그날이 오면",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "저 평등의 땅에",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "이산하에",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "오월의 노래",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "잠들지 않는 남도",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 13187150,
-      "instance_id": 1870179357,
-      "title": "벗님들 '84",
-      "artist": "벗님들",
-      "year": 1984,
-      "cover_image": "https://i.discogs.com/66ZUjr64TLCtIUIa77al-orS8pMMvUnjZ_0r8f0PJ04/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMTg3/MTUwLTE1NDk1OTE5/NzctODc1NC5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "난몰라",
-          "duration": "2:45"
-        },
-        {
-          "position": "A2",
-          "title": "그대곁에",
-          "duration": "3:22"
-        },
-        {
-          "position": "A3",
-          "title": "느낌",
-          "duration": "2:49"
-        },
-        {
-          "position": "A4",
-          "title": "오래전부터",
-          "duration": "2:49"
-        },
-        {
-          "position": "A5",
-          "title": "당신만이",
-          "duration": "3:37"
         },
         {
           "position": "A6",
-          "title": "우리는 육군",
-          "duration": "1:53"
+          "title": "호랑이 뒷다리 = Tiger's Third Leg",
+          "duration": ""
         },
         {
           "position": "B1",
-          "title": "늦은밤 깊은밤",
-          "duration": "3:56"
+          "title": "신의 고향 = You Know Who I Am?",
+          "duration": ""
         },
         {
           "position": "B2",
-          "title": "진실한 사랑",
-          "duration": "4:20"
+          "title": "약성가 = Ultimate Prescription",
+          "duration": ""
         },
         {
           "position": "B3",
-          "title": "솜사탕",
-          "duration": "3:17"
+          "title": "의사줌치 = A Magic Pocket",
+          "duration": ""
         },
         {
           "position": "B4",
-          "title": "사연",
-          "duration": "3:13"
-        },
-        {
-          "position": "B5",
-          "title": "그리움만 남기고",
-          "duration": "3:32"
+          "title": "말을 허라니, 허오리다 = If You Want Me To Say",
+          "duration": ""
         }
       ]
     },
     {
-      "id": 14981888,
-      "instance_id": 1870179255,
-      "title": "13집 'The Dreams",
-      "artist": "Cho Yong-Pil",
-      "year": 1991,
-      "cover_image": "https://i.discogs.com/i0XV79pzBRKgzFamClYAocVt435GMcSe0ukZpNvV0hg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTgx/ODg4LTE1ODUwNjYx/OTctOTEyOS5qcGVn.jpeg",
+      "id": 12730896,
+      "instance_id": 2100888661,
+      "title": "벗님들",
+      "artist": "벗님들",
+      "year": 1986,
+      "cover_image": "https://i.discogs.com/d367rLu8gD6vJI9S1sbWbEU-Fy90WGwhzag22HJxsyY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNzMw/ODk2LTE1NDA4Njc5/MDAtMzU4My5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "꿈",
+          "title": "사랑의 슬픔",
           "duration": ""
         },
         {
           "position": "A2",
-          "title": "꿈꾸던 사랑",
+          "title": "돌아와요",
           "duration": ""
         },
         {
           "position": "A3",
-          "title": "기다림",
+          "title": "잃어버린 계절",
           "duration": ""
         },
         {
           "position": "A4",
-          "title": "꿈의요정",
+          "title": "키작은 촛불",
           "duration": ""
         },
         {
           "position": "A5",
-          "title": "지울 수 없는 꿈",
+          "title": "공원에서",
+          "duration": ""
+        },
+        {
+          "position": "A6",
+          "title": "사랑의 슬픔 (경음악)",
           "duration": ""
         },
         {
           "position": "B1",
-          "title": "아이마미",
+          "title": "그땐 외롭지 않았어",
           "duration": ""
         },
         {
           "position": "B2",
-          "title": "꿈을 꾸며",
+          "title": "모습",
           "duration": ""
         },
         {
           "position": "B3",
-          "title": "추억이 잠든거리",
+          "title": "그냥 이대로",
           "duration": ""
         },
         {
           "position": "B4",
-          "title": "장미꽃 불을켜요",
+          "title": "둘만의 느낌",
           "duration": ""
         },
         {
           "position": "B5",
-          "title": "어제밤 꿈속에서",
+          "title": "안녕",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "이 세상의 어린이 [건전가요]",
           "duration": ""
         }
       ]
     },
     {
-      "id": 14981776,
-      "instance_id": 1870179006,
-      "title": "12집 Sailing Sound",
-      "artist": "Cho Yong-Pil",
-      "year": 1990,
-      "cover_image": "https://i.discogs.com/hJycd5dnXcNe5HgH0DHIU6R5kWyhaxnqfgZy9it3heU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTgx/Nzc2LTE1ODUwNjUy/ODItODg5Mi5qcGVn.jpeg",
-      "tracks": [
-        {
-          "position": "A1",
-          "title": "추억속의 재회",
-          "duration": ""
-        },
-        {
-          "position": "A2",
-          "title": "이젠 그랬으면 좋겠네",
-          "duration": ""
-        },
-        {
-          "position": "A3",
-          "title": "그대의 향기는 흩날리고",
-          "duration": ""
-        },
-        {
-          "position": "A4",
-          "title": "그대 숨결속에서",
-          "duration": ""
-        },
-        {
-          "position": "A5",
-          "title": "고궁",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "title": "해바라기",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "title": "내모습",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "title": "나비리본의 추억",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "title": "나무야",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "title": "돌고 도는 인생",
-          "duration": ""
-        }
-      ]
-    },
-    {
-      "id": 14583171,
-      "instance_id": 1870178661,
-      "title": "이문세 5",
-      "artist": "이문세",
+      "id": 11497211,
+      "instance_id": 1870181868,
+      "title": "Dream & Love",
+      "artist": "오석준",
       "year": 1988,
-      "cover_image": "https://i.discogs.com/xP9UoB0XjP9GpFfXOF_Su8hFG5_oz_V-nQi8dWeT46w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NTgz/MTcxLTE2MTA3MjMy/NDMtNTY5OS5qcGVn.jpeg",
+      "cover_image": "https://i.discogs.com/S6KsFAvsHxJEuaiZMyWU12aUF7K0zZJm4RB1z3Edcd8/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNDk3/MjExLTE1MjE5MjM4/MDEtNjE5NC5qcGVn.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "시를 위한 시",
-          "duration": "3:56"
+          "title": "꿈을 찾아서  (Looking For A Dream)",
+          "duration": "3:11"
         },
         {
           "position": "A2",
-          "title": "안개꽃 추억으로",
-          "duration": "5:12"
+          "title": "우리들이 함께 있는 밤 (The Night We Are Together)",
+          "duration": "5:17"
         },
         {
           "position": "A3",
-          "title": "광화문 연가",
-          "duration": "3:50"
-        },
-        {
-          "position": "A4",
-          "title": "내 오랜 그녀",
-          "duration": "4:46"
-        },
-        {
-          "position": "A5",
-          "title": "이 밤에",
-          "duration": "3:56"
-        },
-        {
-          "position": "B1",
-          "title": "가로수 그늘아래 서면",
-          "duration": "5:30"
-        },
-        {
-          "position": "B2",
-          "title": "붉은 노을",
-          "duration": "3:50"
-        },
-        {
-          "position": "B3",
-          "title": "기억의 초상",
-          "duration": "4:23"
-        },
-        {
-          "position": "B4",
-          "title": "끝의 시작",
+          "title": "돌아오는 계절에는 (In The Coming Season)",
           "duration": "4:38"
         },
         {
+          "position": "A4",
+          "title": "나만의 그대 모슴 (Your Own Appearance)",
+          "duration": "4:16"
+        },
+        {
+          "position": "A5",
+          "title": "모래성 = 7300 (365 x 200) (Sand Casting)",
+          "duration": "3:55"
+        },
+        {
+          "position": "B1",
+          "title": "헤어지고 난 후 (After Breaking Up)",
+          "duration": "4:55"
+        },
+        {
+          "position": "B2",
+          "title": "기억속의 그대를 찾아 (Find You In Memory)",
+          "duration": "4:54"
+        },
+        {
+          "position": "B3",
+          "title": "젊음이 남아 있는 동안 (While The Youth Remains)",
+          "duration": "3:33"
+        },
+        {
+          "position": "B4",
+          "title": "이 다음에 우리 또 (Next, We)",
+          "duration": "4:47"
+        },
+        {
           "position": "B5",
-          "title": "사랑은 한줄기 햇살처럼",
-          "duration": "4:15"
+          "title": "꿈을 찾아서 (반주) (Finding A Dream - Accompaniment)",
+          "duration": "3:11"
+        }
+      ]
+    },
+    {
+      "id": 17693596,
+      "instance_id": 2056824386,
+      "title": "이장희",
+      "artist": "Jang-Hee Lee",
+      "year": 1987,
+      "cover_image": "https://i.discogs.com/_INN16eJ-8zcRQ0jMCAL4Vpkqo43IydLCUFnZQdbFBU/rs:fit/g:sm/q:90/h:370/w:367/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3Njkz/NTk2LTE2MTQ5MDAw/OTUtMzc2Ny5wbmc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "그건너",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "나 그대에게 모두 드리리",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "자정이 훨씬 넘었네",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "그애와 나랑은",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "당신을 처음 본 순간",
+          "duration": ""
+        },
+        {
+          "position": "A6",
+          "title": "비의 나그네",
+          "duration": ""
+        },
+        {
+          "position": "A7",
+          "title": "그 여인 그 표정",
+          "duration": ""
+        },
+        {
+          "position": "A8",
+          "title": "나야 나",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "한잔의 추억",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "슬픔이여 안녕",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "휘파람을 부세요",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "잊혀진 사람",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "편지",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "바닷가 언덕",
+          "duration": ""
+        },
+        {
+          "position": "B7",
+          "title": "촛불을 켜세요",
+          "duration": ""
+        },
+        {
+          "position": "B8",
+          "title": "어허야 둥기둥기",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 36152434,
+      "instance_id": 2100949480,
+      "title": "24: How To Find True Love And Happiness",
+      "artist": "Hyukoh",
+      "year": 2026,
+      "cover_image": "https://i.discogs.com/DOr8bK57RYS7SMFyKFIUQROUei6cb__K4up49JzmB4c/rs:fit/g:sm/q:90/h:564/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MTUy/NDM0LTE3NjgwMzA1/NjctNDc2OS5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "Graduation",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "하늘나라",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "Love Ya!",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "Citizen Kane",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "Gang Gang Schiele",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "Goodbye Seoul",
+          "duration": ""
         }
       ]
     },
@@ -2841,122 +2466,497 @@
       ]
     },
     {
-      "id": 9959835,
-      "instance_id": 1870178388,
-      "title": "김현식 2집",
-      "artist": "김현식",
-      "year": 1984,
-      "cover_image": "https://i.discogs.com/zoRgTmAnzGUi9mYYpXC7tGN0_pfU1ad-IDl91hUwg6U/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk5NTk4/MzUtMTYxNDQ5MjM1/NS04NDA1LnBuZw.jpeg",
+      "id": 1644216,
+      "instance_id": 2100889853,
+      "title": "Reincarnation = リ・インカーネーション",
+      "artist": "Yumi Matsutoya, Yumi Matsutoya",
+      "year": 1983,
+      "cover_image": "https://i.discogs.com/My0iIJ00xGDl_M1naWL8mCRj0tmeZaxi0TuGxIBk-u8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NDQy/MTYtMTUwMDM3MjQz/NS0xMzQ3LmpwZWc.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "사랑했어요",
-          "duration": "4:23"
+          "title": "Reincarnation",
+          "duration": "5:41"
         },
         {
           "position": "A2",
-          "title": "회상",
-          "duration": "4:04"
+          "title": "オールマイティー",
+          "duration": "4:24"
         },
         {
           "position": "A3",
-          "title": "어둠 그 별빛",
-          "duration": "4:23"
+          "title": "Night Walker",
+          "duration": "5:04"
         },
         {
           "position": "A4",
-          "title": "떠나기 전에",
-          "duration": "4:16"
+          "title": "星空の誘惑",
+          "duration": "4:48"
         },
         {
           "position": "A5",
-          "title": "그대 외로워지면",
-          "duration": "3:13"
-        },
-        {
-          "position": "A6",
-          "title": "시장에 가면",
-          "duration": "1:20"
+          "title": "川景色",
+          "duration": "3:34"
         },
         {
           "position": "B1",
-          "title": "바람인 줄 알았는데",
-          "duration": "3:59"
+          "title": "Esper",
+          "duration": "4:09"
         },
         {
           "position": "B2",
-          "title": "당신의 모습",
-          "duration": "3:39"
+          "title": "心のまま",
+          "duration": "4:45"
         },
         {
           "position": "B3",
-          "title": "너를 기다리며",
-          "duration": "3:50"
+          "title": "ずっとそばに",
+          "duration": "4:27"
         },
         {
           "position": "B4",
-          "title": "아무말도 하지 말아요",
-          "duration": "5:36"
+          "title": "ハートはもうつぶやかない",
+          "duration": "4:57"
         },
         {
           "position": "B5",
-          "title": "변덕쟁이",
-          "duration": "3:28"
+          "title": "経る時",
+          "duration": "4:15"
         }
       ]
     },
     {
-      "id": 9242143,
-      "instance_id": 1870177800,
-      "title": "신촌Blues",
-      "artist": "Shinchon Blues",
+      "id": 9161305,
+      "instance_id": 2056824315,
+      "title": "동물원 두번째 노래모음",
+      "artist": "동물원",
       "year": 1988,
-      "cover_image": "https://i.discogs.com/tRrUD5XVDZ6svOEN7CR2guQaWz3zlP2WlIQZS-AGzzQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDIx/NDMtMTU5NzkwODkz/OC04NTg3LmpwZWc.jpeg",
+      "cover_image": "https://i.discogs.com/wSvLdveaA5TYFJcrsQ9TewhZxoxaAErQ2Fl_u_L1Rvc/rs:fit/g:sm/q:90/h:600/w:570/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxNjEz/MDUtMTQ3NTg1OTkx/Ny0zNzEwLmpwZWc.jpeg",
       "tracks": [
         {
           "position": "A1",
-          "title": "그대없는 거리",
-          "duration": "3:15"
+          "title": "흐린 가을 하늘에 편지를 써",
+          "duration": "5:03"
         },
         {
           "position": "A2",
-          "title": "오늘같은 밤",
-          "duration": "3:45"
+          "title": "새장 속의 친구",
+          "duration": "3:57"
         },
         {
           "position": "A3",
-          "title": "나그네의 옛이야기",
-          "duration": "4:15"
+          "title": "동물원",
+          "duration": "4:28"
         },
         {
           "position": "A4",
-          "title": "한밤중에",
-          "duration": "4:14"
-        },
-        {
-          "position": "A5",
-          "title": "Overnight Blues",
-          "duration": "4:24"
+          "title": "이별할때",
+          "duration": "4:27"
         },
         {
           "position": "B1",
-          "title": "아쉬움",
-          "duration": "3:42"
+          "title": "별 빛 가득한 밤에",
+          "duration": "4:39"
         },
         {
           "position": "B2",
-          "title": "봄비",
-          "duration": "7:07"
+          "title": "잘 가",
+          "duration": "4:17"
         },
         {
           "position": "B3",
-          "title": "바닷가에 선들",
+          "title": "길 잃은 아이처럼",
+          "duration": "5:25"
+        },
+        {
+          "position": "B4",
+          "title": "혜화동",
+          "duration": "4:20"
+        }
+      ]
+    },
+    {
+      "id": 9243770,
+      "instance_id": 2100887151,
+      "title": "항상 기뻐하는 사람들",
+      "artist": "봄여름가을겨울",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/Pt-3LT4rCjgDpe0QuNbiGc84njEElaisFCmBE9bJHnM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDM3/NzAtMTYxNDUwMDAz/OC0zMDIzLmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "항상 기뻐하는 사람들 (봄)",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "헤어지긴 정말로 싫어",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "내가 걷는 길",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "거리의 악사 (여름)",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "혼자걷는 너의 뒷모습",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "사람들은 모두 변하나봐 (가을)",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "방황",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "전화",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "보고싶은 친구",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "12월 31일 (겨울)",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 8875342,
+      "instance_id": 1870179819,
+      "title": "4집 - 사랑이 지는 이자리",
+      "artist": "이선희",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/-8TIvnsfUYexNXyn-irRj-393Z4ulDs4WlQd53KxipY/rs:fit/g:sm/q:90/h:497/w:490/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg4NzUz/NDItMTU0OTc4OTM5/My00NDk4LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "사랑이 지는 이자리",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "세월은 흘러도",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "길을 떠나자",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "천사는 울지 않아요",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "아름다운 강산",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "나 항상 그대를",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "밤이 찾아오면",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "그대의 얼굴",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "어려운 대답",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "안녕",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "시장에 가면 [건전가요]",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 15203457,
+      "instance_id": 1870182768,
+      "title": "6",
+      "artist": "벗님들",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/qGJFaFXBQHmQ43JmOYbm8Ho4Vb9COh3qfUeDvJAq_aI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MjAz/NDU3LTE1ODgwNTk4/MDUtODk1Mi5qcGVn.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "짚시여인",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "지난 날",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "어색한 기억",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "너만을 위해",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "우리의 소원",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "이별의 미소",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "무표정",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "그대 사랑",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "눈빛 사랑",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "이별의 미소 (경음악)",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 9242820,
+      "instance_id": 2056824282,
+      "title": "동물원",
+      "artist": "동물원",
+      "year": 1988,
+      "cover_image": "https://i.discogs.com/KjRfdWt03UfzcWGFZ0Tk04dMSPHWajS0X9GA__jm2-Q/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNDI4/MjAtMTYxNDUxNzEx/My0xMzM2LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "거리에서",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "말하지 못한 내사랑",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "잊혀지는 것",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "지붕위의 별",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "어느 하루",
+          "duration": ""
+        },
+        {
+          "position": "A6",
+          "title": "무전여행",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "비결",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "변해가네",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "귀 기울여요",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "그리움",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "여기서 우리",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "아! 대한민국",
+          "duration": ""
+        }
+      ]
+    },
+    {
+      "id": 3536268,
+      "instance_id": 2100889665,
+      "title": "Shady = シェイディ",
+      "artist": "Amii Ozaki, Amii Ozaki",
+      "year": 1976,
+      "cover_image": "https://i.discogs.com/4nYqMJZWk_dTje9WxfbgdNRYjAOXD6dEwk10DRBr-HI/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MzYy/NjgtMTUwMDg4MDk5/NC05MDk1LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "プロローグ",
+          "duration": "2:03"
+        },
+        {
+          "position": "A2",
+          "title": "影絵の街",
+          "duration": "3:09"
+        },
+        {
+          "position": "A3",
+          "title": "冬のポスター",
+          "duration": "4:51"
+        },
+        {
+          "position": "A4",
+          "title": "私は何色",
+          "duration": "2:50"
+        },
+        {
+          "position": "A5",
+          "title": "届かない春",
+          "duration": "2:36"
+        },
+        {
+          "position": "A6",
+          "title": "とまり木",
+          "duration": "5:18"
+        },
+        {
+          "position": "B1",
+          "title": "冥想",
+          "duration": "4:04"
+        },
+        {
+          "position": "B2",
+          "title": "風の中",
+          "duration": "2:57"
+        },
+        {
+          "position": "B3",
+          "title": "私を呼んで",
           "duration": "4:36"
         },
         {
           "position": "B4",
-          "title": "바람인가",
-          "duration": "4:14"
+          "title": "追いかけてきたけれど",
+          "duration": "3:07"
+        },
+        {
+          "position": "B5",
+          "title": "遠くの光が……",
+          "duration": "4:35"
+        }
+      ]
+    },
+    {
+      "id": 7026682,
+      "instance_id": 1870182345,
+      "title": " 2집 - 사랑할꺼야",
+      "artist": "이상은",
+      "year": 1989,
+      "cover_image": "https://i.discogs.com/SAGGmK5XoxvmMfByJYEmTloGxSkfDU5FOYgIUTcFTTE/rs:fit/g:sm/q:90/h:600/w:574/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwMjY2/ODItMTQzMTk3MzAy/Mi01NzI5LmpwZWc.jpeg",
+      "tracks": [
+        {
+          "position": "A1",
+          "title": "사랑할꺼야",
+          "duration": ""
+        },
+        {
+          "position": "A2",
+          "title": "눈뜨면 사랑이예요",
+          "duration": ""
+        },
+        {
+          "position": "A3",
+          "title": "추억만은 남아요",
+          "duration": ""
+        },
+        {
+          "position": "A4",
+          "title": "소중한 사랑",
+          "duration": ""
+        },
+        {
+          "position": "A5",
+          "title": "휴",
+          "duration": ""
+        },
+        {
+          "position": "B1",
+          "title": "언아그듣 (언제나 아침이면 그대목소리 듣고 싶어)",
+          "duration": ""
+        },
+        {
+          "position": "B2",
+          "title": "그대 떠난후",
+          "duration": ""
+        },
+        {
+          "position": "B3",
+          "title": "이별뒤의 그리움",
+          "duration": ""
+        },
+        {
+          "position": "B4",
+          "title": "아오아오아",
+          "duration": ""
+        },
+        {
+          "position": "B5",
+          "title": "혼자있는 건",
+          "duration": ""
+        },
+        {
+          "position": "B6",
+          "title": "야간비행",
+          "duration": ""
         }
       ]
     }
