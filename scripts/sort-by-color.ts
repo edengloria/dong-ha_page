@@ -16,89 +16,98 @@ type Release = {
   tracks: Array<{ position: string; title: string; duration: string }>
 }
 
-type Color = { r: number; g: number; b: number; h: number; s: number; l: number }
+// Using CIELAB color space for perceptual uniformity
+type ColorLab = { l: number; a: number; b: number }
+type Color = { r: number; g: number; b: number } & ColorLab
 
 type ReleaseWithPalette = Release & {
   palette: Color[]
 }
 
 const GRID_COLUMNS = 5
-const PALETTE_SIZE = 4 // Number of dominant colors to extract
+const PALETTE_SIZE = 4
 
 // ============================================================================
-// Color Utilities
+// Color Space Utilities (RGB <-> XYZ <-> CIELAB)
 // ============================================================================
 
-// RGB to HSL conversion
-function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
-  r /= 255
-  g /= 255
-  b /= 255
+// Standard D65 illuminant
+function rgbToXyz(r: number, g: number, b: number): [number, number, number] {
+  let rr = r / 255
+  let gg = g / 255
+  let bb = b / 255
 
-  const max = Math.max(r, g, b)
-  const min = Math.min(r, g, b)
-  let h = 0
-  let s = 0
-  const l = (max + min) / 2
+  rr = rr > 0.04045 ? Math.pow((rr + 0.055) / 1.055, 2.4) : rr / 12.92
+  gg = gg > 0.04045 ? Math.pow((gg + 0.055) / 1.055, 2.4) : gg / 12.92
+  bb = bb > 0.04045 ? Math.pow((bb + 0.055) / 1.055, 2.4) : bb / 12.92
 
-  if (max !== min) {
-    const d = max - min
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+  const x = (rr * 0.4124 + gg * 0.3576 + bb * 0.1805) * 100
+  const y = (rr * 0.2126 + gg * 0.7152 + bb * 0.0722) * 100
+  const z = (rr * 0.0193 + gg * 0.1192 + bb * 0.9505) * 100
 
-    switch (max) {
-      case r:
-        h = ((g - b) / d + (g < b ? 6 : 0)) / 6
-        break
-      case g:
-        h = ((b - r) / d + 2) / 6
-        break
-      case b:
-        h = ((r - g) / d + 4) / 6
-        break
-    }
+  return [x, y, z]
+}
+
+function xyzToLab(x: number, y: number, z: number): ColorLab {
+  const refX = 95.047
+  const refY = 100.000
+  const refZ = 108.883
+
+  let xx = x / refX
+  let yy = y / refY
+  let zz = z / refZ
+
+  xx = xx > 0.008856 ? Math.pow(xx, 1 / 3) : (7.787 * xx) + (16 / 116)
+  yy = yy > 0.008856 ? Math.pow(yy, 1 / 3) : (7.787 * yy) + (16 / 116)
+  zz = zz > 0.008856 ? Math.pow(zz, 1 / 3) : (7.787 * zz) + (16 / 116)
+
+  return {
+    l: (116 * yy) - 16,
+    a: 500 * (xx - yy),
+    b: 200 * (yy - zz)
   }
-
-  return { h: h * 360, s: s * 100, l: l * 100 }
 }
 
-// Create a full Color object from RGB values
 function makeColor(r: number, g: number, b: number): Color {
-  const hsl = rgbToHsl(r, g, b)
-  return { r, g, b, ...hsl }
+  const [x, y, z] = rgbToXyz(r, g, b)
+  const lab = xyzToLab(x, y, z)
+  return { r, g, b, ...lab }
+}
+
+// CIE76 Delta E (Euclidean distance in Lab space)
+// Much better than RGB distance for human perception
+function deltaE(c1: ColorLab, c2: ColorLab): number {
+  const dl = c1.l - c2.l
+  const da = c1.a - c2.a
+  const db = c1.b - c2.b
+  return Math.sqrt(dl * dl + da * da + db * db)
 }
 
 // ============================================================================
-// K-Means Clustering for Palette Extraction
+// Palette Extraction (K-Means)
 // ============================================================================
 
 type RGBPoint = [number, number, number]
 
 function rgbDistance(a: RGBPoint, b: RGBPoint): number {
-  const dr = a[0] - b[0]
-  const dg = a[1] - b[1]
-  const db = a[2] - b[2]
-  return Math.sqrt(dr * dr + dg * dg + db * db)
+  return Math.sqrt(
+    Math.pow(a[0] - b[0], 2) +
+    Math.pow(a[1] - b[1], 2) +
+    Math.pow(a[2] - b[2], 2)
+  )
 }
 
-function kMeansClustering(pixels: RGBPoint[], k: number, maxIterations = 20): RGBPoint[] {
+function kMeansClustering(pixels: RGBPoint[], k: number, maxIterations = 15): RGBPoint[] {
   if (pixels.length === 0) return [[128, 128, 128]]
   if (pixels.length <= k) return pixels
 
-  // Initialize centroids by picking diverse starting points (k-means++)
+  // Initialize centroids (K-means++)
   const centroids: RGBPoint[] = []
-  
-  // First centroid: random pixel
   centroids.push(pixels[Math.floor(Math.random() * pixels.length)])
   
-  // Subsequent centroids: pick pixels with probability proportional to distance from nearest centroid
   while (centroids.length < k) {
-    const distances = pixels.map(p => {
-      const minDist = Math.min(...centroids.map(c => rgbDistance(p, c)))
-      return minDist * minDist // Square for weighting
-    })
-    const totalDist = distances.reduce((a, b) => a + b, 0)
-    
-    if (totalDist === 0) break
+    const distances = pixels.map(p => Math.min(...centroids.map(c => rgbDistance(p, c)) ** 2))
+    const totalDist = distances.reduce((sum, d) => sum + d, 0)
     
     let r = Math.random() * totalDist
     for (let i = 0; i < pixels.length; i++) {
@@ -110,253 +119,213 @@ function kMeansClustering(pixels: RGBPoint[], k: number, maxIterations = 20): RG
     }
   }
 
-  // Iterative refinement
   for (let iter = 0; iter < maxIterations; iter++) {
-    // Assign pixels to nearest centroid
-    const clusters: RGBPoint[][] = centroids.map(() => [])
+    const clusters: RGBPoint[][] = Array.from({ length: k }, () => [])
     
-    for (const pixel of pixels) {
-      let minDist = Infinity
+    for (const p of pixels) {
       let minIdx = 0
-      for (let i = 0; i < centroids.length; i++) {
-        const d = rgbDistance(pixel, centroids[i])
+      let minDist = Infinity
+      for (let i = 0; i < k; i++) {
+        const d = rgbDistance(p, centroids[i])
         if (d < minDist) {
           minDist = d
           minIdx = i
         }
       }
-      clusters[minIdx].push(pixel)
+      clusters[minIdx].push(p)
     }
 
-    // Update centroids
     let converged = true
-    for (let i = 0; i < centroids.length; i++) {
+    for (let i = 0; i < k; i++) {
       if (clusters[i].length === 0) continue
-      
       const newCentroid: RGBPoint = [
-        Math.round(clusters[i].reduce((sum, p) => sum + p[0], 0) / clusters[i].length),
-        Math.round(clusters[i].reduce((sum, p) => sum + p[1], 0) / clusters[i].length),
-        Math.round(clusters[i].reduce((sum, p) => sum + p[2], 0) / clusters[i].length),
+        clusters[i].reduce((s, p) => s + p[0], 0) / clusters[i].length,
+        clusters[i].reduce((s, p) => s + p[1], 0) / clusters[i].length,
+        clusters[i].reduce((s, p) => s + p[2], 0) / clusters[i].length
       ]
-      
-      if (rgbDistance(centroids[i], newCentroid) > 1) {
-        converged = false
-      }
+      if (rgbDistance(centroids[i], newCentroid) > 1) converged = false
       centroids[i] = newCentroid
     }
-    
     if (converged) break
   }
 
-  // Sort centroids by cluster size (most prominent first)
-  const clusterSizes = centroids.map((_, i) => {
-    let count = 0
-    for (const pixel of pixels) {
-      let minDist = Infinity
-      let minIdx = 0
-      for (let j = 0; j < centroids.length; j++) {
-        const d = rgbDistance(pixel, centroids[j])
-        if (d < minDist) {
-          minDist = d
-          minIdx = j
-        }
-      }
-      if (minIdx === i) count++
-    }
-    return count
+  // Sort by cluster size (prominence)
+  const sizes = centroids.map(c => {
+    return pixels.filter(p => {
+      const closest = centroids.reduce((bestIdx, curr, idx) => 
+        rgbDistance(p, curr) < rgbDistance(p, centroids[bestIdx]) ? idx : bestIdx, 0)
+      return centroids[closest] === c
+    }).length
   })
 
-  const sortedCentroids = centroids
-    .map((c, i) => ({ centroid: c, size: clusterSizes[i] }))
+  return centroids
+    .map((c, i) => ({ c, size: sizes[i] }))
     .sort((a, b) => b.size - a.size)
-    .map(x => x.centroid)
-
-  return sortedCentroids
+    .map(x => x.c)
 }
-
-// ============================================================================
-// Palette Extraction
-// ============================================================================
 
 async function extractPalette(imageUrl: string): Promise<Color[]> {
   try {
-    // Download image
     const response = await fetch(imageUrl)
     if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
-    
     const buffer = Buffer.from(await response.arrayBuffer())
     
-    // Resize to small size for faster processing and extract raw pixels
-    const { data, info } = await sharp(buffer)
+    const { data } = await sharp(buffer)
       .resize(50, 50, { fit: 'cover' })
       .removeAlpha()
       .raw()
       .toBuffer({ resolveWithObject: true })
     
-    // Convert buffer to array of RGB points
     const pixels: RGBPoint[] = []
     for (let i = 0; i < data.length; i += 3) {
       pixels.push([data[i], data[i + 1], data[i + 2]])
     }
     
-    // Run K-means to find dominant colors
     const centroids = kMeansClustering(pixels, PALETTE_SIZE)
-    
-    // Convert to Color objects
-    const palette = centroids.map(([r, g, b]) => makeColor(r, g, b))
-    
-    return palette
+    return centroids.map(([r, g, b]) => makeColor(r, g, b))
   } catch (error) {
-    console.error(`Failed to process image ${imageUrl}:`, error)
-    // Return gray palette as fallback
+    console.error(`Failed to process ${imageUrl}`, error)
     return [makeColor(128, 128, 128)]
   }
 }
 
 // ============================================================================
-// Palette Distance (Soft Hausdorff-like)
+// Distance Metrics
 // ============================================================================
 
-// Perceptual distance between two colors
-function colorDistance(c1: Color, c2: Color): number {
-  // Weighted combination of RGB and HSL distance
-  const dr = c1.r - c2.r
-  const dg = c1.g - c2.g
-  const db = c1.b - c2.b
-  
-  // Circular hue distance
-  const dh = Math.min(
-    Math.abs(c1.h - c2.h),
-    360 - Math.abs(c1.h - c2.h)
-  )
-  const ds = c1.s - c2.s
-  const dl = c1.l - c2.l
-  
-  // Weighted distance emphasizing hue
-  return Math.sqrt(
-    0.3 * (dr * dr + dg * dg + db * db) +
-    0.4 * (dh * dh * 4) +
-    0.15 * (ds * ds) +
-    0.15 * (dl * dl)
-  )
-}
-
-// Distance between two palettes using minimum pairwise matching
-// Lower = more similar
+// Compare two palettes to find visual similarity
+// Uses a weighted minimum distance approach (Soft Hausdorff) in Lab space
 function paletteDistance(p1: Color[], p2: Color[]): number {
-  if (p1.length === 0 || p2.length === 0) return Infinity
+  if (!p1.length || !p2.length) return Infinity
+
+  // Weight the primary color (index 0) more heavily as it defines the overall look
+  const primaryWeight = 2.0
   
-  // For each color in p1, find the closest color in p2
-  // This is a "soft" Hausdorff distance (average of minimums, not max)
-  let sumMinDist1 = 0
-  for (const c1 of p1) {
-    let minDist = Infinity
-    for (const c2 of p2) {
-      const d = colorDistance(c1, c2)
-      if (d < minDist) minDist = d
+  let totalDist = 0
+  let comparisons = 0
+
+  // 1. Primary color distance (Dominant vs Dominant)
+  totalDist += deltaE(p1[0], p2[0]) * primaryWeight
+  comparisons += primaryWeight
+
+  // 2. Average minimum distance for the rest
+  // For each color in P1, find closest in P2
+  for (let i = 0; i < p1.length; i++) {
+    let minD = Infinity
+    for (let j = 0; j < p2.length; j++) {
+      const d = deltaE(p1[i], p2[j])
+      if (d < minD) minD = d
     }
-    sumMinDist1 += minDist
+    totalDist += minD
+    comparisons++
   }
-  
-  let sumMinDist2 = 0
-  for (const c2 of p2) {
-    let minDist = Infinity
-    for (const c1 of p1) {
-      const d = colorDistance(c1, c2)
-      if (d < minDist) minDist = d
+
+  // Symmetry: For each color in P2, find closest in P1
+  for (let i = 0; i < p2.length; i++) {
+    let minD = Infinity
+    for (let j = 0; j < p1.length; j++) {
+      const d = deltaE(p2[i], p1[j])
+      if (d < minD) minD = d
     }
-    sumMinDist2 += minDist
+    totalDist += minD
+    comparisons++
   }
-  
-  // Average of both directions for symmetry
-  return (sumMinDist1 / p1.length + sumMinDist2 / p2.length) / 2
+
+  return totalDist / comparisons
 }
 
 // ============================================================================
-// Grid-Aware Sorting (5-Column Optimization)
+// Global Optimization: Simulated Annealing
 // ============================================================================
 
-function sortByGrid(releases: ReleaseWithPalette[]): ReleaseWithPalette[] {
-  if (releases.length <= 1) return releases
+// Calculate the total "energy" (badness) of the grid
+// Lower energy = smoother transitions
+function calculateGridEnergy(grid: ReleaseWithPalette[]): number {
+  let energy = 0
+  const rows = Math.ceil(grid.length / GRID_COLUMNS)
+
+  for (let i = 0; i < grid.length; i++) {
+    const col = i % GRID_COLUMNS
+    const row = Math.floor(i / GRID_COLUMNS)
+    
+    // Right Neighbor
+    if (col < GRID_COLUMNS - 1 && i + 1 < grid.length) {
+      energy += paletteDistance(grid[i].palette, grid[i + 1].palette)
+    }
+
+    // Bottom Neighbor
+    if (row < rows - 1 && i + GRID_COLUMNS < grid.length) {
+      energy += paletteDistance(grid[i].palette, grid[i + GRID_COLUMNS].palette)
+    }
+  }
+
+  return energy
+}
+
+function simulatedAnnealingSort(releases: ReleaseWithPalette[]): ReleaseWithPalette[] {
+  console.log(`[sort-by-color] Starting Simulated Annealing Optimization...`)
   
-  const sorted: ReleaseWithPalette[] = []
-  const remaining = [...releases]
+  // 1. Initial rough sort to give a good starting point (e.g., by Hue or Luminance)
+  // This helps convergence speed significantly.
+  let currentGrid = [...releases].sort((a, b) => {
+    // Sort by Hue first, then Luminance
+    const hA = Math.atan2(a.palette[0].b, a.palette[0].a)
+    const hB = Math.atan2(b.palette[0].b, b.palette[0].a)
+    return hA - hB
+  })
+
+  let currentEnergy = calculateGridEnergy(currentGrid)
+  let bestGrid = [...currentGrid]
+  let bestEnergy = currentEnergy
+
+  // Annealing parameters
+  let temp = 1000       // Initial temperature
+  const coolingRate = 0.9995 // Cooling rate (slower = better quality, slower speed)
+  const minTemp = 0.1   // Stop temperature
   
-  // Find a good starting item: high saturation and medium lightness (visually striking)
-  const startIndex = remaining.reduce((bestIdx, curr, idx, arr) => {
-    // Average saturation and lightness across palette
-    const avgS = curr.palette.reduce((sum, c) => sum + c.s, 0) / curr.palette.length
-    const avgL = curr.palette.reduce((sum, c) => sum + c.l, 0) / curr.palette.length
-    // Prefer high saturation and mid-range lightness
-    const currScore = avgS * (100 - Math.abs(avgL - 50))
-    
-    const bestPalette = arr[bestIdx].palette
-    const bestAvgS = bestPalette.reduce((sum, c) => sum + c.s, 0) / bestPalette.length
-    const bestAvgL = bestPalette.reduce((sum, c) => sum + c.l, 0) / bestPalette.length
-    const bestScore = bestAvgS * (100 - Math.abs(bestAvgL - 50))
-    
-    return currScore > bestScore ? idx : bestIdx
-  }, 0)
+  // Adjust iterations based on collection size, but cap it to ensure build finishes
+  // For ~100 items, 50k-100k iterations is instant.
+  const maxIterations = 200000 
   
-  sorted.push(remaining[startIndex])
-  remaining.splice(startIndex, 1)
-  
-  // Greedy placement considering grid neighbors
-  while (remaining.length > 0) {
-    const position = sorted.length
-    const col = position % GRID_COLUMNS
-    const row = Math.floor(position / GRID_COLUMNS)
+  let iter = 0
+  while (temp > minTemp && iter < maxIterations) {
+    // Pick two random indices to swap
+    const idx1 = Math.floor(Math.random() * currentGrid.length)
+    const idx2 = Math.floor(Math.random() * currentGrid.length)
+
+    if (idx1 === idx2) continue
+
+    // Calculate energy change only for affected neighbors (optimization)
+    // But for simplicity and robustness in this script, we can recalculate or do delta.
+    // Given the array size is small (<1000), full recalc is fast enough.
+    // Let's do a speculative swap.
+    const tempGrid = [...currentGrid]
+    ;[tempGrid[idx1], tempGrid[idx2]] = [tempGrid[idx2], tempGrid[idx1]]
     
-    // Get neighbor palettes
-    const leftNeighbor = col > 0 ? sorted[position - 1] : null
-    const topNeighbor = row > 0 ? sorted[position - GRID_COLUMNS] : null
-    
-    let bestIdx = 0
-    let bestScore = Infinity
-    
-    for (let i = 0; i < remaining.length; i++) {
-      const candidate = remaining[i]
-      let score = 0
-      let neighborCount = 0
-      
-      // Distance to left neighbor (more weight for horizontal continuity)
-      if (leftNeighbor) {
-        score += paletteDistance(candidate.palette, leftNeighbor.palette) * 1.2
-        neighborCount++
-      }
-      
-      // Distance to top neighbor
-      if (topNeighbor) {
-        score += paletteDistance(candidate.palette, topNeighbor.palette) * 1.0
-        neighborCount++
-      }
-      
-      // If we're at the start of a new row (col === 0), also consider diagonal
-      // to help maintain flow across row boundaries
-      if (col === 0 && row > 0) {
-        const topRightNeighbor = sorted[position - GRID_COLUMNS + (GRID_COLUMNS - 1)]
-        if (topRightNeighbor) {
-          score += paletteDistance(candidate.palette, topRightNeighbor.palette) * 0.5
-          neighborCount += 0.5
-        }
-      }
-      
-      // Normalize by number of neighbors considered
-      if (neighborCount > 0) {
-        score /= neighborCount
-      }
-      
-      if (score < bestScore) {
-        bestScore = score
-        bestIdx = i
+    const newEnergy = calculateGridEnergy(tempGrid)
+    const delta = newEnergy - currentEnergy
+
+    // Acceptance probability
+    if (delta < 0 || Math.random() < Math.exp(-delta / temp)) {
+      currentGrid = tempGrid
+      currentEnergy = newEnergy
+
+      if (currentEnergy < bestEnergy) {
+        bestEnergy = currentEnergy
+        bestGrid = [...currentGrid]
       }
     }
-    
-    sorted.push(remaining[bestIdx])
-    remaining.splice(bestIdx, 1)
+
+    temp *= coolingRate
+    iter++
+
+    if (iter % 10000 === 0) {
+      process.stdout.write(`\r[sort-by-color] Iteration ${iter}/${maxIterations} | Temp: ${temp.toFixed(1)} | Energy: ${bestEnergy.toFixed(1)}   `)
+    }
   }
   
-  return sorted
+  console.log(`\n[sort-by-color] Optimization complete. Final Energy: ${bestEnergy.toFixed(1)}`)
+  return bestGrid
 }
 
 // ============================================================================
@@ -365,69 +334,56 @@ function sortByGrid(releases: ReleaseWithPalette[]): ReleaseWithPalette[] {
 
 async function main() {
   const INPUT_PATH = path.join(process.cwd(), "data", "discogs-collection.json")
-  const OUTPUT_PATH = path.join(process.cwd(), "data", "discogs-collection.json")
   
   console.log("[sort-by-color] Reading collection data...")
   const rawData = await fs.readFile(INPUT_PATH, "utf8")
   const data = JSON.parse(rawData) as { fetchedAt: string; releases: Release[] }
   
-  console.log(`[sort-by-color] Extracting color palettes from ${data.releases.length} albums...`)
-  console.log(`[sort-by-color] Using ${PALETTE_SIZE} colors per album, optimizing for ${GRID_COLUMNS}-column grid\n`)
+  console.log(`[sort-by-color] Processing ${data.releases.length} albums...`)
   
   const releasesWithPalettes: ReleaseWithPalette[] = []
   
+  // Parallel processing with concurrency limit could be faster, but sequential is safer for rate limits/memory
   for (let i = 0; i < data.releases.length; i++) {
     const release = data.releases[i]
-    console.log(`[sort-by-color] (${i + 1}/${data.releases.length}) Processing: ${release.title}`)
+    // Simple progress log every 5 items
+    if (i % 5 === 0) process.stdout.write(`\r[sort-by-color] Extracting palettes: ${i}/${data.releases.length}`)
     
     const palette = await extractPalette(release.cover_image)
-    releasesWithPalettes.push({
-      ...release,
-      palette,
-    })
-    
-    // Small delay to avoid overwhelming the network
-    await new Promise(resolve => setTimeout(resolve, 100))
+    releasesWithPalettes.push({ ...release, palette })
   }
+  console.log("\n[sort-by-color] Palette extraction complete.")
   
-  console.log("\n[sort-by-color] Sorting by color gradient with grid optimization...")
-  const sorted = sortByGrid(releasesWithPalettes)
+  // Run the Global Optimization
+  const sorted = simulatedAnnealingSort(releasesWithPalettes)
   
-  // Log the color progression with palette info
-  console.log("\n[sort-by-color] Grid layout preview (5 columns):")
-  console.log("═".repeat(120))
+  // Visualization Log
+  console.log("\n[sort-by-color] Grid layout preview (First 5 Rows):")
+  console.log("═".repeat(100))
   
-  for (let row = 0; row < Math.ceil(sorted.length / GRID_COLUMNS); row++) {
+  const previewRows = Math.min(5, Math.ceil(sorted.length / GRID_COLUMNS))
+  for (let row = 0; row < previewRows; row++) {
     const rowItems = sorted.slice(row * GRID_COLUMNS, (row + 1) * GRID_COLUMNS)
     
-    // Print titles
-    const titles = rowItems.map(r => r.title.slice(0, 20).padEnd(20)).join(" │ ")
-    console.log(`Row ${(row + 1).toString().padStart(2)}: ${titles}`)
+    // Titles
+    console.log(rowItems.map(r => r.title.slice(0, 15).padEnd(15)).join(" │ "))
     
-    // Print primary colors (first color in palette)
-    const colors = rowItems.map(r => {
+    // Colors (RGB)
+    console.log(rowItems.map(r => {
       const c = r.palette[0]
-      return `RGB(${c.r.toString().padStart(3)},${c.g.toString().padStart(3)},${c.b.toString().padStart(3)})`
-    }).join(" │ ")
-    console.log(`        ${colors}`)
+      return `R${c.r.toString().padStart(3)} G${c.g.toString().padStart(3)} B${c.b.toString().padStart(3)}`
+    }).join(" │ "))
     
-    // Print hue values for all palette colors
-    const hues = rowItems.map(r => {
-      return `H:${r.palette.map(c => Math.round(c.h).toString().padStart(3)).join(',')}`
-    }).join(" │ ")
-    console.log(`        ${hues}`)
-    
-    console.log("─".repeat(120))
+    console.log("─".repeat(100))
   }
-  
-  // Remove palette before saving (keep original structure)
+
   const output = {
     fetchedAt: data.fetchedAt,
     releases: sorted.map(({ palette, ...release }) => release),
   }
   
-  await fs.writeFile(OUTPUT_PATH, JSON.stringify(output, null, 2), "utf8")
-  console.log(`\n[sort-by-color] Saved sorted collection to: ${OUTPUT_PATH}`)
+  await fs.writeFile(INPUT_PATH, JSON.stringify(output, null, 2), "utf8")
+  console.log(`[sort-by-color] Saved globally optimized collection to: ${INPUT_PATH}`)
 }
 
 main().catch((err) => {
