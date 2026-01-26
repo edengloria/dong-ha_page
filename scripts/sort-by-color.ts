@@ -114,7 +114,7 @@ function kMeansClustering(pixels: RGBPoint[], k: number, maxIterations = 15): RG
   centroids.push(pixels[Math.floor(Math.random() * pixels.length)])
   
   while (centroids.length < k) {
-    const distances = pixels.map(p => Math.min(...centroids.map(c => rgbDistance(p, c)) ** 2))
+    const distances = pixels.map(p => Math.min(...centroids.map(c => Math.pow(rgbDistance(p, c), 2))))
     const totalDist = distances.reduce((sum, d) => sum + d, 0)
     
     let r = Math.random() * totalDist
