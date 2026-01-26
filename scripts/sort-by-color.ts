@@ -74,13 +74,21 @@ function makeColor(r: number, g: number, b: number): Color {
   return { r, g, b, ...lab }
 }
 
-// CIE76 Delta E (Euclidean distance in Lab space)
-// Much better than RGB distance for human perception
+// CIE76 Delta E with Weighted Factors
+// Adjusted to balance Hue/Chroma and Lightness
 function deltaE(c1: ColorLab, c2: ColorLab): number {
   const dl = c1.l - c2.l
   const da = c1.a - c2.a
   const db = c1.b - c2.b
-  return Math.sqrt(dl * dl + da * da + db * db)
+  
+  // Weighting:
+  // Lightness (L): 1.0 (Increased from 0.5 to penalize large brightness differences)
+  // Color (a, b): 1.2 (Slightly higher to keep colors grouped, but allows L to have effect)
+  return Math.sqrt(
+    Math.pow(dl * 1.0, 2) + 
+    Math.pow(da * 1.2, 2) + 
+    Math.pow(db * 1.2, 2)
+  )
 }
 
 // ============================================================================
@@ -199,7 +207,8 @@ function paletteDistance(p1: Color[], p2: Color[]): number {
   if (!p1.length || !p2.length) return Infinity
 
   // Weight the primary color (index 0) more heavily as it defines the overall look
-  const primaryWeight = 2.0
+  // Increased to 3.0 to ensure the main color matches well
+  const primaryWeight = 3.0
   
   let totalDist = 0
   let comparisons = 0
@@ -265,13 +274,18 @@ function calculateGridEnergy(grid: ReleaseWithPalette[]): number {
 function simulatedAnnealingSort(releases: ReleaseWithPalette[]): ReleaseWithPalette[] {
   console.log(`[sort-by-color] Starting Simulated Annealing Optimization...`)
   
-  // 1. Initial rough sort to give a good starting point (e.g., by Hue or Luminance)
-  // This helps convergence speed significantly.
+  // 1. Initial rough sort to give a good starting point
+  // Sort by Hue first, then Lightness to group similar colors initially
   let currentGrid = [...releases].sort((a, b) => {
-    // Sort by Hue first, then Luminance
     const hA = Math.atan2(a.palette[0].b, a.palette[0].a)
     const hB = Math.atan2(b.palette[0].b, b.palette[0].a)
-    return hA - hB
+    
+    // If hues are significantly different, sort by hue
+    if (Math.abs(hA - hB) > 0.2) {
+      return hA - hB
+    }
+    // If hues are similar, sort by lightness
+    return a.palette[0].l - b.palette[0].l
   })
 
   let currentEnergy = calculateGridEnergy(currentGrid)
