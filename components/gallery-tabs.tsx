@@ -18,7 +18,7 @@ export function GalleryTabs() {
       <div className="relative flex items-center bg-background/40 backdrop-blur-sm rounded-full p-1 border border-border/30 w-[200px]">
         {/* Sliding indicator */}
         <motion.div
-          className="absolute top-1 bottom-1 left-1 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-500 shadow-lg shadow-indigo-500/25"
+          className="absolute top-1 bottom-1 left-1 rounded-full bg-gradient-to-r from-postech-red to-postech-red/80 shadow-lg shadow-postech-red/30"
           initial={false}
           animate={{
             x: isVinyl ? "100%" : "0%",
@@ -31,7 +31,7 @@ export function GalleryTabs() {
           href="/gallery/photos"
           className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isPhotos
-              ? "text-white"
+              ? "text-postech-red"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -43,7 +43,7 @@ export function GalleryTabs() {
           href="/gallery/vinyl"
           className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isVinyl
-              ? "text-white"
+              ? "text-postech-red"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >

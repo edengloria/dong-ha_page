@@ -50,30 +50,30 @@ const initialPrefs = (prefsRaw as unknown as TrackPreferences) ?? {}
 
 // Common Korean artist romanization mappings (same as lp-collection.tsx)
 const ARTIST_KOREAN_MAP: Record<string, string> = {
-  "cho yong-pil": "조용필",
-  "cho yongpil": "조용필",
-  "cheong tae choon": "정태춘",
-  "chung tae chun": "정태춘",
-  "kim kwang seok": "김광석",
-  "siinkwa chonjang": "시인과 촌장",
-  "shin seung hun": "신승훈",
-  "lee moon sae": "이문세",
-  "lee moon-sae": "이문세",
-  "yoo jae ha": "유재하",
-  "kim hyun sik": "김현식",
-  "deulgukhwa": "들국화",
-  "sanullim": "산울림",
-  "song chang sik": "송창식",
-  "yang hee eun": "양희은",
-  "han dae soo": "한대수",
-  "kim min ki": "김민기",
-  "jeon in kwon": "전인권",
-  "bom yeoreum gaeul gyeoul": "봄여름가을겨울",
-  "spring summer fall winter": "봄여름가을겨울",
-  "light and salt": "빛과소금",
-  "bitgwa sogeum": "빛과소금",
-  "yoonsang": "윤상",
-  "yoon sang": "윤상",
+  "cho yong-pil": "Cho Yong-pil",
+  "cho yongpil": "Cho Yong-pil",
+  "cheong tae choon": "Cheong Tae-choon",
+  "chung tae chun": "Cheong Tae-choon",
+  "kim kwang seok": "Kim Kwang Seok",
+  "siinkwa chonjang": "Si In-gang",
+  "shin seung hun": "Shin Seung-hun",
+  "lee moon sae": "Lee Moon-sae",
+  "lee moon-sae": "Lee Moon-sae",
+  "yoo jae ha": "Yoo Jae-ha",
+  "kim hyun sik": "Kim Hyun-sik",
+  "deulgukhwa": "Deulgukhwa",
+  "sanullim": "Sanullim",
+  "song chang sik": "Song Chang-sik",
+  "yang hee eun": "Yang Hee-eun",
+  "han dae soo": "Han Dae-soo",
+  "kim min ki": "Kim Min-ki",
+  "jeon in kwon": "Jeon In-kwon",
+  "bom yeoreum gaeul gyeoul": "Bom Yeoreum Gaeul Gyeoul",
+  "spring summer fall winter": "Spring Summer Fall Winter",
+  "light and salt": "Light and Salt",
+  "bitgwa sogeum": "Bitgwa Sogeum",
+  "yoonsang": "Yoonsang",
+  "yoon sang": "Yoon Sang",
 }
 
 // Check if text contains Korean/CJK characters
@@ -394,20 +394,20 @@ export default function DiscogsAdminPage() {
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-indigo-400" />
+              <Shield className="h-5 w-5 text-postech-red" />
               Admin
             </CardTitle>
             <CardDescription>
               Enter password to manage Discogs track selection preferences.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <Input
-              type="password"
-              placeholder="Admin password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => {
+        <CardContent className="space-y-3">
+          <Input
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
                 if (e.key === "Enter") handleLogin()
               }}
             />
@@ -457,7 +457,7 @@ export default function DiscogsAdminPage() {
                   key={r.id}
                   className={`w-full text-left flex gap-3 rounded-lg border p-3 transition-colors ${
                     active
-                      ? "border-indigo-500/50 bg-indigo-500/10"
+                      ? "border-postech-red/50 bg-postech-red/10"
                       : "border-border/30 hover:bg-white/5"
                   }`}
                   onClick={() => setSelectedReleaseId(r.id)}
@@ -478,7 +478,7 @@ export default function DiscogsAdminPage() {
                     <div className="text-xs text-muted-foreground line-clamp-1">
                       {r.artist}
                     </div>
-                    <div className="text-xs text-indigo-400/70">{r.year || "—"}</div>
+                    <div className="text-xs text-postech-red/70">{r.year || "Unknown"}</div>
                   </div>
                 </button>
               )
@@ -511,14 +511,13 @@ export default function DiscogsAdminPage() {
                   </div>
                   <div className="min-w-0">
                     <div className="text-lg font-semibold">{selectedRelease.title}</div>
-                    <div className="text-sm text-indigo-400">{selectedRelease.artist}</div>
+                    <div className="text-sm text-postech-red">{selectedRelease.artist}</div>
                     <div className="text-sm text-muted-foreground">
-                      {selectedRelease.year || "—"} · tracks: {selectedRelease.tracks.length}
+                      {selectedRelease.year || "Unknown"} · {selectedRelease.tracks.length} tracks
                     </div>
                     {currentPref && (
                       <div className="mt-2 text-xs text-muted-foreground">
-                        Current: #{currentPref.selectedTrackIndex + 1} —{" "}
-                        {currentPref.selectedTrackTitle}
+                        Current: #{currentPref.selectedTrackIndex + 1} · {currentPref.selectedTrackTitle}
                         {currentPref.customSearchQuery
                           ? ` (query: ${currentPref.customSearchQuery})`
                           : ""}
@@ -534,7 +533,7 @@ export default function DiscogsAdminPage() {
                       href={`https://www.discogs.com/release/${selectedRelease.id}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+                      className="text-xs text-postech-red hover:text-postech-orange flex items-center gap-1"
                     >
                       Discogs
                       <ExternalLink className="h-3 w-3" />
@@ -576,7 +575,7 @@ export default function DiscogsAdminPage() {
                   <Input
                     value={customSearchQuery}
                     onChange={(e) => setCustomSearchQuery(e.target.value)}
-                    placeholder='e.g. "조용필 돌아와요 부산항에"'
+                    placeholder='e.g. "Come Back to Busan Port by Cho Yong-pil"'
                   />
                   <p className="text-xs text-muted-foreground">
                     If empty, we search with: <b>{selectedRelease.artist}</b> +{" "}
@@ -625,7 +624,7 @@ export default function DiscogsAdminPage() {
                       </>
                     ) : null}
                   </Label>
-                  {previewError && <p className="text-sm text-red-400">{previewError}</p>}
+                  {previewError && <p className="text-sm text-postech-red">{previewError}</p>}
                   {!previewError && previewResults && previewResults.length === 0 && (
                     <p className="text-sm text-muted-foreground">No results.</p>
                   )}
@@ -645,7 +644,7 @@ export default function DiscogsAdminPage() {
                           <div className="mt-2 flex gap-2 flex-wrap">
                             {r.previewUrl && (
                               <a
-                                className="text-xs text-indigo-400 hover:text-indigo-300"
+                                className="text-xs text-postech-red hover:text-postech-orange"
                                 href={r.previewUrl}
                                 target="_blank"
                                 rel="noreferrer"
@@ -655,7 +654,7 @@ export default function DiscogsAdminPage() {
                             )}
                             {r.trackViewUrl && (
                               <a
-                                className="text-xs text-indigo-400 hover:text-indigo-300"
+                                className="text-xs text-postech-red hover:text-postech-orange"
                                 href={r.trackViewUrl}
                                 target="_blank"
                                 rel="noreferrer"

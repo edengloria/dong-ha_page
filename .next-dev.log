@@ -1,0 +1,433 @@
+
+> my-v0-project@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3000
+
+   ▲ Next.js 15.5.9
+   - Local:        http://127.0.0.1:3000
+   - Network:      http://127.0.0.1:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1876ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.6s (1449 modules)
+ GET / 200 in 3188ms
+ ✓ Compiled in 780ms (648 modules)
+ ○ Compiling /gallery/vinyl ...
+ ✓ Compiled /gallery/vinyl in 530ms (1460 modules)
+ GET /gallery/vinyl/ 200 in 1105ms
+ ✓ Compiled /icon.png in 319ms (830 modules)
+ GET /icon.png?8d32b5b8a9640ccc 200 in 499ms
+ ✓ Compiled / in 159ms (840 modules)
+ GET / 200 in 312ms
+ GET / 200 in 267ms
+ GET /icon.png?8d32b5b8a9640ccc 200 in 31ms
+ ✓ Compiled /gallery in 460ms (1483 modules)
+ GET /gallery/ 200 in 655ms
+ GET /gallery/ 200 in 28ms
+ GET /gallery/vinyl/ 200 in 66ms
+ GET /gallery/vinyl/ 200 in 42ms
+ GET / 200 in 34ms
+ GET /gallery/ 200 in 28ms
+ GET /gallery/vinyl/ 200 in 47ms
+ GET /gallery/vinyl/ 200 in 34ms
+ GET / 200 in 25ms
+ GET /gallery/ 200 in 41ms
+ GET /gallery/vinyl/ 200 in 63ms
+ GET /gallery/vinyl/ 200 in 47ms
+ ✓ Compiled /icon.png in 373ms (852 modules)
+ GET /icon.png?8d32b5b8a9640ccc 200 in 516ms
+ ○ Compiling /gallery/photos ...
+ ✓ Compiled /gallery/photos in 945ms (1515 modules)
+ GET /gallery/photos/ 200 in 1090ms
+ GET /gallery/vinyl/ 200 in 59ms
+ GET /gallery/photos/ 200 in 36ms
+ ✓ Compiled in 607ms (667 modules)
+ GET /gallery/photos/ 200 in 48ms
+ ✓ Compiled in 603ms (1529 modules)
+ GET /gallery/photos/ 200 in 103ms
+ ✓ Compiled in 607ms (1529 modules)
+ GET /gallery/photos/ 200 in 85ms
+ ✓ Compiled in 1963ms (1529 modules)
+ GET /gallery/photos/ 200 in 119ms
+ ✓ Compiled in 177ms (667 modules)
+ GET /gallery/photos/ 200 in 44ms
+ ✓ Compiled in 213ms (667 modules)
+ GET /gallery/photos/ 200 in 39ms
+ ✓ Compiled in 161ms (667 modules)
+ GET /gallery/photos/ 200 in 43ms
+ ✓ Compiled in 151ms (667 modules)
+ GET /gallery/photos/ 200 in 40ms
+ ✓ Compiled in 160ms (667 modules)
+ GET /gallery/photos/ 200 in 46ms
+ ✓ Compiled in 182ms (667 modules)
+ GET /gallery/photos/ 200 in 38ms
+ ✓ Compiled in 403ms (1500 modules)
+ GET /gallery/photos/ 200 in 193ms
+ ✓ Compiled in 168ms (667 modules)
+ GET /gallery/photos/ 200 in 42ms
+ ⨯ ./components/lp-collection.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from D:\dong-ha_page\components\lp-collection.tsx
+    1: stream did not contain valid UTF-8
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ ○ Compiling /_error ...
+ ⨯ ./components/lp-collection.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from D:\dong-ha_page\components\lp-collection.tsx
+    1: stream did not contain valid UTF-8
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ GET /gallery/photos/ 500 in 4208ms
+ GET /gallery/photos/ 500 in 426ms
+ GET /gallery/photos/ 500 in 22ms
+ GET /gallery/photos/ 500 in 21ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./components/lp-collection.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:57:1]
+ [2m54[0m | 
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+    : [35;1m                  ^^^^^^^^^^[0m
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+    `----
+  [31mx[0m Expected ',', got 'string literal (cho yongpil, "cho yongpil")'
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:58:1]
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+    : [35;1m  ^^^^^^^^^^^^^[0m
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+ [2m61[0m |   "kim kwang seok": "源愿묒꽍",
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ GET /gallery/photos/ 500 in 20ms
+ ✓ Compiled /_error in 210ms (812 modules)
+ GET /gallery/photos/ 500 in 28ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /gallery/photos/ 500 in 305ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./components/lp-collection.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:57:1]
+ [2m54[0m | 
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+    : [35;1m                  ^^^^^^^^^^[0m
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+    `----
+  [31mx[0m Expected ',', got 'string literal (cho yongpil, "cho yongpil")'
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:58:1]
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+    : [35;1m  ^^^^^^^^^^^^^[0m
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+ [2m61[0m |   "kim kwang seok": "源愿묒꽍",
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ GET /gallery/photos/ 500 in 236ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./components/lp-collection.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:57:1]
+ [2m54[0m | 
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+    : [35;1m                  ^^^^^^^^^^[0m
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+    `----
+  [31mx[0m Expected ',', got 'string literal (cho yongpil, "cho yongpil")'
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:58:1]
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+    : [35;1m  ^^^^^^^^^^^^^[0m
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+ [2m61[0m |   "kim kwang seok": "源愿묒꽍",
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ GET /gallery/photos/ 500 in 171ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./components/lp-collection.tsx
+Error:   [31mx[0m Unterminated string constant
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:57:1]
+ [2m54[0m | 
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+    : [35;1m                  ^^^^^^^^^^[0m
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+    `----
+  [31mx[0m Expected ',', got 'string literal (cho yongpil, "cho yongpil")'
+    ,-[[36;1;4mD:\dong-ha_page\components\lp-collection.tsx[0m:58:1]
+ [2m55[0m | // Common Korean artist romanization mappings
+ [2m56[0m | const ARTIST_KOREAN_MAP: Record<string, string> = {
+ [2m57[0m |   "cho yong-pil": "議곗슜??,
+ [2m58[0m |   "cho yongpil": "議곗슜??,
+    : [35;1m  ^^^^^^^^^^^^^[0m
+ [2m59[0m |   "cheong tae choon": "?뺥깭異?,
+ [2m60[0m |   "chung tae chun": "?뺥깭異?,
+ [2m61[0m |   "kim kwang seok": "源愿묒꽍",
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/lp-collection.tsx
+./app/gallery/vinyl/page.tsx
+ GET /gallery/photos/ 500 in 59ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1101ms (1840 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/gallery/photos'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/gallery/photos'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/gallery/photos'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/gallery/photos'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ GET /gallery/photos/ 500 in 2259ms
+ GET /gallery/photos/ 500 in 388ms
+ ✓ Compiled in 421ms (818 modules)
+ ✓ Compiled in 310ms (818 modules)
+ ✓ Compiled in 191ms (818 modules)
+ ✓ Compiled in 200ms (818 modules)
+ ✓ Compiled in 185ms (818 modules)
+ ✓ Compiled in 207ms (818 modules)
+ ✓ Compiled in 958ms (1747 modules)
+ ✓ Compiled in 649ms (1747 modules)
+ ✓ Compiled in 212ms (818 modules)
+ ✓ Compiled in 224ms (818 modules)
+ ✓ Compiled in 182ms (818 modules)
+ ✓ Compiled in 757ms (1747 modules)
+ ✓ Compiled in 409ms (1747 modules)
+ ✓ Compiled in 553ms (1747 modules)
+ ✓ Compiled in 423ms (1747 modules)
+ ✓ Compiled in 371ms (1747 modules)
+ ✓ Compiled in 176ms (818 modules)
+ ✓ Compiled in 180ms (818 modules)
+ ✓ Compiled in 187ms (818 modules)
+ ✓ Compiled in 380ms (818 modules)
+ ✓ Compiled in 211ms (818 modules)
+ ✓ Compiled in 157ms (818 modules)
+ ✓ Compiled in 153ms (818 modules)
+ ✓ Compiled in 163ms (818 modules)
+ ✓ Compiled in 148ms (818 modules)
+ ✓ Compiled in 148ms (818 modules)
+ ✓ Compiled in 219ms (818 modules)
+ ✓ Compiled in 164ms (818 modules)
+ ✓ Compiled in 151ms (818 modules)
+ ✓ Compiled in 148ms (818 modules)
+ ✓ Compiled in 147ms (818 modules)
+ ✓ Compiled in 147ms (818 modules)
+ ✓ Compiled in 138ms (818 modules)
+ ✓ Compiled in 152ms (818 modules)
+ ✓ Compiled in 243ms (818 modules)
+ ✓ Compiled in 160ms (818 modules)
+ ✓ Compiled in 153ms (818 modules)
+ ✓ Compiled in 153ms (818 modules)
+ ✓ Compiled in 143ms (818 modules)
+ ✓ Compiled in 145ms (818 modules)
+ ✓ Compiled in 154ms (818 modules)
+ ✓ Compiled in 137ms (818 modules)
+ ✓ Compiled in 140ms (818 modules)
+ ✓ Compiled in 144ms (818 modules)
+ ✓ Compiled in 135ms (818 modules)
+ ✓ Compiled in 140ms (818 modules)
+ ✓ Compiled in 137ms (818 modules)
+ ✓ Compiled in 147ms (818 modules)
+ ✓ Compiled in 194ms (818 modules)
+ ✓ Compiled in 167ms (818 modules)
+ ✓ Compiled in 156ms (818 modules)
+ ✓ Compiled in 165ms (818 modules)
+ ✓ Compiled in 170ms (818 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1128ms (1752 modules)
+ ⨯ Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\server\vendor-chunks\next.js'
+    at <unknown> (D:\dong-ha_page\.next\server\app\_not-found\page.js:315:47)
+    at Object.<anonymous> (D:\dong-ha_page\.next\server\app\_not-found\page.js:318:3) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\server\\vendor-chunks\\next.js'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 656ms (1831 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\server\\pages\\_document.js'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\server\\pages\\_document.js'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ GET /gallery/photos/ 500 in 2037ms
+ GET /gallery/photos/ 500 in 43ms
+ ✓ Compiled in 437ms (818 modules)
+ ✓ Compiled in 677ms (1747 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/'
+}
+ ✓ Compiled /_error in 367ms (1826 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\server\\pages\\_document.js'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\server\\pages\\_document.js'
+}
+[Error: ENOENT: no such file or directory, open 'D:\dong-ha_page\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\dong-ha_page\\.next\\routes-manifest.json'
+}
+ GET / 500 in 1126ms
+ GET / 500 in 46ms

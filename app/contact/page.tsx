@@ -38,12 +38,12 @@ export default function ContactPage() {
 
           <div className="space-y-5">
             <div className="flex items-start">
-              <Mail className="h-5 w-5 text-indigo-400 mt-0.5 mr-4 flex-shrink-0" />
+              <Mail className="h-5 w-5 text-postech-red mt-0.5 mr-4 flex-shrink-0" />
               <div>
                 <h3 className="text-foreground font-medium">Email</h3>
                 <a 
                   href="mailto:0218sdh@gmail.com" 
-                  className="text-muted-foreground hover:text-indigo-400 transition-colors"
+                  className="text-muted-foreground hover:text-postech-red transition-colors"
                 >
                   0218sdh@gmail.com
                 </a>
@@ -52,7 +52,7 @@ export default function ContactPage() {
             </div>
 
             <div className="flex items-start">
-              <MapPin className="h-5 w-5 text-indigo-400 mt-0.5 mr-4 flex-shrink-0" />
+              <MapPin className="h-5 w-5 text-postech-red mt-0.5 mr-4 flex-shrink-0" />
               <div>
                 <h3 className="text-foreground font-medium">Location</h3>
                 <p className="text-muted-foreground">DareeSoft</p>
@@ -65,7 +65,7 @@ export default function ContactPage() {
             </div>
 
             <div className="flex items-start">
-              <Clock className="h-5 w-5 text-indigo-400 mt-0.5 mr-4 flex-shrink-0" />
+              <Clock className="h-5 w-5 text-postech-red mt-0.5 mr-4 flex-shrink-0" />
               <div>
                 <h3 className="text-foreground font-medium">Timezone</h3>
                 <p className="text-muted-foreground">KST (UTC+9)</p>
@@ -88,11 +88,11 @@ export default function ContactPage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-3 rounded-lg bg-background/20 border border-border/50 hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all group"
+                className="flex items-center p-3 rounded-lg bg-background/20 border border-border/50 hover:bg-postech-red/10 hover:border-postech-red/30 transition-all group"
               >
-                <link.icon className="h-5 w-5 text-muted-foreground group-hover:text-indigo-400 transition-colors mr-4" />
+                <link.icon className="h-5 w-5 text-muted-foreground group-hover:text-postech-red transition-colors mr-4" />
                 <div>
-                  <p className="text-foreground font-medium group-hover:text-indigo-400 transition-colors">
+                  <p className="text-foreground font-medium group-hover:text-postech-red transition-colors">
                     {link.name}
                   </p>
                   <p className="text-muted-foreground/80 text-sm">{link.username}</p>

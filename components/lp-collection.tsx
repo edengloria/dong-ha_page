@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { createPortal } from "react-dom"
@@ -54,30 +54,30 @@ function stopGlobalAudio() {
 
 // Common Korean artist romanization mappings
 const ARTIST_KOREAN_MAP: Record<string, string> = {
-  "cho yong-pil": "조용필",
-  "cho yongpil": "조용필",
-  "cheong tae choon": "정태춘",
-  "chung tae chun": "정태춘",
-  "kim kwang seok": "김광석",
-  "siinkwa chonjang": "시인과 촌장",
-  "shin seung hun": "신승훈",
-  "lee moon sae": "이문세",
-  "lee moon-sae": "이문세",
-  "yoo jae ha": "유재하",
-  "kim hyun sik": "김현식",
-  "deulgukhwa": "들국화",
-  "sanullim": "산울림",
-  "song chang sik": "송창식",
-  "yang hee eun": "양희은",
-  "han dae soo": "한대수",
-  "kim min ki": "김민기",
-  "jeon in kwon": "전인권",
-  "bom yeoreum gaeul gyeoul": "봄여름가을겨울",
-  "spring summer fall winter": "봄여름가을겨울",
-  "light and salt": "빛과소금",
-  "bitgwa sogeum": "빛과소금",
-  "yoonsang": "윤상",
-  "yoon sang": "윤상",
+  "cho yong-pil": "Cho Yong-pil",
+  "cho yongpil": "Cho Yong-pil",
+  "cheong tae choon": "Cheong Tae-choon",
+  "chung tae chun": "Cheong Tae-choon",
+  "kim kwang seok": "Kim Kwang Seok",
+  "siinkwa chonjang": "Si In-gang",
+  "shin seung hun": "Shin Seung-hun",
+  "lee moon sae": "Lee Moon-sae",
+  "lee moon-sae": "Lee Moon-sae",
+  "yoo jae ha": "Yoo Jae-ha",
+  "kim hyun sik": "Kim Hyun-sik",
+  "deulgukhwa": "Deulgukhwa",
+  "sanullim": "Sanullim",
+  "song chang sik": "Song Chang-sik",
+  "yang hee eun": "Yang Hee-eun",
+  "han dae soo": "Han Dae-soo",
+  "kim min ki": "Kim Min-ki",
+  "jeon in kwon": "Jeon In-kwon",
+  "bom yeoreum gaeul gyeoul": "Bom Yeoreum Gaeul Gyeoul",
+  "spring summer fall winter": "Spring Summer Fall Winter",
+  "light and salt": "Light and Salt",
+  "bitgwa sogeum": "Bitgwa Sogeum",
+  "yoonsang": "Yoonsang",
+  "yoon sang": "Yoon Sang",
 }
 
 // Check if text contains Korean/CJK characters
@@ -542,20 +542,20 @@ function LPCard({
           }}
         >
           <div 
-            className="w-full h-full rounded-full bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 border border-zinc-700 shadow-xl"
+            className="w-full h-full rounded-full bg-gradient-to-br from-[#2F3134] via-[#26292C] to-[#2F3134] border border-postech-silver/45 shadow-xl"
             style={{
               animation: isActive ? "spin 3s linear infinite" : "none",
             }}
           >
             {/* Vinyl grooves */}
-            <div className="absolute inset-[8%] rounded-full border border-zinc-700/30" />
-            <div className="absolute inset-[15%] rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900" />
-            <div className="absolute inset-[20%] rounded-full border border-zinc-700/20" />
-            <div className="absolute inset-[25%] rounded-full border border-zinc-700/30" />
-            <div className="absolute inset-[30%] rounded-full border border-zinc-700/20" />
+            <div className="absolute inset-[8%] rounded-full border border-postech-silver/30" />
+            <div className="absolute inset-[15%] rounded-full bg-gradient-to-br from-[#242629] to-[#2F3134]" />
+            <div className="absolute inset-[20%] rounded-full border border-postech-silver/20" />
+            <div className="absolute inset-[25%] rounded-full border border-postech-silver/30" />
+            <div className="absolute inset-[30%] rounded-full border border-postech-silver/20" />
             
             {/* Center label with album art */}
-            <div className="absolute inset-[35%] rounded-full overflow-hidden border-2 border-zinc-600 shadow-inner">
+            <div className="absolute inset-[35%] rounded-full overflow-hidden border-2 border-postech-silver/30 shadow-inner">
               <img
                 src={release.cover_image}
                 alt=""
@@ -564,7 +564,7 @@ function LPCard({
             </div>
             
             {/* Center hole */}
-            <div className="absolute inset-[47%] rounded-full bg-zinc-900 border border-zinc-700" />
+            <div className="absolute inset-[47%] rounded-full bg-[#111417] border border-postech-silver/30" />
           </div>
         </div>
 
@@ -574,7 +574,7 @@ function LPCard({
           style={{ 
             zIndex: 10,
             boxShadow: isActive 
-              ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.3)" 
+              ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(166, 25, 85, 0.3)" 
               : "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
           }}
         >
@@ -596,18 +596,18 @@ function LPCard({
                   </>
                 ) : isPlaying && previewData ? (
                   <>
-                    <Volume2 className="h-3 w-3 text-green-400 flex-shrink-0" />
+                    <Volume2 className="h-3 w-3 text-postech-orange flex-shrink-0" />
                     <div className="flex items-end gap-0.5 h-3 flex-shrink-0">
-                      <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
-                      <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
-                      <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
+                      <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
+                      <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
+                      <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
                     </div>
-                    <span className="text-[10px] text-green-400 truncate ml-1">{previewData.trackName}</span>
+                    <span className="text-[10px] text-postech-gold truncate ml-1">{previewData.trackName}</span>
                   </>
                 ) : matchFailed ? (
                   <>
-                    <VolumeX className="h-3 w-3 text-zinc-400 flex-shrink-0" />
-                    <span className="text-[10px] text-zinc-400 truncate">No preview</span>
+                    <VolumeX className="h-3 w-3 text-postech-silver/70 flex-shrink-0" />
+                    <span className="text-[10px] text-postech-silver/70 truncate">No preview</span>
                   </>
                 ) : (
                   <>
@@ -639,7 +639,7 @@ function LPCard({
         <p className="text-muted-foreground text-[10px] line-clamp-1">
           {release.artist}
         </p>
-        <p className="text-indigo-400/70 text-[10px]">
+        <p className="text-postech-red/70 text-[10px]">
           {release.year > 0 ? release.year : "Unknown"}
         </p>
       </div>
@@ -678,7 +678,7 @@ export default function LPCollection({
     <>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Disc3 className="h-5 w-5 text-indigo-400" />
+          <Disc3 className="h-5 w-5 text-postech-red" />
           <div className="flex flex-col">
             <span className="text-sm text-muted-foreground">
               {totalItems} records in collection
@@ -694,7 +694,7 @@ export default function LPCollection({
           href={`https://www.discogs.com/user/edengloria/collection`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition-colors"
+          className="text-xs text-postech-red hover:text-postech-orange flex items-center gap-1 transition-colors"
         >
           View on Discogs
           <ExternalLink className="h-3 w-3" />
@@ -706,18 +706,18 @@ export default function LPCollection({
         <AnimatePresence>
           {nowPlaying && (
             <motion.div
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9998] bg-black/90 backdrop-blur-xl rounded-full px-4 py-2 border border-indigo-500/30 shadow-lg shadow-indigo-500/20"
+              className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9998] bg-black/90 backdrop-blur-xl rounded-full px-4 py-2 border border-postech-red/30 shadow-lg shadow-postech-red/20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
             >
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <Volume2 className="h-4 w-4 text-green-400" />
+                  <Volume2 className="h-4 w-4 text-postech-orange" />
                   <div className="flex items-end gap-0.5 h-4">
-                    <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
-                    <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
-                    <span className="w-0.5 bg-green-400 rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
+                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
+                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
+                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -788,7 +788,7 @@ export default function LPCollection({
                   <h3 className="text-xl font-semibold text-foreground mb-1">
                     {selectedLP.title}
                   </h3>
-                  <p className="text-indigo-400 text-sm mb-3">
+                  <p className="text-postech-red text-sm mb-3">
                     {selectedLP.artist}
                   </p>
 
@@ -806,7 +806,7 @@ export default function LPCollection({
                     href={`https://www.discogs.com/release/${selectedLP.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg transition-colors text-sm font-medium"
+                    className="mt-4 w-full flex items-center justify-center gap-2 bg-postech-red hover:bg-postech-orange text-white py-2.5 rounded-lg transition-colors text-sm font-medium"
                   >
                     View on Discogs
                     <ExternalLink className="h-4 w-4" />
@@ -821,3 +821,5 @@ export default function LPCollection({
     </>
   )
 }
+
+

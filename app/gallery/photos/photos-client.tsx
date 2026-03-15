@@ -121,7 +121,7 @@ export default function PhotosClient({
       {/* Loading trigger */}
       {visibleCount < items.length && (
         <div ref={loaderRef} className="py-8 flex justify-center w-full">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-postech-red border-t-postech-gold/60" />
         </div>
       )}
 

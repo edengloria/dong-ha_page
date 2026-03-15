@@ -64,11 +64,11 @@ export default function AwardsPage() {
             style={{ animationDelay: `${200 + index * 60}ms` }}
           >
             <div className="flex items-start">
-              <Award className="h-5 w-5 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
+              <Award className="h-5 w-5 text-postech-red mt-1 mr-3 flex-shrink-0" />
               <div className="flex-1">
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                   <h2 className="text-lg font-medium text-foreground">{award.title}</h2>
-                  <span className="text-indigo-400 text-sm">
+                  <span className="text-postech-red text-sm">
                     {award.organization}, {award.year}
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function AwardsPage() {
                     href={award.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center mt-3 text-sm"
+                    className="text-postech-red hover:text-postech-orange transition-colors inline-flex items-center mt-3 text-sm"
                   >
                     <ExternalLink className="h-4 w-4 mr-1" />
                     View Project

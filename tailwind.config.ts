@@ -53,6 +53,13 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        postech: {
+          red: "#A61955",
+          orange: "#F6A700",
+          gray: "#7A7772",
+          silver: "#C5C6CA",
+          gold: "#DABA65",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -53,7 +53,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.shbaek.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
+                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
                 >
                   Computational Imaging Group
                 </a>
@@ -62,7 +62,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.shbaek.com/team/biography"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
+                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
                 >
                   Prof. Seung-Hwan Baek
                 </a>
@@ -75,7 +75,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.ipodlab.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
+                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
                 >
                   Integrated Plasmonics and Optical Device Laboratory
                 </a>
@@ -84,7 +84,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.ipodlab.com/members-1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
+                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
                 >
                   Prof. Seung-Yeol Lee
                 </a>
@@ -106,7 +106,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.namuhx.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-300 hover:text-indigo-200 underline underline-offset-4"
+                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
                 >
                   NamuhX project
                 </a>

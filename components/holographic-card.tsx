@@ -75,7 +75,7 @@ export default function HolographicCard({
   const boxShadow = isHovered 
     ? shouldReduceGraphics
       ? "0 10px 30px rgba(0, 0, 0, 0.4)"
-      : "0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.3)"
+      : "0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(166, 25, 85, 0.35)"
     : "0 10px 30px rgba(0, 0, 0, 0.3)"
 
   return (
@@ -117,10 +117,10 @@ export default function HolographicCard({
             style={{
               background: `linear-gradient(
                 ${mousePosition.x}deg,
-                rgba(99, 102, 241, 0.5) 0%,
-                rgba(168, 85, 247, 0.5) 33%,
-                rgba(236, 72, 153, 0.5) 66%,
-                rgba(99, 102, 241, 0.5) 100%
+                rgba(166, 25, 85, 0.55) 0%,
+                rgba(246, 167, 0, 0.45) 33%,
+                rgba(218, 186, 101, 0.45) 66%,
+                rgba(166, 25, 85, 0.55) 100%
               )`,
             }}
             animate={{
@@ -134,12 +134,12 @@ export default function HolographicCard({
           <motion.h3
             className="text-xl font-light text-white mb-4 tracking-tight"
             style={{
-              textShadow: "0 0 10px rgba(99, 102, 241, 0.3)",
+              textShadow: "0 0 10px rgba(166, 25, 85, 0.35)",
             }}
             animate={{
               textShadow: isHovered && !shouldReduceGraphics 
-                ? "0 0 15px rgba(99, 102, 241, 0.5)" 
-                : "0 0 10px rgba(99, 102, 241, 0.3)",
+                ? "0 0 15px rgba(166, 25, 85, 0.5)" 
+                : "0 0 10px rgba(166, 25, 85, 0.35)",
             }}
           >
             {title}
@@ -155,7 +155,7 @@ export default function HolographicCard({
 
           {!hideViewDetails && (
             <motion.div
-              className="mt-4 text-indigo-400 text-sm flex items-center"
+              className="mt-4 text-postech-red text-sm flex items-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: isHovered ? 1 : 0 }}
             >

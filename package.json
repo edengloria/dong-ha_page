@@ -9,7 +9,9 @@
     "lint": "next lint",
     "fetch-discogs": "tsx scripts/fetch-discogs.ts",
     "optimize-images": "tsx scripts/optimize-images.ts",
-    "sort-by-color": "tsx scripts/sort-by-color.ts"
+    "sort-by-color": "tsx scripts/sort-by-color.ts",
+    "profile:build": "npm run build -- --no-lint",
+    "profile:serve": "npm run build -- --no-lint && npm exec --yes --package serve -- serve out -l 3001"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.1",
@@ -43,8 +45,8 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "cmdk": "1.0.4",
+    "clsx": "^2.1.1",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "^12.6.3",
@@ -78,3 +80,4 @@
     "typescript": "^5"
   }
 }
+

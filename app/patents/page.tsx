@@ -79,13 +79,13 @@ export default function PatentsPage() {
             style={{ animationDelay: `${200 + index * 80}ms`, willChange: "opacity" }}
           >
             <div className="flex items-start">
-              <FileText className="h-6 w-6 text-indigo-400 mt-1 mr-3 flex-shrink-0" />
+              <FileText className="h-6 w-6 text-postech-red mt-1 mr-3 flex-shrink-0" />
               <div className="flex-1">
                 <h2 className="text-xl font-medium text-foreground mb-1">{patent.title}</h2>
-                <p className="text-indigo-400 text-sm mb-1">
+                <p className="text-postech-red text-sm mb-1">
                   {patent.number}, {patent.year}
                   {patent.date && <span className="ml-2">(Filed: {patent.date})</span>}
-                  {patent.status && <span className="ml-2 text-yellow-400">({patent.status})</span>}
+                  {patent.status && <span className="ml-2 text-postech-gold">({patent.status})</span>}
                 </p>
                 <p className="text-muted-foreground mb-4 italic text-sm">Inventors: {patent.inventors}</p>
 
@@ -109,7 +109,7 @@ export default function PatentsPage() {
                   <h3 className="text-sm font-medium text-foreground mb-2">Applications</h3>
                   <div className="flex flex-wrap gap-2">
                     {patent.applications.map((app, i) => (
-                      <span key={i} className="bg-indigo-900/30 text-indigo-300 text-xs px-2 py-1 rounded-full">
+                      <span key={i} className="bg-postech-gold/20 text-postech-gold text-xs px-2 py-1 rounded-full">
                         {app}
                       </span>
                     ))}

@@ -2,14 +2,14 @@
 
 import type React from "react"
 
-import { useEffect, useRef, useCallback } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface AnimatedGradientBackgroundProps {
   className?: string
   children?: React.ReactNode
   intensity?: "subtle" | "medium" | "strong"
-  showHero?: boolean // 히어로 섹션 표시 여부
+  showHero?: boolean
 }
 
 interface Beam {
@@ -23,42 +23,82 @@ interface Beam {
   hue: number
   pulse: number
   pulseSpeed: number
-}
-
-interface BatteryManagerLike {
-  charging: boolean
-  level: number
-  addEventListener: (type: "levelchange" | "chargingchange", listener: () => void) => void
-  removeEventListener: (type: "levelchange" | "chargingchange", listener: () => void) => void
+  flicker: number
+  flickerSpeed: number
+  flickerDepth: number
+  sway: number
+  swaySpeed: number
+  swayAmplitude: number
 }
 
 const OPACITY_MAP = {
   subtle: 0.6,
   medium: 0.75,
-  strong: 0.9, // 전체적으로 약간 투명도 증가
+  strong: 1,
 } as const
 
-function createBeam(width: number, height: number): Beam {
-  const angle = -35 + Math.random() * 10
+const BASE_BEAM_COUNT = 44
+const MIN_BEAM_COUNT = 14
+const MAX_BEAM_COUNT = 64
+const MAX_DPR = 1.8
+
+const BASE_SPEED_PPS_MIN = 50
+const BASE_SPEED_PPS_RANGE = 64
+
+const BASE_PULSE_SPEED_MIN = 1.2
+const BASE_PULSE_SPEED_RANGE = 2.2
+const BASE_FLICKER_SPEED_MIN = 0.9
+const BASE_FLICKER_SPEED_RANGE = 2.0
+const FLICKER_DEPTH_MIN = 0.22
+const FLICKER_DEPTH_RANGE = 0.38
+const POSTECH_HUES = [334, 39, 45] as const
+
+const SLOW_FRAME_MS = 18
+const GOOD_FRAME_MS = 16
+const DEGRADE_HOLD_SECONDS = 1
+const RECOVER_HOLD_SECONDS = 2
+const EWMA_ALPHA = 0.12
+const DELTA_CLAMP_MS = 100
+const RESPAWN_OFFSET = 100
+const PERF_ADAPT_ENABLED = true
+const PERFORMANCE_RESTORE_BOOST = 2
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function getClampedDpr() {
+  if (typeof window === "undefined") return 1
+  const dpr = window.devicePixelRatio || 1
+  return clamp(dpr, 1, MAX_DPR)
+}
+
+function createBeam(logicalWidth: number, logicalHeight: number): Beam {
+  const hueSeed = POSTECH_HUES[Math.floor(Math.random() * POSTECH_HUES.length)]
+
   return {
-    x: Math.random() * width * 1.5 - width * 0.25,
-    y: Math.random() * height * 1.5 - height * 0.25,
-    width: 30 + Math.random() * 60,
-    length: height * 2.5,
-    angle: angle,
-    speed: 0.6 + Math.random() * 1.2,
-    opacity: 0.12 + Math.random() * 0.16,
-    hue: 190 + Math.random() * 70,
+    x: Math.random() * logicalWidth * 1.5 - logicalWidth * 0.25,
+    y: Math.random() * logicalHeight * 1.5 - logicalHeight * 0.25,
+    width: 42 + Math.random() * 90,
+    length: logicalHeight * 2.5,
+    angle: -35 + Math.random() * 10,
+    speed: BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE,
+    opacity: 0.18 + Math.random() * 0.14,
+    hue: hueSeed + (Math.random() * 10 - 5),
     pulse: Math.random() * Math.PI * 2,
-    pulseSpeed: 0.02 + Math.random() * 0.03,
+    pulseSpeed:
+      BASE_PULSE_SPEED_MIN + Math.random() * BASE_PULSE_SPEED_RANGE,
+    flicker: Math.random() * Math.PI * 2,
+    flickerSpeed:
+      BASE_FLICKER_SPEED_MIN + Math.random() * BASE_FLICKER_SPEED_RANGE,
+    flickerDepth: FLICKER_DEPTH_MIN + Math.random() * FLICKER_DEPTH_RANGE,
+    sway: Math.random() * Math.PI * 2,
+    swaySpeed: 0.8 + Math.random() * 1.4,
+    swayAmplitude: 8 + Math.random() * 16,
   }
 }
 
-// 이벤트 스로틀링 유틸리티 함수
-function throttle<T extends (...args: unknown[]) => void>(
-  func: T,
-  limit: number
-): (...args: Parameters<T>) => void {
+function throttle<T extends (...args: unknown[]) => void>(func: T, limit: number): (...args: Parameters<T>) => void {
   let lastTimeout: ReturnType<typeof setTimeout> | undefined
   let lastRan = 0
 
@@ -82,283 +122,280 @@ function throttle<T extends (...args: unknown[]) => void>(
   }
 }
 
-export default function BeamsBackground({ 
-  className, 
-  intensity = "strong", 
-  showHero = false
+function updateBeamCountInPlace(
+  beams: Beam[],
+  logicalWidth: number,
+  logicalHeight: number,
+  desiredCount: number
+) {
+  if (beams.length < desiredCount) {
+    for (let i = beams.length; i < desiredCount; i += 1) {
+      beams.push(createBeam(logicalWidth, logicalHeight))
+    }
+    return
+  }
+
+  if (beams.length > desiredCount) {
+    beams.length = desiredCount
+    return
+  }
+}
+
+export default function BeamsBackground({
+  className,
+  intensity = "strong",
+  showHero = false,
 }: AnimatedGradientBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const beamsRef = useRef<Beam[]>([])
   const animationFrameRef = useRef<number>(0)
   const animationActiveRef = useRef<boolean>(true)
-  
-  // 모바일/저사양 기기 감지
-  const isLowPowerDevice = useRef<boolean>(false)
-  const minBeamsRef = useRef<number>(25) // 빔 개수 기본값 20 → 10으로 감소
-  
-  // animate 함수 참조 저장
+  const reducedMotionRef = useRef<boolean>(false)
+  const targetBeamCountRef = useRef<number>(BASE_BEAM_COUNT)
+  const frameTimeEwmaRef = useRef<number>(GOOD_FRAME_MS)
+  const slowFrameAccumRef = useRef<number>(0)
+  const restoreWaitRef = useRef<number>(0)
   const animateRef = useRef<((timestamp: number) => void) | null>(null)
-  // 마지막 프레임 시간 추적
   const lastFrameTimeRef = useRef<number>(0)
-  // 목표 FPS (저사양 기기에서는 30, 일반 기기에서는 60)
-  const targetFPSRef = useRef<number>(60)
 
-  // 애니메이션 시작/중지 함수
   const startAnimation = useCallback(() => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
-      animationActiveRef.current = true;
-      animateRef.current(performance.now());
+      animationActiveRef.current = true
+      animateRef.current(performance.now())
     }
-  }, []);
+  }, [])
 
   const stopAnimation = useCallback(() => {
-    animationActiveRef.current = false;
+    animationActiveRef.current = false
     if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = 0;
+      cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = 0
     }
-  }, []);
+  }, [])
 
-  // 저사양 기기 감지 강화
   useEffect(() => {
-    // 모바일 기기 감지
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      typeof navigator !== 'undefined' ? navigator.userAgent : ''
-    );
-    
-    // 저사양 기기 감지를 위한 추가 지표
-    const nav = navigator as Navigator & { 
-      deviceMemory?: number
-      getBattery?: () => Promise<BatteryManagerLike>
-    };
-    
-    // 메모리 기반 감지 (deviceMemory API - GB 단위)
-    // 4GB 이하를 저사양으로 간주
-    const isLowMemory = nav.deviceMemory !== undefined && nav.deviceMemory <= 4;
-    
-    // CPU 코어 수 기반 감지
-    // 4코어 이하를 저사양으로 간주
-    const isLowCPU = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4;
-    
-    // 움직임 감소 설정 감지
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // 저사양 기기로 판단하는 조건
-    isLowPowerDevice.current = isMobile || prefersReducedMotion || isLowMemory || isLowCPU;
-    
-    // 저사양 기기 최적화
-    if (isLowPowerDevice.current) {
-      minBeamsRef.current = 5; // 저사양 기기에서는 빔 수 크게 감소
-      targetFPSRef.current = 30; // 저사양 기기에서는 30 FPS로 제한
-    }
-    
-    // 배터리 상태 감지 (Battery API)
-    let batteryRef: BatteryManagerLike | null = null
-    const handleBatteryChange = () => {
-      const battery = batteryRef
-      if (!battery) return
-      if (!battery.charging && battery.level < 0.2) {
-        minBeamsRef.current = 3
-        targetFPSRef.current = 20
-      }
-    }
-
-    if (nav.getBattery) {
-      nav.getBattery().then((battery) => {
-        batteryRef = battery
-        // 배터리 20% 미만이고 충전 중이 아니면 더 강력한 최적화
-        if (!batteryRef.charging && batteryRef.level < 0.2) {
-          minBeamsRef.current = 3;
-          targetFPSRef.current = 20;
-          isLowPowerDevice.current = true;
-        }
-        
-        // 배터리 상태 변경 리스너
-        batteryRef.addEventListener('levelchange', handleBatteryChange);
-        batteryRef.addEventListener('chargingchange', handleBatteryChange);
-      }).catch(() => {
-        // Battery API not supported or permission denied
-      });
-    }
-    return () => {
-      if (batteryRef) {
-        batteryRef.removeEventListener('levelchange', handleBatteryChange);
-        batteryRef.removeEventListener('chargingchange', handleBatteryChange);
-      }
-    }
-  }, []);
+    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    targetBeamCountRef.current = BASE_BEAM_COUNT
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d", { 
+    const ctx = canvas.getContext("2d", {
       alpha: true,
-      desynchronized: true // 가능한 경우 메인 스레드와 비동기적으로 실행하여 성능 향상
+      desynchronized: true,
     })
     if (!ctx) return
 
     const updateCanvasSize = () => {
-      // 모든 기기에서 DPR=1로 고정하여 성능 향상
-      const dpr = isLowPowerDevice.current ? 0.75 : 1;
-      const logicalWidth = window.innerWidth;
-      const logicalHeight = window.innerHeight;
+      const dpr = getClampedDpr()
+      const logicalWidth = window.innerWidth
+      const logicalHeight = window.innerHeight
 
-      canvas.width = logicalWidth * dpr
-      canvas.height = logicalHeight * dpr
+      canvas.width = Math.floor(logicalWidth * dpr)
+      canvas.height = Math.floor(logicalHeight * dpr)
       canvas.style.width = `${logicalWidth}px`
       canvas.style.height = `${logicalHeight}px`
-      
-      // 스케일 설정 전에 기존 변환 초기화
-      ctx.resetTransform();
+
+      ctx.resetTransform()
       ctx.scale(dpr, dpr)
 
-      const totalBeams = minBeamsRef.current * (isLowPowerDevice.current ? 1 : 1.2)
-      // 이미 생성된 빔이 있으면 재사용
-      if (beamsRef.current.length === 0) {
-        // 빔 생성 시 논리적 크기 사용 (scale이 적용되므로)
-        beamsRef.current = Array.from({ length: totalBeams }, () => createBeam(logicalWidth, logicalHeight))
-      } else {
-        // 사이즈에 맞게 빔 조정
-        beamsRef.current.forEach(beam => {
-          beam.length = logicalHeight * 2.5;
-        });
-        
-        // 필요시 빔 개수 조정
-        if (beamsRef.current.length < totalBeams) {
-          const additionalBeams = Array.from(
-            { length: totalBeams - beamsRef.current.length }, 
-            () => createBeam(logicalWidth, logicalHeight)
-          );
-          beamsRef.current = [...beamsRef.current, ...additionalBeams];
-        } else if (beamsRef.current.length > totalBeams) {
-          beamsRef.current = beamsRef.current.slice(0, totalBeams);
-        }
-      }
+      const desiredCount = reducedMotionRef.current ? 0 : targetBeamCountRef.current
+      beamsRef.current.forEach((beam) => {
+        beam.length = logicalHeight * 2.5
+      })
+      updateBeamCountInPlace(beamsRef.current, logicalWidth, logicalHeight, desiredCount)
     }
 
     updateCanvasSize()
     const throttledResize = throttle(updateCanvasSize, 250)
     window.addEventListener("resize", throttledResize)
 
-    function resetBeam(beam: Beam, index: number, totalBeams: number) {
-      if (!canvas) return beam
-
-      const dpr = isLowPowerDevice.current ? 0.75 : 1;
-      // 논리적 크기 계산
-      const logicalWidth = canvas.width / dpr;
-      const logicalHeight = canvas.height / dpr;
-
-      const column = index % 3
-      const spacing = logicalWidth / 3
-
-      beam.y = logicalHeight + 100
-      beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
-      beam.width = 100 + Math.random() * 100
-      beam.speed = 0.5 + Math.random() * 0.4
-      beam.hue = 190 + (index * 70) / totalBeams
-      beam.opacity = 0.2 + Math.random() * 0.1
-      return beam
+    const adjustBeamCount = () => {
+      const dpr = getClampedDpr()
+      const logicalWidth = canvas.width / dpr
+      const logicalHeight = canvas.height / dpr
+      const desiredCount = reducedMotionRef.current ? 0 : targetBeamCountRef.current
+      updateBeamCountInPlace(beamsRef.current, logicalWidth, logicalHeight, desiredCount)
     }
 
-    function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam) {
+    const resetBeam = (
+      beam: Beam,
+      index: number,
+      totalBeams: number,
+      logicalWidth: number,
+      logicalHeight: number
+    ) => {
+      const lanes = Math.floor(Math.sqrt(totalBeams / 3))
+      const columnCount = Math.max(3, Math.min(6, Math.max(4, lanes)))
+      const column = index % columnCount
+      const spacing = logicalWidth / columnCount
+      beam.y = logicalHeight + RESPAWN_OFFSET
+      beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
+      beam.width = 70 + Math.random() * 120
+      beam.speed = BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE
+      const hueSeed = POSTECH_HUES[index % POSTECH_HUES.length]
+      beam.hue = hueSeed + (Math.random() * 12 - 6)
+      beam.opacity = 0.2 + Math.random() * 0.1
+      beam.length = logicalHeight * 2.5
+      beam.pulse = Math.random() * Math.PI * 2
+      beam.pulseSpeed = BASE_PULSE_SPEED_MIN + Math.random() * BASE_PULSE_SPEED_RANGE
+      beam.flicker = Math.random() * Math.PI * 2
+      beam.flickerSpeed = BASE_FLICKER_SPEED_MIN + Math.random() * BASE_FLICKER_SPEED_RANGE
+      beam.flickerDepth = FLICKER_DEPTH_MIN + Math.random() * FLICKER_DEPTH_RANGE
+      beam.angle = -35 + Math.random() * 10
+      beam.sway = Math.random() * Math.PI * 2
+      beam.swaySpeed = 0.8 + Math.random() * 1.4
+      beam.swayAmplitude = 10 + Math.random() * 20
+    }
+
+    const drawBeam = (beam: Beam) => {
+      const pulseFactor = 0.75 + Math.sin(beam.pulse) * 0.35
+      const flickerFactor = 0.15 + Math.sin(beam.flicker) * 0.15
+      const colorShift = Math.sin(beam.pulse * 0.5) * 8
+      const hue = (beam.hue + colorShift) % 360
+
+      const pulsingOpacity =
+        beam.opacity * (pulseFactor + flickerFactor * beam.flickerDepth) * OPACITY_MAP[intensity]
+      if (pulsingOpacity <= 0) return
+      const finalOpacity = clamp(pulsingOpacity * 2.25, 0, 1)
+
       ctx.save()
       ctx.translate(beam.x, beam.y)
       ctx.rotate((beam.angle * Math.PI) / 180)
-
-      // Calculate pulsing opacity
-      const pulsingOpacity =
-        beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * OPACITY_MAP[intensity]
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
-
-      // Enhanced gradient with multiple color stops - 색상 단계 줄임
-      gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`)
-      gradient.addColorStop(0.2, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
-      gradient.addColorStop(0.5, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`)
-      gradient.addColorStop(0.8, `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`)
-      gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`)
-
-      ctx.fillStyle = gradient
+      const maskGradient = ctx.createLinearGradient(0, 0, 0, beam.length)
+      maskGradient.addColorStop(0, `hsla(${hue}, 85%, 62%, 0)`)
+      maskGradient.addColorStop(0.08, `hsla(${hue}, 85%, 66%, 0.2)`)
+      maskGradient.addColorStop(0.25, `hsla(${hue}, 85%, 70%, 0.7)`)
+      maskGradient.addColorStop(0.5, `hsla(${hue}, 85%, 75%, 1)`)
+      maskGradient.addColorStop(0.75, `hsla(${hue}, 85%, 70%, 0.7)`)
+      maskGradient.addColorStop(0.92, `hsla(${hue}, 85%, 66%, 0.2)`)
+      maskGradient.addColorStop(1, `hsla(${hue}, 85%, 62%, 0)`)
+      ctx.fillStyle = maskGradient
+      ctx.globalAlpha = finalOpacity
       ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
       ctx.restore()
     }
 
-    function animate(timestamp: number) {
-      // 프레임 속도 제한 (기본 60fps 또는 저사양 30fps)
-      const frameInterval = 1000 / targetFPSRef.current;
-      const elapsed = timestamp - lastFrameTimeRef.current;
-      
-      if (elapsed < frameInterval) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-        return;
+    const applyPerfAdaptation = (frameMs: number) => {
+      if (!PERF_ADAPT_ENABLED) return
+      const ewma = frameTimeEwmaRef.current
+      frameTimeEwmaRef.current = ewma * (1 - EWMA_ALPHA) + frameMs * EWMA_ALPHA
+
+      const desiredCount = targetBeamCountRef.current
+      if (frameTimeEwmaRef.current > SLOW_FRAME_MS && desiredCount > MIN_BEAM_COUNT) {
+        slowFrameAccumRef.current = clamp(
+          slowFrameAccumRef.current + frameMs / 1000,
+          0,
+          DEGRADE_HOLD_SECONDS + 0.25
+        )
+        restoreWaitRef.current = 0
+
+        if (slowFrameAccumRef.current >= DEGRADE_HOLD_SECONDS) {
+          targetBeamCountRef.current = desiredCount - 1
+          slowFrameAccumRef.current = 0
+        }
+      } else {
+        slowFrameAccumRef.current = 0
+        if (desiredCount < MAX_BEAM_COUNT) {
+          restoreWaitRef.current = clamp(
+            restoreWaitRef.current + frameMs / 1000,
+            0,
+            RECOVER_HOLD_SECONDS
+          )
+          if (restoreWaitRef.current >= RECOVER_HOLD_SECONDS) {
+            targetBeamCountRef.current = Math.min(
+              MAX_BEAM_COUNT,
+              desiredCount + PERFORMANCE_RESTORE_BOOST
+            )
+            restoreWaitRef.current = 0
+          }
+        } else {
+          restoreWaitRef.current = 0
+        }
       }
-      
-      lastFrameTimeRef.current = timestamp - (elapsed % frameInterval);
-      
-      // 애니메이션 활성화 상태가 아니면 중지
-      if (!animationActiveRef.current) return;
-      
+
+      if (targetBeamCountRef.current !== desiredCount) {
+        adjustBeamCount()
+      }
+    }
+
+    const animate = (timestamp: number) => {
+      if (!animationActiveRef.current) return
       if (!canvas || !ctx) return
 
-      const dpr = isLowPowerDevice.current ? 0.75 : 1;
-      const logicalWidth = canvas.width / dpr;
-      const logicalHeight = canvas.height / dpr;
+      if (reducedMotionRef.current) {
+        animationFrameRef.current = requestAnimationFrame(animate)
+        lastFrameTimeRef.current = timestamp
+        return
+      }
 
-      // 논리적 크기만큼 clear (scale이 적용되어 있으므로)
-      ctx.clearRect(0, 0, logicalWidth, logicalHeight)
-      
-      const totalBeams = beamsRef.current.length
-      beamsRef.current.forEach((beam, index) => {
-        beam.y -= beam.speed
-        beam.pulse += beam.pulseSpeed
+      const dpr = getClampedDpr()
+      const logicalWidth = canvas.width / dpr
+      const logicalHeight = canvas.height / dpr
+      if (!Number.isFinite(logicalWidth) || !Number.isFinite(logicalHeight)) {
+        animationFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
 
-        // Reset beam when it goes off screen
-        if (beam.y + beam.length < -100) {
-          resetBeam(beam, index, totalBeams)
+      const rawFrameMs =
+        lastFrameTimeRef.current === 0 ? GOOD_FRAME_MS : timestamp - lastFrameTimeRef.current
+      const deltaMs = clamp(rawFrameMs, 0, DELTA_CLAMP_MS)
+      const deltaSec = deltaMs / 1000
+      applyPerfAdaptation(rawFrameMs)
+
+      const beams = beamsRef.current
+      if (beams.length > 0) {
+        ctx.clearRect(0, 0, logicalWidth, logicalHeight)
+
+        for (let i = 0; i < beams.length; i += 1) {
+          const beam = beams[i]
+          beam.y -= beam.speed * deltaSec
+          beam.pulse += beam.pulseSpeed * deltaSec
+          beam.flicker += beam.flickerSpeed * deltaSec
+          beam.sway += beam.swaySpeed * deltaSec
+          beam.x += Math.sin(beam.sway) * beam.swayAmplitude * 0.25 * deltaSec
+
+          if (beam.y + beam.length < -100) {
+            resetBeam(beam, i, beams.length, logicalWidth, logicalHeight)
+          }
+
+          drawBeam(beam)
         }
+      }
 
-        drawBeam(ctx, beam)
-      })
-
+      lastFrameTimeRef.current = timestamp
       animationFrameRef.current = requestAnimationFrame(animate)
     }
 
-    // animate 함수 참조 저장
-    animateRef.current = animate;
+    animateRef.current = animate
 
-    // 페이지 가시성 변경 이벤트 핸들러
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        stopAnimation();
+        stopAnimation()
       } else {
-        startAnimation();
-        lastFrameTimeRef.current = performance.now();
+        lastFrameTimeRef.current = 0
+        startAnimation()
       }
-    };
-    
-    // 페이지 가시성 이벤트 리스너 등록
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    }
 
-    // 초기 애니메이션 시작
-    animationActiveRef.current = true;
-    lastFrameTimeRef.current = performance.now();
-    animate(performance.now());
+    document.addEventListener("visibilitychange", handleVisibilityChange)
 
-    // 메모리 누수 방지를 위한 클린업
+    animationActiveRef.current = true
+    lastFrameTimeRef.current = 0
+    animate(performance.now())
+
     return () => {
-      window.removeEventListener("resize", throttledResize);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      
-      stopAnimation();
-      
-      // 큰 배열 참조 정리
-      beamsRef.current = [];
+      window.removeEventListener("resize", throttledResize)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      stopAnimation()
+      beamsRef.current = []
     }
   }, [intensity, startAnimation, stopAnimation])
 
   return (
-    <div className={cn("relative w-full overflow-hidden bg-neutral-950", showHero ? "min-h-screen" : "h-full", className)}>
+    <div className={cn("relative w-full overflow-hidden bg-black", showHero ? "min-h-screen" : "h-full", className)}>
       <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
 
       <div className="absolute inset-0 beams-overlay" />

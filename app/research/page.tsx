@@ -62,7 +62,7 @@ export default function ResearchPage() {
             className="glass rounded-xl p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
             style={{ animationDelay: `${200 + index * 80}ms` }}
           >
-            <h2 className="text-2xl font-light text-indigo-400 mb-4">{area.title}</h2>
+            <h2 className="text-2xl font-light text-postech-red mb-4">{area.title}</h2>
             <p className="text-muted-foreground mb-4 leading-relaxed">{area.description}</p>
 
             <h3 className="text-lg font-light text-foreground mb-2">Key Topics:</h3>

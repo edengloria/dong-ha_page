@@ -45,7 +45,7 @@ export default function ProfileSidebar() {
           className="flex justify-center mb-6 animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
           style={{ animationDelay: "200ms" }}
         >
-          <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-lg shadow-indigo-500/20">
+          <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-postech-red/60 shadow-lg shadow-postech-red/25">
             <Image
               src={withBasePath("/asset/gradshot.jpg")}
               alt="Dong-Ha Shin"
@@ -75,14 +75,14 @@ export default function ProfileSidebar() {
           style={{ animationDelay: "400ms" }}
         >
           <div className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
-            <Mail className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
+            <Mail className="h-4 w-4 mr-3 text-postech-red flex-shrink-0" />
             <a href="mailto:0218sdh@gmail.com" className="truncate">
               0218sdh@gmail.com
             </a>
           </div>
           <div className="flex items-center text-muted-foreground">
-            <MapPin className="h-4 w-4 mr-3 text-indigo-400 flex-shrink-0" />
-            <span>Seongnam, South Korea</span>
+            <MapPin className="h-4 w-4 mr-3 text-postech-red flex-shrink-0" />
+            <span>Pohang, South Korea</span>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export default function ProfileSidebar() {
               href={link.href.startsWith("/") ? withBasePath(link.href) : link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-background/20 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300"
+              className="p-2 rounded-full bg-background/20 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-postech-red/20 hover:border-postech-red/50 transition-all duration-300"
               aria-label={link.name}
             >
               <link.icon className="h-5 w-5" />
@@ -120,9 +120,9 @@ export default function ProfileSidebar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                  "block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border border-transparent",
                   isActive
-                    ? "bg-indigo-500/20 text-indigo-300 border-l-2 border-indigo-500"
+                    ? "text-postech-red"
                     : "text-muted-foreground hover:text-foreground hover:bg-background/20"
                 )}
               >

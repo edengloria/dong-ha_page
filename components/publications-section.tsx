@@ -112,7 +112,7 @@ export function PublicationsSection({
                 <h3 className="text-lg sm:text-xl font-medium text-foreground leading-snug">{pub.title}</h3>
 
                 <p className="mt-2 text-sm text-foreground/80 leading-relaxed">{pub.authors}</p>
-                <p className="mt-2 text-sm text-indigo-300/90">{pub.venue}</p>
+                <p className="mt-2 text-sm text-postech-red/90">{pub.venue}</p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   {pub.links.map((link) => (
@@ -121,9 +121,9 @@ export function PublicationsSection({
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-background/20 px-3 py-1 text-xs text-foreground/90 hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-colors"
+                      className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-background/20 px-3 py-1 text-xs text-foreground/90 hover:bg-postech-red/10 hover:border-postech-red/30 transition-colors"
                     >
-                      <ExternalLink className="h-3.5 w-3.5 text-indigo-300/90" />
+                      <ExternalLink className="h-3.5 w-3.5 text-postech-red/90" />
                       {link.label}
                     </a>
                   ))}
@@ -136,4 +136,3 @@ export function PublicationsSection({
     </section>
   )
 }
-

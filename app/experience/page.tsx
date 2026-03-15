@@ -76,7 +76,7 @@ export default function ExperiencePage() {
 
       <div className="relative">
         {/* Timeline line */}
-        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-purple-500 to-indigo-500/20 hidden md:block" />
+        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-postech-red via-postech-orange to-postech-red/20 hidden md:block" />
 
         <div className="space-y-6">
           {experiences.map((exp, index) => (
@@ -86,11 +86,11 @@ export default function ExperiencePage() {
               style={{ animationDelay: `${200 + index * 80}ms` }}
             >
               {/* Timeline dot */}
-              <div className="absolute left-2 top-6 w-4 h-4 rounded-full bg-indigo-500 border-2 border-indigo-300 hidden md:block" />
+              <div className="absolute left-2 top-6 w-4 h-4 rounded-full bg-postech-red border-2 border-postech-gold hidden md:block" />
 
               <div className="glass rounded-xl p-6">
                 <div className="mb-4">
-                  <h2 className="text-xl font-medium text-indigo-400">{exp.title}</h2>
+                  <h2 className="text-xl font-medium text-postech-red">{exp.title}</h2>
                   <p className="text-foreground font-medium">{exp.role}</p>
                   <p className="text-muted-foreground text-sm">
                     {exp.period} • {exp.location}
