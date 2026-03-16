@@ -10,85 +10,85 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71% 4%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
+    --background: 220 25% 97%;
+    --foreground: 224 28% 12%;
+    --card: 220 22% 98%;
+    --card-foreground: 224 28% 12%;
+    --popover: 220 22% 98%;
+    --popover-foreground: 224 28% 12%;
 
     /* Brand */
-    --primary: 334 74% 38%;
+    --primary: 337 58% 42%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 41 100% 48%;
-    --secondary-foreground: 224 71% 4%;
-    --muted: 37 3% 46%;
-    --muted-foreground: 240 4% 46%;
-    --accent: 44 61% 63%;
-    --accent-foreground: 224 71% 4%;
+    --secondary: 212 30% 92%;
+    --secondary-foreground: 224 28% 18%;
+    --muted: 218 18% 90%;
+    --muted-foreground: 222 13% 38%;
+    --accent: 220 32% 88%;
+    --accent-foreground: 224 28% 18%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 334 74% 38%;
+    --border: 220 20% 84%;
+    --input: 220 20% 84%;
+    --ring: 337 58% 42%;
 
-    --chart-1: 334 74% 38%;
-    --chart-2: 41 100% 48%;
-    --chart-3: 37 3% 46%;
-    --chart-4: 228 5% 78%;
-    --chart-5: 44 61% 63%;
+    --chart-1: 337 58% 42%;
+    --chart-2: 217 42% 54%;
+    --chart-3: 230 19% 34%;
+    --chart-4: 197 41% 68%;
+    --chart-5: 34 58% 66%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 224 71% 4%;
-    --sidebar-primary: 334 74% 38%;
+    --sidebar-background: 220 22% 97%;
+    --sidebar-foreground: 224 28% 12%;
+    --sidebar-primary: 337 58% 42%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 41 100% 48%;
-    --sidebar-accent-foreground: 224 71% 4%;
-    --sidebar-border: 240 6% 90%;
-    --sidebar-ring: 334 74% 38%;
+    --sidebar-accent: 220 32% 88%;
+    --sidebar-accent-foreground: 224 28% 18%;
+    --sidebar-border: 220 20% 84%;
+    --sidebar-ring: 337 58% 42%;
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --background: 228 28% 8%;
+    --foreground: 220 16% 94%;
+    --card: 226 26% 10%;
+    --card-foreground: 220 16% 94%;
+    --popover: 226 26% 10%;
+    --popover-foreground: 220 16% 94%;
 
     /* Brand */
-    --primary: 334 74% 58%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 337 65% 64%;
+    --primary-foreground: 220 20% 96%;
 
-    --secondary: 41 100% 48%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 228 5% 78%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 44 61% 63%;
-    --accent-foreground: 0 0% 98%;
+    --secondary: 221 24% 18%;
+    --secondary-foreground: 220 16% 92%;
+    --muted: 222 18% 20%;
+    --muted-foreground: 220 11% 72%;
+    --accent: 222 22% 24%;
+    --accent-foreground: 220 16% 92%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 228 5% 20%;
-    --input: 228 5% 20%;
-    --ring: 334 74% 58%;
+    --border: 221 18% 24%;
+    --input: 221 18% 24%;
+    --ring: 337 65% 64%;
 
-    --chart-1: 334 74% 58%;
-    --chart-2: 41 100% 48%;
-    --chart-3: 228 5% 78%;
-    --chart-4: 44 61% 63%;
-    --chart-5: 0 84% 60%;
+    --chart-1: 337 65% 64%;
+    --chart-2: 214 52% 58%;
+    --chart-3: 219 17% 72%;
+    --chart-4: 198 44% 64%;
+    --chart-5: 34 50% 62%;
 
-    --sidebar-background: 240 6% 10%;
-    --sidebar-foreground: 240 5% 96%;
-    --sidebar-primary: 334 74% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 41 100% 48%;
-    --sidebar-accent-foreground: 240 5% 96%;
-    --sidebar-border: 228 5% 16%;
-    --sidebar-ring: 334 74% 58%;
+    --sidebar-background: 226 24% 11%;
+    --sidebar-foreground: 220 16% 94%;
+    --sidebar-primary: 337 65% 64%;
+    --sidebar-primary-foreground: 220 20% 96%;
+    --sidebar-accent: 222 22% 24%;
+    --sidebar-accent-foreground: 220 16% 92%;
+    --sidebar-border: 221 18% 22%;
+    --sidebar-ring: 337 65% 64%;
   }
 
   * {
@@ -98,6 +98,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     overflow-x: hidden;
+    background-image: radial-gradient(circle at top, rgba(54, 70, 104, 0.18), transparent 38%);
   }
 }
 
@@ -109,50 +110,42 @@
 
 @layer components {
   .optical-glass {
-    /* 1. 기본 블러 및 채도 증가 (배경 색상을 쨍하게) */
-    /* saturate를 조금 낮춰서(180% -> 120%) 너무 쨍한 느낌 완화 */
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
-    
-    /* 2. 표면 반사: 투명도를 획기적으로 낮춤 (0.25 -> 0.08) */
+    backdrop-filter: blur(18px) saturate(105%);
+    -webkit-backdrop-filter: blur(18px) saturate(105%);
     background: linear-gradient(
-      to bottom right, 
-      rgba(255, 255, 255, 0.08) 0%, 
-      rgba(255, 255, 255, 0.02) 100%
+      135deg,
+      rgba(12, 17, 30, 0.78) 0%,
+      rgba(14, 20, 34, 0.64) 48%,
+      rgba(18, 24, 40, 0.76) 100%
     );
-    
-    /* 3. 테두리 빛맺힘 및 두께감 표현 (핵심!) */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* 테두리도 더 투명하게 */
-    border-top: 1px solid rgba(255, 255, 255, 0.3); /* 하이라이트 유지하되 약하게 */
-    border-left: 1px solid rgba(255, 255, 255, 0.2); 
-    
-    /* 4. 내부 반사광 (Inner Glow) */
+    border: 1px solid rgba(165, 184, 220, 0.16);
+    border-top: 1px solid rgba(218, 226, 255, 0.2);
+    border-left: 1px solid rgba(195, 207, 242, 0.14);
     box-shadow: 
-      inset 0 0 20px rgba(255, 255, 255, 0.02), /* 내부 광 매우 은은하게 */
-      0 4px 6px rgba(0, 0, 0, 0.05); 
-      
-    /* 둥근 모서리 및 블러 누수 방지 */
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 0 40px rgba(115, 144, 208, 0.03),
+      0 18px 60px rgba(0, 0, 0, 0.28);
     border-radius: 24px;
-    /* overflow: hidden; -> LP판 애니메이션이 잘리지 않도록 제거 */
-    transform: translateZ(0); 
+    transform: translateZ(0);
   }
   
-  /* 다크 모드 대응 (유리가 어두워져야 함) - 투명도/톤 개선 */
   .dark .optical-glass {
     background: linear-gradient(
-      to bottom right, 
-      rgba(0, 0, 0, 0.2) 0%, 
-      rgba(0, 0, 0, 0.05) 100%
+      135deg,
+      rgba(10, 14, 24, 0.82) 0%,
+      rgba(12, 18, 30, 0.72) 48%,
+      rgba(14, 20, 34, 0.82) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(165, 184, 220, 0.14);
+    border-top: 1px solid rgba(228, 234, 255, 0.18);
     box-shadow: 
-      inset 0 0 30px rgba(0, 0, 0, 0.2),
-      0 10px 20px rgba(0, 0, 0, 0.2);
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      inset 0 0 48px rgba(104, 130, 190, 0.04),
+      0 18px 60px rgba(0, 0, 0, 0.34);
   }
 
   .glass {
-    @apply border border-border/50 bg-background/30 backdrop-blur-xl;
+    @apply border border-border/70 bg-background/55 backdrop-blur-xl;
   }
 
   .glass-card {
@@ -230,14 +223,16 @@
 }
 
 .beams-overlay {
-  background: rgb(10 10 10 / 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background:
+    radial-gradient(circle at top right, rgba(66, 84, 128, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(4, 6, 12, 0.18), rgba(4, 6, 12, 0.5));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   animation: beamsOverlayPulse 10s ease-in-out infinite;
 }
 
 .holographic-text {
-  background: linear-gradient(90deg, #A61955, #F6A700, #DABA65, #A61955);
+  background: linear-gradient(90deg, #e7ecff, #aebfe8, #d9a2bc, #e7ecff);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;

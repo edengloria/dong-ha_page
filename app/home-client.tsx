@@ -40,20 +40,20 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
         </motion.h1>
 
         <motion.div
-          className="space-y-10 text-foreground/80"
+          className="space-y-10 text-foreground/88"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           <div className="grid gap-8 items-start md:grid-cols-3">
             <div className="md:col-span-2 space-y-5">
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-8">
                 I am Dong-Ha Shin, a first-year M.S. student in the{" "}
                 <a
                   href="https://www.shbaek.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
+                  className="text-primary/90 hover:text-primary underline decoration-primary/45 underline-offset-4 transition-colors"
                 >
                   Computational Imaging Group
                 </a>
@@ -62,20 +62,20 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.shbaek.com/team/biography"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
+                  className="text-primary/90 hover:text-primary underline decoration-primary/45 underline-offset-4 transition-colors"
                 >
                   Prof. Seung-Hwan Baek
                 </a>
                 .
               </p>
 
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-8">
                 During my undergraduate studies, I was affiliated with the{" "}
                 <a
                   href="https://www.ipodlab.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
+                  className="text-primary/90 hover:text-primary underline decoration-primary/45 underline-offset-4 transition-colors"
                 >
                   Integrated Plasmonics and Optical Device Laboratory
                 </a>
@@ -84,20 +84,20 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.ipodlab.com/members-1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
+                  className="text-primary/90 hover:text-primary underline decoration-primary/45 underline-offset-4 transition-colors"
                 >
                   Prof. Seung-Yeol Lee
                 </a>
                 .
               </p>
 
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-8">
                 My research interests broadly lie in co-designing novel systems at the intersection of optics, vision,
                 graphics, and artificial intelligence. I believe the multi-dimensional nature of light holds expressive
                 power and untapped potential that extend well beyond conventional 2D intensity images.
               </p>
 
-              <p className="text-base leading-relaxed">
+              <p className="text-base leading-8">
                 As part of my military service, I led the development of a globally deployed Road-Information-as-a-Service
                 (RiaaS)—currently operating in real-world environments across cities including New York City and Seoul—
                 encompassing edge-device systems, AI model training, on-device AI deployment, and full web services.
@@ -106,7 +106,7 @@ export default function HomeClient({ lifeImages }: HomeClientProps) {
                   href="https://www.namuhx.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-postech-red hover:text-postech-orange underline underline-offset-4"
+                  className="text-primary/90 hover:text-primary underline decoration-primary/45 underline-offset-4 transition-colors"
                 >
                   NamuhX project
                 </a>

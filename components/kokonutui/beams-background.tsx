@@ -51,7 +51,7 @@ const BASE_FLICKER_SPEED_MIN = 0.9
 const BASE_FLICKER_SPEED_RANGE = 2.0
 const FLICKER_DEPTH_MIN = 0.22
 const FLICKER_DEPTH_RANGE = 0.38
-const POSTECH_HUES = [334, 39, 45] as const
+const POSTECH_HUES = [210, 228, 248] as const
 
 const SLOW_FRAME_MS = 18
 const GOOD_FRAME_MS = 16
@@ -79,11 +79,11 @@ function createBeam(logicalWidth: number, logicalHeight: number): Beam {
   return {
     x: Math.random() * logicalWidth * 1.5 - logicalWidth * 0.25,
     y: Math.random() * logicalHeight * 1.5 - logicalHeight * 0.25,
-    width: 42 + Math.random() * 90,
+    width: 54 + Math.random() * 110,
     length: logicalHeight * 2.5,
     angle: -35 + Math.random() * 10,
     speed: BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE,
-    opacity: 0.18 + Math.random() * 0.14,
+    opacity: 0.08 + Math.random() * 0.08,
     hue: hueSeed + (Math.random() * 10 - 5),
     pulse: Math.random() * Math.PI * 2,
     pulseSpeed:
@@ -233,11 +233,11 @@ export default function BeamsBackground({
       const spacing = logicalWidth / columnCount
       beam.y = logicalHeight + RESPAWN_OFFSET
       beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
-      beam.width = 70 + Math.random() * 120
+      beam.width = 80 + Math.random() * 120
       beam.speed = BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE
       const hueSeed = POSTECH_HUES[index % POSTECH_HUES.length]
       beam.hue = hueSeed + (Math.random() * 12 - 6)
-      beam.opacity = 0.2 + Math.random() * 0.1
+      beam.opacity = 0.1 + Math.random() * 0.08
       beam.length = logicalHeight * 2.5
       beam.pulse = Math.random() * Math.PI * 2
       beam.pulseSpeed = BASE_PULSE_SPEED_MIN + Math.random() * BASE_PULSE_SPEED_RANGE
@@ -259,19 +259,19 @@ export default function BeamsBackground({
       const pulsingOpacity =
         beam.opacity * (pulseFactor + flickerFactor * beam.flickerDepth) * OPACITY_MAP[intensity]
       if (pulsingOpacity <= 0) return
-      const finalOpacity = clamp(pulsingOpacity * 2.25, 0, 1)
+      const finalOpacity = clamp(pulsingOpacity * 1.65, 0, 1)
 
       ctx.save()
       ctx.translate(beam.x, beam.y)
       ctx.rotate((beam.angle * Math.PI) / 180)
       const maskGradient = ctx.createLinearGradient(0, 0, 0, beam.length)
-      maskGradient.addColorStop(0, `hsla(${hue}, 85%, 62%, 0)`)
-      maskGradient.addColorStop(0.08, `hsla(${hue}, 85%, 66%, 0.2)`)
-      maskGradient.addColorStop(0.25, `hsla(${hue}, 85%, 70%, 0.7)`)
-      maskGradient.addColorStop(0.5, `hsla(${hue}, 85%, 75%, 1)`)
-      maskGradient.addColorStop(0.75, `hsla(${hue}, 85%, 70%, 0.7)`)
-      maskGradient.addColorStop(0.92, `hsla(${hue}, 85%, 66%, 0.2)`)
-      maskGradient.addColorStop(1, `hsla(${hue}, 85%, 62%, 0)`)
+      maskGradient.addColorStop(0, `hsla(${hue}, 58%, 42%, 0)`)
+      maskGradient.addColorStop(0.1, `hsla(${hue}, 56%, 48%, 0.12)`)
+      maskGradient.addColorStop(0.28, `hsla(${hue}, 54%, 54%, 0.42)`)
+      maskGradient.addColorStop(0.5, `hsla(${hue}, 52%, 60%, 0.72)`)
+      maskGradient.addColorStop(0.72, `hsla(${hue}, 54%, 54%, 0.42)`)
+      maskGradient.addColorStop(0.9, `hsla(${hue}, 56%, 48%, 0.12)`)
+      maskGradient.addColorStop(1, `hsla(${hue}, 58%, 42%, 0)`)
       ctx.fillStyle = maskGradient
       ctx.globalAlpha = finalOpacity
       ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
@@ -395,8 +395,14 @@ export default function BeamsBackground({
   }, [intensity, startAnimation, stopAnimation])
 
   return (
-    <div className={cn("relative w-full overflow-hidden bg-black", showHero ? "min-h-screen" : "h-full", className)}>
-      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
+    <div
+      className={cn(
+        "relative w-full overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(37,53,86,0.18),_rgba(5,7,12,0.96)_50%,_rgba(3,4,8,1)_100%)]",
+        showHero ? "min-h-screen" : "h-full",
+        className
+      )}
+    >
+      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(22px)" }} />
 
       <div className="absolute inset-0 beams-overlay" />
 

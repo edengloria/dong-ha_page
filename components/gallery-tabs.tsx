@@ -31,7 +31,7 @@ export function GalleryTabs() {
           href="/gallery/photos"
           className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isPhotos
-              ? "text-postech-red"
+              ? "text-primary-foreground"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -43,7 +43,7 @@ export function GalleryTabs() {
           href="/gallery/vinyl"
           className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
             isVinyl
-              ? "text-postech-red"
+              ? "text-primary-foreground"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
