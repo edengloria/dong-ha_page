@@ -1,8 +1,11 @@
-import { getLifeImages } from "@/lib/get-life-images"
-import HomeClient from "./home-client"
+import { AboutSection } from "@/components/home/about-section"
+import { createMetadata } from "@/lib/metadata"
+import { getLifeImageFilenames } from "@/lib/gallery"
+
+export const metadata = createMetadata()
 
 export default function HomePage() {
-  const lifeImages = getLifeImages()
+  const lifeImages = getLifeImageFilenames()
 
-  return <HomeClient lifeImages={lifeImages} />
+  return <AboutSection lifeImages={lifeImages} />
 }

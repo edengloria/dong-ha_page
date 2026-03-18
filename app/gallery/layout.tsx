@@ -1,4 +1,5 @@
-import { GalleryTabs } from "@/components/gallery-tabs"
+import type React from "react"
+import { GalleryTabs } from "@/components/gallery/gallery-tabs"
 
 export default function GalleryLayout({
   children,
@@ -6,9 +7,9 @@ export default function GalleryLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <section>
       <GalleryTabs />
       {children}
-    </div>
+    </section>
   )
 }

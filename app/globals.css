@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
     --background: 220 25% 97%;
@@ -17,7 +11,6 @@
     --popover: 220 22% 98%;
     --popover-foreground: 224 28% 12%;
 
-    /* Brand */
     --primary: 337 58% 42%;
     --primary-foreground: 0 0% 98%;
 
@@ -41,17 +34,24 @@
 
     --radius: 0.75rem;
 
-    --sidebar-background: 220 22% 97%;
-    --sidebar-foreground: 224 28% 12%;
-    --sidebar-primary: 337 58% 42%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 32% 88%;
-    --sidebar-accent-foreground: 224 28% 18%;
-    --sidebar-border: 220 20% 84%;
-    --sidebar-ring: 337 58% 42%;
+    --color-brand-red: #a61955;
+    --color-brand-orange: #f6a700;
+    --color-brand-gray: #7a7772;
+    --color-brand-silver: #c5c6ca;
+    --color-brand-gold: #daba65;
+
+    --font-size-page-title: clamp(1.875rem, 3vw, 2.25rem);
+    --font-size-body: 1rem;
+    --line-height-body: 2rem;
+
+    --space-panel-inline: 1.5rem;
+    --space-panel-block: 1.5rem;
+    --space-section: 2.5rem;
+    --space-copy: 1.25rem;
   }
 
   .dark {
+    color-scheme: dark;
     --background: 228 28% 8%;
     --foreground: 220 16% 94%;
     --card: 226 26% 10%;
@@ -59,7 +59,6 @@
     --popover: 226 26% 10%;
     --popover-foreground: 220 16% 94%;
 
-    /* Brand */
     --primary: 337 65% 64%;
     --primary-foreground: 220 20% 96%;
 
@@ -80,25 +79,24 @@
     --chart-3: 219 17% 72%;
     --chart-4: 198 44% 64%;
     --chart-5: 34 50% 62%;
-
-    --sidebar-background: 226 24% 11%;
-    --sidebar-foreground: 220 16% 94%;
-    --sidebar-primary: 337 65% 64%;
-    --sidebar-primary-foreground: 220 20% 96%;
-    --sidebar-accent: 222 22% 24%;
-    --sidebar-accent-foreground: 220 16% 92%;
-    --sidebar-border: 221 18% 22%;
-    --sidebar-ring: 337 65% 64%;
   }
 
   * {
     @apply border-border;
   }
 
+  html {
+    @apply bg-background;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     overflow-x: hidden;
     background-image: radial-gradient(circle at top, rgba(54, 70, 104, 0.18), transparent 38%);
+  }
+
+  a {
+    color: inherit;
   }
 }
 
@@ -121,14 +119,14 @@
     border: 1px solid rgba(165, 184, 220, 0.16);
     border-top: 1px solid rgba(218, 226, 255, 0.2);
     border-left: 1px solid rgba(195, 207, 242, 0.14);
-    box-shadow: 
+    box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       inset 0 0 40px rgba(115, 144, 208, 0.03),
       0 18px 60px rgba(0, 0, 0, 0.28);
     border-radius: 24px;
     transform: translateZ(0);
   }
-  
+
   .dark .optical-glass {
     background: linear-gradient(
       135deg,
@@ -138,7 +136,7 @@
     );
     border: 1px solid rgba(165, 184, 220, 0.14);
     border-top: 1px solid rgba(228, 234, 255, 0.18);
-    box-shadow: 
+    box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.03),
       inset 0 0 48px rgba(104, 130, 190, 0.04),
       0 18px 60px rgba(0, 0, 0, 0.34);
@@ -148,20 +146,84 @@
     @apply border border-border/70 bg-background/55 backdrop-blur-xl;
   }
 
-  .glass-card {
-    @apply glass rounded-2xl;
+  .glass-panel {
+    @apply optical-glass;
+    padding-block: var(--space-panel-block);
+    padding-inline: var(--space-panel-inline);
   }
 
-  .glass-panel {
-    @apply optical-glass p-6 lg:p-8;
+  .site-grid {
+    @apply flex flex-col gap-6 lg:flex-row lg:gap-8;
   }
 
   .page-title {
-    @apply text-3xl lg:text-4xl font-light tracking-tight text-foreground;
+    @apply font-light tracking-tight text-foreground;
+    font-size: var(--font-size-page-title);
+    line-height: 1.05;
+  }
+
+  .content-stack {
+    display: grid;
+    gap: var(--space-section);
+  }
+
+  .copy-stack {
+    display: grid;
+    gap: var(--space-copy);
+  }
+
+  .copy-paragraph {
+    color: hsl(var(--foreground) / 0.88);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+  }
+
+  .section-divider {
+    @apply border-t border-border/50;
   }
 }
 
-/* Custom scrollbar */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes musicBar {
+  0%,
+  100% {
+    height: 30%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+@keyframes beamsOverlayPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.beams-overlay {
+  background:
+    radial-gradient(circle at top right, rgba(66, 84, 128, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(4, 6, 12, 0.18), rgba(4, 6, 12, 0.5));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: beamsOverlayPulse 10s ease-in-out infinite;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -179,107 +241,46 @@
   background: rgba(197, 198, 202, 0.7);
 }
 
-/* Vinyl spin animation */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Music equalizer bars animation */
-@keyframes musicBar {
-  0%, 100% {
-    height: 30%;
-  }
-  50% {
-    height: 100%;
-  }
-}
-
-/* Holographic text effect */
-@keyframes holographicShimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes beamsOverlayPulse {
-  0%,
-  100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.3;
-  }
-}
-
-.beams-overlay {
-  background:
-    radial-gradient(circle at top right, rgba(66, 84, 128, 0.16), transparent 24%),
-    linear-gradient(180deg, rgba(4, 6, 12, 0.18), rgba(4, 6, 12, 0.5));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  animation: beamsOverlayPulse 10s ease-in-out infinite;
-}
-
-.holographic-text {
-  background: linear-gradient(90deg, #e7ecff, #aebfe8, #d9a2bc, #e7ecff);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: holographicShimmer 6s ease infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .holographic-text {
-    animation: none;
-  }
-  
-  /* Disable all CSS animations for reduced motion preference */
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
-  
-  /* Disable vinyl spin animation */
+
   @keyframes spin {
-    from, to {
+    from,
+    to {
       transform: rotate(0deg);
     }
   }
-  
-  /* Disable music bar animation */
+
   @keyframes musicBar {
-    from, to {
+    from,
+    to {
       height: 50%;
     }
   }
 }
 
-/* Low-power device optimizations via media query */
 @media (prefers-reduced-motion: reduce), (prefers-contrast: more) {
-  /* Simplify backdrop filters for performance */
   .optical-glass {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-  
+
   .glass {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --space-panel-inline: 2rem;
+    --space-panel-block: 2rem;
   }
 }

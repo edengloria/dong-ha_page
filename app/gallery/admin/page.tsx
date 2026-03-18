@@ -4,36 +4,21 @@ import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import { ExternalLink, Loader2, Music2, Save, Shield } from "lucide-react"
 
-import discogsDataRaw from "@/data/discogs-collection.json"
-import prefsRaw from "@/data/track-preferences.json"
 import { withBasePath } from "@/lib/utils"
+import {
+  getDiscogsCollection,
+  getTrackPreferences,
+  type TrackPreferences,
+} from "@/lib/discogs"
+import {
+  createPreviewSearchPlan,
+  findBestPreviewMatch,
+} from "@/lib/music-preview"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-
-type DiscogsCollectionData = {
-  fetchedAt: string
-  releases: Array<{
-    id: number
-    instance_id: number
-    title: string
-    artist: string
-    year: number
-    cover_image: string
-    tracks: Array<{ position: string; title: string; duration: string }>
-  }>
-}
-
-type TrackPreferences = Record<
-  string,
-  {
-    selectedTrackIndex: number
-    selectedTrackTitle: string
-    customSearchQuery?: string
-  }
->
 
 type ITunesResult = {
   trackName?: string
@@ -45,79 +30,8 @@ type ITunesResult = {
 
 type SavePreferencesResponse = { ok: boolean; error?: string }
 
-const discogsData = discogsDataRaw as unknown as DiscogsCollectionData
-const initialPrefs = (prefsRaw as unknown as TrackPreferences) ?? {}
-
-// Common Korean artist romanization mappings (same as lp-collection.tsx)
-const ARTIST_KOREAN_MAP: Record<string, string> = {
-  "cho yong-pil": "Cho Yong-pil",
-  "cho yongpil": "Cho Yong-pil",
-  "cheong tae choon": "Cheong Tae-choon",
-  "chung tae chun": "Cheong Tae-choon",
-  "kim kwang seok": "Kim Kwang Seok",
-  "siinkwa chonjang": "Si In-gang",
-  "shin seung hun": "Shin Seung-hun",
-  "lee moon sae": "Lee Moon-sae",
-  "lee moon-sae": "Lee Moon-sae",
-  "yoo jae ha": "Yoo Jae-ha",
-  "kim hyun sik": "Kim Hyun-sik",
-  "deulgukhwa": "Deulgukhwa",
-  "sanullim": "Sanullim",
-  "song chang sik": "Song Chang-sik",
-  "yang hee eun": "Yang Hee-eun",
-  "han dae soo": "Han Dae-soo",
-  "kim min ki": "Kim Min-ki",
-  "jeon in kwon": "Jeon In-kwon",
-  "bom yeoreum gaeul gyeoul": "Bom Yeoreum Gaeul Gyeoul",
-  "spring summer fall winter": "Spring Summer Fall Winter",
-  "light and salt": "Light and Salt",
-  "bitgwa sogeum": "Bitgwa Sogeum",
-  "yoonsang": "Yoonsang",
-  "yoon sang": "Yoon Sang",
-}
-
-// Check if text contains Korean/CJK characters
-function containsKorean(text: string): boolean {
-  return /[\uAC00-\uD7AF\u4E00-\u9FFF]/.test(text)
-}
-
-// Get Korean name for romanized artist
-function getKoreanArtistName(romanized: string): string | null {
-  const normalized = romanized.toLowerCase().trim()
-  return ARTIST_KOREAN_MAP[normalized] || null
-}
-
-// Text cleanup utilities (same as lp-collection.tsx)
-function cleanupText(text: string): string {
-  return text
-    // Remove content in parentheses and brackets
-    .replace(/\s*[\(\[].*?[\)\]]\s*/g, " ")
-    // Remove common suffixes
-    .replace(/\s*(deluxe|remaster|edition|anniversary|expanded|bonus|disc \d+|cd \d+|vinyl|lp).*$/i, "")
-    // Remove feat./ft.
-    .replace(/\s*(feat\.?|ft\.?|featuring)\s+.*/i, "")
-    // Remove special characters
-    .replace(/['"''""]/g, "")
-    // Remove extra spaces
-    .replace(/\s+/g, " ")
-    .trim()
-}
-
-// Calculate similarity between two strings (0-1)
-function calculateSimilarity(str1: string, str2: string): number {
-  const s1 = str1.toLowerCase()
-  const s2 = str2.toLowerCase()
-  
-  if (s1 === s2) return 1
-  if (s1.includes(s2) || s2.includes(s1)) return 0.8
-  
-  // Simple word overlap
-  const words1 = s1.split(/\s+/)
-  const words2 = s2.split(/\s+/)
-  const commonWords = words1.filter(w => words2.some(w2 => w2.includes(w) || w.includes(w2)))
-  
-  return commonWords.length / Math.max(words1.length, words2.length)
-}
+const discogsData = getDiscogsCollection()
+const initialPrefs = getTrackPreferences()
 
 export default function DiscogsAdminPage() {
   const [password, setPassword] = useState("")
@@ -200,6 +114,12 @@ export default function DiscogsAdminPage() {
     const customQuery = (customSearchQuery || "").trim()
     const preferredQuery =
       customQuery || `${originalArtist} ${effectiveSelectedTrackTitle}`.trim()
+    const plan = createPreviewSearchPlan({
+      album: originalAlbum,
+      artist: originalArtist,
+      customQuery,
+      preferredQuery,
+    })
 
     if (!preferredQuery) return
 
@@ -209,8 +129,6 @@ export default function DiscogsAdminPage() {
     setPreviewQuery(preferredQuery)
 
     try {
-      // If user provided a custom query, mirror LPCollection behavior:
-      // accept the first preview result directly (no album/artist scoring).
       if (customQuery) {
         const res = await fetch(
           `https://itunes.apple.com/search?term=${encodeURIComponent(customQuery)}&entity=song&limit=5&country=kr`
@@ -222,113 +140,48 @@ export default function DiscogsAdminPage() {
         return
       }
 
-      const cleanArtist = cleanupText(originalArtist)
-      const cleanAlbum = cleanupText(originalAlbum)
-      
-      // Check if we have a Korean mapping for this artist
-      const koreanArtist = getKoreanArtistName(originalArtist) || getKoreanArtistName(cleanArtist)
-      
-      // Check if album has Korean characters
-      const albumHasKorean = containsKorean(originalAlbum)
-
-      // Build search strategies (same as lp-collection.tsx)
-      const searchStrategies: string[] = []
-      
-      // If admin configured a specific query, try it first
-      if (preferredQuery) {
-        searchStrategies.push(preferredQuery)
-      }
-
-      // If we have a Korean artist name, prioritize it
-      if (koreanArtist) {
-        searchStrategies.push(`${koreanArtist} ${cleanAlbum}`)
-        searchStrategies.push(koreanArtist)
-      }
-      
-      // If album is in Korean, search album first (often more unique)
-      if (albumHasKorean) {
-        searchStrategies.push(cleanAlbum)
-        searchStrategies.push(`${cleanAlbum} ${cleanArtist}`)
-      }
-      
-      // Standard strategies
-      searchStrategies.push(`${cleanArtist} ${cleanAlbum}`)
-      searchStrategies.push(`${originalArtist} ${originalAlbum}`)
-      searchStrategies.push(cleanArtist)
-
-      // Try each strategy and find best match
       let allResults: ITunesResult[] = []
       let bestMatch: { result: ITunesResult; score: number } | null = null
 
-      for (const query of searchStrategies) {
+      for (const query of plan.searchStrategies) {
         try {
           const res = await fetch(
             `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=5&country=kr`
           )
           if (!res.ok) continue
-          
+
           const data = (await res.json()) as { results?: ITunesResult[] }
           const results: ITunesResult[] = data.results || []
 
-          // Collect all results for display
-          allResults.push(...results.filter(r => r.previewUrl))
+          allResults.push(...results.filter((result) => result.previewUrl))
 
-          // Find the best match (same logic as lp-collection.tsx)
-          for (const result of results) {
-            if (!result.previewUrl) continue
+          const matchedPreview = findBestPreviewMatch(results, plan)
+          if (matchedPreview?.url) {
+            const matchedResult = results.find(
+              (result) => result.previewUrl === matchedPreview.url
+            )
 
-            const resultArtist = result.artistName || ""
-            const resultAlbum = result.collectionName || ""
-            const cleanResultArtist = cleanupText(resultArtist)
-            const cleanResultAlbum = cleanupText(resultAlbum)
-
-            // Calculate similarity scores
-            let artistSim = calculateSimilarity(cleanArtist, cleanResultArtist)
-            
-            // Also check against Korean artist name if available
-            if (koreanArtist) {
-              const koreanArtistSim = calculateSimilarity(koreanArtist, cleanResultArtist)
-              artistSim = Math.max(artistSim, koreanArtistSim)
-            }
-            
-            const albumSim = calculateSimilarity(cleanAlbum, cleanResultAlbum)
-            
-            // Combined score
-            const score = (artistSim * 0.5) + (albumSim * 0.5)
-            
-            // Accept if:
-            // 1. Artist matches somewhat (>0.2), OR
-            // 2. Album matches well (>0.4), OR
-            // 3. Album has Korean and album matches (>0.3) - for Korean music search
-            const isValid = artistSim >= 0.2 || albumSim >= 0.4 || (albumHasKorean && albumSim >= 0.3)
-            
-            if (isValid && score > (bestMatch?.score ?? 0)) {
-              bestMatch = { result, score }
+            if (matchedResult?.previewUrl) {
+              bestMatch = { result: matchedResult, score: 1 }
             }
           }
 
-          // If we found a good match, stop searching
-          const minScore = albumHasKorean ? 0.15 : 0.2
-          if (bestMatch && bestMatch.score >= minScore) {
+          if (bestMatch) {
             break
           }
         } catch {
-          // Continue to next strategy on error
           continue
         }
       }
 
-      // Show best match first, then other results
       const sortedResults: ITunesResult[] = []
       if (bestMatch) {
         sortedResults.push(bestMatch.result)
-        // Add other results that aren't the best match
         const otherResults = allResults.filter(
-          r => r.previewUrl !== bestMatch?.result.previewUrl
+          (result) => result.previewUrl !== bestMatch?.result.previewUrl
         )
-        sortedResults.push(...otherResults.slice(0, 4)) // Limit to 5 total
+        sortedResults.push(...otherResults.slice(0, 4))
       } else {
-        // No good match found, show all results
         sortedResults.push(...allResults.slice(0, 5))
       }
 
@@ -681,4 +534,3 @@ export default function DiscogsAdminPage() {
     </div>
   )
 }
-

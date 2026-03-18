@@ -1,15 +1,12 @@
-import LPCollection, { type StaticRelease, type TrackPreferences } from "@/components/lp-collection"
-import discogsDataRaw from "@/data/discogs-collection.json"
-import prefsRaw from "@/data/track-preferences.json"
+import { VinylGalleryView } from "@/components/gallery/vinyl-gallery-view"
+import { createMetadata } from "@/lib/metadata"
+
+export const metadata = createMetadata({
+  title: "Gallery / Vinyl",
+  description: "A browsable view of Dong-Ha Shin's vinyl collection with preview tracks.",
+  path: "/gallery/vinyl",
+})
 
 export default function VinylPage() {
-  const discogsData = discogsDataRaw as { releases?: StaticRelease[] }
-  const releases = discogsData.releases ?? []
-  const prefs = (prefsRaw as TrackPreferences) ?? {}
-
-  return (
-    <div>
-      <LPCollection releases={releases} prefs={prefs} />
-    </div>
-  )
+  return <VinylGalleryView />
 }
