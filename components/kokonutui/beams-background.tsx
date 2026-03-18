@@ -41,6 +41,11 @@ const BASE_BEAM_COUNT = 44
 const MIN_BEAM_COUNT = 14
 const MAX_BEAM_COUNT = 64
 const MAX_DPR = 1.8
+const BASE_REFERENCE_AREA = 1280 * 720
+const DENSITY_SCALE_MIN = 0.28
+const DENSITY_SCALE_MAX = 1.35
+const BEAM_WIDTH_SCALE_MIN = 0.75
+const BEAM_WIDTH_SCALE_MAX = 1.3
 
 const BASE_SPEED_PPS_MIN = 50
 const BASE_SPEED_PPS_RANGE = 64
@@ -73,13 +78,31 @@ function getClampedDpr() {
   return clamp(dpr, 1, MAX_DPR)
 }
 
-function createBeam(logicalWidth: number, logicalHeight: number): Beam {
+function getDensityScale(logicalWidth: number, logicalHeight: number) {
+  const safeWidth = Math.max(logicalWidth, 1)
+  const safeHeight = Math.max(logicalHeight, 1)
+  const baseArea = BASE_REFERENCE_AREA
+  const scale = Math.sqrt((safeWidth * safeHeight) / baseArea)
+  return clamp(scale, DENSITY_SCALE_MIN, DENSITY_SCALE_MAX)
+}
+
+function getDensityBeamCount(densityScale: number) {
+  const target = Math.round(BASE_BEAM_COUNT * densityScale)
+  return clamp(target, MIN_BEAM_COUNT, MAX_BEAM_COUNT)
+}
+
+function getScaledBeamWidth(baseWidth: number, densityScale: number) {
+  const safeScale = clamp(densityScale, BEAM_WIDTH_SCALE_MIN, BEAM_WIDTH_SCALE_MAX)
+  return baseWidth * safeScale
+}
+
+function createBeam(logicalWidth: number, logicalHeight: number, densityScale: number): Beam {
   const hueSeed = POSTECH_HUES[Math.floor(Math.random() * POSTECH_HUES.length)]
 
   return {
     x: Math.random() * logicalWidth * 1.5 - logicalWidth * 0.25,
     y: Math.random() * logicalHeight * 1.5 - logicalHeight * 0.25,
-    width: 54 + Math.random() * 110,
+    width: getScaledBeamWidth(54 + Math.random() * 110, densityScale),
     length: logicalHeight * 2.5,
     angle: -35 + Math.random() * 10,
     speed: BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE,
@@ -126,11 +149,12 @@ function updateBeamCountInPlace(
   beams: Beam[],
   logicalWidth: number,
   logicalHeight: number,
+  densityScale: number,
   desiredCount: number
 ) {
   if (beams.length < desiredCount) {
     for (let i = beams.length; i < desiredCount; i += 1) {
-      beams.push(createBeam(logicalWidth, logicalHeight))
+      beams.push(createBeam(logicalWidth, logicalHeight, densityScale))
     }
     return
   }
@@ -146,6 +170,7 @@ export default function BeamsBackground({
   intensity = "strong",
   showHero = false,
 }: AnimatedGradientBackgroundProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const beamsRef = useRef<Beam[]>([])
   const animationFrameRef = useRef<number>(0)
@@ -157,6 +182,7 @@ export default function BeamsBackground({
   const restoreWaitRef = useRef<number>(0)
   const animateRef = useRef<((timestamp: number) => void) | null>(null)
   const lastFrameTimeRef = useRef<number>(0)
+  const densityScaleRef = useRef<number>(1)
 
   const startAnimation = useCallback(() => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
@@ -190,8 +216,23 @@ export default function BeamsBackground({
 
     const updateCanvasSize = () => {
       const dpr = getClampedDpr()
-      const logicalWidth = window.innerWidth
-      const logicalHeight = window.innerHeight
+      const container = containerRef.current
+      const fallbackWidth = window.innerWidth
+      const fallbackHeight = window.innerHeight
+      const bounds = container?.getBoundingClientRect()
+      const logicalWidth = clamp(
+        Math.floor(bounds?.width || fallbackWidth),
+        1,
+        Number.MAX_SAFE_INTEGER
+      )
+      const logicalHeight = clamp(
+        Math.floor(bounds?.height || fallbackHeight),
+        1,
+        Number.MAX_SAFE_INTEGER
+      )
+      const densityScale = getDensityScale(logicalWidth, logicalHeight)
+      densityScaleRef.current = densityScale
+      targetBeamCountRef.current = getDensityBeamCount(densityScale)
 
       canvas.width = Math.floor(logicalWidth * dpr)
       canvas.height = Math.floor(logicalHeight * dpr)
@@ -205,19 +246,38 @@ export default function BeamsBackground({
       beamsRef.current.forEach((beam) => {
         beam.length = logicalHeight * 2.5
       })
-      updateBeamCountInPlace(beamsRef.current, logicalWidth, logicalHeight, desiredCount)
+      updateBeamCountInPlace(
+        beamsRef.current,
+        logicalWidth,
+        logicalHeight,
+        densityScale,
+        desiredCount
+      )
     }
 
     updateCanvasSize()
     const throttledResize = throttle(updateCanvasSize, 250)
     window.addEventListener("resize", throttledResize)
+    window.visualViewport?.addEventListener("resize", throttledResize)
+
+    let resizeObserver: ResizeObserver | null = null
+    if (containerRef.current && typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(throttledResize)
+      resizeObserver.observe(containerRef.current)
+    }
 
     const adjustBeamCount = () => {
       const dpr = getClampedDpr()
       const logicalWidth = canvas.width / dpr
       const logicalHeight = canvas.height / dpr
       const desiredCount = reducedMotionRef.current ? 0 : targetBeamCountRef.current
-      updateBeamCountInPlace(beamsRef.current, logicalWidth, logicalHeight, desiredCount)
+      updateBeamCountInPlace(
+        beamsRef.current,
+        logicalWidth,
+        logicalHeight,
+        densityScaleRef.current,
+        desiredCount
+      )
     }
 
     const resetBeam = (
@@ -225,7 +285,8 @@ export default function BeamsBackground({
       index: number,
       totalBeams: number,
       logicalWidth: number,
-      logicalHeight: number
+      logicalHeight: number,
+      densityScale: number
     ) => {
       const lanes = Math.floor(Math.sqrt(totalBeams / 3))
       const columnCount = Math.max(3, Math.min(6, Math.max(4, lanes)))
@@ -233,7 +294,7 @@ export default function BeamsBackground({
       const spacing = logicalWidth / columnCount
       beam.y = logicalHeight + RESPAWN_OFFSET
       beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
-      beam.width = 80 + Math.random() * 120
+      beam.width = getScaledBeamWidth(80 + Math.random() * 120, densityScale)
       beam.speed = BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE
       const hueSeed = POSTECH_HUES[index % POSTECH_HUES.length]
       beam.hue = hueSeed + (Math.random() * 12 - 6)
@@ -298,7 +359,8 @@ export default function BeamsBackground({
         }
       } else {
         slowFrameAccumRef.current = 0
-        if (desiredCount < MAX_BEAM_COUNT) {
+        const densityCap = getDensityBeamCount(densityScaleRef.current)
+        if (desiredCount < densityCap) {
           restoreWaitRef.current = clamp(
             restoreWaitRef.current + frameMs / 1000,
             0,
@@ -306,7 +368,7 @@ export default function BeamsBackground({
           )
           if (restoreWaitRef.current >= RECOVER_HOLD_SECONDS) {
             targetBeamCountRef.current = Math.min(
-              MAX_BEAM_COUNT,
+              densityCap,
               desiredCount + PERFORMANCE_RESTORE_BOOST
             )
             restoreWaitRef.current = 0
@@ -358,7 +420,14 @@ export default function BeamsBackground({
           beam.x += Math.sin(beam.sway) * beam.swayAmplitude * 0.25 * deltaSec
 
           if (beam.y + beam.length < -100) {
-            resetBeam(beam, i, beams.length, logicalWidth, logicalHeight)
+            resetBeam(
+              beam,
+              i,
+              beams.length,
+              logicalWidth,
+              logicalHeight,
+              densityScaleRef.current
+            )
           }
 
           drawBeam(beam)
@@ -388,6 +457,8 @@ export default function BeamsBackground({
 
     return () => {
       window.removeEventListener("resize", throttledResize)
+      window.visualViewport?.removeEventListener("resize", throttledResize)
+      resizeObserver?.disconnect()
       document.removeEventListener("visibilitychange", handleVisibilityChange)
       stopAnimation()
       beamsRef.current = []
@@ -401,6 +472,7 @@ export default function BeamsBackground({
         showHero ? "min-h-screen" : "h-full",
         className
       )}
+      ref={containerRef}
     >
       <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(22px)" }} />
 
