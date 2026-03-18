@@ -140,7 +140,7 @@ export default function DiscogsAdminPage() {
         return
       }
 
-      let allResults: ITunesResult[] = []
+      const allResults: ITunesResult[] = []
       let bestMatch: { result: ITunesResult; score: number } | null = null
 
       for (const query of plan.searchStrategies) {

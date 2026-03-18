@@ -447,7 +447,7 @@ export default function LPCollection({
   releases: DiscogsRelease[]
   prefs: TrackPreferences
 }) {
-  const [selectedLP, setSelectedLP] = useState<StaticRelease | null>(null)
+  const [selectedLP, setSelectedLP] = useState<DiscogsRelease | null>(null)
   const [nowPlaying, setNowPlaying] = useState<{ trackName: string; artistName: string } | null>(null)
   const [activeMobileLP, setActiveMobileLP] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)

@@ -6,8 +6,9 @@ import { Camera, Disc3 } from "lucide-react"
 
 export function GalleryTabs() {
   const pathname = usePathname()
-  const isPhotos = pathname?.includes("/gallery/photos")
-  const isVinyl = pathname === "/gallery" || pathname?.includes("/gallery/vinyl")
+  const normalizedPath = pathname?.replace(/\/$/, "")
+  const isPhotos = normalizedPath?.includes("/gallery/photos")
+  const isVinyl = normalizedPath === "/gallery" || normalizedPath?.includes("/gallery/vinyl")
 
   return (
     <div className="flex items-center justify-between mb-8">

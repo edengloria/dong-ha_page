@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   applicationName: siteConfig.title,
   authors: [{ name: profile.name }],
   creator: profile.name,
-  keywords: siteConfig.keywords,
+  keywords: [...siteConfig.keywords],
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,

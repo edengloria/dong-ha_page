@@ -70,8 +70,8 @@ function xyzToLab(x: number, y: number, z: number): ColorLab {
 
 function makeColor(r: number, g: number, b: number): Color {
   const [x, y, z] = rgbToXyz(r, g, b)
-  const lab = xyzToLab(x, y, z)
-  return { r, g, b, ...lab }
+  const { l, a, b: labB } = xyzToLab(x, y, z)
+  return { r, g, b: labB, l, a }
 }
 
 // CIE76 Delta E with Weighted Factors

@@ -305,7 +305,8 @@ export default function BeamsBackground({
       if (typeof motionMediaQuery.addEventListener === "function") {
         motionMediaQuery.addEventListener("change", handleReducedMotionChange)
       } else {
-        motionMediaQuery.addListener(handleReducedMotionChange as unknown as (event: MediaQueryList) => void)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        motionMediaQuery.addListener(handleReducedMotionChange as any)
       }
     }
 
@@ -513,7 +514,8 @@ export default function BeamsBackground({
         if (typeof mq.removeEventListener === "function") {
           mq.removeEventListener("change", handleReducedMotionChange)
         } else {
-          mq.removeListener(handleReducedMotionChange as unknown as (event: MediaQueryList) => void)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          mq.removeListener(handleReducedMotionChange as any)
         }
       }
       resizeObserver?.disconnect()
