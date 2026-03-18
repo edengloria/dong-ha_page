@@ -57,6 +57,10 @@ const BASE_FLICKER_SPEED_RANGE = 2.0
 const FLICKER_DEPTH_MIN = 0.22
 const FLICKER_DEPTH_RANGE = 0.38
 const POSTECH_HUES = [210, 228, 248] as const
+const BASE_ANCHOR_HEIGHT = 1080
+const BASE_BLUR_PX = 16
+const MAX_BLUR_PX = 28
+const MIN_BLUR_PX = 6
 
 const SLOW_FRAME_MS = 18
 const GOOD_FRAME_MS = 16
@@ -64,9 +68,10 @@ const DEGRADE_HOLD_SECONDS = 1
 const RECOVER_HOLD_SECONDS = 2
 const EWMA_ALPHA = 0.12
 const DELTA_CLAMP_MS = 100
-const RESPAWN_OFFSET = 100
 const PERF_ADAPT_ENABLED = true
 const PERFORMANCE_RESTORE_BOOST = 2
+const SPEED_SCALE_MIN = 0.78
+const SPEED_SCALE_MAX = 1.5
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
@@ -86,6 +91,20 @@ function getDensityScale(logicalWidth: number, logicalHeight: number) {
   return clamp(scale, DENSITY_SCALE_MIN, DENSITY_SCALE_MAX)
 }
 
+function getMovementScale(logicalHeight: number, densityScale: number) {
+  const heightScale = logicalHeight / BASE_ANCHOR_HEIGHT
+  const speedScale = Math.sqrt(clamp(heightScale, 0.5, 2.25)) * densityScale
+  return clamp(speedScale, SPEED_SCALE_MIN, SPEED_SCALE_MAX)
+}
+
+function getRespawnOffset(logicalHeight: number) {
+  return Math.round(clamp(logicalHeight * 0.08, 40, 220))
+}
+
+function getBeamBlurPx(densityScale: number) {
+  return clamp(Math.round(BASE_BLUR_PX * Math.sqrt(densityScale)), MIN_BLUR_PX, MAX_BLUR_PX)
+}
+
 function getDensityBeamCount(densityScale: number) {
   const target = Math.round(BASE_BEAM_COUNT * densityScale)
   return clamp(target, MIN_BEAM_COUNT, MAX_BEAM_COUNT)
@@ -96,8 +115,13 @@ function getScaledBeamWidth(baseWidth: number, densityScale: number) {
   return baseWidth * safeScale
 }
 
-function createBeam(logicalWidth: number, logicalHeight: number, densityScale: number): Beam {
+function createBeam(
+  logicalWidth: number,
+  logicalHeight: number,
+  densityScale: number
+): Beam {
   const hueSeed = POSTECH_HUES[Math.floor(Math.random() * POSTECH_HUES.length)]
+  const movementScale = getMovementScale(logicalHeight, densityScale)
 
   return {
     x: Math.random() * logicalWidth * 1.5 - logicalWidth * 0.25,
@@ -105,7 +129,8 @@ function createBeam(logicalWidth: number, logicalHeight: number, densityScale: n
     width: getScaledBeamWidth(54 + Math.random() * 110, densityScale),
     length: logicalHeight * 2.5,
     angle: -35 + Math.random() * 10,
-    speed: BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE,
+    speed:
+      (BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE) * movementScale,
     opacity: 0.08 + Math.random() * 0.08,
     hue: hueSeed + (Math.random() * 10 - 5),
     pulse: Math.random() * Math.PI * 2,
@@ -183,6 +208,7 @@ export default function BeamsBackground({
   const animateRef = useRef<((timestamp: number) => void) | null>(null)
   const lastFrameTimeRef = useRef<number>(0)
   const densityScaleRef = useRef<number>(1)
+  const reducedMotionQueryRef = useRef<MediaQueryList | null>(null)
 
   const startAnimation = useCallback(() => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
@@ -200,7 +226,9 @@ export default function BeamsBackground({
   }, [])
 
   useEffect(() => {
-    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    reducedMotionRef.current = mediaQuery.matches
+    reducedMotionQueryRef.current = mediaQuery
     targetBeamCountRef.current = BASE_BEAM_COUNT
   }, [])
 
@@ -238,6 +266,7 @@ export default function BeamsBackground({
       canvas.height = Math.floor(logicalHeight * dpr)
       canvas.style.width = `${logicalWidth}px`
       canvas.style.height = `${logicalHeight}px`
+      canvas.style.filter = `blur(${getBeamBlurPx(densityScale)}px)`
 
       ctx.resetTransform()
       ctx.scale(dpr, dpr)
@@ -259,6 +288,26 @@ export default function BeamsBackground({
     const throttledResize = throttle(updateCanvasSize, 250)
     window.addEventListener("resize", throttledResize)
     window.visualViewport?.addEventListener("resize", throttledResize)
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      reducedMotionRef.current = event.matches
+      if (event.matches) {
+        stopAnimation()
+        beamsRef.current = []
+      } else {
+        updateCanvasSize()
+        startAnimation()
+      }
+    }
+
+    const motionMediaQuery = reducedMotionQueryRef.current
+    if (motionMediaQuery) {
+      if (typeof motionMediaQuery.addEventListener === "function") {
+        motionMediaQuery.addEventListener("change", handleReducedMotionChange)
+      } else {
+        motionMediaQuery.addListener(handleReducedMotionChange as unknown as (event: MediaQueryList) => void)
+      }
+    }
 
     let resizeObserver: ResizeObserver | null = null
     if (containerRef.current && typeof ResizeObserver !== "undefined") {
@@ -292,10 +341,11 @@ export default function BeamsBackground({
       const columnCount = Math.max(3, Math.min(6, Math.max(4, lanes)))
       const column = index % columnCount
       const spacing = logicalWidth / columnCount
-      beam.y = logicalHeight + RESPAWN_OFFSET
+      beam.y = logicalHeight + getRespawnOffset(logicalHeight)
       beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
       beam.width = getScaledBeamWidth(80 + Math.random() * 120, densityScale)
-      beam.speed = BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE
+      const movementScale = getMovementScale(logicalHeight, densityScale)
+      beam.speed = (BASE_SPEED_PPS_MIN + Math.random() * BASE_SPEED_PPS_RANGE) * movementScale
       const hueSeed = POSTECH_HUES[index % POSTECH_HUES.length]
       beam.hue = hueSeed + (Math.random() * 12 - 6)
       beam.opacity = 0.1 + Math.random() * 0.08
@@ -419,7 +469,7 @@ export default function BeamsBackground({
           beam.sway += beam.swaySpeed * deltaSec
           beam.x += Math.sin(beam.sway) * beam.swayAmplitude * 0.25 * deltaSec
 
-          if (beam.y + beam.length < -100) {
+          if (beam.y + beam.length < -getRespawnOffset(logicalHeight)) {
             resetBeam(
               beam,
               i,
@@ -458,6 +508,14 @@ export default function BeamsBackground({
     return () => {
       window.removeEventListener("resize", throttledResize)
       window.visualViewport?.removeEventListener("resize", throttledResize)
+      const mq = reducedMotionQueryRef.current
+      if (mq) {
+        if (typeof mq.removeEventListener === "function") {
+          mq.removeEventListener("change", handleReducedMotionChange)
+        } else {
+          mq.removeListener(handleReducedMotionChange as unknown as (event: MediaQueryList) => void)
+        }
+      }
       resizeObserver?.disconnect()
       document.removeEventListener("visibilitychange", handleVisibilityChange)
       stopAnimation()
@@ -474,7 +532,7 @@ export default function BeamsBackground({
       )}
       ref={containerRef}
     >
-      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(22px)" }} />
+      <canvas ref={canvasRef} className="absolute inset-0" />
 
       <div className="absolute inset-0 beams-overlay" />
 
