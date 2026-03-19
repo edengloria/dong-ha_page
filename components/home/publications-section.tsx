@@ -54,7 +54,14 @@ export function PublicationsSection({
                     </span>
                   ))}
                 </p>
-                <p className="mt-2 text-sm text-postech-red/90">{pub.venue}</p>
+                <p className="mt-2 text-sm text-postech-red/90">
+                  {pub.venue.split("SIGGRAPH 2026").map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && <strong className="font-bold">SIGGRAPH 2026</strong>}
+                    </span>
+                  ))}
+                </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   {pub.links.map((link) => (
