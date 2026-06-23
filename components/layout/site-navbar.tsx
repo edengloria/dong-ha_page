@@ -16,9 +16,9 @@ function isRouteActive(pathname: string, href: string) {
 export function SiteNavbar({ items }: { items: NavigationItem[] }) {
   const pathname = usePathname()
 
-  return (
-    <nav className="space-y-1.5" aria-label="Primary">
-      {items.map((item) => {
+    return (
+      <nav className="space-y-1.5" aria-label="Primary">
+        {items.map((item) => {
         const isActive = isRouteActive(pathname, item.href)
 
         return (
@@ -27,10 +27,10 @@ export function SiteNavbar({ items }: { items: NavigationItem[] }) {
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "block rounded-lg border border-transparent px-4 py-2.5 text-sm font-medium transition-all duration-200",
+              "block rounded-lg border border-transparent px-4 py-2.5 text-sm font-medium tracking-[0.01em] transition-all duration-200",
               isActive
-                ? "border-primary/25 bg-primary/10 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
-                : "text-muted-foreground hover:border-border/80 hover:bg-background/35 hover:text-foreground"
+                ? "border-primary/25 bg-primary/10 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
+                : "text-muted-foreground hover:border-border/80 hover:bg-background/30 hover:text-foreground"
             )}
           >
             {item.label}

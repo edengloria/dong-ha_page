@@ -9,15 +9,27 @@ export interface GalleryItem {
 const imageDir = join(process.cwd(), "public/asset/life-images")
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp"])
 
-export function getLifeImageFilenames(): string[] {
+let cachedLifeImageFilenames: string[] | null = null
+
+function loadLifeImageFilenames() {
+  if (cachedLifeImageFilenames) {
+    return cachedLifeImageFilenames
+  }
+
   try {
     const files = readdirSync(imageDir)
-    return files
+    cachedLifeImageFilenames = files
       .filter((file) => imageExtensions.has(extname(file).toLowerCase()))
       .sort((left, right) => left.localeCompare(right))
   } catch {
-    return []
+    cachedLifeImageFilenames = []
   }
+
+  return cachedLifeImageFilenames
+}
+
+export function getLifeImageFilenames(): string[] {
+  return loadLifeImageFilenames()
 }
 
 export function getGalleryImages(): GalleryItem[] {

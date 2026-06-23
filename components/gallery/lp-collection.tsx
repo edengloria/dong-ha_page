@@ -1,10 +1,10 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { memo, useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { createPortal } from "react-dom"
-import { motion, AnimatePresence } from "framer-motion"
 import { Disc3, ExternalLink, Loader2, X, Volume2, VolumeX } from "lucide-react"
+import Image from "next/image"
 import { useIsMobile } from "@/hooks/use-mobile"
 import type { DiscogsRelease, TrackPreferences } from "@/lib/discogs"
 import {
@@ -22,6 +22,8 @@ interface iTunesResult {
 }
 
 const previewCache = new Map<string, PreviewData | null>()
+const PREVIEW_VOLUME_MAX = 0.5
+const PREVIEW_FADE_DURATION_MS = 180
 
 let globalAudio: HTMLAudioElement | null = null
 let currentPlayingId: number | null = null
@@ -35,10 +37,10 @@ function stopGlobalAudio() {
   currentPlayingId = null
 }
 
-function LPCard({
+const LPCard = memo(function LPCard({
   release,
   index, 
-  onClick,
+  onOpenById,
   onTrackInfoChange,
   isMobile,
   isActiveOnMobile,
@@ -47,16 +49,20 @@ function LPCard({
 }: {
   release: DiscogsRelease
   index: number
-  onClick: () => void
+  onOpenById: (instanceId: number) => void
   onTrackInfoChange?: (info: { trackName: string; artistName: string } | null) => void
   isMobile: boolean
   isActiveOnMobile: boolean
-  onMobileActivate: () => void
+  onMobileActivate: (instanceId: number) => void
   prefs: TrackPreferences
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isActiveRef = useRef(false)
+  const rafRef = useRef<number>(0)
+  const pendingTiltRef = useRef<{ x: number; y: number } | null>(null)
+  const audioFadeRef = useRef<number>(0)
+  const isMountedRef = useRef(true)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -172,15 +178,22 @@ function LPCard({
         setIsPlaying(true)
         onTrackInfoChange?.({ trackName: data!.trackName, artistName: data!.artistName })
 
-        let vol = 0
-        const fadeIn = setInterval(() => {
-          if (globalAudio === audio && vol < 0.5) {
-            vol = Math.min(vol + 0.1, 0.5)
-            audio.volume = vol
-          } else {
-            clearInterval(fadeIn)
+        if (audioFadeRef.current) {
+          cancelAnimationFrame(audioFadeRef.current)
+        }
+        const fadeInStart = performance.now()
+        const fadeInStep = (frameTime: number) => {
+          const elapsed = frameTime - fadeInStart
+          const ratio = elapsed / PREVIEW_FADE_DURATION_MS
+          const clamped = ratio < 0 ? 0 : ratio > 1 ? 1 : ratio
+          if (globalAudio === audio) {
+            audio.volume = clamped * PREVIEW_VOLUME_MAX
           }
-        }, 50)
+          if (clamped < 1 && globalAudio === audio) {
+            audioFadeRef.current = requestAnimationFrame(fadeInStep)
+          }
+        }
+        audioFadeRef.current = requestAnimationFrame(fadeInStep)
       }).catch(() => {
         setIsPlaying(false)
       })
@@ -217,23 +230,34 @@ function LPCard({
 
     if (currentPlayingId === release.instance_id && globalAudio) {
       const audio = globalAudio
-      let vol = audio.volume
-      const fadeOut = setInterval(() => {
-        vol = Math.max(vol - 0.15, 0)
+      if (audioFadeRef.current) {
+        cancelAnimationFrame(audioFadeRef.current)
+      }
+      const fadeOutStart = performance.now()
+      const initialVolume = audio.volume
+      const fadeOutStep = (frameTime: number) => {
+        const elapsed = frameTime - fadeOutStart
+        const ratio = elapsed / PREVIEW_FADE_DURATION_MS
+        const clamped = ratio < 0 ? 0 : ratio > 1 ? 1 : ratio
+        const volume = (1 - clamped) * initialVolume
         if (audio === globalAudio) {
-          audio.volume = vol
+          audio.volume = volume
         }
-        if (vol <= 0) {
-          clearInterval(fadeOut)
-          if (audio === globalAudio) {
-            stopGlobalAudio()
-          }
+        if (clamped < 1 && audio === globalAudio) {
+          audioFadeRef.current = requestAnimationFrame(fadeOutStep)
+        } else if (audio === globalAudio) {
+          stopGlobalAudio()
           setIsPlaying(false)
           onTrackInfoChange?.(null)
         }
-      }, 20)
+      }
+      audioFadeRef.current = requestAnimationFrame(fadeOutStep)
     }
   }, [release.instance_id, onTrackInfoChange])
+
+  const handleDesktopClick = useCallback(() => {
+    onOpenById(release.instance_id)
+  }, [onOpenById, release.instance_id])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile || !cardRef.current) return
@@ -245,8 +269,15 @@ function LPCard({
 
     const tiltX = ((y - centerY) / centerY) * -15
     const tiltY = ((x - centerX) / centerX) * 15
-
-    setTilt({ x: tiltX, y: tiltY })
+    pendingTiltRef.current = { x: tiltX, y: tiltY }
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0
+        if (pendingTiltRef.current && isMountedRef.current) {
+          setTilt(pendingTiltRef.current)
+        }
+      })
+    }
   }
 
   const handleMouseLeave = () => {
@@ -279,11 +310,11 @@ function LPCard({
     if (isActiveOnMobile) {
       stopPreview()
     } else {
-      onMobileActivate()
+      onMobileActivate(release.instance_id)
       isActiveRef.current = true
       playPreview()
     }
-  }, [isMobile, isActiveOnMobile, stopPreview, onMobileActivate, playPreview])
+  }, [isMobile, isActiveOnMobile, onMobileActivate, playPreview, release.instance_id, stopPreview])
 
   // Handle deactivation when another card is activated on mobile
   useEffect(() => {
@@ -294,9 +325,17 @@ function LPCard({
 
   useEffect(() => {
     return () => {
+      isMountedRef.current = false
       isActiveRef.current = false
+      if (audioFadeRef.current) {
+        cancelAnimationFrame(audioFadeRef.current)
+      }
       if (hoverTimerRef.current) {
         clearTimeout(hoverTimerRef.current)
+      }
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
       }
       if (currentPlayingId === release.instance_id) {
         stopGlobalAudio()
@@ -305,16 +344,15 @@ function LPCard({
   }, [release.instance_id])
 
   return (
-    <motion.div
-      className="group cursor-pointer"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03, duration: 0.4 }}
-      onClick={isMobile ? handleMobileTap : onClick}
+    <div
+      className="group cursor-pointer animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
+      onClick={isMobile ? handleMobileTap : handleDesktopClick}
       style={{ 
+        animationDelay: `${Math.min(index * 30, 600)}ms`,
         perspective: "1000px",
         zIndex: isActive ? 20 : 1,
         position: "relative",
+        willChange: "transform",
       }}
     >
       <div
@@ -354,10 +392,13 @@ function LPCard({
             <div className="absolute inset-[30%] rounded-full border border-postech-silver/20" />
 
             <div className="absolute inset-[35%] rounded-full overflow-hidden border-2 border-postech-silver/30 shadow-inner">
-              <img
+              <Image
                 src={release.cover_image}
                 alt=""
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -374,11 +415,14 @@ function LPCard({
               : "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <img
+          <Image
             src={release.cover_image}
             alt={release.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
             loading="lazy"
+            sizes="(max-width: 768px) 50vw, 260px"
+            decoding="async"
           />
 
           {isActive && (
@@ -425,7 +469,7 @@ function LPCard({
         </div>
       </div>
 
-      <div className="mt-2 px-1">
+        <div className="mt-2 px-1">
         <h4 className="text-foreground text-xs font-medium line-clamp-1">
           {release.title}
         </h4>
@@ -435,10 +479,10 @@ function LPCard({
         <p className="text-postech-red/70 text-[10px]">
           {release.year > 0 ? release.year : "Unknown"}
         </p>
-      </div>
-    </motion.div>
+        </div>
+    </div>
   )
-}
+})
 
 export default function LPCollection({
   releases: initialReleases,
@@ -461,9 +505,35 @@ export default function LPCollection({
   const releases = useMemo(() => initialReleases ?? [], [initialReleases])
   const prefs = useMemo(() => initialPrefs ?? {}, [initialPrefs])
   const totalItems = releases.length
+  const releaseByInstanceId = useMemo(() => {
+    const map = new Map<number, DiscogsRelease>()
+    releases.forEach((release) => {
+      map.set(release.instance_id, release)
+    })
+    return map
+  }, [releases])
 
   const handleMobileActivate = useCallback((instanceId: number) => {
     setActiveMobileLP((prev) => (prev === instanceId ? null : instanceId))
+  }, [])
+
+  const handleCardSelect = useCallback((instanceId: number) => {
+    const release = releaseByInstanceId.get(instanceId)
+    if (release) {
+      setSelectedLP(release)
+    }
+  }, [releaseByInstanceId])
+
+  const handleTrackInfoChange = useCallback((info: { trackName: string; artistName: string } | null) => {
+    setNowPlaying(info)
+  }, [])
+
+  const closeSelectedLP = useCallback(() => {
+    setSelectedLP(null)
+  }, [])
+
+  const stopModalProp = useCallback((event: React.MouseEvent) => {
+    event.stopPropagation()
   }, [])
 
   return (
@@ -493,82 +563,78 @@ export default function LPCollection({
         </a>
       </div>
 
-      {mounted && createPortal(
-        <AnimatePresence>
-          {nowPlaying && (
-            <motion.div
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9998] bg-black/90 backdrop-blur-xl rounded-full px-4 py-2 border border-postech-red/30 shadow-lg shadow-postech-red/20"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <Volume2 className="h-4 w-4 text-postech-orange" />
-                  <div className="flex items-end gap-0.5 h-4">
-                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
-                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
-                    <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-white text-sm font-medium truncate max-w-[200px]">{nowPlaying.trackName}</span>
-                  <span className="text-white/60 text-xs truncate max-w-[200px]">{nowPlaying.artistName}</span>
+          {mounted && createPortal(
+        <div
+          className={`fixed bottom-4 left-1/2 z-[9998] -translate-x-1/2 bg-black/90 backdrop-blur-xl rounded-full px-4 py-2 border border-postech-red/30 shadow-lg shadow-postech-red/20 transition-all duration-200 ${
+            nowPlaying
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "translate-y-2 opacity-0 pointer-events-none"
+          }`}
+        >
+          {nowPlaying ? (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5">
+                <Volume2 className="h-4 w-4 text-postech-orange" />
+                <div className="flex items-end gap-0.5 h-4">
+                  <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0ms' }} />
+                  <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.15s' }} />
+                  <span className="w-0.5 bg-postech-orange rounded-full" style={{ animation: 'musicBar 0.4s ease-in-out infinite', animationDelay: '0.3s' }} />
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>,
+              <div className="flex flex-col">
+                <span className="text-white text-sm font-medium truncate max-w-[200px]">{nowPlaying.trackName}</span>
+                <span className="text-white/60 text-xs truncate max-w-[200px]">{nowPlaying.artistName}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>,
         document.body
       )}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-x-8">
         {releases.map((release, index) => (
-          <LPCard
+        <LPCard
             key={release.instance_id || release.id}
             release={release}
             index={index}
-            onClick={() => setSelectedLP(release)}
-            onTrackInfoChange={(info) => setNowPlaying(info)}
+            onOpenById={handleCardSelect}
+            onTrackInfoChange={handleTrackInfoChange}
             isMobile={isMobile}
             isActiveOnMobile={activeMobileLP === release.instance_id}
-            onMobileActivate={() => handleMobileActivate(release.instance_id)}
+            onMobileActivate={handleMobileActivate}
             prefs={prefs}
           />
         ))}
       </div>
 
-      {mounted && createPortal(
-        <AnimatePresence>
-          {selectedLP && (
-            <motion.div
-              className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedLP(null)}
-            >
-              <motion.div
-                className="relative bg-background/95 backdrop-blur-xl rounded-2xl max-w-lg w-full overflow-hidden border border-border/50 shadow-2xl"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
-              >
+      {mounted && selectedLP && createPortal(
+        <div
+          className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 animate-in fade-in-0 duration-200"
+          onClick={closeSelectedLP}
+        >
+          <div
+            className="relative bg-background/95 backdrop-blur-xl rounded-2xl max-w-lg w-full overflow-hidden border border-border/50 shadow-2xl animate-in zoom-in-95 duration-200"
+            onClick={stopModalProp}
+          >
                 {/* Close Button */}
                 <button
                   className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10 p-1"
-                  onClick={() => setSelectedLP(null)}
+                  onClick={closeSelectedLP}
                 >
                   <X className="h-5 w-5" />
                 </button>
 
                 {/* Album Cover */}
                 <div className="relative aspect-square w-full">
-                  <img
+                  <Image
                     src={selectedLP.cover_image}
                     alt={selectedLP.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 90vw, 600px"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
                   />
                 </div>
 
@@ -601,10 +667,8 @@ export default function LPCollection({
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>,
+          </div>
+        </div>,
         document.body
       )}
     </>

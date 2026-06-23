@@ -1,13 +1,13 @@
 import type { ReactNode } from "react"
-import BeamsBackground from "@/components/kokonutui/beams-background"
 import { SiteContainer } from "@/components/layout/site-container"
 import { SiteSidebar } from "@/components/layout/site-sidebar"
+import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
-        <BeamsBackground intensity="medium" />
+        <BeamsBackgroundClient />
       </div>
 
       <div className="relative z-10 min-h-svh">

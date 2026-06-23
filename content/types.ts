@@ -45,6 +45,7 @@ export interface Publication {
   title: string
   authors: string
   venue: string
+  venueHighlight?: string
   note?: string
   image: string
   links: PublicationLink[]

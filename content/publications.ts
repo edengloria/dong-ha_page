@@ -2,6 +2,28 @@ import type { Publication } from "@/content/types"
 
 export const publications: Publication[] = [
   {
+    kind: "Journals",
+    title: "De-occluding Broadband Metalens",
+    authors: "Seungwoo Yoon, Dohyun Kang, Eunsue Choi, Sohyun Lee, Seoyeon Kim, Minho Choi, Hyeonsu Heo, Dong-Ha Shin, Suha Kwak, Arka Majumdar, Junsuk Rho, and Seung-Hwan Baek",
+    venue: "Nature Communications, 2026",
+    venueHighlight: "Nature Communications, 2026",
+    image: "/metacloack.png",
+    links: [{ label: "Paper", href: "https://arxiv.org/abs/2601.19403" }],
+  },
+  {
+    kind: "Journals",
+    title: "Complex-Valued Holographic Radiance Fields",
+    authors: "Yicheng Zhan, Dong-Ha Shin, Seung-Hwan Baek, and Kaan Akşit",
+    venue: "ACM Transactions on Graphics (presented in SIGGRAPH 2026)",
+    image: "/asset/CVHNerF.PNG",
+    links: [
+      {
+        label: "Paper",
+        href: "https://dl.acm.org/doi/10.1145/3804450",
+      },
+    ],
+  },
+  {
     kind: "Open-source",
     title: "PADO: PyTorch Automatic Differentiable Optics",
     authors: "Seung-Hwan Baek, Dong-Ha Shin, Yujin Jeon, Seung-Woo Yoon, Eunsue Choi, Gawoon Ban, Hyunmo Kang",
@@ -15,25 +37,12 @@ export const publications: Publication[] = [
   },
   {
     kind: "Journals",
-    title: "Complex-Valued Holographic Radiance Fields",
-    authors: "Yicheng Zhan, Dong-Ha Shin, Seung-Hwan Baek, and Kaan Akşit",
-    venue: "ACM Transactions on Graphics (presented in SIGGRAPH 2026)",
-    image: "/asset/CVHNerF.PNG",
-    links: [
-      {
-        label: "Paper",
-        href: "https://arxiv.org/abs/2506.08350",
-      },
-    ],
-  },
-  {
-    kind: "Journals",
     title:
       "Hologram Upscaling for Viewing Angle Expansion Using Light Field Extrapolation with Object Detection Algorithm",
     authors: "Dong-Ha Shin, Chee-Hyeok Song, and Seung-Yeol Lee",
     venue: "Current Optics and Photonics, Vol. 9, Issue 1, pp. 55-64, 2025",
     image: "/asset/hologram-upscaling.png",
-    links: [{ label: "Paper", href: "https://doi.org/10.1364/COPP.499142" }],
+    links: [{ label: "Paper", href: "https://opg.optica.org/copp/abstract.cfm?uri=copp-9-1-55" }],
   },
   {
     kind: "Journals",

@@ -73,6 +73,32 @@ const PERFORMANCE_RESTORE_BOOST = 2
 const SPEED_SCALE_MIN = 0.78
 const SPEED_SCALE_MAX = 1.5
 
+function getCanvasContext2D(
+  canvas: HTMLCanvasElement
+): CanvasRenderingContext2D | null {
+  try {
+    const context = canvas.getContext("2d", {
+      alpha: true,
+      desynchronized: true,
+    })
+    if (context) {
+      return context
+    }
+  } catch {
+    // 일부 구형 브라우저에서 desynchronized 옵션이 예외를 일으킬 수 있어 fallback 처리
+  }
+
+  return canvas.getContext("2d")
+}
+
+function resetCanvasTransform(ctx: CanvasRenderingContext2D) {
+  if (typeof (ctx as CanvasRenderingContext2D & { resetTransform?: () => void }).resetTransform === "function") {
+    ;(ctx as CanvasRenderingContext2D & { resetTransform: () => void }).resetTransform()
+  } else {
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
 }
@@ -226,20 +252,10 @@ export default function BeamsBackground({
   }, [])
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    reducedMotionRef.current = mediaQuery.matches
-    reducedMotionQueryRef.current = mediaQuery
-    targetBeamCountRef.current = BASE_BEAM_COUNT
-  }, [])
-
-  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d", {
-      alpha: true,
-      desynchronized: true,
-    })
+    const ctx = getCanvasContext2D(canvas)
     if (!ctx) return
 
     const updateCanvasSize = () => {
@@ -268,7 +284,7 @@ export default function BeamsBackground({
       canvas.style.height = `${logicalHeight}px`
       canvas.style.filter = `blur(${getBeamBlurPx(densityScale)}px)`
 
-      ctx.resetTransform()
+      resetCanvasTransform(ctx)
       ctx.scale(dpr, dpr)
 
       const desiredCount = reducedMotionRef.current ? 0 : targetBeamCountRef.current
@@ -289,6 +305,10 @@ export default function BeamsBackground({
     window.addEventListener("resize", throttledResize)
     window.visualViewport?.addEventListener("resize", throttledResize)
 
+    const motionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    reducedMotionQueryRef.current = motionMediaQuery
+    reducedMotionRef.current = motionMediaQuery.matches
+
     const handleReducedMotionChange = (event: MediaQueryListEvent) => {
       reducedMotionRef.current = event.matches
       if (event.matches) {
@@ -300,20 +320,16 @@ export default function BeamsBackground({
       }
     }
 
-    const motionMediaQuery = reducedMotionQueryRef.current
-    if (motionMediaQuery) {
-      if (typeof motionMediaQuery.addEventListener === "function") {
-        motionMediaQuery.addEventListener("change", handleReducedMotionChange)
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        motionMediaQuery.addListener(handleReducedMotionChange as any)
-      }
+    if (motionMediaQuery.matches) {
+      stopAnimation()
+      beamsRef.current = []
     }
 
-    let resizeObserver: ResizeObserver | null = null
-    if (containerRef.current && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(throttledResize)
-      resizeObserver.observe(containerRef.current)
+    if (typeof motionMediaQuery.addEventListener === "function") {
+      motionMediaQuery.addEventListener("change", handleReducedMotionChange)
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      motionMediaQuery.addListener(handleReducedMotionChange as any)
     }
 
     const adjustBeamCount = () => {
@@ -500,11 +516,24 @@ export default function BeamsBackground({
       }
     }
 
+    const resizeObserver: ResizeObserver | null =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(throttledResize)
+    if (containerRef.current && resizeObserver) {
+      resizeObserver.observe(containerRef.current)
+    }
+
     document.addEventListener("visibilitychange", handleVisibilityChange)
 
-    animationActiveRef.current = true
-    lastFrameTimeRef.current = 0
-    animate(performance.now())
+    if (!reducedMotionRef.current) {
+      animationActiveRef.current = true
+      lastFrameTimeRef.current = 0
+      animate(performance.now())
+    } else {
+      updateCanvasSize()
+      canvas.width = Math.max(1, canvas.width)
+      canvas.height = Math.max(1, canvas.height)
+      stopAnimation()
+    }
 
     return () => {
       window.removeEventListener("resize", throttledResize)
@@ -524,7 +553,6 @@ export default function BeamsBackground({
       beamsRef.current = []
     }
   }, [intensity, startAnimation, stopAnimation])
-
   return (
     <div
       className={cn(

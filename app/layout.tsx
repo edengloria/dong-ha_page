@@ -1,16 +1,17 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Manrope } from "next/font/google"
 import Script from "next/script"
 import { profile } from "@/content/profile"
 import { siteConfig } from "@/content/site"
 import { withBasePath } from "@/lib/utils"
 import { SiteShell } from "@/components/layout/site-shell"
 
-const inter = Inter({
+const manrope = Manrope({
   display: "swap",
   subsets: ["latin"],
+  variable: "--font-sans",
 })
 const enableAnalytics =
   process.env.NODE_ENV === "production" &&
@@ -71,7 +72,7 @@ export default function RootLayout({
           </>
         ) : null}
       </head>
-      <body className={inter.className}>
+      <body className={`${manrope.className} ${manrope.variable}`}>
         <SiteShell>{children}</SiteShell>
       </body>
     </html>

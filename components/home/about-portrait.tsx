@@ -27,7 +27,7 @@ export function AboutPortrait({
       className="relative md:col-span-1 animate-in fade-in-0 zoom-in-[0.98] duration-500"
       style={{ animationDelay: "350ms" }}
     >
-      <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/50">
+      <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/60 surface-frame">
         <Image
           src={withBasePath(`/asset/life-images/${selectedImage}`)}
           alt={alt}

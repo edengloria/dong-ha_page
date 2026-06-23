@@ -15,13 +15,13 @@ const socialIcons = {
 
 export function SiteSidebar() {
   return (
-    <aside className="w-full flex-shrink-0 lg:w-80">
+    <aside className="w-full flex-shrink-0 lg:w-80 lg:sticky lg:top-6 lg:self-start">
       <div className="glass-panel animate-in fade-in-0 slide-in-from-left-4 duration-500">
         <div
           className="mb-6 flex justify-center animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
           style={{ animationDelay: "200ms" }}
         >
-          <div className="relative h-40 w-40 overflow-hidden rounded-full border border-primary/60 shadow-[0_18px_40px_rgba(13,19,34,0.35)] lg:h-48 lg:w-48">
+          <div className="surface-frame relative h-40 w-40 overflow-hidden rounded-full lg:h-48 lg:w-48">
             <Image
               src={withBasePath(profile.portrait)}
               alt={profile.heroAlt}
@@ -37,10 +37,10 @@ export function SiteSidebar() {
           className="mb-6 text-center animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
           style={{ animationDelay: "300ms" }}
         >
-          <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground lg:text-3xl">
+          <h1 className="mb-1 text-2xl font-medium tracking-tight text-foreground lg:text-3xl">
             {profile.name}
           </h1>
-          <p className="text-sm text-muted-foreground/95">{profile.role}</p>
+          <p className="text-sm text-muted-foreground/90">{profile.role}</p>
         </div>
 
         <div
@@ -49,7 +49,7 @@ export function SiteSidebar() {
         >
           <div className="flex items-center text-muted-foreground transition-colors hover:text-foreground">
             <Mail className="mr-3 h-4 w-4 flex-shrink-0 text-primary" />
-            <a href={`mailto:${profile.email}`} className="truncate">
+            <a href={`mailto:${profile.email}`} className="truncate hover:text-foreground">
               {profile.email}
             </a>
           </div>
@@ -74,7 +74,7 @@ export function SiteSidebar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="rounded-full border border-border/70 bg-background/35 p-2 text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:bg-primary/12 hover:text-foreground"
+                className="icon-btn"
               >
                 <Icon className="h-5 w-5" />
               </a>
