@@ -72,6 +72,7 @@ const PERF_ADAPT_ENABLED = true
 const PERFORMANCE_RESTORE_BOOST = 2
 const SPEED_SCALE_MIN = 0.78
 const SPEED_SCALE_MAX = 1.5
+const SCROLL_PAUSE_TIMEOUT_MS = 120
 
 function getCanvasContext2D(
   canvas: HTMLCanvasElement
@@ -235,6 +236,8 @@ export default function BeamsBackground({
   const lastFrameTimeRef = useRef<number>(0)
   const densityScaleRef = useRef<number>(1)
   const reducedMotionQueryRef = useRef<MediaQueryList | null>(null)
+  const scrollPauseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isScrollPausedRef = useRef<boolean>(false)
 
   const startAnimation = useCallback(() => {
     if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
@@ -522,6 +525,26 @@ export default function BeamsBackground({
       resizeObserver.observe(containerRef.current)
     }
 
+    const handleScrollPause = () => {
+      if (!isScrollPausedRef.current) {
+        isScrollPausedRef.current = true
+        stopAnimation()
+      }
+
+      if (scrollPauseTimeoutRef.current) {
+        clearTimeout(scrollPauseTimeoutRef.current)
+      }
+
+      scrollPauseTimeoutRef.current = setTimeout(() => {
+        isScrollPausedRef.current = false
+        if (!reducedMotionRef.current) {
+          startAnimation()
+        }
+      }, SCROLL_PAUSE_TIMEOUT_MS)
+    }
+
+    window.addEventListener("scroll", handleScrollPause, { passive: true })
+
     document.addEventListener("visibilitychange", handleVisibilityChange)
 
     if (!reducedMotionRef.current) {
@@ -548,6 +571,10 @@ export default function BeamsBackground({
         }
       }
       resizeObserver?.disconnect()
+      if (scrollPauseTimeoutRef.current) {
+        clearTimeout(scrollPauseTimeoutRef.current)
+      }
+      window.removeEventListener("scroll", handleScrollPause)
       document.removeEventListener("visibilitychange", handleVisibilityChange)
       stopAnimation()
       beamsRef.current = []
