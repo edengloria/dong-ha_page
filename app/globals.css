@@ -435,6 +435,28 @@
   }
 }
 
+.scrolling .optical-glass {
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+
+.scrolling .glass {
+  backdrop-filter: blur(6px) saturate(115%);
+  -webkit-backdrop-filter: blur(6px) saturate(115%);
+}
+
+.scrolling .beams-overlay {
+  animation: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+html.scrolling .optical-glass,
+html.scrolling .glass,
+html.scrolling .beams-overlay {
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce), (prefers-contrast: more) {
   .optical-glass {
     backdrop-filter: blur(10px);

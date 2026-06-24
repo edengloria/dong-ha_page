@@ -529,6 +529,7 @@ export default function BeamsBackground({
       if (!isScrollPausedRef.current) {
         isScrollPausedRef.current = true
         stopAnimation()
+        document.documentElement.classList.add("scrolling")
       }
 
       if (scrollPauseTimeoutRef.current) {
@@ -537,6 +538,7 @@ export default function BeamsBackground({
 
       scrollPauseTimeoutRef.current = setTimeout(() => {
         isScrollPausedRef.current = false
+        document.documentElement.classList.remove("scrolling")
         if (!reducedMotionRef.current) {
           startAnimation()
         }
@@ -574,6 +576,7 @@ export default function BeamsBackground({
       if (scrollPauseTimeoutRef.current) {
         clearTimeout(scrollPauseTimeoutRef.current)
       }
+      document.documentElement.classList.remove("scrolling")
       window.removeEventListener("scroll", handleScrollPause)
       document.removeEventListener("visibilitychange", handleVisibilityChange)
       stopAnimation()
