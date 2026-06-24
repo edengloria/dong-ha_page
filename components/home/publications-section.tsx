@@ -75,7 +75,7 @@ export function PublicationsSection({
                     </span>
                   ))}
                 </p>
-                <p className="mt-2 text-sm text-postech-red/90">
+                <p className="mt-2 text-base text-postech-red/90">
                   <VenueText venue={pub.venue} venueHighlight={pub.venueHighlight} />
                 </p>
 
