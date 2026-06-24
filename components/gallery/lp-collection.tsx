@@ -267,9 +267,21 @@ const LPCard = memo(function LPCard({
     const centerX = rect.width / 2
     const centerY = rect.height / 2
 
-    const tiltX = ((y - centerY) / centerY) * -15
-    const tiltY = ((x - centerX) / centerX) * 15
-    pendingTiltRef.current = { x: tiltX, y: tiltY }
+    const rawTiltX = ((y - centerY) / centerY) * -15
+    const rawTiltY = ((x - centerX) / centerX) * 15
+    const nextTilt = {
+      x: Math.round(rawTiltX * 10) / 10,
+      y: Math.round(rawTiltY * 10) / 10,
+    }
+    if (
+      !pendingTiltRef.current ||
+      Math.abs(nextTilt.x - pendingTiltRef.current.x) >= 0.2 ||
+      Math.abs(nextTilt.y - pendingTiltRef.current.y) >= 0.2
+    ) {
+      pendingTiltRef.current = nextTilt
+    }
+
+    if (!pendingTiltRef.current) return
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0
@@ -365,6 +377,8 @@ const LPCard = memo(function LPCard({
           transformStyle: "preserve-3d",
           transform: isMobile ? "none" : `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
           transition: isActive ? "transform 0.1s ease-out" : "transform 0.5s ease-out",
+          willChange: "transform",
+          contain: "layout paint",
         }}
       >
         <div 
