@@ -7,7 +7,7 @@ export const profile: ProfileContent = {
   email: "0218sdh@gmail.com",
   location: "Pohang, South Korea",
 
-  portrait: "/asset/gradshot.jpg",
+  portrait: "/asset/gradshot-profile.webp",
   heroAlt: "Dong-Ha Shin",
   about: [
     [
