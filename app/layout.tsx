@@ -56,7 +56,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <head>
+      <body className={`${manrope.className} ${manrope.variable}`}>
         {enableAnalytics && gaId ? (
           <>
             <Script
@@ -72,8 +72,6 @@ export default function RootLayout({
             </Script>
           </>
         ) : null}
-      </head>
-      <body className={`${manrope.className} ${manrope.variable}`}>
         <PerfGuard />
         <SiteShell>{children}</SiteShell>
       </body>

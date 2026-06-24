@@ -7,6 +7,13 @@ const STORAGE_KEY = "dong-ha:low-perf-glass"
 const SLOW_FRAME_MS = 28
 const SLOW_FRAME_LIMIT = 8
 const WARMUP_FRAMES = 24
+const MAX_SAMPLE_FRAMES = 180
+const SLOW_INTERACTION_MS = 160
+const EVENT_OBSERVER_OPTIONS = {
+  type: "event",
+  buffered: true,
+  durationThreshold: 104,
+} as PerformanceObserverInit & { durationThreshold: number }
 
 export function PerfGuard() {
   useEffect(() => {
@@ -28,6 +35,26 @@ export function PerfGuard() {
       cancelAnimationFrame(raf)
     }
 
+    let interactionObserver: PerformanceObserver | null = null
+
+    if ("PerformanceObserver" in window) {
+      interactionObserver = new PerformanceObserver((list, observer) => {
+        for (const entry of list.getEntries()) {
+          if (entry.duration >= SLOW_INTERACTION_MS) {
+            enableLowPerf()
+            observer.disconnect()
+            return
+          }
+        }
+      })
+    }
+
+    try {
+      interactionObserver?.observe(EVENT_OBSERVER_OPTIONS)
+    } catch {
+      interactionObserver?.disconnect()
+    }
+
     const tick = (now: number) => {
       const delta = now - last
       last = now
@@ -42,12 +69,20 @@ export function PerfGuard() {
         }
       }
 
+      if (frame >= MAX_SAMPLE_FRAMES) {
+        cancelAnimationFrame(raf)
+        return
+      }
+
       raf = requestAnimationFrame(tick)
     }
 
     raf = requestAnimationFrame(tick)
 
-    return () => cancelAnimationFrame(raf)
+    return () => {
+      cancelAnimationFrame(raf)
+      interactionObserver?.disconnect()
+    }
   }, [])
 
   return null
