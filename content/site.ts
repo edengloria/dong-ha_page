@@ -6,7 +6,7 @@ export const siteConfig = {
   description:
     "Personal website of Dong-Ha Shin, an M.S. student at POSTECH AI working across optics, vision, graphics, and artificial intelligence.",
   locale: "en_US",
-  ogImage: "/asset/gradshot.jpg",
+  ogImage: "/asset/og-image.jpg",
   keywords: [
     "Dong-Ha Shin",
     "POSTECH",

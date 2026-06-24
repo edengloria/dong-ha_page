@@ -24,10 +24,12 @@ export function PublicationsSection({
   title = "Publications",
   titleClassName,
   className,
+  prioritizeFirstImage = false,
 }: {
   title?: string
   titleClassName?: string
   className?: string
+  prioritizeFirstImage?: boolean
 }) {
   return (
     <section className={cn("space-y-5", className)} aria-label={title}>
@@ -50,6 +52,7 @@ export function PublicationsSection({
                       fill
                       className="object-cover"
                       sizes="(max-width: 1024px) 100vw, 14rem"
+                      priority={prioritizeFirstImage && index === 0}
                     />
                   </div>
                 </div>

@@ -16,17 +16,15 @@ const socialIcons = {
 export function SiteSidebar() {
   return (
     <aside className="w-full flex-shrink-0 lg:w-80 lg:sticky lg:top-6 lg:self-start">
-      <div className="glass-panel animate-in fade-in-0 slide-in-from-left-4 duration-500">
-        <div
-          className="mb-6 flex justify-center animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
-          style={{ animationDelay: "200ms" }}
-        >
+      <div className="glass-panel">
+        <div className="mb-6 flex justify-center">
           <div className="surface-frame relative h-40 w-40 overflow-hidden rounded-full lg:h-48 lg:w-48">
             <Image
               src={withBasePath(profile.portrait)}
               alt={profile.heroAlt}
               fill
               priority
+              fetchPriority="high"
               className="object-cover"
               sizes="(max-width: 1024px) 10rem, 12rem"
             />
