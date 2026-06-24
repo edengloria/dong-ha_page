@@ -24,9 +24,25 @@ interface iTunesResult {
 const previewCache = new Map<string, PreviewData | null>()
 const PREVIEW_VOLUME_MAX = 0.5
 const PREVIEW_FADE_DURATION_MS = 180
+const PREVIEW_HOVER_DELAY_MS = 300
+const TILT_MAX_DEGREES = 15
+const TILT_RESET_TRANSFORM = "perspective(800px) rotateY(0deg) rotateX(0deg)"
 
 let globalAudio: HTMLAudioElement | null = null
 let currentPlayingId: number | null = null
+
+function getTiltTransform(clientX: number, clientY: number, rect: DOMRect) {
+  const x = clientX - rect.left
+  const y = clientY - rect.top
+  const centerX = rect.width / 2
+  const centerY = rect.height / 2
+  const rawTiltX = ((y - centerY) / centerY) * -TILT_MAX_DEGREES
+  const rawTiltY = ((x - centerX) / centerX) * TILT_MAX_DEGREES
+  const tiltX = Math.round(rawTiltX * 10) / 10
+  const tiltY = Math.round(rawTiltY * 10) / 10
+
+  return `perspective(800px) rotateY(${tiltY}deg) rotateX(${tiltX}deg)`
+}
 
 function stopGlobalAudio() {
   if (globalAudio) {
@@ -59,11 +75,9 @@ const LPCard = memo(function LPCard({
   const cardRef = useRef<HTMLDivElement>(null)
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isActiveRef = useRef(false)
-  const rafRef = useRef<number>(0)
-  const pendingTiltRef = useRef<{ x: number; y: number } | null>(null)
   const audioFadeRef = useRef<number>(0)
   const isMountedRef = useRef(true)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const tiltTransformRef = useRef(TILT_RESET_TRANSFORM)
   const [isHovered, setIsHovered] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [previewData, setPreviewData] = useState<PreviewData | null>(null)
@@ -259,42 +273,29 @@ const LPCard = memo(function LPCard({
     onOpenById(release.instance_id)
   }, [onOpenById, release.instance_id])
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const updateTilt = (clientX: number, clientY: number) => {
     if (isMobile || !cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
+    tiltTransformRef.current = getTiltTransform(clientX, clientY, cardRef.current.getBoundingClientRect())
+    cardRef.current.style.transform = tiltTransformRef.current
+  }
 
-    const rawTiltX = ((y - centerY) / centerY) * -15
-    const rawTiltY = ((x - centerX) / centerX) * 15
-    const nextTilt = {
-      x: Math.round(rawTiltX * 10) / 10,
-      y: Math.round(rawTiltY * 10) / 10,
-    }
-    if (
-      !pendingTiltRef.current ||
-      Math.abs(nextTilt.x - pendingTiltRef.current.x) >= 0.2 ||
-      Math.abs(nextTilt.y - pendingTiltRef.current.y) >= 0.2
-    ) {
-      pendingTiltRef.current = nextTilt
-    }
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    updateTilt(event.clientX, event.clientY)
+  }
 
-    if (!pendingTiltRef.current) return
-    if (!rafRef.current) {
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = 0
-        if (pendingTiltRef.current && isMountedRef.current) {
-          setTilt(pendingTiltRef.current)
-        }
-      })
-    }
+  const reapplyTiltAfterHoverStart = (clientX: number, clientY: number) => {
+    if (!cardRef.current) return
+    cardRef.current.style.transform = TILT_RESET_TRANSFORM
+    cardRef.current.getBoundingClientRect()
+    updateTilt(clientX, clientY)
   }
 
   const handleMouseLeave = () => {
     if (isMobile) return
-    setTilt({ x: 0, y: 0 })
+    if (cardRef.current) {
+      tiltTransformRef.current = TILT_RESET_TRANSFORM
+      cardRef.current.style.transform = tiltTransformRef.current
+    }
     setIsHovered(false)
     stopPreview()
   }
@@ -312,7 +313,14 @@ const LPCard = memo(function LPCard({
       if (isActiveRef.current) {
         playPreview()
       }
-    }, 300)
+    }, PREVIEW_HOVER_DELAY_MS)
+  }
+
+  const handlePointerEnter = (event: React.PointerEvent<HTMLDivElement>) => {
+    const { clientX, clientY } = event
+    handleMouseEnter()
+    requestAnimationFrame(() => updateTilt(clientX, clientY))
+    setTimeout(() => reapplyTiltAfterHoverStart(clientX, clientY), 40)
   }
 
   const handleMobileTap = useCallback((event: React.MouseEvent | React.TouchEvent) => {
@@ -345,10 +353,6 @@ const LPCard = memo(function LPCard({
       if (hoverTimerRef.current) {
         clearTimeout(hoverTimerRef.current)
       }
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-        rafRef.current = 0
-      }
       if (currentPlayingId === release.instance_id) {
         stopGlobalAudio()
       }
@@ -366,27 +370,26 @@ const LPCard = memo(function LPCard({
         position: "relative",
         willChange: "transform",
       }}
-    >
+      >
       <div
         ref={cardRef}
         className="relative aspect-square overflow-visible"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onPointerEnter={handlePointerEnter}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handleMouseLeave}
         style={{
           transformStyle: "preserve-3d",
-          transform: isMobile ? "none" : `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-          transition: isActive ? "transform 0.1s ease-out" : "transform 0.5s ease-out",
+          transform: isMobile ? "none" : tiltTransformRef.current,
+          transition: isActive ? "none" : "transform 0.5s ease-out",
           willChange: "transform",
-          contain: "layout paint",
         }}
-      >
-        <div 
+        >
+          <div 
           className="absolute pointer-events-none"
           style={{
             top: "50%",
             right: "5%",
-            transform: `translateY(-50%) translateX(${isActive ? "60%" : "0%"})`,
+            transform: `translateY(-50%) translateX(${isActive ? "62%" : "0%"})`,
             width: "90%",
             aspectRatio: "1",
             transition: "transform 0.5s ease-out",
@@ -634,6 +637,7 @@ export default function LPCollection({
                 <button
                   className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10 p-1"
                   onClick={closeSelectedLP}
+                  aria-label="Close album details"
                 >
                   <X className="h-5 w-5" />
                 </button>

@@ -180,6 +180,7 @@ export function PhotoGallery({
             <button
               className="absolute right-4 top-4 z-10 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
               onClick={closePhoto}
+              aria-label="Close photo viewer"
             >
               <X className="h-6 w-6" />
             </button>
@@ -187,6 +188,7 @@ export function PhotoGallery({
             <button
               className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
               onClick={handlePrevClick}
+              aria-label="Show previous photo"
             >
               <ChevronLeft className="h-8 w-8" />
             </button>
@@ -194,6 +196,7 @@ export function PhotoGallery({
             <button
               className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
               onClick={handleNextClick}
+              aria-label="Show next photo"
             >
               <ChevronRight className="h-8 w-8" />
             </button>

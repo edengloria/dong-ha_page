@@ -391,9 +391,23 @@ async function main() {
     console.log("─".repeat(100))
   }
 
+  const releasesWithoutPalettes = sorted.map((releaseWithPalette) => {
+    const release: Release = {
+      id: releaseWithPalette.id,
+      instance_id: releaseWithPalette.instance_id,
+      title: releaseWithPalette.title,
+      artist: releaseWithPalette.artist,
+      year: releaseWithPalette.year,
+      cover_image: releaseWithPalette.cover_image,
+      tracks: releaseWithPalette.tracks,
+    }
+
+    return release
+  })
+
   const output = {
     fetchedAt: data.fetchedAt,
-    releases: sorted.map(({ palette, ...release }) => release),
+    releases: releasesWithoutPalettes,
   }
   
   await fs.writeFile(INPUT_PATH, JSON.stringify(output, null, 2), "utf8")
