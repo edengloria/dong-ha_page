@@ -6,6 +6,7 @@ import Script from "next/script"
 import { profile } from "@/content/profile"
 import { siteConfig } from "@/content/site"
 import { withBasePath } from "@/lib/utils"
+import { PerfGuard } from "@/components/layout/perf-guard"
 import { SiteShell } from "@/components/layout/site-shell"
 
 const manrope = Manrope({
@@ -73,6 +74,7 @@ export default function RootLayout({
         ) : null}
       </head>
       <body className={`${manrope.className} ${manrope.variable}`}>
+        <PerfGuard />
         <SiteShell>{children}</SiteShell>
       </body>
     </html>
