@@ -14,6 +14,7 @@ export interface DiscogsRelease {
   artist: string
   year: number
   cover_image: string
+  local_cover_image?: string
   tracks: DiscogsTrack[]
 }
 

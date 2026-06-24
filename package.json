@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "ESLINT_USE_FLAT_CONFIG=false eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0",
     "fetch-discogs": "tsx scripts/fetch-discogs.ts",
+    "cache-discogs-covers": "tsx scripts/cache-discogs-covers.ts",
     "optimize-images": "tsx scripts/optimize-images.ts",
     "sort-by-color": "tsx scripts/sort-by-color.ts",
     "profile:build": "next build",

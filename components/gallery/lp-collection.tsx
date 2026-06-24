@@ -83,7 +83,8 @@ const LPCard = memo(function LPCard({
   const [previewData, setPreviewData] = useState<PreviewData | null>(null)
   const [isLoadingPreview, setIsLoadingPreview] = useState(false)
   const [matchFailed, setMatchFailed] = useState(false)
-  
+  const coverImage = release.local_cover_image || release.cover_image || "/placeholder.svg"
+
   // Combined active state: hover on desktop, tap toggle on mobile
   const isActive = isMobile ? isActiveOnMobile : isHovered
 
@@ -410,7 +411,7 @@ const LPCard = memo(function LPCard({
 
             <div className="absolute inset-[35%] rounded-full overflow-hidden border-2 border-postech-silver/30 shadow-inner">
               <Image
-                src={release.cover_image}
+                src={coverImage}
                 alt=""
                 fill
                 className="object-cover"
@@ -433,7 +434,7 @@ const LPCard = memo(function LPCard({
           }}
         >
           <Image
-            src={release.cover_image}
+            src={coverImage}
             alt={release.title}
             fill
             className="object-cover"
@@ -487,9 +488,9 @@ const LPCard = memo(function LPCard({
       </div>
 
         <div className="mt-2 px-1">
-        <h4 className="text-foreground text-xs font-medium line-clamp-1">
+        <p className="text-foreground text-xs font-medium line-clamp-1">
           {release.title}
-        </h4>
+        </p>
         <p className="text-muted-foreground text-[10px] line-clamp-1">
           {release.artist}
         </p>
@@ -513,6 +514,8 @@ export default function LPCollection({
   const [activeMobileLP, setActiveMobileLP] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)
   const isMobile = useIsMobile()
+  const selectedCoverImage =
+    selectedLP?.local_cover_image || selectedLP?.cover_image || "/placeholder.svg"
 
   // Set mounted state for portal
   useEffect(() => {
@@ -645,7 +648,7 @@ export default function LPCollection({
                 {/* Album Cover */}
                 <div className="relative aspect-square w-full">
                   <Image
-                    src={selectedLP.cover_image}
+                    src={selectedCoverImage}
                     alt={selectedLP.title}
                     fill
                     className="object-cover"

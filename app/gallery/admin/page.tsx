@@ -317,7 +317,7 @@ export default function DiscogsAdminPage() {
                 >
                   <div className="relative h-14 w-14 rounded-md overflow-hidden bg-black/20 flex-shrink-0">
                     <Image
-                      src={r.cover_image || "/placeholder.svg"}
+                      src={r.local_cover_image || r.cover_image || "/placeholder.svg"}
                       alt={r.title}
                       fill
                       className="object-cover"
@@ -355,7 +355,11 @@ export default function DiscogsAdminPage() {
                 <div className="flex gap-4 flex-wrap">
                   <div className="relative h-28 w-28 rounded-lg overflow-hidden bg-black/20 flex-shrink-0">
                     <Image
-                      src={selectedRelease.cover_image || "/placeholder.svg"}
+                      src={
+                        selectedRelease.local_cover_image ||
+                        selectedRelease.cover_image ||
+                        "/placeholder.svg"
+                      }
                       alt={selectedRelease.title}
                       fill
                       className="object-cover"
