@@ -13,7 +13,7 @@ function VenueText({ venue, venueHighlight }: { venue: string; venueHighlight?: 
       {venue.split(venueHighlight).map((part, idx, arr) => (
         <span key={`${venueHighlight}-${idx}`}>
           {part}
-          {idx < arr.length - 1 && <strong className="font-semibold text-foreground">{venueHighlight}</strong>}
+          {idx < arr.length - 1 && <strong className="font-semibold text-postech-red">{venueHighlight}</strong>}
         </span>
       ))}
     </span>

@@ -15,6 +15,7 @@ export const publications: Publication[] = [
     title: "Complex-Valued Holographic Radiance Fields",
     authors: "Yicheng Zhan, Dong-Ha Shin, Seung-Hwan Baek, and Kaan Akşit",
     venue: "ACM Transactions on Graphics (presented in SIGGRAPH 2026)",
+    venueHighlight: "ACM Transactions on Graphics (presented in SIGGRAPH 2026)",
     image: "/asset/CVHNerF.PNG",
     links: [
       {
