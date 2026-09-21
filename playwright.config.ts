@@ -6,11 +6,11 @@ export default defineConfig({
   workers: 1,
   use: {
     channel: process.env.PLAYWRIGHT_CHANNEL,
-    baseURL: "http://127.0.0.1:3100",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:3100",
     colorScheme: "dark",
     deviceScaleFactor: 1,
   },
-  webServer: {
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
     command: "npm run dev -- --hostname 127.0.0.1 --port 3100",
     url: "http://127.0.0.1:3100",
     reuseExistingServer: true,

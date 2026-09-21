@@ -1,5 +1,6 @@
 "use client"
 
+import { useDialogKeyboard } from "@/hooks/use-dialog-keyboard"
 import { memo, useState, useMemo, useCallback, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
@@ -17,19 +18,21 @@ const PhotoCard = memo(function PhotoCard({
   onOpen: (imageId: number) => void
 }) {
   return (
-    <div
-      className="group cursor-pointer"
+    <button
+      type="button"
+      aria-label={`Open photo ${item.id}`}
+      className="photo-print"
       data-image-id={imageId}
       onClick={(event) => {
-        const id = Number((event.currentTarget as HTMLDivElement).dataset.imageId)
+        const id = Number((event.currentTarget as HTMLButtonElement).dataset.imageId)
         if (!Number.isNaN(id)) {
           onOpen(id)
         }
       }}
     >
-      <div className="relative aspect-square rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-[1.02] group-hover:z-10">
+      <div className="relative aspect-square overflow-hidden">
               <Image
-                src={withBasePath(item.imageUrl || "/placeholder.svg")}
+                src={withBasePath(item.imageUrl ? item.imageUrl.replace("/life-images/", "/life-thumbs/") + ".webp" : "/placeholder.svg")}
                 alt={`Photo ${item.id}`}
                 fill
                 className="object-cover"
@@ -38,7 +41,7 @@ const PhotoCard = memo(function PhotoCard({
                 decoding="async"
               />
       </div>
-    </div>
+    </button>
   )
 })
 
@@ -49,7 +52,8 @@ export function PhotoGallery({
 }: {
   galleryItems: GalleryItem[]
 }) {
-  const items = useMemo(() => {
+  const [items, setItems] = useState(galleryItems)
+  useEffect(() => {
     const shuffled = [...galleryItems]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -57,7 +61,7 @@ export function PhotoGallery({
       shuffled[i] = shuffled[j]
       shuffled[j] = current
     }
-    return shuffled
+    setItems(shuffled)
   }, [galleryItems])
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE)
@@ -130,6 +134,8 @@ export function PhotoGallery({
     setSelectedImage(null)
   }, [])
 
+  useDialogKeyboard(selectedImage !== null, closePhoto, handlePrev, handleNext)
+
   const handlePrevClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation()
@@ -174,6 +180,7 @@ export function PhotoGallery({
         selectedItem &&
         createPortal(
           <div
+            data-retro-dialog role="dialog" aria-modal="true" aria-label="Photo viewer"
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 animate-in fade-in duration-200"
             onClick={closePhoto}
           >

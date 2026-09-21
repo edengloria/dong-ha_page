@@ -30,3 +30,8 @@ next-env.d.ts
 /.visual-baseline/
 /playwright-report/
 /test-results/
+
+# Generated from the pinned ThorVG package and prepare-thorvg.mjs
+/public/vendor/thorvg/
+/public/asset/beams/
+/public/asset/life-thumbs/

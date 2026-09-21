@@ -20,6 +20,8 @@ export const siteConfig = {
 } as const
 
 export const primaryNavigation: NavigationItem[] = [
-  { label: "About", href: "/" },
-  { label: "Gallery", href: "/gallery" },
+  { label: "Home", href: "/" },
+  { label: "Research", href: "/publications" },
+  { label: "Photos", href: "/gallery/photos" },
+  { label: "Records", href: "/gallery/vinyl" },
 ]

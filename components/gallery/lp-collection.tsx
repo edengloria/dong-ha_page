@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useDialogKeyboard } from "@/hooks/use-dialog-keyboard"
 import { memo, useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { createPortal } from "react-dom"
 import { Disc3, ExternalLink, Loader2, X, Volume2, VolumeX } from "lucide-react"
@@ -19,24 +20,8 @@ const PREVIEW_VOLUME_MAX = 0.5
 const PREVIEW_VOLUME_MIN = 0.01
 const PREVIEW_FADE_DURATION_MS = 180
 const PREVIEW_HOVER_DELAY_MS = 300
-const TILT_MAX_DEGREES = 15
-const TILT_RESET_TRANSFORM = "perspective(800px) rotateY(0deg) rotateX(0deg)"
-
 let globalAudio: HTMLAudioElement | null = null
 let currentPlayingId: number | null = null
-
-function getTiltTransform(clientX: number, clientY: number, rect: DOMRect) {
-  const x = clientX - rect.left
-  const y = clientY - rect.top
-  const centerX = rect.width / 2
-  const centerY = rect.height / 2
-  const rawTiltX = ((y - centerY) / centerY) * -TILT_MAX_DEGREES
-  const rawTiltY = ((x - centerX) / centerX) * TILT_MAX_DEGREES
-  const tiltX = Math.round(rawTiltX * 10) / 10
-  const tiltY = Math.round(rawTiltY * 10) / 10
-
-  return `perspective(800px) rotateY(${tiltY}deg) rotateX(${tiltX}deg)`
-}
 
 function stopGlobalAudio() {
   if (globalAudio) {
@@ -51,7 +36,7 @@ function stopGlobalAudio() {
 
 const LPCard = memo(function LPCard({
   release,
-  index, 
+  index,
   onOpenById,
   onTrackInfoChange,
   isMobile,
@@ -68,15 +53,12 @@ const LPCard = memo(function LPCard({
   onMobileActivate: (instanceId: number) => void
   prefs: TrackPreferences
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isActiveRef = useRef(false)
   const audioFadeRef = useRef<number>(0)
   const searchControllerRef = useRef<AbortController | null>(null)
   const playRequestRef = useRef(0)
-  const tiltFrameRef = useRef<number>(0)
   const isMountedRef = useRef(true)
-  const tiltTransformRef = useRef(TILT_RESET_TRANSFORM)
   const [isHovered, setIsHovered] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [previewData, setPreviewData] = useState<PreviewData | null>(null)
@@ -84,7 +66,7 @@ const LPCard = memo(function LPCard({
   const [matchFailed, setMatchFailed] = useState(false)
   const [playbackBlocked, setPlaybackBlocked] = useState(false)
   const [previewError, setPreviewError] = useState(false)
-  
+
   // Combined active state: hover on desktop, tap toggle on mobile
   const isActive = isMobile ? isActiveOnMobile : isHovered
 
@@ -144,7 +126,7 @@ const LPCard = memo(function LPCard({
     if (!data) {
       data = await searchItunesPreview()
       if (!isActiveRef.current || requestId !== playRequestRef.current) return
-      
+
       if (data) {
         setPreviewData(data)
       } else {
@@ -158,11 +140,11 @@ const LPCard = memo(function LPCard({
     const audio = new Audio(data.url)
     globalAudio = audio
     currentPlayingId = release.instance_id
-    
+
     // Starting at zero can be treated as muted autoplay, then paused by Chrome
     // when the fade becomes audible. Request audible playback from the start.
     audio.volume = PREVIEW_VOLUME_MIN
-    
+
     // Call play immediately so an explicit click retains user activation.
     // The promise already waits for enough media to begin playback.
     audio.play().then(() => {
@@ -260,35 +242,15 @@ const LPCard = memo(function LPCard({
     onOpenById(release.instance_id)
   }, [onOpenById, release.instance_id])
 
-  const updateTilt = (clientX: number, clientY: number) => {
-    if (isMobile || !cardRef.current) return
-    tiltTransformRef.current = getTiltTransform(clientX, clientY, cardRef.current.getBoundingClientRect())
-    cardRef.current.style.transform = tiltTransformRef.current
-  }
-
-  const scheduleTilt = (clientX: number, clientY: number) => {
-    if (isMobile) return
-    cancelAnimationFrame(tiltFrameRef.current)
-    tiltFrameRef.current = requestAnimationFrame(() => updateTilt(clientX, clientY))
-  }
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    scheduleTilt(event.clientX, event.clientY)
-  }
-
   const handleMouseLeave = () => {
     if (isMobile) return
-    cancelAnimationFrame(tiltFrameRef.current)
-    if (cardRef.current) {
-      tiltTransformRef.current = TILT_RESET_TRANSFORM
-      cardRef.current.style.transform = tiltTransformRef.current
-    }
+
     setIsHovered(false)
     stopPreview()
   }
 
   const handleMouseEnter = () => {
-    if (isMobile) return
+    if (isMobile || isActiveRef.current) return
     setIsHovered(true)
     isActiveRef.current = true
 
@@ -303,17 +265,13 @@ const LPCard = memo(function LPCard({
     }, PREVIEW_HOVER_DELAY_MS)
   }
 
-  const handlePointerEnter = (event: React.PointerEvent<HTMLDivElement>) => {
-    handleMouseEnter()
-    scheduleTilt(event.clientX, event.clientY)
-  }
-
   const handleMobileTap = useCallback((event: React.MouseEvent | React.TouchEvent) => {
     if (!isMobile) return
     event.stopPropagation()
 
     if (isActiveOnMobile) {
       stopPreview()
+      onMobileActivate(release.instance_id)
     } else {
       onMobileActivate(release.instance_id)
       isActiveRef.current = true
@@ -332,7 +290,6 @@ const LPCard = memo(function LPCard({
     isMountedRef.current = true
     return () => {
       searchControllerRef.current?.abort()
-      cancelAnimationFrame(tiltFrameRef.current)
       isMountedRef.current = false
       isActiveRef.current = false
       if (audioFadeRef.current) {
@@ -349,30 +306,22 @@ const LPCard = memo(function LPCard({
 
   return (
     <div
-      className="group cursor-pointer animate-in fade-in-0 slide-in-from-bottom-3 duration-500"
+      className="group cursor-pointer record-card"
+      tabIndex={0}
+      aria-label={`${release.title} by ${release.artist}`}
+      onKeyDown={(event) => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); handleDesktopClick() } }}
+      onFocusCapture={handleMouseEnter}
+      onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) handleMouseLeave() }}
       onClick={isMobile ? handleMobileTap : handleDesktopClick}
-      style={{ 
-        animationDelay: `${Math.min(index * 30, 600)}ms`,
-        perspective: "1000px",
-        zIndex: isActive ? 20 : 1,
-        position: "relative",
-        willChange: isActive ? "transform" : "auto",
-      }}
+      style={{ zIndex: isActive ? 20 : 1, position: "relative" }}
       >
       <div
-        ref={cardRef}
         className="relative aspect-square overflow-visible"
-        onPointerEnter={handlePointerEnter}
-        onPointerMove={handlePointerMove}
+        onPointerEnter={handleMouseEnter}
         onPointerLeave={handleMouseLeave}
-        style={{
-          transformStyle: "preserve-3d",
-          transform: isMobile ? "none" : tiltTransformRef.current,
-          transition: isActive ? "none" : "transform 0.5s ease-out",
-          willChange: isActive ? "transform" : "auto",
-        }}
+
         >
-          <div 
+          <div
           className="absolute pointer-events-none"
           style={{
             top: "50%",
@@ -384,10 +333,10 @@ const LPCard = memo(function LPCard({
             zIndex: isActive ? 5 : 0,
           }}
         >
-          <div 
+          <div
             className="w-full h-full rounded-full bg-gradient-to-br from-[#2F3134] via-[#26292C] to-[#2F3134] border border-postech-silver/45 shadow-xl"
             style={{
-              animation: isActive ? "spin 3s linear infinite" : "none",
+              animation: isPlaying ? "spin 3s linear infinite" : "none",
             }}
           >
             <div className="absolute inset-[8%] rounded-full border border-postech-silver/30" />
@@ -411,12 +360,12 @@ const LPCard = memo(function LPCard({
           </div>
         </div>
 
-        <div 
+        <div
           className="relative w-full h-full rounded-lg overflow-hidden bg-background/20 border border-border/30 shadow-lg transition-all duration-300"
-          style={{ 
+          style={{
             zIndex: 10,
-            boxShadow: isActive 
-              ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(166, 25, 85, 0.3)" 
+            boxShadow: isActive
+              ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(166, 25, 85, 0.3)"
               : "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
           }}
         >
@@ -432,7 +381,7 @@ const LPCard = memo(function LPCard({
 
           {isActive && (
             <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-              <div className="flex items-center gap-1.5 bg-black/80 backdrop-blur-sm rounded-full px-2 py-1 max-w-[85%]">
+              <div className="flex items-center gap-1.5 bg-black/80 rounded-full px-2 py-1 max-w-[85%]">
                 {playbackBlocked || previewError ? (
                   <button
                     type="button"
@@ -478,7 +427,7 @@ const LPCard = memo(function LPCard({
 
           {isMobile && !isActive && index < 2 && (
             <div className="absolute bottom-2 left-2 right-2">
-              <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1">
+              <div className="flex items-center gap-1.5 bg-black/60 rounded-full px-2 py-1">
                 <Volume2 className="h-3 w-3 text-white/50 flex-shrink-0" />
                 <span className="text-[10px] text-white/50 truncate">Tap to play</span>
               </div>
@@ -550,6 +499,8 @@ export default function LPCollection({
     setSelectedLP(null)
   }, [])
 
+  useDialogKeyboard(selectedLP !== null, closeSelectedLP)
+
   const stopModalProp = useCallback((event: React.MouseEvent) => {
     event.stopPropagation()
   }, [])
@@ -564,7 +515,7 @@ export default function LPCollection({
               {totalItems} records in collection
             </span>
             <span className="text-xs text-muted-foreground/60">
-              {isMobile 
+              {isMobile
                 ? "Tap any album to play a preview!"
                 : "This is my actual vinyl collection. Feel free to visit my place if you want to listen!"}
             </span>
@@ -583,7 +534,7 @@ export default function LPCollection({
 
           {mounted && createPortal(
         <div
-          className={`fixed bottom-4 left-1/2 z-[9998] -translate-x-1/2 bg-black/90 backdrop-blur-xl rounded-full px-4 py-2 border border-postech-red/30 shadow-lg shadow-postech-red/20 transition-all duration-200 ${
+          className={`fixed bottom-4 left-1/2 z-[9998] -translate-x-1/2 bg-black/90 rounded-full px-4 py-2 border border-postech-red/30 shadow-lg shadow-postech-red/20 transition-all duration-200 ${
             nowPlaying
               ? "translate-y-0 opacity-100 pointer-events-auto"
               : "translate-y-2 opacity-0 pointer-events-none"
@@ -631,7 +582,8 @@ export default function LPCollection({
           onClick={closeSelectedLP}
         >
           <div
-            className="relative bg-background/95 backdrop-blur-xl rounded-2xl max-w-lg w-full overflow-hidden border border-border/50 shadow-2xl animate-in zoom-in-95 duration-200"
+            data-retro-dialog role="dialog" aria-modal="true" aria-label="Record details"
+            className="relative bg-background rounded-2xl max-w-lg w-full overflow-hidden border border-border/50 shadow-2xl animate-in zoom-in-95 duration-200"
             onClick={stopModalProp}
           >
                 {/* Close Button */}

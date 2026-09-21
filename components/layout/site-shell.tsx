@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { SiteContainer } from "@/components/layout/site-container"
 import { SiteSidebar } from "@/components/layout/site-sidebar"
 import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
 
@@ -18,15 +17,15 @@ export function SiteShell({ children }: { children: ReactNode }) {
           Skip to content
         </a>
 
-        <SiteContainer className="py-6 lg:py-8">
+        <div className="site-wrap">
           <div className="site-grid">
             <SiteSidebar />
 
             <main id="main-content" className="min-w-0 flex-1">
-              <div className="glass-panel min-h-[calc(100svh-3rem)]">{children}</div>
+              <div className="page-sheet">{children}</div>
             </main>
           </div>
-        </SiteContainer>
+        </div>
       </div>
     </>
   )

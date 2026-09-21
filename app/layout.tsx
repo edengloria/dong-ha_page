@@ -1,19 +1,12 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
-import { Manrope } from "next/font/google"
 import Script from "next/script"
 import { profile } from "@/content/profile"
 import { siteConfig } from "@/content/site"
 import { withBasePath } from "@/lib/utils"
-import { PerfGuard } from "@/components/layout/perf-guard"
 import { SiteShell } from "@/components/layout/site-shell"
 
-const manrope = Manrope({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
 const enableAnalytics =
   process.env.NODE_ENV === "production" &&
   process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true"
@@ -56,7 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${manrope.className} ${manrope.variable}`}>
+      <body>
         {enableAnalytics && gaId ? (
           <>
             <Script
@@ -72,7 +65,6 @@ export default function RootLayout({
             </Script>
           </>
         ) : null}
-        <PerfGuard />
         <SiteShell>{children}</SiteShell>
       </body>
     </html>

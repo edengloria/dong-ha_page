@@ -104,3 +104,19 @@ test("leaving a card cancels a pending search instead of playing late", async ({
   await page.waitForTimeout(800)
   expect(await page.evaluate(() => Reflect.get(window, "lastPreviewAudio"))).toBeUndefined()
 })
+
+test("mobile preview can be played, stopped and played again", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.route("https://itunes.apple.com/search?*", (route) => route.fulfill({ json: { results } }))
+  await page.goto("/gallery/vinyl/")
+  const sleeve = page.locator(".record-card .aspect-square").first()
+  await sleeve.click()
+  await expect.poll(() => page.evaluate(() => {
+    const audio = Reflect.get(window, "lastPreviewAudio") as HTMLAudioElement | undefined
+    return Boolean(audio && !audio.paused && audio.currentTime > 0)
+  })).toBe(true)
+  await sleeve.click()
+  await expect.poll(() => page.evaluate(() => (Reflect.get(window, "lastPreviewAudio") as HTMLAudioElement).paused)).toBe(true)
+  await sleeve.click()
+  await expect.poll(() => page.evaluate(() => !(Reflect.get(window, "lastPreviewAudio") as HTMLAudioElement).paused)).toBe(true)
+})

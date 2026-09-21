@@ -1,0 +1,36 @@
+{
+  "baseURL": "http://127.0.0.1:3102",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/publications/",
+      "status": 200
+    },
+    {
+      "path": "/gallery/",
+      "status": 200
+    },
+    {
+      "path": "/gallery/photos/",
+      "status": 200
+    },
+    {
+      "path": "/gallery/vinyl/",
+      "status": 200
+    },
+    {
+      "path": "/gallery/admin/",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "audio": {
+    "time": 0.30828,
+    "volume": 0.5,
+    "host": "audio-ssl.itunes.apple.com"
+  },
+  "pausedOnLeave": true
+}

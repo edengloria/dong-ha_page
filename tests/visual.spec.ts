@@ -19,6 +19,7 @@ for (const route of routes) {
     test(`${route.slug} ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height })
       await page.addInitScript(() => {
+        Object.defineProperty(navigator, "gpu", { value: undefined })
         let seed = 42
         Math.random = () => {
           seed = (seed * 1664525 + 1013904223) % 4294967296
@@ -26,12 +27,10 @@ for (const route of routes) {
         }
       })
 
-      await page.goto(route.path, { waitUntil: "networkidle" })
-      if (process.env.PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL === "1") {
-        await expect(page.locator('canvas[data-beam-renderer="webgl2"]')).toBeVisible()
-      }
+      await page.goto(`${route.path}?beamTime=8`, { waitUntil: "networkidle" })
+      await expect(page.locator('.beam-stage')).toHaveAttribute("data-renderer", "gl", { timeout: 20000 })
       const mask = route.slug === "gallery-photos"
-        ? [page.locator('img[src*="/asset/life-images/"]')]
+        ? [page.locator('img[src*="/asset/life-thumbs/"]')]
         : []
 
       await expect(page).toHaveScreenshot(`${route.slug}-${viewport.name}.png`, {

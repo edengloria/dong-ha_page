@@ -31,18 +31,17 @@ export function PublicationsSection({
 }) {
   return (
     <section className={cn("space-y-5", className)} aria-label={title}>
-      <h2 className={cn("page-title", titleClassName)}>{title}</h2>
+      <h1 className={cn("page-title", titleClassName)}>{title}</h1>
 
       <div className="space-y-5">
-        {publications.map((pub, index) => (
+        {publications.map((pub) => (
           <article
             key={pub.title}
-            className="glass rounded-2xl p-5 sm:p-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
-            style={{ animationDelay: `${Math.min(index * 70, 240)}ms` }}
+            className="publication-row"
           >
             <div className="grid gap-5 lg:grid-cols-[14rem,1fr] lg:items-start">
               <div className="w-full">
-                <div className="relative w-full overflow-hidden rounded-xl border border-border/50 bg-black/10">
+                <div className="publication-image relative w-full overflow-hidden">
                   <div className="relative aspect-[4/3] w-full">
                     <Image
                       src={withBasePath(pub.image)}
@@ -57,7 +56,7 @@ export function PublicationsSection({
 
               <div className="min-w-0">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                  <span className="rounded-full border border-border/50 bg-background/25 px-2 py-0.5 text-foreground/75">
+                  <span className="border border-border/50 bg-background/25 px-2 py-0.5 text-foreground/75">
                     {pub.kind}
                   </span>
                   {pub.note ? <span className="truncate">{pub.note}</span> : null}
