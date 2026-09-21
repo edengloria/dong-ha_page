@@ -112,8 +112,13 @@ average CPU draw-submission time of 0.232 ms for Canvas 2D and 0.009 ms for WebG
 (120 samples after 30 warmup frames). Mean absolute premultiplied channel error
 before blur was 0.70 on a 0–255 scale. These are isolated renderer measurements,
 not end-to-end FPS, GPU execution time, power consumption, or mobile results.
-Existing visual snapshots are Linux-specific; Windows captures cannot certify
-those baselines and should not replace them automatically.
+Linux screenshot validation found the same six gallery/data mismatches on base
+and PR; using the snapshot-era Discogs input in an isolated checkout passed all
+15 comparisons with WebGL2 active. Baselines and current data are unchanged.
+See the [review and reproduction details](docs/graphics-performance/review.md).
+For Linux shader correctness testing without hardware acceleration, use
+`PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL=1 npm run test:visual -- --update-snapshots=none`.
+This test-only mode is not suitable for hardware-performance measurements.
 See [recorded metrics](docs/graphics-performance/metrics.json) and current
 [desktop](docs/graphics-performance/home-desktop.png) /
 [mobile](docs/graphics-performance/home-mobile.png) captures.

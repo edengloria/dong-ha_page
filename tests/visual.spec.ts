@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./fixtures"
 
 const routes = [
   { path: "/", slug: "home" },
@@ -27,6 +27,9 @@ for (const route of routes) {
       })
 
       await page.goto(route.path, { waitUntil: "networkidle" })
+      if (process.env.PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL === "1") {
+        await expect(page.locator('canvas[data-beam-renderer="webgl2"]')).toBeVisible()
+      }
       const mask = route.slug === "gallery-photos"
         ? [page.locator('img[src*="/asset/life-images/"]')]
         : []

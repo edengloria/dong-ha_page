@@ -1,9 +1,24 @@
-import { expect, test } from "@playwright/test"
+import type { Page } from "@playwright/test"
+import { expect, test } from "./fixtures"
+
+async function requireWebGL(page: Page) {
+  // Probe the browser independently: a broken application shader must fail the
+  // test, not turn a renderer fallback into a capability-based skip.
+  const available = await page.evaluate(() => {
+    const gl = document.createElement("canvas").getContext("webgl2", {
+      failIfMajorPerformanceCaveat: true,
+      powerPreference: "low-power",
+    })
+    gl?.getExtension("WEBGL_lose_context")?.loseContext()
+    return Boolean(gl)
+  })
+  test.skip(!available, "WebGL2 unavailable; use Chrome or the test-only software WebGL mode")
+}
 
 test("GPU batches beams and falls back after context loss", async ({ page }) => {
   await page.goto("/")
   await expect(page.locator("canvas[data-beam-renderer]")).toBeVisible()
-  test.skip(await page.locator('canvas[data-beam-renderer="canvas2d"]').count() > 0, "Accelerated WebGL2 unavailable; use PLAYWRIGHT_CHANNEL=chrome")
+  await requireWebGL(page)
   const gpu = page.locator('canvas[data-beam-renderer="webgl2"]')
   await expect(gpu).toBeVisible()
   const result = await gpu.evaluate(async (element) => {
@@ -65,33 +80,72 @@ test("unavailable WebGL uses Canvas 2D", async ({ page }) => {
   })).toBe(true)
 })
 
+test("a pending scroll timer does not restart a hidden page", async ({ page }) => {
+  await page.goto("/")
+  const canvas = page.locator("canvas[data-beam-renderer]")
+  await expect(canvas).toBeVisible()
+  await canvas.evaluate((element) => {
+    const canvas = element as HTMLCanvasElement
+    Reflect.set(window, "beamVisibilityDraws", 0)
+    const count = () => Reflect.set(window, "beamVisibilityDraws", Reflect.get(window, "beamVisibilityDraws") + 1)
+    if (canvas.dataset.beamRenderer === "webgl2") {
+      const gl = canvas.getContext("webgl2")!
+      const original = gl.drawArraysInstanced.bind(gl)
+      gl.drawArraysInstanced = (...args) => { count(); original(...args) }
+    } else {
+      const ctx = canvas.getContext("2d")!
+      const original = ctx.fillRect.bind(ctx)
+      ctx.fillRect = (...args) => { count(); original(...args) }
+    }
+    window.dispatchEvent(new Event("scroll"))
+    Object.defineProperty(document, "hidden", { configurable: true, value: true })
+    document.dispatchEvent(new Event("visibilitychange"))
+  })
+  await page.waitForTimeout(300)
+  expect(await page.evaluate(() => Reflect.get(window, "beamVisibilityDraws"))).toBe(0)
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: false })
+    document.dispatchEvent(new Event("visibilitychange"))
+  })
+  await expect.poll(() => page.evaluate(() => Reflect.get(window, "beamVisibilityDraws"))).toBeGreaterThan(0)
+})
+
 test("reduced motion stays idle across visibility and scroll events", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto("/")
   const canvas = page.locator("canvas[data-beam-renderer]")
   await expect(canvas).toBeVisible()
-  test.skip(await canvas.getAttribute("data-beam-renderer") !== "webgl2", "Accelerated WebGL2 unavailable")
-  const draws = await canvas.evaluate(async (element) => {
-    let draws = 0
+  await requireWebGL(page)
+  await expect(canvas).toHaveAttribute("data-beam-renderer", "webgl2")
+  await canvas.evaluate((element) => {
     const canvas = element as HTMLCanvasElement
     const gl = canvas.getContext("webgl2")!
     const original = gl.drawArraysInstanced.bind(gl)
-    gl.drawArraysInstanced = (...args) => { draws += 1; original(...args) }
+    Reflect.set(window, "beamTestDraws", 0)
+    gl.drawArraysInstanced = (...args) => {
+      Reflect.set(window, "beamTestDraws", Reflect.get(window, "beamTestDraws") + 1)
+      original(...args)
+    }
+    const clear = gl.clear.bind(gl)
+    gl.clear = (mask) => {
+      clear(mask)
+      // Read synchronously with clear. Later readPixels could report the browser's
+      // automatic discard and falsely pass even if reduced motion never cleared.
+      const pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4)
+      gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
+      Reflect.set(window, "beamTestClearIsEmpty", !pixels.some((value) => value !== 0))
+    }
     document.dispatchEvent(new Event("visibilitychange"))
     window.dispatchEvent(new Event("scroll"))
-    await new Promise((resolve) => setTimeout(resolve, 300))
-    gl.drawArraysInstanced = original
-    return draws
   })
-  expect(draws).toBe(0)
+  await page.waitForTimeout(300)
+  expect(await page.evaluate(() => Reflect.get(window, "beamTestDraws"))).toBe(0)
   await page.emulateMedia({ reducedMotion: "no-preference" })
-  await page.waitForTimeout(100)
+  await expect.poll(() => page.evaluate(() => Reflect.get(window, "beamTestDraws"))).toBeGreaterThan(0)
+  await page.evaluate(() => Reflect.set(window, "beamTestClearIsEmpty", undefined))
   await page.emulateMedia({ reducedMotion: "reduce" })
-  const pixels = await canvas.evaluate((element) => {
-    const gl = (element as HTMLCanvasElement).getContext("webgl2")!
-    const pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4)
-    gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
-    return pixels.some((value) => value !== 0)
-  })
-  expect(pixels).toBe(false)
+  await expect.poll(() => page.evaluate(() => Reflect.get(window, "beamTestClearIsEmpty"))).toBe(true)
+  const stoppedDraws = await page.evaluate(() => Reflect.get(window, "beamTestDraws"))
+  await page.waitForTimeout(150)
+  expect(await page.evaluate(() => Reflect.get(window, "beamTestDraws"))).toBe(stoppedDraws)
 })
