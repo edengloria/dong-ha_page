@@ -1,44 +1,50 @@
+"use client"
+
 import Image from "next/image"
-import type { CSSProperties } from "react"
+import dynamic from "next/dynamic"
+import { usePathname } from "next/navigation"
+import { useEffect, useState, type CSSProperties } from "react"
+import defaultLayout from "@/data/scene-layout.json"
+import { assetPath, parseLayout, SCENE_EVENT, SCENE_STORAGE, type SceneLayout } from "@/lib/scene-layout"
 import { withBasePath } from "@/lib/utils"
 import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
 
+const SceneEditor = dynamic(() => import("@/components/scene/scene-editor"), { ssr: false })
+const defaults = parseLayout(defaultLayout)
 const asset = (file: string) => withBasePath(`/asset/camerons-world/${file}`)
 
-function Sprite({ file, width, height, className, animated = false }: {
-  file: string; width: number; height: number; className: string; animated?: boolean
-}) {
-  return <picture className={`ocean-sprite ${className}`}>
-    {animated && <source media="(prefers-reduced-motion: reduce)" srcSet={asset(`${file}.png`)} />}
-    <Image src={asset(`${file}.${animated ? "gif" : "png"}`)} alt="" width={width} height={height} unoptimized />
-  </picture>
-}
-
 export function OceanWorld() {
+  const editing = usePathname().replace(/\/$/, "").endsWith("/scene-editor")
+  const [layout, setLayout] = useState<SceneLayout>(defaults)
+  useEffect(() => {
+    const read = () => {
+      try { const raw = localStorage.getItem(SCENE_STORAGE); setLayout(raw ? parseLayout(JSON.parse(raw)) : defaults) } catch { setLayout(defaults) }
+    }
+    read()
+    const stored = (event: StorageEvent) => { if (event.key === SCENE_STORAGE || event.key === null) read() }
+    window.addEventListener("storage", stored)
+    window.addEventListener(SCENE_EVENT, read)
+    return () => { window.removeEventListener("storage", stored); window.removeEventListener(SCENE_EVENT, read) }
+  }, [editing])
   const textures = {
-    "--sunset": `url("${asset("10/bg.png")}")`,
-    "--ocean": `url("${asset("11/bg.png")}")`,
-    "--ripple": `url("${asset("12/bg.gif")}")`,
-    "--ripple-still": `url("${asset("12/bg-still.png")}")`,
+    "--sunset": `url("${asset("10/bg.png")}")`, "--ocean": `url("${asset("11/bg.png")}")`,
+    "--ripple": `url("${asset("12/bg.gif")}")`, "--ripple-still": `url("${asset("12/bg-still.png")}")`,
   } as CSSProperties
-  return <div className="ocean-world" style={textures} aria-hidden="true">
-    <div className="ocean-depth" />
-    <div className="ocean-ripple" />
-    <div className="ocean-light"><BeamsBackgroundClient /></div>
-    <div className="sunset-sky">
-      <Sprite file="10/6" width={600} height={131} className="sun-birds" animated />
-      <Sprite file="10/5" width={149} height={203} className="palms" animated />
-      <Sprite file="10/14" width={88} height={61} className="shore-bird" animated />
-      <Sprite file="10/15" width={160} height={40} className="shark-fin" animated />
-      <Sprite file="10/16" width={210} height={41} className="distant-dolphin" animated />
-      <Sprite file="10/17" width={132} height={81} className="jumping-dolphins" />
+  return <>
+    <div className="ocean-world" style={textures} aria-hidden="true">
+      <div className="ocean-depth" /><div className="ocean-ripple" />
+      <div className="ocean-light"><BeamsBackgroundClient /></div>
+      <div className="sunset-sky" />
     </div>
-    <div className="ocean-life">
-      <Sprite file="11/3" width={86} height={49} className="red-fish" />
-      <Sprite file="11/24" width={74} height={64} className="green-fish" />
-      <Sprite file="11/13" width={107} height={67} className="blue-dolphin" />
-      <Sprite file="11/16" width={173} height={66} className="silver-fish" />
-      <Sprite file="12/13" width={600} height={70} className="coral-reef" />
-    </div>
-  </div>
+    {[false, true].map((foreground) => <div key={String(foreground)} className={`scene-layer ${foreground ? "scene-foreground" : ""}`} aria-hidden="true">
+      {layout.items.filter((item) => item.foreground === foreground).map((item, index) => <picture key={item.id} className={`scene-sprite ${item.id}`} style={{
+        "--x": `${item.desktop.x}%`, "--y": `${item.desktop.y}px`, "--w": `${item.desktop.width}px`, "--r": `${item.desktop.rotation}deg`, "--show": item.desktop.hidden ? "none" : "block",
+        "--mx": `${item.mobile.x}%`, "--my": `${item.mobile.y}px`, "--mw": `${item.mobile.width}px`, "--mr": `${item.mobile.rotation}deg`, "--mshow": item.mobile.hidden ? "none" : "block", zIndex: index,
+      } as CSSProperties}>
+        <source media="(prefers-reduced-motion: reduce)" srcSet={withBasePath(assetPath(item.still))} />
+        <Image src={withBasePath(assetPath(item.file))} alt="" width={item.width} height={item.height} unoptimized />
+      </picture>)}
+    </div>)}
+    {editing && <SceneEditor layout={layout} onChange={setLayout} defaults={defaults} />}
+  </>
 }
