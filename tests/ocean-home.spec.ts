@@ -1,7 +1,7 @@
 import { expect, test } from "./fixtures"
 
 test("original introduction opens as an accessible modal and returns focus", async ({ page }) => {
-  await page.goto("/")
+  await page.goto("/", { waitUntil: "networkidle" })
   const opener = page.getByRole("button", { name: "More about me" })
   await opener.focus()
   await page.keyboard.press("Enter")
@@ -24,7 +24,7 @@ test("archived sprites load locally and reduced motion selects still frames", as
   await page.goto("/", { waitUntil: "networkidle" })
   const animated = page.locator(".sun-birds img")
   await expect.poll(() => animated.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain("/10/6.gif")
-  const broken = await page.locator(".ocean-sprite img").evaluateAll((images) => images.filter((img) => !(img as HTMLImageElement).naturalWidth).length)
+  const broken = await page.locator(".scene-sprite img").evaluateAll((images) => images.filter((img) => !(img as HTMLImageElement).naturalWidth).length)
   expect(broken).toBe(0)
   await page.emulateMedia({ reducedMotion: "reduce" })
   await expect.poll(() => animated.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain("/10/6.png")

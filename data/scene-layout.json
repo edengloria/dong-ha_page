@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "sun-birds",
+      "name": "Sun & birds",
+      "file": "img/content/10/6.gif",
+      "still": "img/content/10/6.png",
+      "width": 600,
+      "height": 131,
+      "foreground": false,
+      "desktop": {
+        "x": 50,
+        "y": 78,
+        "width": 480,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 47,
+        "y": 77,
+        "width": 330,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "palms",
+      "name": "Palms",
+      "file": "img/content/10/5.gif",
+      "still": "img/content/10/5.png",
+      "width": 149,
+      "height": 203,
+      "foreground": false,
+      "desktop": {
+        "x": 88,
+        "y": 2,
+        "width": 149,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 89,
+        "y": 15,
+        "width": 112,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "shore-bird",
+      "name": "Shore bird",
+      "file": "img/content/10/14.gif",
+      "still": "img/content/10/14.png",
+      "width": 88,
+      "height": 61,
+      "foreground": false,
+      "desktop": {
+        "x": 82,
+        "y": 145,
+        "width": 88,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 77,
+        "y": 122,
+        "width": 60,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "shark-fin",
+      "name": "Shark fin",
+      "file": "img/content/10/15.gif",
+      "still": "img/content/10/15.png",
+      "width": 160,
+      "height": 40,
+      "foreground": false,
+      "desktop": {
+        "x": 12,
+        "y": 236,
+        "width": 160,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 12,
+        "y": 195,
+        "width": 125,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "distant-dolphin",
+      "name": "Distant dolphin",
+      "file": "img/content/10/16.gif",
+      "still": "img/content/10/16.png",
+      "width": 210,
+      "height": 41,
+      "foreground": false,
+      "desktop": {
+        "x": 51,
+        "y": 214,
+        "width": 210,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 51,
+        "y": 185,
+        "width": 110,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "jumping-dolphins",
+      "name": "Jumping dolphins",
+      "file": "img/content/10/17.png",
+      "still": "img/content/10/17.png",
+      "width": 132,
+      "height": 81,
+      "foreground": false,
+      "desktop": {
+        "x": 79,
+        "y": 207,
+        "width": 132,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 70,
+        "y": 175,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "red-fish",
+      "name": "Red fish",
+      "file": "img/content/11/3.png",
+      "still": "img/content/11/3.png",
+      "width": 86,
+      "height": 49,
+      "foreground": false,
+      "desktop": {
+        "x": 8,
+        "y": 292,
+        "width": 86,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 12,
+        "y": 245,
+        "width": 70,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "green-fish",
+      "name": "Green fish",
+      "file": "img/content/11/24.png",
+      "still": "img/content/11/24.png",
+      "width": 74,
+      "height": 64,
+      "foreground": false,
+      "desktop": {
+        "x": 92,
+        "y": 300,
+        "width": 74,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 86,
+        "y": 250,
+        "width": 65,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "blue-dolphin",
+      "name": "Blue dolphin",
+      "file": "img/content/11/13.png",
+      "still": "img/content/11/13.png",
+      "width": 107,
+      "height": 67,
+      "foreground": false,
+      "desktop": {
+        "x": 25,
+        "y": 300,
+        "width": 107,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 25,
+        "y": 250,
+        "width": 80,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "silver-fish",
+      "name": "Silver fish",
+      "file": "img/content/11/16.png",
+      "still": "img/content/11/16.png",
+      "width": 173,
+      "height": 66,
+      "foreground": false,
+      "desktop": {
+        "x": 66,
+        "y": 288,
+        "width": 173,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 66,
+        "y": 250,
+        "width": 110,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "coral-reef",
+      "name": "Coral reef",
+      "file": "img/content/12/13.png",
+      "still": "img/content/12/13.png",
+      "width": 600,
+      "height": 70,
+      "foreground": false,
+      "desktop": {
+        "x": 50,
+        "y": 298,
+        "width": 600,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 66,
+        "y": 260,
+        "width": 420,
+        "rotation": 0
+      }
+    }
+  ]
+}

@@ -20,7 +20,7 @@
   }
   * { @apply border-border; }
   html { background: #090e23; }
-  body { margin: 0; color: #202138; font-family: Verdana, Arial, sans-serif; font-size: 14px; line-height: 1.7; }
+  body { position: relative; margin: 0; color: #202138; font-family: Verdana, Arial, sans-serif; font-size: 14px; line-height: 1.7; }
   a { color: inherit; text-underline-offset: 3px; }
   button, input, select, textarea { font: inherit; }
   :focus-visible { outline: 3px solid #8369ef; outline-offset: 4px; }
@@ -89,36 +89,12 @@
 .ocean-light { position: fixed; inset: 0; z-index: 1; }
 .sunset-sky { position: absolute; inset: 0 0 auto; height: var(--sky-height); z-index: 2; background: var(--sunset) repeat-x top / 48px var(--sky-height); }
 .ocean-ripple { position: absolute; top: var(--sky-height); width: 100%; height: 96px; background: var(--ripple) repeat; mask-image: linear-gradient(transparent, #000 12%, #000 60%, transparent); }
-.ocean-life { position: absolute; top: var(--sky-height); left: 0; right: 0; height: 96px; z-index: 2; }
-.ocean-sprite { position: absolute; display: block; }
-.ocean-sprite img { max-width: none; height: auto; image-rendering: auto; }
-.sun-birds { left: calc(24% - 300px); bottom: 84px; }
-.palms { right: 7%; bottom: 74px; }
-.shore-bird { right: calc(7% + 100px); bottom: 76px; }
-.shark-fin { left: 7%; bottom: 12px; }
-.distant-dolphin { left: 44%; bottom: 24px; }
-.jumping-dolphins { right: 18%; bottom: -8px; }
-.red-fish { left: 5%; top: 12px; }
-.green-fish { right: 6%; top: 20px; }
-.blue-dolphin { left: 22%; top: 20px; }
-.silver-fish { right: 28%; top: 8px; }
-.coral-reef { left: calc(50% - 300px); top: 14px; }
 .site-wrap.ocean-content { padding-top: 394px; }
 .ocean-credit { margin-top: 28px; color: #e9e6ff; font: 11px/1.6 Verdana, sans-serif; text-align: right; }
 .ocean-credit a { text-decoration: underline; }
 @media (max-width: 560px) {
   .ocean-world { --sky-height: 230px; }
   .site-wrap.ocean-content { padding-top: 334px; }
-  .sun-birds { left: -170px; bottom: 70px; }
-  .palms { right: -20px; bottom: 56px; }
-  .palms img { width: 120px; }
-  .shore-bird { right: 44px; bottom: 55px; }
-  .shore-bird img { width: 60px; }
-  .distant-dolphin, .silver-fish, .blue-dolphin { display: none; }
-  .jumping-dolphins { right: 18%; bottom: -15px; }
-  .jumping-dolphins img { width: 100px; }
-  .shark-fin { left: -40px; }
-  .coral-reef { left: 20%; top: 30px; }
   .ocean-credit { text-align: center; }
   .about-dialog { padding: 20px; }
 }
@@ -148,4 +124,41 @@
 @media (prefers-reduced-motion: reduce) {
   .ocean-ripple { background-image: var(--ripple-still); }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+.scene-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow-x: clip; }
+.scene-foreground { z-index: 20; }
+.scene-sprite { position: absolute; display: var(--show); left: var(--x); top: var(--y); width: var(--w); transform: translateX(-50%) rotate(var(--r)); }
+.scene-sprite img { width: 100%; height: auto; max-width: none; }
+.scene-handles { position: absolute; inset: 0; z-index: 40; pointer-events: none; }
+.scene-handle { position: absolute; pointer-events: auto; touch-action: none; border: 1px dashed #fff9; background: transparent; cursor: move; }
+.scene-handle.is-selected { outline: 2px solid #fdf04b; outline-offset: 3px; border-color: #25223a; }
+.scene-toolbar { position: fixed; left: 12px; top: 12px; z-index: 60; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; max-width: calc(100% - 24px); background: #fff5d7; border: 2px solid #27213e; box-shadow: 3px 3px #151127; font-size: 12px; }
+.scene-toolbar button, .scene-toolbar a, .scene-panel button, .scene-panel a { border: 1px solid #625773; background: #faf6e6; padding: 6px 9px; min-height: 36px; text-decoration: underline; }
+.scene-toolbar button[aria-pressed=true] { background: #d9d0ef; }
+.scene-panel { position: fixed; right: 12px; top: 74px; width: 330px; max-height: calc(100svh - 90px); overflow-y: auto; overscroll-behavior: contain; z-index: 60; background: #efecdf; color: #202138; border: 2px solid #27213e; box-shadow: 4px 4px #151127; padding: 14px; font-size: 12px; }
+.scene-panel h1 { font-size: 22px; font-weight: bold; }
+.scene-panel h2 { font-size: 16px; font-weight: bold; margin: 18px 0 8px; }
+.scene-panel label { display: block; margin: 8px 0; }
+.scene-panel select, .scene-panel input:not([type=checkbox]) { width: 100%; min-height: 36px; border: 1px solid #8d839c; background: #fffdf5; padding: 4px; color: #202138; }
+.scene-panel input[type=checkbox] { margin-right: 5px; }
+.scene-panel button:disabled { opacity: .4; cursor: not-allowed; }
+.scene-help { margin: 6px 0 10px; color: #555064; }
+.scene-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.scene-status { min-height: 20px; color: #513b82; margin: 8px 0; }
+.scene-properties { min-width: 0; border: 1px solid #9f94aa; padding: 8px; }
+.scene-properties legend { max-width: 100%; overflow-wrap: anywhere; font-weight: bold; }
+.scene-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.scene-save { margin: 14px 0; border-top: 1px solid #9f94aa; padding-top: 10px; }
+.scene-save summary { cursor: pointer; font-weight: bold; }
+.scene-save p { margin: 8px 0; }
+.asset-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; margin-top: 10px; }
+.asset-grid button { position: relative; min-width: 0; padding: 4px; text-decoration: none; }
+.asset-grid img { width: 100%; height: 68px; object-fit: contain; background: repeating-conic-gradient(#c3bfcb 0% 25%, #e5e1e9 0% 50%) 0 / 12px 12px; }
+.asset-grid span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 9px; }
+.asset-grid small { position: absolute; top: 4px; right: 4px; background: #28223b; color: #fff; padding: 0 2px; font-size: 8px; }
+@media (max-width: 560px) {
+  .scene-sprite { display: var(--mshow); left: var(--mx); top: var(--my); width: var(--mw); transform: translateX(-50%) rotate(var(--mr)); }
+  .scene-toolbar { top: 4px; left: 4px; max-width: calc(100% - 8px); gap: 4px; padding: 4px; }
+  .scene-toolbar strong { width: 100%; }
+  .scene-panel { top: auto; bottom: 8px; right: 8px; width: calc(100% - 16px); max-height: 42svh; }
 }
