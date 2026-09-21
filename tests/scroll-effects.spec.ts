@@ -1,23 +1,30 @@
-import { expect, test } from "./fixtures"
+import { test, expect } from "./fixtures"
 
-test("scroll suspends all large glass filters and preserves overlay opacity", async ({ page }) => {
-  await page.goto("/")
-  await expect(page.locator("canvas[data-beam-renderer]")).toBeVisible()
-  await page.evaluate(() => window.dispatchEvent(new Event("scroll")))
-  const styles = await page.evaluate(() => {
-    const panels = [...document.querySelectorAll(".glass-panel")]
-    return {
-      filters: panels.flatMap((panel) => [null, "::before", "::after"].map((pseudo) => getComputedStyle(panel, pseudo).backdropFilter)),
-      transitions: panels.map((panel) => getComputedStyle(panel).transitionDuration),
-      overlayOpacity: Number(getComputedStyle(document.querySelector(".beams-overlay")!).opacity),
-      overlayFilter: getComputedStyle(document.querySelector(".beams-overlay")!).backdropFilter,
-    }
-  })
-  expect(styles.filters.every((filter) => filter === "none")).toBe(true)
-  expect(styles.transitions.every((duration) => duration === "0s")).toBe(true)
-  expect(styles.overlayFilter).toBe("none")
-  expect(styles.overlayOpacity).toBeGreaterThanOrEqual(0.19)
-  expect(styles.overlayOpacity).toBeLessThanOrEqual(0.31)
-  await expect(page.locator("html")).not.toHaveClass(/scrolling/)
-  await expect.poll(() => page.locator(".glass-panel").first().evaluate((panel) => getComputedStyle(panel).backdropFilter)).not.toBe("none")
+test("public pages have no backdrop blur or horizontal overflow", async ({ page }) => {
+  for (const path of ["/", "/publications/", "/gallery/vinyl/", "/gallery/photos/"]) {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(path)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    const blurred = await page.evaluate(() => Array.from(document.querySelectorAll("*"))
+      .filter((e) => getComputedStyle(e).backdropFilter !== "none").map((e) => e.className))
+    expect(blurred).toEqual([])
+  }
+})
+
+test("photo diary supports keyboard opening, next, close and focus return", async ({ page }) => {
+  const errors: string[] = []
+  page.on("pageerror", (error) => errors.push(error.message))
+  await page.goto("/gallery/photos/")
+  const photo = page.locator(".photo-print").first()
+  await photo.focus()
+  await page.keyboard.press("Enter")
+  const dialog = page.getByRole("dialog", { name: "Photo viewer" })
+  await expect(dialog).toBeVisible()
+  const image = await dialog.locator("img").getAttribute("src")
+  await page.keyboard.press("ArrowRight")
+  await expect(dialog.locator("img")).not.toHaveAttribute("src", image!)
+  await page.keyboard.press("Escape")
+  await expect(dialog).toHaveCount(0)
+  await expect(photo).toBeFocused()
+  expect(errors).toEqual([])
 })

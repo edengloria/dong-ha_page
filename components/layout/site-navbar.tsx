@@ -1,42 +1,12 @@
 "use client"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { NavigationItem } from "@/content/types"
-import { cn } from "@/lib/utils"
-
-function isRouteActive(pathname: string, href: string) {
-  if (href === "/") {
-    return pathname === "/"
-  }
-
-  return pathname === href || pathname.startsWith(`${href}/`)
-}
 
 export function SiteNavbar({ items }: { items: NavigationItem[] }) {
-  const pathname = usePathname()
-
-    return (
-      <nav className="space-y-1.5" aria-label="Primary">
-        {items.map((item) => {
-        const isActive = isRouteActive(pathname, item.href)
-
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            aria-current={isActive ? "page" : undefined}
-            className={cn(
-              "block rounded-lg border border-transparent px-4 py-2.5 text-sm font-medium tracking-[0.01em] transition-all duration-200",
-              isActive
-                ? "border-primary/25 bg-primary/10 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
-                : "text-muted-foreground hover:border-border/80 hover:bg-background/30 hover:text-foreground"
-            )}
-          >
-            {item.label}
-          </Link>
-        )
-      })}
-    </nav>
-  )
+  const pathname = usePathname().replace(/\/$/, "") || "/"
+  return <nav className="directory" aria-label="Primary">{items.map((item, index) => {
+    const active = pathname === item.href || (item.href === "/gallery/vinyl" && pathname === "/gallery")
+    return <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined}><span className="text-[10px]" aria-hidden="true">0{index + 1}</span>{item.label}</Link>
+  })}</nav>
 }

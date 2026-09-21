@@ -5,6 +5,7 @@ const nextConfig = {
   output: "export",
   trailingSlash: true,
   reactStrictMode: true,
+  devIndicators: false,
   basePath,
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
