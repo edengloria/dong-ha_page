@@ -87,6 +87,37 @@ npm run fetch-discogs
 npm run optimize-images -- --replace
 ```
 
+## Background graphics profiling
+
+The beam background uses a dependency-free WebGL2 instanced renderer: all beams
+share one draw call and a reusable instance buffer. The seven gradient stops,
+source-over blending, movement, density, CSS blur, and DPR cap are preserved.
+Canvas 2D remains the fallback when accelerated WebGL2 is unavailable, shader
+setup fails, or the context is lost. Separate canvases allow fallback after a
+WebGL context has already been acquired. Hidden tabs, scrolling, and reduced
+motion suspend animation; resuming resets the elapsed-time baseline.
+
+WebGL2 provides the instancing needed here without a WebGPU backend or another
+graphics dependency. A software WebGL implementation is deliberately rejected.
+
+Run `npx playwright test tests/beams.spec.ts` for renderer/lifecycle checks and
+`npx tsx scripts/profile-beams.ts` for a deterministic 44-beam comparison at
+1280 x 720. Set `PLAYWRIGHT_CHANNEL=chrome` to use installed Chrome if the bundled
+headless browser lacks hardware acceleration. GPU-specific tests explicitly skip
+without acceleration; the profile command fails rather than timing a fallback.
+The profile writes images and JSON under `test-results/beam-profile/`.
+
+On Windows Chrome with AMD Radeon integrated graphics, one local run measured
+average CPU draw-submission time of 0.232 ms for Canvas 2D and 0.009 ms for WebGL2
+(120 samples after 30 warmup frames). Mean absolute premultiplied channel error
+before blur was 0.70 on a 0–255 scale. These are isolated renderer measurements,
+not end-to-end FPS, GPU execution time, power consumption, or mobile results.
+Existing visual snapshots are Linux-specific; Windows captures cannot certify
+those baselines and should not replace them automatically.
+See [recorded metrics](docs/graphics-performance/metrics.json) and current
+[desktop](docs/graphics-performance/home-desktop.png) /
+[mobile](docs/graphics-performance/home-mobile.png) captures.
+
 ## Deployment
 
 The site is configured for GitHub Pages static export.

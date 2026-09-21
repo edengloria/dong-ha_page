@@ -2,7 +2,8 @@
 
 import type React from "react"
 
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { createBeamRenderer } from "@/lib/beam-renderer"
 import { cn } from "@/lib/utils"
 
 interface AnimatedGradientBackgroundProps {
@@ -173,11 +174,11 @@ function createBeam(
   }
 }
 
-function throttle<T extends (...args: unknown[]) => void>(func: T, limit: number): (...args: Parameters<T>) => void {
+function throttle<T extends (...args: unknown[]) => void>(func: T, limit: number) {
   let lastTimeout: ReturnType<typeof setTimeout> | undefined
   let lastRan = 0
 
-  return (...args: Parameters<T>) => {
+  const throttled = (...args: Parameters<T>) => {
     if (!lastRan) {
       func(...args)
       lastRan = Date.now()
@@ -195,6 +196,8 @@ function throttle<T extends (...args: unknown[]) => void>(func: T, limit: number
       }
     }, Math.max(0, limit - (Date.now() - lastRan)))
   }
+  throttled.cancel = () => clearTimeout(lastTimeout)
+  return throttled
 }
 
 function updateBeamCountInPlace(
@@ -224,6 +227,8 @@ export default function BeamsBackground({
 }: AnimatedGradientBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const gpuCanvasRef = useRef<HTMLCanvasElement>(null)
+  const [forceFallback, setForceFallback] = useState(false)
   const beamsRef = useRef<Beam[]>([])
   const animationFrameRef = useRef<number>(0)
   const animationActiveRef = useRef<boolean>(true)
@@ -240,7 +245,9 @@ export default function BeamsBackground({
   const isScrollPausedRef = useRef<boolean>(false)
 
   const startAnimation = useCallback(() => {
-    if (!animationActiveRef.current && canvasRef.current && animateRef.current) {
+    if (!animationActiveRef.current && !document.hidden && !reducedMotionRef.current &&
+        !isScrollPausedRef.current && canvasRef.current && animateRef.current) {
+      lastFrameTimeRef.current = 0
       animationActiveRef.current = true
       animateRef.current(performance.now())
     }
@@ -255,11 +262,24 @@ export default function BeamsBackground({
   }, [])
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const fallbackCanvas = canvasRef.current
+    const gpuCanvas = gpuCanvasRef.current
+    if (!fallbackCanvas || !gpuCanvas) return
 
-    const ctx = getCanvasContext2D(canvas)
-    if (!ctx) return
+    const gpu = forceFallback ? null : createBeamRenderer(gpuCanvas, MAX_BEAM_COUNT)
+    const canvas = gpu ? gpuCanvas : fallbackCanvas
+    const ctx = gpu ? null : getCanvasContext2D(fallbackCanvas)
+    if (!gpu && !ctx) return
+    gpuCanvas.style.visibility = gpu ? "visible" : "hidden"
+    fallbackCanvas.style.visibility = gpu ? "hidden" : "visible"
+    canvas.dataset.beamRenderer = gpu ? "webgl2" : "canvas2d"
+    const handleContextLost = (event: Event) => {
+      event.preventDefault()
+      stopAnimation()
+      setForceFallback(true)
+    }
+    gpuCanvas.addEventListener("webglcontextlost", handleContextLost)
+    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
     const updateCanvasSize = () => {
       const dpr = getClampedDpr()
@@ -287,8 +307,10 @@ export default function BeamsBackground({
       canvas.style.height = `${logicalHeight}px`
       canvas.style.filter = `blur(${getBeamBlurPx(densityScale)}px)`
 
-      resetCanvasTransform(ctx)
-      ctx.scale(dpr, dpr)
+      if (ctx) {
+        resetCanvasTransform(ctx)
+        ctx.scale(dpr, dpr)
+      }
 
       const desiredCount = reducedMotionRef.current ? 0 : targetBeamCountRef.current
       beamsRef.current.forEach((beam) => {
@@ -317,6 +339,8 @@ export default function BeamsBackground({
       if (event.matches) {
         stopAnimation()
         beamsRef.current = []
+        gpu?.clear()
+        ctx?.clearRect(0, 0, canvas.width, canvas.height)
       } else {
         updateCanvasSize()
         startAnimation()
@@ -392,6 +416,11 @@ export default function BeamsBackground({
       if (pulsingOpacity <= 0) return
       const finalOpacity = clamp(pulsingOpacity * 1.65, 0, 1)
 
+      if (gpu) {
+        gpu.beam(beam.x, beam.y, beam.width, beam.length, (beam.angle * Math.PI) / 180, hue, finalOpacity)
+        return
+      }
+      if (!ctx) return
       ctx.save()
       ctx.translate(beam.x, beam.y)
       ctx.rotate((beam.angle * Math.PI) / 180)
@@ -455,11 +484,10 @@ export default function BeamsBackground({
 
     const animate = (timestamp: number) => {
       if (!animationActiveRef.current) return
-      if (!canvas || !ctx) return
+      if (!canvas || (!ctx && !gpu)) return
 
       if (reducedMotionRef.current) {
-        animationFrameRef.current = requestAnimationFrame(animate)
-        lastFrameTimeRef.current = timestamp
+        stopAnimation()
         return
       }
 
@@ -479,7 +507,8 @@ export default function BeamsBackground({
 
       const beams = beamsRef.current
       if (beams.length > 0) {
-        ctx.clearRect(0, 0, logicalWidth, logicalHeight)
+        if (gpu) gpu.begin(logicalWidth, logicalHeight)
+        else ctx?.clearRect(0, 0, logicalWidth, logicalHeight)
 
         for (let i = 0; i < beams.length; i += 1) {
           const beam = beams[i]
@@ -502,6 +531,7 @@ export default function BeamsBackground({
 
           drawBeam(beam)
         }
+        gpu?.end()
       }
 
       lastFrameTimeRef.current = timestamp
@@ -549,10 +579,9 @@ export default function BeamsBackground({
 
     document.addEventListener("visibilitychange", handleVisibilityChange)
 
+    animationActiveRef.current = false
     if (!reducedMotionRef.current) {
-      animationActiveRef.current = true
-      lastFrameTimeRef.current = 0
-      animate(performance.now())
+      startAnimation()
     } else {
       updateCanvasSize()
       canvas.width = Math.max(1, canvas.width)
@@ -561,6 +590,10 @@ export default function BeamsBackground({
     }
 
     return () => {
+      throttledResize.cancel()
+      gpuCanvas.removeEventListener("webglcontextlost", handleContextLost)
+      gpu?.dispose()
+      delete canvas.dataset.beamRenderer
       window.removeEventListener("resize", throttledResize)
       window.visualViewport?.removeEventListener("resize", throttledResize)
       const mq = reducedMotionQueryRef.current
@@ -581,8 +614,10 @@ export default function BeamsBackground({
       document.removeEventListener("visibilitychange", handleVisibilityChange)
       stopAnimation()
       beamsRef.current = []
+      animateRef.current = null
+      isScrollPausedRef.current = false
     }
-  }, [intensity, startAnimation, stopAnimation])
+  }, [intensity, startAnimation, stopAnimation, forceFallback])
   return (
     <div
       className={cn(
@@ -593,6 +628,7 @@ export default function BeamsBackground({
       ref={containerRef}
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
+      <canvas ref={gpuCanvasRef} className="absolute inset-0" />
 
       <div className="absolute inset-0 beams-overlay" />
 
