@@ -453,13 +453,13 @@
 }
 
 .scrolling .beams-overlay {
-  animation: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  animation-play-state: paused;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .low-perf .beams-overlay {
-  animation: none;
+  animation-play-state: paused;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -467,9 +467,27 @@
 html.scrolling .optical-glass,
 html.scrolling .glass,
 html.low-perf .beams-overlay {
-  transition-property: backdrop-filter, -webkit-backdrop-filter, background, box-shadow, opacity;
+  transition-property: background, box-shadow, opacity;
   transition-duration: 220ms;
   transition-timing-function: ease;
+}
+
+/* These surfaces can span the full document. Re-sampling their backdrop (and
+   two nested glass layers) on every scroll frame overwhelms integrated GPUs.
+   The beams are already blurred; keep the existing tint/borders while moving. */
+html.scrolling .glass-panel,
+html.scrolling .optical-glass,
+html.scrolling .glass,
+html.scrolling .glass-panel::before,
+html.scrolling .glass-panel::after,
+html.scrolling .optical-glass::before,
+html.scrolling .optical-glass::after,
+html.scrolling .glass::before,
+html.scrolling .glass::after,
+html.scrolling .beams-overlay {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: none;
 }
 
 .low-perf .optical-glass::before,

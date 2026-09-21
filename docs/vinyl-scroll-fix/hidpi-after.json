@@ -1,0 +1,65 @@
+{
+  "baseURL": "http://127.0.0.1:3100",
+  "browser": "153.0.8010.48",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "deviceScaleFactor": 2,
+  "trials": [
+    {
+      "path": "/",
+      "trial": 1,
+      "meanMs": 16.66778523489933,
+      "p95Ms": 16.700000000000728,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    },
+    {
+      "path": "/",
+      "trial": 2,
+      "meanMs": 16.66845637583893,
+      "p95Ms": 16.799999999999272,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    },
+    {
+      "path": "/",
+      "trial": 3,
+      "meanMs": 16.668456375838918,
+      "p95Ms": 16.799999999999272,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    },
+    {
+      "path": "/gallery/vinyl/",
+      "trial": 1,
+      "meanMs": 16.66778523489933,
+      "p95Ms": 16.700000000000728,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    },
+    {
+      "path": "/gallery/vinyl/",
+      "trial": 2,
+      "meanMs": 16.66845637583892,
+      "p95Ms": 16.700000000000728,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    },
+    {
+      "path": "/gallery/vinyl/",
+      "trial": 3,
+      "meanMs": 16.66778523489933,
+      "p95Ms": 16.799999999999272,
+      "over25ms": 0,
+      "samples": 149,
+      "classes": "dark scrolling"
+    }
+  ]
+}

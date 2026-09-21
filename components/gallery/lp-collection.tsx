@@ -9,20 +9,14 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import type { DiscogsRelease, TrackPreferences } from "@/lib/discogs"
 import {
   createPreviewSearchPlan,
-  findBestPreviewMatch,
   type PreviewData,
   resolvePreferredPreviewQuery,
 } from "@/lib/music-preview"
+import { searchItunesPreview as findItunesPreview } from "@/lib/itunes-preview"
 
-interface iTunesResult {
-  previewUrl?: string
-  trackName?: string
-  artistName?: string
-  collectionName?: string
-}
-
-const previewCache = new Map<string, PreviewData | null>()
+const previewCache = new Map<string, PreviewData>()
 const PREVIEW_VOLUME_MAX = 0.5
+const PREVIEW_VOLUME_MIN = 0.01
 const PREVIEW_FADE_DURATION_MS = 180
 const PREVIEW_HOVER_DELAY_MS = 300
 const TILT_MAX_DEGREES = 15
@@ -46,6 +40,8 @@ function getTiltTransform(clientX: number, clientY: number, rect: DOMRect) {
 
 function stopGlobalAudio() {
   if (globalAudio) {
+    globalAudio.onended = null
+    globalAudio.onerror = null
     globalAudio.pause()
     globalAudio.src = ""
     globalAudio = null
@@ -76,6 +72,9 @@ const LPCard = memo(function LPCard({
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isActiveRef = useRef(false)
   const audioFadeRef = useRef<number>(0)
+  const searchControllerRef = useRef<AbortController | null>(null)
+  const playRequestRef = useRef(0)
+  const tiltFrameRef = useRef<number>(0)
   const isMountedRef = useRef(true)
   const tiltTransformRef = useRef(TILT_RESET_TRANSFORM)
   const [isHovered, setIsHovered] = useState(false)
@@ -83,6 +82,8 @@ const LPCard = memo(function LPCard({
   const [previewData, setPreviewData] = useState<PreviewData | null>(null)
   const [isLoadingPreview, setIsLoadingPreview] = useState(false)
   const [matchFailed, setMatchFailed] = useState(false)
+  const [playbackBlocked, setPlaybackBlocked] = useState(false)
+  const [previewError, setPreviewError] = useState(false)
   
   // Combined active state: hover on desktop, tap toggle on mobile
   const isActive = isMobile ? isActiveOnMobile : isHovered
@@ -109,57 +110,40 @@ const LPCard = memo(function LPCard({
       preferredQuery,
     })
 
+    searchControllerRef.current?.abort()
+    const controller = new AbortController()
+    searchControllerRef.current = controller
     setIsLoadingPreview(true)
+    setPreviewError(false)
 
     try {
-      for (const query of plan.searchStrategies) {
-        if (!isActiveRef.current) return null
-
-        const searchQuery = encodeURIComponent(query)
-        const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 5000)
-
-        try {
-          const response = await fetch(
-            `https://itunes.apple.com/search?term=${searchQuery}&entity=song&limit=5&country=kr`,
-            { signal: controller.signal }
-          )
-          clearTimeout(timeoutId)
-
-          if (!response.ok) continue
-
-          const data = await response.json()
-          const results: iTunesResult[] = data.results || []
-          const previewData = findBestPreviewMatch(results, plan)
-          if (previewData) {
-            previewCache.set(cacheKey, previewData)
-            return previewData
-          }
-        } catch {
-          clearTimeout(timeoutId)
-          continue
-        }
-      }
-
-      previewCache.set(cacheKey, null)
-      return null
-    } catch (error) {
-      console.error("iTunes search failed:", error)
+      const result = await findItunesPreview(plan, controller.signal)
+      if (controller.signal.aborted) return null
+      if (result) previewCache.set(cacheKey, result)
+      return result
+    } catch {
+      if (!controller.signal.aborted && isMountedRef.current) setPreviewError(true)
       return null
     } finally {
-      setIsLoadingPreview(false)
+      if (searchControllerRef.current === controller && isMountedRef.current) {
+        setIsLoadingPreview(false)
+      }
     }
   }, [prefs, release])
 
   const playPreview = useCallback(async () => {
+    const requestId = ++playRequestRef.current
     stopGlobalAudio()
 
     if (!isActiveRef.current) return
 
     let data = previewData
-    if (!data && !matchFailed) {
+    setPlaybackBlocked(false)
+    setPreviewError(false)
+    setMatchFailed(false)
+    if (!data) {
       data = await searchItunesPreview()
-      if (!isActiveRef.current) return // Check again after async
+      if (!isActiveRef.current || requestId !== playRequestRef.current) return
       
       if (data) {
         setPreviewData(data)
@@ -175,43 +159,43 @@ const LPCard = memo(function LPCard({
     globalAudio = audio
     currentPlayingId = release.instance_id
     
-    audio.volume = 0
+    // Starting at zero can be treated as muted autoplay, then paused by Chrome
+    // when the fade becomes audible. Request audible playback from the start.
+    audio.volume = PREVIEW_VOLUME_MIN
     
-    audio.oncanplaythrough = () => {
+    // Call play immediately so an explicit click retains user activation.
+    // The promise already waits for enough media to begin playback.
+    audio.play().then(() => {
       if (!isActiveRef.current || globalAudio !== audio) {
         audio.pause()
         return
       }
-      
-      audio.play().then(() => {
-        if (!isActiveRef.current || globalAudio !== audio) {
-          audio.pause()
-          return
-        }
 
-        setIsPlaying(true)
-        onTrackInfoChange?.({ trackName: data!.trackName, artistName: data!.artistName })
+      setIsPlaying(true)
+      onTrackInfoChange?.({ trackName: data!.trackName, artistName: data!.artistName })
 
-        if (audioFadeRef.current) {
-          cancelAnimationFrame(audioFadeRef.current)
+      if (audioFadeRef.current) {
+        cancelAnimationFrame(audioFadeRef.current)
+      }
+      const fadeInStart = performance.now()
+      const fadeInStep = (frameTime: number) => {
+        const elapsed = frameTime - fadeInStart
+        const ratio = elapsed / PREVIEW_FADE_DURATION_MS
+        const clamped = ratio < 0 ? 0 : ratio > 1 ? 1 : ratio
+        if (globalAudio === audio) {
+          audio.volume = PREVIEW_VOLUME_MIN + clamped * (PREVIEW_VOLUME_MAX - PREVIEW_VOLUME_MIN)
         }
-        const fadeInStart = performance.now()
-        const fadeInStep = (frameTime: number) => {
-          const elapsed = frameTime - fadeInStart
-          const ratio = elapsed / PREVIEW_FADE_DURATION_MS
-          const clamped = ratio < 0 ? 0 : ratio > 1 ? 1 : ratio
-          if (globalAudio === audio) {
-            audio.volume = clamped * PREVIEW_VOLUME_MAX
-          }
-          if (clamped < 1 && globalAudio === audio) {
-            audioFadeRef.current = requestAnimationFrame(fadeInStep)
-          }
+        if (clamped < 1 && globalAudio === audio) {
+          audioFadeRef.current = requestAnimationFrame(fadeInStep)
         }
-        audioFadeRef.current = requestAnimationFrame(fadeInStep)
-      }).catch(() => {
-        setIsPlaying(false)
-      })
-    }
+      }
+      audioFadeRef.current = requestAnimationFrame(fadeInStep)
+    }).catch((error: unknown) => {
+      if (!isActiveRef.current || globalAudio !== audio || !isMountedRef.current) return
+      setIsPlaying(false)
+      setPlaybackBlocked(error instanceof DOMException && error.name === "NotAllowedError")
+      if (!(error instanceof DOMException && error.name === "NotAllowedError")) setPreviewError(true)
+    })
 
     audio.onended = () => {
       if (globalAudio === audio) {
@@ -224,18 +208,21 @@ const LPCard = memo(function LPCard({
 
     audio.onerror = () => {
       if (globalAudio === audio) {
+        audio.pause()
         setIsPlaying(false)
-        setMatchFailed(true)
+        setPreviewError(true)
         currentPlayingId = null
         globalAudio = null
       }
     }
 
-    audio.load()
-  }, [previewData, matchFailed, searchItunesPreview, release.instance_id, onTrackInfoChange])
+  }, [previewData, searchItunesPreview, release.instance_id, onTrackInfoChange])
 
   const stopPreview = useCallback(() => {
     isActiveRef.current = false
+    playRequestRef.current += 1
+    searchControllerRef.current?.abort()
+    setIsPlaying(false)
 
     if (hoverTimerRef.current) {
       clearTimeout(hoverTimerRef.current)
@@ -279,19 +266,19 @@ const LPCard = memo(function LPCard({
     cardRef.current.style.transform = tiltTransformRef.current
   }
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    updateTilt(event.clientX, event.clientY)
+  const scheduleTilt = (clientX: number, clientY: number) => {
+    if (isMobile) return
+    cancelAnimationFrame(tiltFrameRef.current)
+    tiltFrameRef.current = requestAnimationFrame(() => updateTilt(clientX, clientY))
   }
 
-  const reapplyTiltAfterHoverStart = (clientX: number, clientY: number) => {
-    if (!cardRef.current) return
-    cardRef.current.style.transform = TILT_RESET_TRANSFORM
-    cardRef.current.getBoundingClientRect()
-    updateTilt(clientX, clientY)
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    scheduleTilt(event.clientX, event.clientY)
   }
 
   const handleMouseLeave = () => {
     if (isMobile) return
+    cancelAnimationFrame(tiltFrameRef.current)
     if (cardRef.current) {
       tiltTransformRef.current = TILT_RESET_TRANSFORM
       cardRef.current.style.transform = tiltTransformRef.current
@@ -317,10 +304,8 @@ const LPCard = memo(function LPCard({
   }
 
   const handlePointerEnter = (event: React.PointerEvent<HTMLDivElement>) => {
-    const { clientX, clientY } = event
     handleMouseEnter()
-    requestAnimationFrame(() => updateTilt(clientX, clientY))
-    setTimeout(() => reapplyTiltAfterHoverStart(clientX, clientY), 40)
+    scheduleTilt(event.clientX, event.clientY)
   }
 
   const handleMobileTap = useCallback((event: React.MouseEvent | React.TouchEvent) => {
@@ -344,7 +329,10 @@ const LPCard = memo(function LPCard({
   }, [isMobile, isActiveOnMobile, stopPreview])
 
   useEffect(() => {
+    isMountedRef.current = true
     return () => {
+      searchControllerRef.current?.abort()
+      cancelAnimationFrame(tiltFrameRef.current)
       isMountedRef.current = false
       isActiveRef.current = false
       if (audioFadeRef.current) {
@@ -368,7 +356,7 @@ const LPCard = memo(function LPCard({
         perspective: "1000px",
         zIndex: isActive ? 20 : 1,
         position: "relative",
-        willChange: "transform",
+        willChange: isActive ? "transform" : "auto",
       }}
       >
       <div
@@ -381,7 +369,7 @@ const LPCard = memo(function LPCard({
           transformStyle: "preserve-3d",
           transform: isMobile ? "none" : tiltTransformRef.current,
           transition: isActive ? "none" : "transform 0.5s ease-out",
-          willChange: "transform",
+          willChange: isActive ? "transform" : "auto",
         }}
         >
           <div 
@@ -445,7 +433,20 @@ const LPCard = memo(function LPCard({
           {isActive && (
             <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
               <div className="flex items-center gap-1.5 bg-black/80 backdrop-blur-sm rounded-full px-2 py-1 max-w-[85%]">
-                {isLoadingPreview ? (
+                {playbackBlocked || previewError ? (
+                  <button
+                    type="button"
+                    className="text-[10px] text-white hover:text-postech-gold"
+                    aria-label={playbackBlocked ? "Play preview" : "Retry preview"}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      isActiveRef.current = true
+                      void playPreview()
+                    }}
+                  >
+                    {playbackBlocked ? "Click to play" : "Retry preview"}
+                  </button>
+                ) : isLoadingPreview ? (
                   <>
                     <Loader2 className="h-3 w-3 text-white animate-spin flex-shrink-0" />
                     <span className="text-[10px] text-white/70 truncate">Searching...</span>
