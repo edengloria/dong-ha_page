@@ -18,6 +18,7 @@ for (const route of routes) {
   for (const viewport of viewports) {
     test(`${route.slug} ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height })
+      await page.emulateMedia({ reducedMotion: "reduce" })
       await page.addInitScript(() => {
         Object.defineProperty(navigator, "gpu", { value: undefined })
         let seed = 42

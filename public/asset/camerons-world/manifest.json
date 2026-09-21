@@ -1,0 +1,207 @@
+{
+  "sourcePage": "https://www.cameronsworld.net/",
+  "retrieved": "2026-09-22",
+  "note": "Graphics assembled by Cameron Askin from archived GeoCities pages; source attribution is not a blanket license claim.",
+  "assets": [
+    {
+      "file": "10/14.gif",
+      "source": "https://www.cameronsworld.net/img/content/10/14.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 1564,
+      "sha256": "e39fd6478085392cb6d2c432f066ba44e5ceb689bb8cc3fec58c7b027bcf9628",
+      "width": 88,
+      "height": 61,
+      "frames": 3
+    },
+    {
+      "file": "10/14.png",
+      "source": "https://www.cameronsworld.net/img/content/10/14.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 556,
+      "sha256": "93aa00938b9359838f4a2f2ffc052914b607576bb46da62a86a1298529002ed9",
+      "width": 88,
+      "height": 61,
+      "frames": 1
+    },
+    {
+      "file": "10/15.gif",
+      "source": "https://www.cameronsworld.net/img/content/10/15.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 9976,
+      "sha256": "58e0a9aa48293f57c4ca50bcb90cce9a4f6ec6362fe3e6defc3e2eae78fb071e",
+      "width": 160,
+      "height": 40,
+      "frames": 10
+    },
+    {
+      "file": "10/15.png",
+      "source": "https://www.cameronsworld.net/img/content/10/15.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 1267,
+      "sha256": "b1b0ade565699b4d308b5b56d1e8958cf0a23cbbd60969a6ff2781550a777582",
+      "width": 160,
+      "height": 40,
+      "frames": 1
+    },
+    {
+      "file": "10/16.gif",
+      "source": "https://www.cameronsworld.net/img/content/10/16.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 8584,
+      "sha256": "b6b9475d4b86981c525c7350ec8d3e5d80c4a5637914192fa191a7f87d4cc887",
+      "width": 210,
+      "height": 41,
+      "frames": 14
+    },
+    {
+      "file": "10/16.png",
+      "source": "https://www.cameronsworld.net/img/content/10/16.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 673,
+      "sha256": "b4bce4ae8a1546bf5e302e965d66aa22bba1ccf80a747f94184c53686d8c4768",
+      "width": 210,
+      "height": 41,
+      "frames": 1
+    },
+    {
+      "file": "10/17.png",
+      "source": "https://www.cameronsworld.net/img/content/10/17.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 2284,
+      "sha256": "c15101eac7c83e5d7072c86ac8fce642b0692d7a1533391ecb0e51cfbef8600d",
+      "width": 132,
+      "height": 81,
+      "frames": 1
+    },
+    {
+      "file": "10/5.gif",
+      "source": "https://www.cameronsworld.net/img/content/10/5.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 21807,
+      "sha256": "724ab5363e75a6bdf3f7859e59140fbffbf594641542a23875d73c9f39222943",
+      "width": 149,
+      "height": 203,
+      "frames": 4
+    },
+    {
+      "file": "10/5.png",
+      "source": "https://www.cameronsworld.net/img/content/10/5.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 5804,
+      "sha256": "f84758754a57cec79482dbdfb7d7acbccba361ab1222f2ef3200a5617c1d8e6b",
+      "width": 149,
+      "height": 203,
+      "frames": 1
+    },
+    {
+      "file": "10/6.gif",
+      "source": "https://www.cameronsworld.net/img/content/10/6.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 11461,
+      "sha256": "7c5cafa8c2aaf849b36516c2f673c882dc53b077b72c411d4ccb8ef8dc2fb400",
+      "width": 600,
+      "height": 131,
+      "frames": 12
+    },
+    {
+      "file": "10/6.png",
+      "source": "https://www.cameronsworld.net/img/content/10/6.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 855,
+      "sha256": "7a30c69770410cfc92c99f2f24a4897702d49a0f6b47bdcd2b71146cf03fc25b",
+      "width": 600,
+      "height": 131,
+      "frames": 1
+    },
+    {
+      "file": "10/bg.png",
+      "source": "https://www.cameronsworld.net/img/content/10/bg.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 354,
+      "sha256": "4675fa929cf4d5aafffe401ae2db8dec30c8b5b1a531df0e31cb2720f54f7144",
+      "width": 48,
+      "height": 360,
+      "frames": 1
+    },
+    {
+      "file": "11/13.png",
+      "source": "https://www.cameronsworld.net/img/content/11/13.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 1343,
+      "sha256": "6b85e2084dfa3d689e3e32d9abf2a6f984640052b90f0fb8502df8db523f4f2d",
+      "width": 107,
+      "height": 67,
+      "frames": 1
+    },
+    {
+      "file": "11/16.png",
+      "source": "https://www.cameronsworld.net/img/content/11/16.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 4623,
+      "sha256": "6c98ed7b9bd403589bb7d38eb56c4cc412caf087159171b36f06b6aa0a40deb2",
+      "width": 173,
+      "height": 66,
+      "frames": 1
+    },
+    {
+      "file": "11/24.png",
+      "source": "https://www.cameronsworld.net/img/content/11/24.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 1342,
+      "sha256": "ba2b1ffaa0fd34bfefc307d9cf3f1ec6635645644e6a6c9420f312d68278fe38",
+      "width": 74,
+      "height": 64,
+      "frames": 1
+    },
+    {
+      "file": "11/3.png",
+      "source": "https://www.cameronsworld.net/img/content/11/3.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 1562,
+      "sha256": "61f575e7ff3702faf5e02f1fd5593a213669c0b7cfe3ad852797cc7fd94c9460",
+      "width": 86,
+      "height": 49,
+      "frames": 1
+    },
+    {
+      "file": "11/bg.png",
+      "source": "https://www.cameronsworld.net/img/content/11/bg.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 5611,
+      "sha256": "27742c994f566edf353567f3009eeb95ce8993f10e5129374fac28bf6d613e56",
+      "width": 168,
+      "height": 159,
+      "frames": 1
+    },
+    {
+      "file": "12/13.png",
+      "source": "https://www.cameronsworld.net/img/content/12/13.png",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 7337,
+      "sha256": "cac16d1a054a4aa95c1c94feb286464b5af9a50650fa84f198907db846122e3c",
+      "width": 600,
+      "height": 70,
+      "frames": 1
+    },
+    {
+      "file": "12/bg-still.png",
+      "source": "https://www.cameronsworld.net/img/content/12/bg.gif",
+      "transformation": "First frame extracted as PNG for reduced motion",
+      "bytes": 7115,
+      "sha256": "3eeda5e37ea438a46f48c82b5ba8c6c76f04d1af07e882c5ecc266a91312e57d",
+      "width": 150,
+      "height": 150,
+      "frames": 1
+    },
+    {
+      "file": "12/bg.gif",
+      "source": "https://www.cameronsworld.net/img/content/12/bg.gif",
+      "transformation": "None; original downloaded bytes",
+      "bytes": 86272,
+      "sha256": "9bd6a650dec787dd705c6ddb2b2c98e5cca0c03eeb95591ad7f2defdb7af3fbd",
+      "width": 150,
+      "height": 150,
+      "frames": 16
+    }
+  ]
+}
