@@ -1,13 +1,11 @@
 import type { ReactNode } from "react"
 import { SiteSidebar } from "@/components/layout/site-sidebar"
-import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
+import { OceanWorld } from "@/components/layout/ocean-world"
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
-        <BeamsBackgroundClient />
-      </div>
+      <OceanWorld />
 
       <div className="relative z-10 min-h-svh">
         <a
@@ -17,7 +15,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           Skip to content
         </a>
 
-        <div className="site-wrap">
+        <div className="site-wrap ocean-content">
           <div className="site-grid">
             <SiteSidebar />
 
@@ -25,6 +23,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <div className="page-sheet">{children}</div>
             </main>
           </div>
+          <p className="ocean-credit">Graphics from <a href="https://www.cameronsworld.net/" target="_blank" rel="noopener noreferrer">Cameron’s World / GeoCities archives</a></p>
         </div>
       </div>
     </>

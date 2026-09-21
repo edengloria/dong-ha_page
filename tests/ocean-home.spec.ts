@@ -1,0 +1,32 @@
+import { expect, test } from "./fixtures"
+
+test("original introduction opens as an accessible modal and returns focus", async ({ page }) => {
+  await page.goto("/")
+  const opener = page.getByRole("button", { name: "More about me" })
+  await opener.focus()
+  await page.keyboard.press("Enter")
+  const dialog = page.getByRole("dialog", { name: "About me" })
+  await expect(dialog).toBeVisible()
+  await expect(dialog.locator(".copy-paragraph")).toHaveCount(4)
+  await expect(dialog.getByRole("link", { name: "NamuhX project" })).toHaveAttribute("href", "https://www.namuhx.com/")
+  await expect(dialog).toContainText("New York City and Seoul")
+  await expect(dialog.getByRole("button", { name: "Close introduction" })).toBeFocused()
+  await page.keyboard.press("Escape")
+  await expect(dialog).not.toBeVisible()
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await dialog.getByRole("button", { name: "Close introduction" }).click()
+  await expect(dialog).not.toBeVisible()
+  await expect(page.getByRole("navigation", { name: "Explore" }).locator("img")).toHaveCount(0)
+})
+
+test("archived sprites load locally and reduced motion selects still frames", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" })
+  const animated = page.locator(".sun-birds img")
+  await expect.poll(() => animated.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain("/10/6.gif")
+  const broken = await page.locator(".ocean-sprite img").evaluateAll((images) => images.filter((img) => !(img as HTMLImageElement).naturalWidth).length)
+  expect(broken).toBe(0)
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await expect.poll(() => animated.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain("/10/6.png")
+  await expect(page.locator(".ocean-ripple")).toHaveCSS("background-image", /bg-still\.png/)
+})

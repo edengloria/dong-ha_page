@@ -43,28 +43,15 @@
   .directory a[aria-current] { color: #493386; background: #fff6b1; font-weight: bold; }
   .web-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 20px; }
   .web-badges span { border: 2px outset #b6afce; background: #2b244b; color: #f9edb6; padding: 2px 6px; font: bold 10px/1.3 "Courier New", monospace; }
-  .masthead { position: relative; background: #28244c; color: #f2ecd7; padding: 30px 24px 28px; border: 2px solid #111325; margin: -10px -10px 28px; box-shadow: 5px 5px 0 #b5a7ce; }
   .eyebrow { font: bold 11px/1.5 "Courier New", monospace; letter-spacing: .14em; text-transform: uppercase; }
-  .home-title { font: bold clamp(34px, 4.6vw, 65px)/.98 "Courier New", monospace; letter-spacing: -.055em; margin: 18px 0; max-width: 650px; }
-  .home-title em { color: #c3b0f3; font-style: normal; }
-  .masthead p { max-width: 460px; font-size: 13px; }
-  .star-stamp { position: absolute; right: 20px; bottom: 22px; color: #e4d889; font-size: 48px; line-height: 1; }
-  .welcome-note { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 20px 0; border-bottom: 1px dashed #777081; padding-bottom: 12px; font-family: "Courier New", monospace; }
-  .room-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 30px 0 38px; align-items: start; }
+  .room-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 26px 0 32px; }
   .room { display: block; min-width: 0; padding: 10px; border: 2px solid #28233f; box-shadow: 4px 4px 0 #b8b0bd; text-decoration: none; }
   .room:hover, .room:focus-visible { outline: 3px solid #594090; outline-offset: 4px; }
-  .room-research { background: #d9d7ed; transform: rotate(-2deg); }
-  .room-photos { background: #f8edbc; transform: rotate(2deg); margin-top: 24px; }
-  .room-records { background: #cfdfdc; transform: rotate(-1deg); margin-top: 7px; }
+  .room-research { background: #d9d7ed; }
+  .room-photos { background: #f8edbc; }
+  .room-records { background: #cfdfdc; }
   .room-number { font: 11px "Courier New", monospace; display: flex; justify-content: space-between; margin: 2px 0 10px; }
-  .room-image { aspect-ratio: 1.12; position: relative; border: 1px solid #504860; background: #fff; overflow: hidden; }
-  .room h2 { font-size: 19px; font-weight: bold; line-height: 1.1; margin: 16px 0 8px; text-decoration: underline; }
-  .room p { font-size: 11px; line-height: 1.6; margin-bottom: 10px; }
-  .record-art { height: 100%; display: grid; place-items: center; background: #aea3cc; }
-  .record-art span { width: 84%; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, #252333 0 3px, #333041 4px 5px); display: grid; place-items: center; transform: rotate(-15deg); }
-  .record-art b { width: 36%; aspect-ratio: 1; border-radius: 50%; background: #edc581; display: grid; place-items: center; font: bold 13px "Courier New", monospace; border: 2px solid #181523; }
-  .desk-note { background: #f7efc8; border: 1px solid #8c806a; padding: 18px 20px; margin: 26px 0; box-shadow: 3px 3px 0 #c8beaa; }
-  .desk-note summary { cursor: pointer; font-weight: bold; padding: 4px 0; }
+  .room h2 { font-size: 17px; font-weight: bold; line-height: 1.3; margin: 8px 0 2px; text-decoration: underline; }
   .copy-stack { display: grid; gap: 16px; margin-top: 18px; }
   .copy-paragraph { line-height: 1.9; }
   .copy-paragraph a, .meta-link { color: #543494; text-decoration: underline; }
@@ -90,9 +77,51 @@
   .record-card h3 { font-family: "Courier New", monospace; }
 }
 
-.beam-stage { position: absolute; inset: 0; overflow: hidden; background: #080d22; }
+.beam-stage { position: absolute; inset: 0; overflow: hidden; background: transparent; }
 .beam-stage::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 12%, #2456a555 23%, transparent 34%, #6459b755 58%, transparent 78%); }
 .beam-stage canvas { position: absolute; inset: 0; }
+.intro-note { display: grid; gap: 16px; }
+.about-trigger { justify-self: start; min-height: 44px; }
+.about-dialog { width: min(720px, calc(100% - 32px)); max-height: calc(100svh - 48px); margin: auto; padding: 28px; background: #f7efdc; color: #202138; border: 2px solid #28233f; box-shadow: 6px 6px 0 #191633; }
+.about-dialog::backdrop { background: #101530b8; }
+.ocean-world { --sky-height: 280px; position: absolute; inset: 0; min-height: 100svh; overflow: hidden; pointer-events: none; }
+.ocean-depth { position: fixed; inset: 0; background: linear-gradient(#12378822, #151536d9), var(--ocean) repeat; }
+.ocean-light { position: fixed; inset: 0; z-index: 1; }
+.sunset-sky { position: absolute; inset: 0 0 auto; height: var(--sky-height); z-index: 2; background: var(--sunset) repeat-x top / 48px var(--sky-height); }
+.ocean-ripple { position: absolute; top: var(--sky-height); width: 100%; height: 96px; background: var(--ripple) repeat; mask-image: linear-gradient(transparent, #000 12%, #000 60%, transparent); }
+.ocean-life { position: absolute; top: var(--sky-height); left: 0; right: 0; height: 96px; z-index: 2; }
+.ocean-sprite { position: absolute; display: block; }
+.ocean-sprite img { max-width: none; height: auto; image-rendering: auto; }
+.sun-birds { left: calc(24% - 300px); bottom: 84px; }
+.palms { right: 7%; bottom: 74px; }
+.shore-bird { right: calc(7% + 100px); bottom: 76px; }
+.shark-fin { left: 7%; bottom: 12px; }
+.distant-dolphin { left: 44%; bottom: 24px; }
+.jumping-dolphins { right: 18%; bottom: -8px; }
+.red-fish { left: 5%; top: 12px; }
+.green-fish { right: 6%; top: 20px; }
+.blue-dolphin { left: 22%; top: 20px; }
+.silver-fish { right: 28%; top: 8px; }
+.coral-reef { left: calc(50% - 300px); top: 14px; }
+.site-wrap.ocean-content { padding-top: 394px; }
+.ocean-credit { margin-top: 28px; color: #e9e6ff; font: 11px/1.6 Verdana, sans-serif; text-align: right; }
+.ocean-credit a { text-decoration: underline; }
+@media (max-width: 560px) {
+  .ocean-world { --sky-height: 230px; }
+  .site-wrap.ocean-content { padding-top: 334px; }
+  .sun-birds { left: -170px; bottom: 70px; }
+  .palms { right: -20px; bottom: 56px; }
+  .palms img { width: 120px; }
+  .shore-bird { right: 44px; bottom: 55px; }
+  .shore-bird img { width: 60px; }
+  .distant-dolphin, .silver-fish, .blue-dolphin { display: none; }
+  .jumping-dolphins { right: 18%; bottom: -15px; }
+  .jumping-dolphins img { width: 100px; }
+  .shark-fin { left: -40px; }
+  .coral-reef { left: 20%; top: 30px; }
+  .ocean-credit { text-align: center; }
+  .about-dialog { padding: 20px; }
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes musicBar { 0%, 100% { height: 30%; } 50% { height: 100%; } }
 @media (max-width: 900px) {
@@ -110,16 +139,13 @@
   .directory a { min-width: 0; font-size: 12px; }
   .directory a span { display: none; }
   .page-sheet { padding: 20px 14px; box-shadow: 4px 4px 0 #080a19; }
-  .masthead { margin: -4px -2px 24px; padding: 22px 18px; }
-  .masthead p { padding-right: 28px; }
-  .star-stamp { font-size: 30px; right: 12px; }
-  .room-grid { grid-template-columns: 1fr; gap: 26px; padding: 0 8px; }
+  .room-grid { grid-template-columns: 1fr; gap: 10px; }
+  .room { display: flex; align-items: center; gap: 16px; padding: 12px; }
+  .room-number, .room h2 { margin: 0; }
   .room-photos, .room-records { margin-top: 0; }
-  .room-image { aspect-ratio: 1.65; }
-  .record-art span { width: 52%; }
-  .room h2 { font-size: 23px; }
-  .room p { font-size: 12px; }
+  .room h2 { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .ocean-ripple { background-image: var(--ripple-still); }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
