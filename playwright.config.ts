@@ -11,9 +11,10 @@ export default defineConfig({
     deviceScaleFactor: 1,
   },
   webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
-    command: "npm run dev -- --hostname 127.0.0.1 --port 3100",
+    command: "npm run build && node scripts/serve-documents.mjs",
+    env: { DOCUMENT_VISUAL_TEST: "1" },
     url: "http://127.0.0.1:3100",
     reuseExistingServer: true,
-    timeout: 120_000,
+    timeout: 240_000,
   },
 })

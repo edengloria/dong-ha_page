@@ -15,3 +15,9 @@ export function withBasePath(path: string) {
   if (!path.startsWith("/")) return `${basePath}/${path}`
   return `${basePath}${path}`
 }
+
+/** Next may supply a base-path-free pathname; also accept the browser form. */
+export function withoutBasePath(path: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+  return basePath && (path === basePath || path.startsWith(`${basePath}/`)) ? path.slice(basePath.length) || "/" : path
+}

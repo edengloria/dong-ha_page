@@ -1,239 +1,31 @@
 "use client"
 
-import { useDialogKeyboard } from "@/hooks/use-dialog-keyboard"
-import { memo, useState, useMemo, useCallback, useEffect, useRef } from "react"
-import { createPortal } from "react-dom"
-import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
+import { useEffect, useRef } from "react"
+import type { GalleryItem } from "@/lib/gallery"
+import { mountPhotos } from "@/lib/native/photos"
 import { withBasePath } from "@/lib/utils"
-import { GalleryItem } from "@/lib/gallery"
 
-const PhotoCard = memo(function PhotoCard({
-  imageId,
-  item,
-  onOpen,
-}: {
-  imageId: number
-  item: GalleryItem
-  onOpen: (imageId: number) => void
+const pagePath = (page: number) => withBasePath(page === 1 ? "/gallery/photos/" : `/gallery/photos/page/${page}/`)
+export function PhotoGallery({ galleryItems, page, pages, total }: {
+  galleryItems: GalleryItem[]; page: number; pages: number; total: number
 }) {
-  return (
-    <a
-      href={withBasePath(item.imageUrl || "/placeholder.svg")}
-      aria-label={`Open photo ${item.id}`}
-      className="photo-print"
-      data-image-id={imageId}
-      onClick={(event) => {
-        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-        const id = Number(event.currentTarget.dataset.imageId)
-        if (!Number.isNaN(id)) {
-          event.preventDefault()
-          onOpen(id)
-        }
-      }}
-    >
-      <div className="relative aspect-square overflow-hidden">
-              <Image
-                src={withBasePath(item.imageUrl ? item.imageUrl.replace("/life-images/", "/life-thumbs/") + ".webp" : "/placeholder.svg")}
-                alt={`Photo ${item.id}`}
-                fill
-                className="object-cover"
-                loading="lazy"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                decoding="async"
-              />
-      </div>
-    </a>
-  )
-})
-
-const ITEMS_PER_PAGE = 12
-
-export function PhotoGallery({
-  galleryItems,
-}: {
-  galleryItems: GalleryItem[]
-}) {
-  const [items, setItems] = useState(galleryItems)
-  useEffect(() => {
-    const shuffled = [...galleryItems]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      const current = shuffled[i]
-      shuffled[i] = shuffled[j]
-      shuffled[j] = current
-    }
-    setItems(shuffled)
-  }, [galleryItems])
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE)
-  const [mounted, setMounted] = useState(false)
-  const loaderRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!("IntersectionObserver" in window)) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisibleCount((prev) => Math.min(prev + ITEMS_PER_PAGE, items.length))
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [items.length])
-
-  const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount])
-
-  const idToIndex = useMemo(() => {
-    const map = new Map<number, number>()
-    items.forEach((item, index) => map.set(item.id, index))
-    return map
-  }, [items])
-
-  const handlePrev = useCallback(() => {
-    if (selectedImage === null) return
-    const currentIndex = idToIndex.get(selectedImage)
-    if (currentIndex === undefined) return
-
-    const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
-    setSelectedImage(items[prevIndex].id)
-  }, [selectedImage, idToIndex, items])
-
-  const handleNext = useCallback(() => {
-    if (selectedImage === null) return
-    const currentIndex = idToIndex.get(selectedImage)
-    if (currentIndex === undefined) return
-
-    const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
-    setSelectedImage(items[nextIndex].id)
-  }, [selectedImage, idToIndex, items])
-
-  const selectedItem = useMemo(() => {
-    if (selectedImage === null) return null
-    const index = idToIndex.get(selectedImage)
-    return index === undefined ? null : items[index]
-  }, [selectedImage, idToIndex, items])
-
-  const currentIndex = useMemo(
-    () => (selectedImage === null ? 0 : (idToIndex.get(selectedImage) ?? -1) + 1),
-    [selectedImage, idToIndex]
-  )
-
-  const handleOpenPhoto = useCallback((imageId: number) => {
-    setSelectedImage(imageId)
-  }, [])
-
-  const closePhoto = useCallback(() => {
-    setSelectedImage(null)
-  }, [])
-
-  useDialogKeyboard(selectedImage !== null, closePhoto, handlePrev, handleNext)
-
-  const handlePrevClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation()
-      handlePrev()
-    },
-    [handlePrev]
-  )
-
-  const handleNextClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation()
-      handleNext()
-    },
-    [handleNext]
-  )
-
-  const stopOverlayPropagation = useCallback((event: React.MouseEvent) => {
-    event.stopPropagation()
-  }, [])
-
-  return (
-    <div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {visibleItems.map((item) => (
-          <PhotoCard
-            key={item.id}
-            item={item}
-            imageId={item.id}
-            onOpen={handleOpenPhoto}
-          />
-        ))}
-      </div>
-
-      {visibleCount < items.length && (
-        <div ref={loaderRef} className="py-8 flex justify-center w-full">
-          <button className="meta-link" onClick={() => setVisibleCount((count) => Math.min(count + ITEMS_PER_PAGE, items.length))}>More photos</button>
-        </div>
-      )}
-
-      <noscript><p>All photos:</p><ul>{galleryItems.map((item) => <li key={item.id}><a className="meta-link" href={withBasePath(item.imageUrl || "/placeholder.svg")}>Photo {item.id}</a></li>)}</ul></noscript>
-
-      {mounted &&
-        selectedImage !== null &&
-        selectedItem &&
-        createPortal(
-          <div
-            data-retro-dialog role="dialog" aria-modal="true" aria-label="Photo viewer"
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 animate-in fade-in duration-200"
-            onClick={closePhoto}
-          >
-            <button
-              className="absolute right-4 top-4 z-10 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-              onClick={closePhoto}
-              aria-label="Close photo viewer"
-            >
-              <X className="h-6 w-6" />
-            </button>
-
-            <button
-              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-              onClick={handlePrevClick}
-              aria-label="Show previous photo"
-            >
-              <ChevronLeft className="h-8 w-8" />
-            </button>
-
-            <button
-              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-3 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-              onClick={handleNextClick}
-              aria-label="Show next photo"
-            >
-              <ChevronRight className="h-8 w-8" />
-            </button>
-
-            <div
-              className="relative flex h-[85vh] w-full max-w-6xl items-center justify-center p-4"
-              onClick={stopOverlayPropagation}
-            >
-              <Image
-                src={withBasePath(selectedItem.imageUrl || "/placeholder.svg")}
-                alt={`Photo ${selectedItem.id}`}
-                fill
-                className="object-contain"
-                priority
-                sizes="90vw"
-                decoding="async"
-              />
-            </div>
-
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/50">
-              {currentIndex} / {items.length}
-            </div>
-          </div>,
-          document.body
-        )}
+  const root = useRef<HTMLDivElement>(null)
+  useEffect(() => mountPhotos(root.current!), [])
+  const paging = <nav className="page-index" aria-label="Photo pages">
+    {page > 1 && <a href={pagePath(page - 1)} rel="prev">&lt; Previous</a>}
+    {Array.from({ length: pages }, (_, i) => <a key={i} href={pagePath(i + 1)} aria-current={i + 1 === page ? "page" : undefined}>[{i + 1}]</a>)}
+    {page < pages && <a href={pagePath(page + 1)} rel="next">Next &gt;</a>}
+  </nav>
+  return <div ref={root} data-photo-index>
+    <p className="document-count">{total} photographs · Page {page} of {pages}</p>
+    {paging}
+    <div className="photo-index">
+      {galleryItems.map((item) => <a key={item.id} href={withBasePath(item.imageUrl)} aria-label={`Open photo ${item.id}`} className="photo-print" data-image-id={item.id}>
+        <Image src={withBasePath(item.imageUrl.replace("/life-images/", "/life-thumbs/") + ".webp")} alt={`Photo ${item.id}`} width={item.width} height={item.height} loading="lazy" unoptimized />
+        <span>Photo {String(item.id).padStart(2, "0")}</span>
+      </a>)}
     </div>
-  )
+    {paging}
+  </div>
 }

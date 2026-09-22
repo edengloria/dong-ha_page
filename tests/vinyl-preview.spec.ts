@@ -53,16 +53,17 @@ test("empty KR search falls back and blocked hover has a working play button", a
   await page.goto("/gallery/vinyl/")
   const card = page.locator("div.group.cursor-pointer").first()
   await card.locator(".aspect-square").first().hover()
-  await expect(page.getByRole("button", { name: "Play preview", exact: true })).toBeVisible()
+  await expect(card.locator("[data-preview-status]")).toHaveText("Click Play to listen")
+  await expect(card.getByRole("button", { name: "Play preview", exact: true })).toBeVisible()
   await test.info().attach("blocked-preview-control", { body: await card.screenshot(), contentType: "image/png" })
   expect(countries).toEqual(["kr", "us"])
-  await page.getByRole("button", { name: "Play preview", exact: true }).click()
+  await card.getByRole("button", { name: "Play preview", exact: true }).click()
   await expect.poll(() => page.evaluate(() => {
     const audio = Reflect.get(window, "lastPreviewAudio") as HTMLAudioElement
     return !audio.paused && audio.currentTime > 0 && audio.volume > 0
   })).toBe(true)
-  // The inline control must not open the album details modal.
-  await expect(page.locator(".fixed.inset-0").filter({ has: page.getByText("Tracklist", { exact: true }) })).toHaveCount(0)
+  // Preview controls leave the collection document open.
+  await expect(page).toHaveURL(/\/gallery\/vinyl\/$/)
   await page.mouse.move(0, 0)
   await expect.poll(() => page.evaluate(() => (Reflect.get(window, "lastPreviewAudio") as HTMLAudioElement).paused)).toBe(true)
   await card.locator(".aspect-square").first().hover()

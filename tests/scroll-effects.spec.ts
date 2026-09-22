@@ -15,8 +15,7 @@ test("photo diary supports keyboard opening, next, close and focus return", asyn
   const errors: string[] = []
   page.on("pageerror", (error) => errors.push(error.message))
   await page.goto("/gallery/photos/", { waitUntil: "networkidle" })
-  // The gallery shuffles on hydration. Keep the original photo identity rather
-  // than a positional locator that can refer to a different photo afterwards.
+  // Photo identity remains stable across the viewer's previous/next controls.
   const id = await page.locator(".photo-print").first().getAttribute("data-image-id")
   const photo = page.locator(`.photo-print[data-image-id="${id}"]`)
   await photo.focus()
