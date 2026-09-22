@@ -18,14 +18,16 @@ const PhotoCard = memo(function PhotoCard({
   onOpen: (imageId: number) => void
 }) {
   return (
-    <button
-      type="button"
+    <a
+      href={withBasePath(item.imageUrl || "/placeholder.svg")}
       aria-label={`Open photo ${item.id}`}
       className="photo-print"
       data-image-id={imageId}
       onClick={(event) => {
-        const id = Number((event.currentTarget as HTMLButtonElement).dataset.imageId)
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+        const id = Number(event.currentTarget.dataset.imageId)
         if (!Number.isNaN(id)) {
+          event.preventDefault()
           onOpen(id)
         }
       }}
@@ -41,7 +43,7 @@ const PhotoCard = memo(function PhotoCard({
                 decoding="async"
               />
       </div>
-    </button>
+    </a>
   )
 })
 
@@ -73,6 +75,7 @@ export function PhotoGallery({
   }, [])
 
   useEffect(() => {
+    if (!("IntersectionObserver" in window)) return
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -171,9 +174,11 @@ export function PhotoGallery({
 
       {visibleCount < items.length && (
         <div ref={loaderRef} className="py-8 flex justify-center w-full">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-postech-red border-t-postech-gold/60" />
+          <button className="meta-link" onClick={() => setVisibleCount((count) => Math.min(count + ITEMS_PER_PAGE, items.length))}>More photos</button>
         </div>
       )}
+
+      <noscript><p>All photos:</p><ul>{galleryItems.map((item) => <li key={item.id}><a className="meta-link" href={withBasePath(item.imageUrl || "/placeholder.svg")}>Photo {item.id}</a></li>)}</ul></noscript>
 
       {mounted &&
         selectedImage !== null &&

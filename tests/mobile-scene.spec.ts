@@ -43,7 +43,7 @@ test("independently edited mobile layout is preserved", async ({ page }) => {
   await page.addInitScript((layout) => localStorage.setItem("dongha-scene-v1", JSON.stringify(layout)), saved)
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
-  await expect(page.locator(".sun-birds")).toHaveCSS("top", "42px")
+  await expect(page.locator(".sun-birds:visible")).toHaveCSS("top", "42px")
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem("dongha-scene-v1")!))
   expect(stored.items.map((item: { mobile: unknown }) => item.mobile)).toEqual(saved.items.map((item) => item.mobile))
 })

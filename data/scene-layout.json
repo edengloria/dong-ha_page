@@ -797,7 +797,8 @@
         "width": 40,
         "rotation": 0,
         "hidden": true
-      }
+      },
+      "link": "email"
     },
     {
       "id": "14ef8045-ea8d-40c5-bc2f-e9dd9d77c6f9",
@@ -1394,7 +1395,8 @@
         "width": 100,
         "rotation": 0,
         "hidden": true
-      }
+      },
+      "link": "records"
     },
     {
       "id": "a0b8a361-f861-41e2-b115-20c9f10edd0b",

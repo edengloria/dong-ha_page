@@ -35,3 +35,6 @@ next-env.d.ts
 /public/vendor/thorvg/
 /public/asset/beams/
 /public/asset/life-thumbs/
+
+# Exploratory WebP candidates; original GIFs performed better in decode traces.
+/public/asset/camerons-world/archive/optimized/

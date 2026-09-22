@@ -5,7 +5,7 @@ export type AnchorBox = { left: number; top: number; width: number; height: numb
 export type AnchorBoxes = Partial<Record<SceneAnchor, AnchorBox>>
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
 export const anchorSelectors: Record<SceneAnchor, string> = {
-  sky: ".sunset-sky", sea: ".ocean-ripple", sidebar: ".desk-sidebar", "sidebar-extras": ".sidebar-extras",
+  sky: ".sky-region", sea: ".sea-region", sidebar: ".desk-sidebar", "sidebar-extras": ".sidebar-extras",
   main: ".page-sheet", intro: ".intro-note", research: ".room-research", photos: ".room-photos", records: ".room-records",
   publications: '[aria-label="On the research desk"]', footer: ".ocean-credit",
 }

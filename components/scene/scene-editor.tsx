@@ -2,15 +2,19 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState, type PointerEvent } from "react"
-import { assetPath, layoutFields, parseLayout, sceneAnchors, SCENE_EVENT, SCENE_STORAGE, type SceneAnchor, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
-import { attachPlacement, movePlacement, resolvePlacement, type AnchorBoxes } from "@/lib/scene-anchors"
+import { assetPath, layoutFields, parseLayout, sceneAnchors, sceneLinks, SCENE_EVENT, SCENE_STORAGE, type SceneAnchor, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
+import { attachPlacement, movePlacement, resolvePlacement } from "@/lib/scene-anchors"
 import { withBasePath } from "@/lib/utils"
 
-type Props = { layout: SceneLayout; onChange: (layout: SceneLayout) => void; defaults: SceneLayout; geometry: { boxes: AnchorBoxes; viewport: number } }
+import { useScene, defaults } from "./scene-context"
+import { useSceneAnchors } from "./use-scene-anchors"
 type Drag = { x: number; y: number; scroll: number; before: SceneLayout; id: string; placement: Placement }
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
 
-export default function SceneEditor({ layout, onChange, defaults, geometry }: Props) {
+export default function SceneEditor() {
+  const { layout, setLayout: onChange } = useScene()
+  const geometry = useSceneAnchors("editor", layout)
+  const [insertAnchor, setInsertAnchor] = useState<SceneAnchor>("sky")
   const [catalog, setCatalog] = useState<SceneAsset[]>([])
   const [catalogStatus, setCatalogStatus] = useState("에셋을 불러오는 중…")
   const [group, setGroup] = useState("all"), [query, setQuery] = useState("")
@@ -60,7 +64,7 @@ export default function SceneEditor({ layout, onChange, defaults, geometry }: Pr
   }
   function add(asset: SceneAsset) {
     if (layout.items.length >= 200) { setMessage("배치는 최대 200개까지 지원합니다."); return }
-    const placement = { x: 50, y: Math.round(scrollY + 120), width: clamp(asset.width, 8, 320), rotation: 0 }
+    const placement: Placement = { anchor: insertAnchor, x: 50, y: 50, width: clamp(asset.width, 8, 320), rotation: 0 }
     const entry: SceneItem = { id: crypto.randomUUID(), name: asset.file, file: asset.file, still: asset.still,
       width: asset.width, height: asset.height, foreground: false, desktop: placement,
       mobile: { ...placement, width: Math.min(placement.width, 240) } }
@@ -89,6 +93,7 @@ export default function SceneEditor({ layout, onChange, defaults, geometry }: Pr
       {layout.items.filter((entry) => !entry[mode].hidden).map((entry, index) => {
         const p = entry[mode]
         const rendered = resolvePlacement(p, geometry.boxes, geometry.viewport)
+        if (p.size === "original" || p.size === "integer") rendered.width = entry.width * (p.size === "integer" ? p.pixelScale || 1 : 1)
         return <button key={entry.id} className={`scene-handle ${selected === entry.id ? "is-selected" : ""}`}
           aria-label={`이동: ${entry.name}`} aria-pressed={selected === entry.id}
           style={{ left: rendered.left, top: rendered.top, width: rendered.width, height: rendered.width * entry.height / entry.width, transform: `translateX(-50%) rotate(${p.rotation}deg)`, zIndex: index }}
@@ -150,6 +155,10 @@ export default function SceneEditor({ layout, onChange, defaults, geometry }: Pr
             if (Number.isFinite(value)) place({ [key]: clamp(value, min, max) })
             else event.target.value = String(item[mode][key])
           }} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur() }} /></label>)}</div>
+        <label>이미지 링크<select aria-label="이미지 링크" value={item.link || ""} onChange={(event) => patch({ link: (event.target.value || undefined) as SceneItem["link"] })}><option value="">장식만</option>{Object.entries(sceneLinks).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
+        <label>크기 방식<select aria-label="크기 방식" value={item[mode].size || "responsive"} onChange={(event) => place({ size: event.target.value as Placement["size"] })}><option value="responsive">영역에 맞춤</option><option value="original">원본 크기</option><option value="integer">정수 배율</option></select></label>
+        {item[mode].size === "integer" && <label>정수 배율<select aria-label="정수 배율" value={item[mode].pixelScale || 1} onChange={(event) => place({ pixelScale: Number(event.target.value) })}>{[1,2,3,4,5,6,7,8].map((n) => <option key={n} value={n}>{n}×</option>)}</select></label>}
+        <label><input type="checkbox" checked={!!item.pixelated} onChange={(event) => patch({ pixelated: event.target.checked })} /> 픽셀 가장자리 선명하게</label>
         <label><input type="checkbox" checked={item.foreground} onChange={(event) => patch({ foreground: event.target.checked })} /> 본문 위에 배치</label>
         <label><input type="checkbox" checked={!!item[mode].hidden} onChange={(event) => place({ hidden: event.target.checked })} /> 이 화면 크기에서 숨기기</label>
         <div className="scene-actions"><button onClick={() => reorder(-1)}>뒤로</button><button onClick={() => reorder(1)}>앞으로</button>
@@ -174,6 +183,7 @@ export default function SceneEditor({ layout, onChange, defaults, geometry }: Pr
           } catch (error) { setMessage(error instanceof Error ? error.message : "파일을 읽지 못했습니다.") }
         }} />
       </details>
+      <label>새 에셋을 붙일 영역<select aria-label="새 에셋을 붙일 영역" value={insertAnchor} onChange={(event) => setInsertAnchor(event.target.value as SceneAnchor)}>{Object.entries(sceneAnchors).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
       <h2>에셋 보관함 ({catalog.length.toLocaleString()})</h2>
       <a href={withBasePath("/asset/camerons-world/archive.zip")} download>전체 에셋 ZIP 저장</a>
       <label>파일 검색<input type="search" value={query} placeholder="예: 10/6, bg, cat" onChange={(event) => { setQuery(event.target.value); setPage(0) }} /></label>

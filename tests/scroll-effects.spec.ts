@@ -14,8 +14,11 @@ test("public pages have no backdrop blur or horizontal overflow", async ({ page 
 test("photo diary supports keyboard opening, next, close and focus return", async ({ page }) => {
   const errors: string[] = []
   page.on("pageerror", (error) => errors.push(error.message))
-  await page.goto("/gallery/photos/")
-  const photo = page.locator(".photo-print").first()
+  await page.goto("/gallery/photos/", { waitUntil: "networkidle" })
+  // The gallery shuffles on hydration. Keep the original photo identity rather
+  // than a positional locator that can refer to a different photo afterwards.
+  const id = await page.locator(".photo-print").first().getAttribute("data-image-id")
+  const photo = page.locator(`.photo-print[data-image-id="${id}"]`)
   await photo.focus()
   await page.keyboard.press("Enter")
   const dialog = page.getByRole("dialog", { name: "Photo viewer" })

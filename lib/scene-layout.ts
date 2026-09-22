@@ -4,10 +4,12 @@ export const sceneAnchors = {
   publications: "메인 연구 목록", footer: "페이지 하단",
 } as const
 export type SceneAnchor = keyof typeof sceneAnchors
-export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor }
+export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor; size?: "responsive" | "original" | "integer"; pixelScale?: number }
+export const sceneLinks = { email: "이메일", research: "연구", photos: "사진", records: "바이닐" } as const
 export type SceneItem = {
   id: string; name: string; file: string; still: string; width: number; height: number
   foreground: boolean; desktop: Placement; mobile: Placement
+  link?: keyof typeof sceneLinks; pixelated?: boolean
 }
 export const layoutFields = {
   skyTop: { label: "노을 위쪽 위치", group: "배경", min: 0, max: 3000, desktop: 0, mobile: 0, unit: "px" },
@@ -54,6 +56,8 @@ function isPlacement(value: unknown): value is Placement {
   if (!value || typeof value !== "object") return false
   const p = value as Placement
   return (p.anchor === undefined || Object.prototype.hasOwnProperty.call(sceneAnchors, p.anchor)) &&
+    (p.size === undefined || ["responsive", "original", "integer"].includes(p.size)) &&
+    (p.pixelScale === undefined || (Number.isInteger(p.pixelScale) && numberIn(p.pixelScale, 1, 8))) &&
     numberIn(p.x, p.anchor ? -1000 : -50, p.anchor ? 1000 : 150) && numberIn(p.y, p.anchor ? -50000 : 0, 50000) && numberIn(p.width, 8, 2400) &&
     numberIn(p.rotation, -180, 180) && (p.hidden === undefined || typeof p.hidden === "boolean")
 }
@@ -76,6 +80,8 @@ export function parseLayout(value: unknown): SceneLayout {
     if (!item || typeof item.id !== "string" || !/^[\w-]{1,100}$/.test(item.id) || ids.has(item.id) ||
       typeof item.name !== "string" || item.name.length > 120 || !safeFile(item.file) || !safeFile(item.still) ||
       !numberIn(item.width, 1, 50000) || !numberIn(item.height, 1, 50000) || typeof item.foreground !== "boolean" ||
+      (item.link !== undefined && !Object.prototype.hasOwnProperty.call(sceneLinks, item.link)) ||
+      (item.pixelated !== undefined && typeof item.pixelated !== "boolean") ||
       !isPlacement(item.desktop) || !isPlacement(item.mobile)) throw new Error("배치의 이미지 경로나 위치 값이 올바르지 않습니다.")
     ids.add(item.id)
   }

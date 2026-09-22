@@ -5,7 +5,7 @@ const baseURL = process.argv[2] || "http://127.0.0.1:3102"
 const browser = await chromium.launch({ channel: "chrome" })
 try {
   const system = await (await browser.newBrowserCDPSession()).send("SystemInfo.getInfo")
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 2 })
+  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: Number(process.env.PROFILE_DPR || 2) })
   const cdp = await page.context().newCDPSession(page)
   await cdp.send("Performance.enable")
   const trials = []
@@ -57,5 +57,5 @@ try {
         paintMs: events.filter((event) => event.name === "Paint").reduce((sum, event) => sum + (event.dur || 0), 0) / 1000 })
     }
   }
-  console.log(JSON.stringify({ baseURL, browser: browser.version(), viewport: "1920x1080@2", gpu: system.gpu, trials }, null, 2))
+  console.log(JSON.stringify({ baseURL, browser: browser.version(), viewport: `1920x1080@${process.env.PROFILE_DPR || 2}`, gpu: system.gpu, trials }, null, 2))
 } finally { await browser.close() }
