@@ -19,7 +19,7 @@ export interface NavigationItem {
 export interface SocialLink {
   label: string
   href: string
-  icon: "cv" | "github" | "linkedin" | "instagram"
+  icon: "cv" | "github" | "linkedin" | "scholar"
   external?: boolean
 }
 

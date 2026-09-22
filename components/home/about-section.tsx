@@ -17,7 +17,7 @@ export function AboutSection() {
       </nav>
       <section className="section-divider pt-5" aria-label="On the research desk">
         <div className="flex flex-wrap justify-between gap-2 mb-4"><h2 className="font-bold text-lg">On the research desk</h2><Link href="/publications" className="meta-link text-xs">All publications ↗</Link></div>
-        {publications.slice(0, 3).map((pub) => <p key={pub.title} className="mb-3 text-sm"><span className="text-primary mr-2" aria-hidden="true">↳</span><a className="meta-link" href={pub.links[0].href} target="_blank" rel="noopener noreferrer">{pub.title}</a><span className="block text-xs text-muted-foreground ml-5">{pub.venue}</span></p>)}
+        {publications.slice(0, 4).map((pub) => <p key={pub.title} className="mb-3 text-sm"><span className="text-primary mr-2" aria-hidden="true">↳</span><a className="meta-link" href={pub.links[0].href} target="_blank" rel="noopener noreferrer">{pub.title}</a><span className="block text-xs text-muted-foreground ml-5">{pub.kind === "Open-source" ? "Open-source · " : ""}{pub.venue}</span></p>)}
       </section>
     </section>
   )
