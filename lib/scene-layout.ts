@@ -4,7 +4,7 @@ export const sceneAnchors = {
   publications: "메인 연구 목록", footer: "페이지 하단",
 } as const
 export type SceneAnchor = keyof typeof sceneAnchors
-export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor; size?: "responsive" | "original" | "integer"; pixelScale?: number }
+export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor; edge?: "top"; size?: "responsive" | "original" | "integer"; pixelScale?: number }
 export const sceneLinks = { email: "이메일", research: "연구", photos: "사진", records: "바이닐" } as const
 export type SceneItem = {
   id: string; name: string; file: string; still: string; width: number; height: number
@@ -38,7 +38,15 @@ export function layoutCss(layout: SceneLayout) {
   const declarations = (mode: "desktop" | "mobile") => Object.entries(layoutFields).map(([key, field]) => {
     const value = layout.settings?.[mode]?.[key as LayoutField]
     return `--scene-${key}:${value === undefined ? "initial" : key === "rippleScale" ? value / 100 : `${value}${field.unit}`}`
-  }).join(";")
+  }).join(";") + `;--scene-main-top-space:${Math.ceil(Math.max(0, ...layout.items.map((item) => {
+    const p = item[mode]
+    if (p.hidden || p.anchor !== "main" || p.edge !== "top") return 0
+    const width = p.size === "original" ? item.width : p.size === "integer" ? item.width * (p.pixelScale || 1) : p.width
+    const height = width * item.height / item.width, angle = p.rotation * Math.PI / 180
+    // Fixed-size images do not shrink with their positive border offset.
+    const gap = p.size === "original" || p.size === "integer" ? Math.min(0, p.y) : p.y
+    return (height + Math.abs(Math.cos(angle)) * height + Math.abs(Math.sin(angle)) * width) / 2 - gap
+  })))}px`
   return `:root{${declarations("desktop")}}@media(max-width:560px){:root{${declarations("mobile")}}}`
 }
 export type SceneAsset = {
@@ -56,6 +64,7 @@ function isPlacement(value: unknown): value is Placement {
   if (!value || typeof value !== "object") return false
   const p = value as Placement
   return (p.anchor === undefined || Object.prototype.hasOwnProperty.call(sceneAnchors, p.anchor)) &&
+    (p.edge === undefined || (p.edge === "top" && p.anchor !== undefined)) &&
     (p.size === undefined || ["responsive", "original", "integer"].includes(p.size)) &&
     (p.pixelScale === undefined || (Number.isInteger(p.pixelScale) && numberIn(p.pixelScale, 1, 8))) &&
     numberIn(p.x, p.anchor ? -1000 : -50, p.anchor ? 1000 : 150) && numberIn(p.y, p.anchor ? -50000 : 0, 50000) && numberIn(p.width, 8, 2400) &&

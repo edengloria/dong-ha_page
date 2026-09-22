@@ -92,8 +92,7 @@ export default function SceneEditor() {
     {!preview && <div className="scene-handles" aria-label="배치 캔버스">
       {layout.items.filter((entry) => !entry[mode].hidden).map((entry, index) => {
         const p = entry[mode]
-        const rendered = resolvePlacement(p, geometry.boxes, geometry.viewport)
-        if (p.size === "original" || p.size === "integer") rendered.width = entry.width * (p.size === "integer" ? p.pixelScale || 1 : 1)
+        const rendered = resolvePlacement(p, geometry.boxes, geometry.viewport, entry)
         return <button key={entry.id} className={`scene-handle ${selected === entry.id ? "is-selected" : ""}`}
           aria-label={`이동: ${entry.name}`} aria-pressed={selected === entry.id}
           style={{ left: rendered.left, top: rendered.top, width: rendered.width, height: rendered.width * entry.height / entry.width, transform: `translateX(-50%) rotate(${p.rotation}deg)`, zIndex: index }}
@@ -142,12 +141,15 @@ export default function SceneEditor() {
       </details>
       <label>배치한 에셋 ({layout.items.length})<select value={selected || ""} onChange={(event) => setSelected(event.target.value)}><option value="">선택</option>{layout.items.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label>
       {item && <fieldset className="scene-properties"><legend>{item.name}</legend>
-        <label>붙일 영역<select aria-label="붙일 영역" value={item[mode].anchor || ""} onChange={(event) => place(attachPlacement(item[mode], (event.target.value || undefined) as SceneAnchor | undefined, geometry.boxes, geometry.viewport))}>
+        <label>붙일 영역<select aria-label="붙일 영역" value={item[mode].anchor || ""} onChange={(event) => place(attachPlacement(item[mode], (event.target.value || undefined) as SceneAnchor | undefined, geometry.boxes, geometry.viewport, item, item[mode].edge))}>
           <option value="">화면 전체 (기존 좌표)</option>{Object.entries(sceneAnchors).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
         </select></label>
-        {item[mode].anchor && <p className="scene-help">위치는 선택한 영역의 가로·세로 %입니다. 크기는 FHD 기준이며 좁은 영역에 맞춰 줄어듭니다. 왼쪽 패널에 붙인 앞쪽 장식은 다른 페이지에서도 패널 위에 표시됩니다.</p>}
+        {item[mode].anchor && <>
+          <label><input type="checkbox" checked={item[mode].edge === "top"} onChange={(event) => place(attachPlacement(item[mode], item[mode].anchor, geometry.boxes, geometry.viewport, item, event.target.checked ? "top" : undefined))} /> 윗변에 붙이기</label>
+          <p className="scene-help">{item[mode].edge === "top" ? "이미지 아래쪽을 영역 윗변에 맞춥니다. 아래쪽 간격 0은 윗변에 닿고, 양수는 패널 안쪽, 음수는 위쪽입니다. 패널 높이가 바뀌어도 유지됩니다." : "위치는 선택한 영역의 가로·세로 %입니다."} 크기는 FHD 기준이며 좁은 영역에 맞춰 줄어듭니다. 왼쪽 패널의 앞쪽 장식은 다른 페이지에서도 유지됩니다.</p>
+        </>}
         <div className="scene-fields">{([
-          ["x", "가로 위치 (%)", item[mode].anchor ? -1000 : -50, item[mode].anchor ? 1000 : 150, .1], ["y", item[mode].anchor ? "세로 위치 (%)" : "세로 위치 (px)", item[mode].anchor ? -50000 : 0, 50000, item[mode].anchor ? .1 : 1],
+          ["x", "가로 위치 (%)", item[mode].anchor ? -1000 : -50, item[mode].anchor ? 1000 : 150, .1], ["y", item[mode].edge === "top" ? "윗변과 아래쪽 간격 (px)" : item[mode].anchor ? "세로 위치 (%)" : "세로 위치 (px)", item[mode].anchor ? -50000 : 0, 50000, item[mode].anchor ? .1 : 1],
           ["width", "너비 (px)", 8, 2400, 1], ["rotation", "회전 (°)", -180, 180, 1],
         ] as const).map(([key, label, min, max, step]) => <label key={key}>{label}<input key={`${item.id}-${mode}-${item[mode][key]}`} type="number" min={min} max={max} step={step} defaultValue={Math.round(item[mode][key] * 10) / 10}
           onBlur={(event) => {

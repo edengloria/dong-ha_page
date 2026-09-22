@@ -1,6 +1,6 @@
 # Asset archive and placement editor
 
-Open `/scene-editor/`, also linked as “배치 편집” in the footer.
+Open `/scene-editor/` directly. Editor controls and its navigation link are hidden on ordinary public pages.
 
 - Browse 2,594 entries by original section, filename or animated-only filter.
   This includes 1,992 unchanged original files and 602 extracted atlas rectangles.
@@ -10,6 +10,16 @@ Open `/scene-editor/`, also linked as “배치 편집” in the footer.
   width and rotation. Hide, remove, order and place above/below the content.
 - Desktop and mobile (≤560px) store independent positions and sizes. Edit at the
   corresponding browser width; the toolbar identifies the layout being changed.
+- Select an attachment region, then enable **윗변에 붙이기** for ornaments sitting
+  on a panel border. Its Y value becomes the distance from the region's top to the
+  image's bottom (FHD pixels): zero touches the border, positive overlaps the panel,
+  negative leaves space above it. Toggling preserves the current image position;
+  resizing the image keeps its bottom attached. The offset follows region width,
+  never panel height. Original-size and integer-scale images use their actual height.
+- The nine existing ornaments above the main/sidebar panels retain their original
+  FHD composition. Unedited browser saves migrate to this attachment; manually
+  moved assets and separate mobile coordinates remain intact. Stacked panels reserve
+  space for main-panel ornaments, while sidebar foreground ordering survives navigation.
 - Undo/redo retain 50 changes. Preview hides drag handles; collapsing the panel
   makes the actual composition visible without controls covering it.
 - “브라우저에 저장” persists the scene on this browser and across public routes.
