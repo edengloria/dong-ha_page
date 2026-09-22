@@ -19,13 +19,15 @@ export function SiteShell({ children }: { children: ReactNode }) {
         </a>
 
         <div className="site-wrap ocean-content">
-          <div className="site-grid">
-            <SiteSidebar />
-
+          <table className="site-grid" role="presentation"><tbody><tr>
+            <td className="sidebar-cell"><SiteSidebar /></td>
+            <td className="panel-gap" aria-hidden="true" />
+            <td className="main-cell">
             <main id="main-content" className="min-w-0 flex-1">
               <div className="page-sheet"><SceneSlot anchor="main" /><HomeSceneFallback />{children}</div>
             </main>
-          </div>
+            </td>
+          </tr></tbody></table>
           <div className="ocean-credit"><SceneSlot anchor="footer" />Graphics from <a href="https://www.cameronsworld.net/" target="_blank" rel="noopener noreferrer">Cameron’s World / GeoCities archives</a></div>
         </div>
       </div>

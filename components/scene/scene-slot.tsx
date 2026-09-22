@@ -1,6 +1,5 @@
 "use client"
 import Image from "next/image"
-import type { CSSProperties } from "react"
 import reference from "@/data/scene-reference.json"
 import optimized from "@/data/scene-optimized.json"
 import { profile } from "@/content/profile"
@@ -8,22 +7,18 @@ import { useScene } from "./scene-context"
 import { assetPath, type SceneAnchor, type SceneItem } from "@/lib/scene-layout"
 import { sidebarPlacement } from "@/lib/scene-anchors"
 import { withBasePath } from "@/lib/utils"
-const blank = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+import { blankSprite, spriteStyle } from "@/lib/scene-sprite"
 const links = { email: `mailto:${profile.email}`, research: "/publications/", photos: "/gallery/photos/", records: "/gallery/vinyl/" }
 const labels = { email: "Email Dong-Ha", research: "Research publications", photos: "Photo diary", records: "Record collection" }
 function Sprite({ item, mode, index }: { item: SceneItem; mode: "desktop" | "mobile"; index: number }) {
   const p = item[mode]
   const file = (optimized as Record<string, string>)[item.file] || item.file
   const media = mode === "desktop" ? "(min-width: 561px)" : "(max-width: 560px)"
-  const width = p.size === "original" ? `${item.width}px` : p.size === "integer" ? `${item.width * (p.pixelScale || 1)}px`
-    : p.anchor ? `min(${p.width}px, ${p.width / reference.boxes[p.anchor].width * 100}cqw)` : `${p.width}px`
-  const top = p.edge === "top" && p.anchor ? `${p.y < 0 ? "max" : "min"}(${p.y}px, ${p.y / reference.boxes[p.anchor].width * 100}cqw)` : `${p.y}${p.anchor ? "%" : "px"}`
-  const style = { left: `${p.x}%`, top, width, transform: `translate(-50%, ${p.edge === "top" ? "-100%" : "0"}) rotate(${p.rotation}deg)`, zIndex: index,
-    imageRendering: item.pixelated ? "pixelated" : "auto" } as CSSProperties
+  const style = spriteStyle(item, mode, index)
   const picture = <picture>
     <source media={`${media} and (prefers-reduced-motion: reduce)`} srcSet={withBasePath(assetPath(item.still))} />
     <source media={media} srcSet={withBasePath(assetPath(file))} />
-    <Image src={blank} alt="" width={item.width} height={item.height} unoptimized loading="lazy" />
+    <Image src={blankSprite} alt="" width={item.width} height={item.height} unoptimized loading="lazy" />
   </picture>
   const props = { className: `scene-sprite ${item.id}`, "data-anchor": p.anchor || "viewport", "data-edge": p.edge, "data-scene-id": item.id, style }
   return item.link ? <a {...props} className={`${props.className} scene-image-link`} href={item.link === "email" ? links.email : withBasePath(links[item.link])} aria-label={labels[item.link]}>{picture}</a>
