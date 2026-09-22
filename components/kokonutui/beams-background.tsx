@@ -73,7 +73,11 @@ export default function BeamsBackground() {
       if (frames === 1 || frames % 15 === 0) host.dataset.frames = String(frames)
     }
     function animate(now: number) {
-      if (disposed || document.hidden || motion.matches || fixedTime !== null) return
+      if (disposed || fixedTime !== null) return
+      // The current preference can update before its change event is delivered.
+      // Release the GPU scene here too, rather than leaving a stopped canvas alive.
+      if (motion.matches) { fallback(); return }
+      if (document.hidden) return
       const elapsed = previous ? now - previous : 0
       previous = now
       if (elapsed > 0 && elapsed < 250) { samples++; if (elapsed > 24) slow++ }
@@ -94,7 +98,9 @@ export default function BeamsBackground() {
     function resume() {
       cancelAnimationFrame(raf)
       previous = 0; sampleStart = 0; slow = 0; samples = 0
-      if (!canvas || disposed || document.hidden) return
+      if (disposed) return
+      if (motion.matches && fixedTime === null) { fallback(); return }
+      if (!canvas || document.hidden) return
       if (motion.matches || fixedTime !== null) draw(fixedTime === null ? 0 : Number(fixedTime))
       else raf = requestAnimationFrame(animate)
     }
@@ -157,7 +163,7 @@ export default function BeamsBackground() {
       })
     }
     function preferencesChanged() {
-      if (motion.matches && fixedTime === null) { destroyScene(); host.dataset.renderer = "static" }
+      if (motion.matches && fixedTime === null) fallback()
       else if (canvas) resume()
       else initialize()
     }
