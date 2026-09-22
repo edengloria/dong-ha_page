@@ -94,8 +94,8 @@
       "height": 41,
       "foreground": false,
       "desktop": {
-        "x": 54.77952755905512,
-        "y": 133,
+        "x": 53.41469816272966,
+        "y": 147,
         "width": 210,
         "rotation": 0
       },
@@ -434,8 +434,8 @@
       "height": 100,
       "foreground": false,
       "desktop": {
-        "x": 87.06036745406824,
-        "y": 490,
+        "x": 85.06561679790026,
+        "y": 435,
         "width": 100,
         "rotation": 0
       },
@@ -455,8 +455,8 @@
       "height": 100,
       "foreground": false,
       "desktop": {
-        "x": 91.99475065616798,
-        "y": 670,
+        "x": 89.73753280839894,
+        "y": 802,
         "width": 290,
         "rotation": 0
       },
@@ -644,8 +644,8 @@
       "height": 46,
       "foreground": false,
       "desktop": {
-        "x": 11.0498687664042,
-        "y": 1212,
+        "x": 8.845144356955382,
+        "y": 1231,
         "width": 99,
         "rotation": 0
       },
@@ -686,8 +686,8 @@
       "height": 192,
       "foreground": false,
       "desktop": {
-        "x": 15.931758530183728,
-        "y": 1077,
+        "x": 16.03674540682415,
+        "y": 1086,
         "width": 249,
         "rotation": 0
       },
@@ -1001,8 +1001,8 @@
       "height": 26,
       "foreground": false,
       "desktop": {
-        "x": 92.6246719160105,
-        "y": 994,
+        "x": 87.00787401574803,
+        "y": 1047,
         "width": 44,
         "rotation": 0
       },
@@ -1052,6 +1052,447 @@
         "x": 50,
         "y": 485,
         "width": 95,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "73f9b8e1-9942-4c4c-98ed-b12c43f38048",
+      "name": "img/content/11/15.gif",
+      "file": "img/content/11/15.gif",
+      "still": "stills/img-content-11-15-gif.png",
+      "width": 138,
+      "height": 52,
+      "foreground": false,
+      "desktop": {
+        "x": 94.30446194225722,
+        "y": 387,
+        "width": 182,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 138,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "179597a5-4e3f-4c3a-85f5-ae53feb372bc",
+      "name": "img/content/11/9.gif",
+      "file": "img/content/11/9.gif",
+      "still": "stills/img-content-11-9-gif.png",
+      "width": 150,
+      "height": 45,
+      "foreground": false,
+      "desktop": {
+        "x": 95.66929133858268,
+        "y": 657,
+        "width": 150,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 150,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "6050e3ad-3aa4-48e1-9dba-23a422743095",
+      "name": "extracted/tile-bb5d356e1dd91060.png",
+      "file": "extracted/tile-bb5d356e1dd91060.png",
+      "still": "extracted/tile-bb5d356e1dd91060.png",
+      "width": 141,
+      "height": 64,
+      "foreground": false,
+      "desktop": {
+        "x": 92.0997375328084,
+        "y": 545,
+        "width": 141,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 141,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "ae67dcd5-8a53-4af9-996f-2ea929a63d79",
+      "name": "img/content/11/18.gif",
+      "file": "img/content/11/18.gif",
+      "still": "stills/img-content-11-18-gif.png",
+      "width": 200,
+      "height": 81,
+      "foreground": false,
+      "desktop": {
+        "x": 94.40944881889763,
+        "y": 1002,
+        "width": 200,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 200,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "a11cdbb0-0bbf-429b-a898-89abee0d51f3",
+      "name": "img/content/13/14.gif",
+      "file": "img/content/13/14.gif",
+      "still": "stills/img-content-13-14-gif.png",
+      "width": 120,
+      "height": 300,
+      "foreground": false,
+      "desktop": {
+        "x": 31.78477690288714,
+        "y": 715,
+        "width": 120,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 120,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "e0722d28-b7f3-43fd-a9e2-c817151b33c8",
+      "name": "img/content/15/12.gif",
+      "file": "img/content/15/12.gif",
+      "still": "stills/img-content-15-12-gif.png",
+      "width": 59,
+      "height": 38,
+      "foreground": false,
+      "desktop": {
+        "x": 78.66141732283465,
+        "y": 31,
+        "width": 59,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 59,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "ca3a986c-b365-4ca0-89d6-03617dffe5d2",
+      "name": "img/content/26/container/8.gif",
+      "file": "img/content/26/container/8.gif",
+      "still": "stills/img-content-26-container-8-gif.png",
+      "width": 116,
+      "height": 53,
+      "foreground": false,
+      "desktop": {
+        "x": 34.40944881889764,
+        "y": 283,
+        "width": 116,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 116,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "7eeb54da-3b09-4814-a6d0-f6719f0e3492",
+      "name": "img/content/26/left-side/16.gif",
+      "file": "img/content/26/left-side/16.gif",
+      "still": "stills/img-content-26-left-side-16-gif.png",
+      "width": 150,
+      "height": 144,
+      "foreground": true,
+      "desktop": {
+        "x": 66.7979002624672,
+        "y": 1130,
+        "width": 150,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 150,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "52981179-0cd9-4cdd-aedf-ed2c51d2a0ea",
+      "name": "img/content/26/left-side/12.gif",
+      "file": "img/content/26/left-side/12.gif",
+      "still": "stills/img-content-26-left-side-12-gif.png",
+      "width": 115,
+      "height": 62,
+      "foreground": true,
+      "desktop": {
+        "x": 59.86876640419948,
+        "y": 752,
+        "width": 115,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 115,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "9d94cced-3e06-4dbf-8017-b20691af1027",
+      "name": "img/content/17/34.gif",
+      "file": "img/content/17/34.gif",
+      "still": "stills/img-content-17-34-gif.png",
+      "width": 90,
+      "height": 20,
+      "foreground": false,
+      "desktop": {
+        "x": 27.58530183727034,
+        "y": 1243,
+        "width": 90,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 90,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "46699517-43f4-44c6-8f8a-14ae097235f1",
+      "name": "img/content/20/7.gif",
+      "file": "img/content/20/7.gif",
+      "still": "stills/img-content-20-7-gif.png",
+      "width": 100,
+      "height": 163,
+      "foreground": true,
+      "desktop": {
+        "x": 74.7244094488189,
+        "y": 757,
+        "width": 33,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "a0b8a361-f861-41e2-b115-20c9f10edd0b",
+      "name": "img/content/19/54.gif",
+      "file": "img/content/19/54.gif",
+      "still": "stills/img-content-19-54-gif.png",
+      "width": 60,
+      "height": 41,
+      "foreground": true,
+      "desktop": {
+        "x": 77.29658792650919,
+        "y": 770,
+        "width": 38,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 60,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "14ca4d9a-1631-4b63-9c86-6c6de3e1f353",
+      "name": "img/content/23/frame-7/2.gif",
+      "file": "img/content/23/frame-7/2.gif",
+      "still": "stills/img-content-23-frame-7-2-gif.png",
+      "width": 33,
+      "height": 35,
+      "foreground": true,
+      "desktop": {
+        "x": 45.380577427821514,
+        "y": 757,
+        "width": 47,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 33,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "fd27f9e1-2737-45c6-9bda-4e21babd6136",
+      "name": "img/content/26/right-side/9.gif",
+      "file": "img/content/26/right-side/9.gif",
+      "still": "stills/img-content-26-right-side-9-gif.png",
+      "width": 94,
+      "height": 71,
+      "foreground": false,
+      "desktop": {
+        "x": 62.23097112860893,
+        "y": 1193,
+        "width": 94,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 94,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "d68ed575-2c99-44f8-b3cf-295ecb9935b6",
+      "name": "img/content/31/rainbow/10.gif",
+      "file": "img/content/31/rainbow/10.gif",
+      "still": "stills/img-content-31-rainbow-10-gif.png",
+      "width": 75,
+      "height": 50,
+      "foreground": false,
+      "desktop": {
+        "x": 85.59055118110237,
+        "y": 661,
+        "width": 75,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 75,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "b7f2a44e-b1b9-47aa-a731-e4ea7aeaefb5",
+      "name": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "file": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "still": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "width": 26,
+      "height": 25,
+      "foreground": false,
+      "desktop": {
+        "x": 38.92388451443569,
+        "y": 309,
+        "width": 26,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 26,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c86de288-fbfa-41a4-a7bb-75c908c05c67",
+      "name": "extracted/tile-6e3c257258a0dadf.png",
+      "file": "extracted/tile-6e3c257258a0dadf.png",
+      "still": "extracted/tile-6e3c257258a0dadf.png",
+      "width": 146,
+      "height": 95,
+      "foreground": false,
+      "desktop": {
+        "x": 41.023622047244096,
+        "y": 1170,
+        "width": 146,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 146,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c363f849-fce7-4210-af9b-01304b93bc07",
+      "name": "extracted/tile-b70fe8612417e861.png",
+      "file": "extracted/tile-b70fe8612417e861.png",
+      "still": "extracted/tile-b70fe8612417e861.png",
+      "width": 95,
+      "height": 25,
+      "foreground": false,
+      "desktop": {
+        "x": 48.21522309711286,
+        "y": 1234,
+        "width": 95,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 95,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "0a0c8d9c-645e-42f4-8e02-43046a541640",
+      "name": "extracted/tile-ae1361b45b123e8d.png",
+      "file": "extracted/tile-ae1361b45b123e8d.png",
+      "still": "extracted/tile-ae1361b45b123e8d.png",
+      "width": 63,
+      "height": 55,
+      "foreground": false,
+      "desktop": {
+        "x": 48.16272965879265,
+        "y": 1166,
+        "width": 63,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 63,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "91daa9e9-4e6a-4e23-9c94-4db0862228e3",
+      "name": "extracted/tile-bf906a0475ff7529.png",
+      "file": "extracted/tile-bf906a0475ff7529.png",
+      "still": "extracted/tile-bf906a0475ff7529.png",
+      "width": 100,
+      "height": 77,
+      "foreground": false,
+      "desktop": {
+        "x": 54.82939632545932,
+        "y": 1200,
+        "width": 100,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "5a987598-fb69-498c-bb9b-abcb2a0b708b",
+      "name": "extracted/tile-b8524b7b018139d4.png",
+      "file": "extracted/tile-b8524b7b018139d4.png",
+      "still": "extracted/tile-b8524b7b018139d4.png",
+      "width": 94,
+      "height": 91,
+      "foreground": false,
+      "desktop": {
+        "x": 55.09186351706037,
+        "y": 1128,
+        "width": 94,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 94,
         "rotation": 0
       }
     }

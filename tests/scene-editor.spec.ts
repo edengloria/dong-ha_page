@@ -1,4 +1,16 @@
 import { test, expect } from "./fixtures"
+import editorFixture from "./scene-layout.fixture.json"
+import publishedLayout from "../data/scene-layout.json"
+
+// Keep interaction tests independent of the owner's published artwork.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript((layout) => {
+    if (!sessionStorage.getItem("editor-fixture-loaded")) {
+      localStorage.setItem("dongha-scene-v1", JSON.stringify(layout))
+      sessionStorage.setItem("editor-fixture-loaded", "1")
+    }
+  }, editorFixture)
+})
 
 test("background and panel settings persist independently on desktop and mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
@@ -53,7 +65,7 @@ test("layout settings survive export and reject malformed imports", async ({ pag
   await page.getByRole("button", { name: "배치 내보내기", exact: true }).click()
   const downloaded = await pending
   await page.getByRole("button", { name: "기본 배치", exact: true }).click()
-  await expect(sky).toHaveValue("280")
+  await expect(sky).toHaveValue(String(publishedLayout.settings.desktop.skyHeight))
   await expect(page.getByRole("heading", { name: "에셋 보관함 (2,594)" })).toBeVisible()
   await page.getByLabel("배치 파일", { exact: true }).setInputFiles((await downloaded.path())!)
   await expect(sky).toHaveValue("410")
@@ -118,7 +130,7 @@ test("catalog assets can be placed, layered, deleted, exported and imported", as
   const download = await downloadPromise
   expect(download.suggestedFilename()).toBe("scene-layout.json")
   await page.getByRole("button", { name: "기본 배치", exact: true }).click()
-  await expect(page.locator(".scene-foreground img")).toHaveCount(0)
+  await expect(page.locator(".scene-foreground img")).toHaveCount(publishedLayout.items.filter((item) => item.foreground).length)
   await page.getByLabel("배치 파일", { exact: true }).setInputFiles((await download.path())!)
   await expect(page.locator(".scene-foreground img")).toHaveCount(1)
   await page.getByLabel("배치 파일", { exact: true }).setInputFiles({ name: "bad.json", mimeType: "application/json", buffer: Buffer.from('{"version":1,"items":[{"file":"../../bad.png"}]}') })
