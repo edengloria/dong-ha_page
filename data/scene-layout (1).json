@@ -1,0 +1,1512 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "sun-birds",
+      "name": "Sun & birds",
+      "file": "img/content/10/6.gif",
+      "still": "img/content/10/6.png",
+      "width": 600,
+      "height": 131,
+      "foreground": false,
+      "desktop": {
+        "x": 32.57217847769029,
+        "y": 5,
+        "width": 532,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 47,
+        "y": 77,
+        "width": 330,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "palms",
+      "name": "Palms",
+      "file": "img/content/10/5.gif",
+      "still": "img/content/10/5.png",
+      "width": 149,
+      "height": 203,
+      "foreground": false,
+      "desktop": {
+        "x": 86.9501312335958,
+        "y": 0,
+        "width": 149,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 89,
+        "y": 15,
+        "width": 112,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "shore-bird",
+      "name": "Shore bird",
+      "file": "img/content/10/14.gif",
+      "still": "img/content/10/14.png",
+      "width": 88,
+      "height": 61,
+      "foreground": false,
+      "desktop": {
+        "x": 82.4724409448819,
+        "y": 137,
+        "width": 88,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 77,
+        "y": 122,
+        "width": 60,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "shark-fin",
+      "name": "Shark fin",
+      "file": "img/content/10/15.gif",
+      "still": "img/content/10/15.png",
+      "width": 160,
+      "height": 40,
+      "foreground": false,
+      "desktop": {
+        "x": 11.317585301837271,
+        "y": 191,
+        "width": 160,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 12,
+        "y": 195,
+        "width": 125,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "distant-dolphin",
+      "name": "Distant dolphin",
+      "file": "img/content/10/16.gif",
+      "still": "img/content/10/16.png",
+      "width": 210,
+      "height": 41,
+      "foreground": false,
+      "desktop": {
+        "x": 53.41469816272966,
+        "y": 147,
+        "width": 210,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 51,
+        "y": 185,
+        "width": 110,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "jumping-dolphins",
+      "name": "Jumping dolphins",
+      "file": "img/content/10/17.png",
+      "still": "img/content/10/17.png",
+      "width": 132,
+      "height": 81,
+      "foreground": false,
+      "desktop": {
+        "x": 65.66666666666667,
+        "y": 138,
+        "width": 132,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 70,
+        "y": 175,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "red-fish",
+      "name": "Red fish",
+      "file": "img/content/11/3.png",
+      "still": "img/content/11/3.png",
+      "width": 86,
+      "height": 49,
+      "foreground": false,
+      "desktop": {
+        "x": 5.060367454068242,
+        "y": 421,
+        "width": 86,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 12,
+        "y": 245,
+        "width": 70,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "green-fish",
+      "name": "Green fish",
+      "file": "img/content/11/24.png",
+      "still": "img/content/11/24.png",
+      "width": 74,
+      "height": 64,
+      "foreground": false,
+      "desktop": {
+        "x": 91.89501312335959,
+        "y": 286,
+        "width": 74,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 86,
+        "y": 250,
+        "width": 65,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "blue-dolphin",
+      "name": "Blue dolphin",
+      "file": "img/content/11/13.png",
+      "still": "img/content/11/13.png",
+      "width": 107,
+      "height": 67,
+      "foreground": false,
+      "desktop": {
+        "x": 17.545931758530184,
+        "y": 273,
+        "width": 107,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 25,
+        "y": 250,
+        "width": 80,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "silver-fish",
+      "name": "Silver fish",
+      "file": "img/content/11/16.png",
+      "still": "img/content/11/16.png",
+      "width": 173,
+      "height": 66,
+      "foreground": false,
+      "desktop": {
+        "x": 12.824146981627301,
+        "y": 558,
+        "width": 173,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 66,
+        "y": 250,
+        "width": 110,
+        "rotation": 0,
+        "hidden": true
+      }
+    },
+    {
+      "id": "coral-reef",
+      "name": "Coral reef",
+      "file": "img/content/12/13.png",
+      "still": "img/content/12/13.png",
+      "width": 600,
+      "height": 70,
+      "foreground": false,
+      "desktop": {
+        "x": 63.33333333333333,
+        "y": 258,
+        "width": 686,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 66,
+        "y": 260,
+        "width": 420,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "70ff42fc-8bf2-46cd-ac62-d9a23db03bdf",
+      "name": "img/content/10/7.gif",
+      "file": "img/content/10/7.gif",
+      "still": "stills/img-content-10-7-gif.png",
+      "width": 82,
+      "height": 160,
+      "foreground": false,
+      "desktop": {
+        "x": 29.73753280839895,
+        "y": 36,
+        "width": 82,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 82,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "68dec171-6cc4-49c9-8b62-3677b3348680",
+      "name": "extracted/tile-ff94182fe5e55315.png",
+      "file": "extracted/tile-ff94182fe5e55315.png",
+      "still": "extracted/tile-ff94182fe5e55315.png",
+      "width": 76,
+      "height": 55,
+      "foreground": false,
+      "desktop": {
+        "x": 36.45669291338583,
+        "y": 98,
+        "width": 76,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 76,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "e2bb920a-7aab-4eae-9c1d-502c7d939f39",
+      "name": "img/content/10/8.gif",
+      "file": "img/content/10/8.gif",
+      "still": "stills/img-content-10-8-gif.png",
+      "width": 70,
+      "height": 70,
+      "foreground": false,
+      "desktop": {
+        "x": 61.338582677165356,
+        "y": 5,
+        "width": 70,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 70,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "385f1f23-20a6-4799-8090-12e87b95a376",
+      "name": "img/content/10/12.gif",
+      "file": "img/content/10/12.gif",
+      "still": "stills/img-content-10-12-gif.png",
+      "width": 39,
+      "height": 80,
+      "foreground": false,
+      "desktop": {
+        "x": 21.286089238845147,
+        "y": 120,
+        "width": 39,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 39,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "bd79ec47-fe4e-415b-9905-1f3c0029e4da",
+      "name": "img/content/11/14.gif",
+      "file": "img/content/11/14.gif",
+      "still": "stills/img-content-11-14-gif.png",
+      "width": 273,
+      "height": 83,
+      "foreground": false,
+      "desktop": {
+        "x": 42.44094488188976,
+        "y": 244,
+        "width": 240,
+        "rotation": 0,
+        "hidden": false
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 240,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "0d6989c0-d7ec-4bab-8851-9a9b5e41c061",
+      "name": "img/content/10/18.gif",
+      "file": "img/content/10/18.gif",
+      "still": "stills/img-content-10-18-gif.png",
+      "width": 67,
+      "height": 72,
+      "foreground": false,
+      "desktop": {
+        "x": 96.40419947506561,
+        "y": 147,
+        "width": 67,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 67,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "97a8b37d-e0ca-4671-9fcc-2c33abe8253b",
+      "name": "extracted/tile-36749436bcf914bb.png",
+      "file": "extracted/tile-36749436bcf914bb.png",
+      "still": "extracted/tile-36749436bcf914bb.png",
+      "width": 129,
+      "height": 99,
+      "foreground": true,
+      "desktop": {
+        "x": 78.97637795275591,
+        "y": 274,
+        "width": 129,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 479,
+        "width": 129,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "8e51efc0-fafa-4fff-80a0-3c36e453a1c2",
+      "name": "extracted/tile-91def2f170e7457c.png",
+      "file": "extracted/tile-91def2f170e7457c.png",
+      "still": "extracted/tile-91def2f170e7457c.png",
+      "width": 54,
+      "height": 30,
+      "foreground": false,
+      "desktop": {
+        "x": 5.85301837270341,
+        "y": 802,
+        "width": 54,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 54,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "dd0ea263-24d2-423e-ac9f-7bcf3db97b68",
+      "name": "img/content/11/5.png",
+      "file": "img/content/11/5.png",
+      "still": "img/content/11/5.png",
+      "width": 202,
+      "height": 78,
+      "foreground": false,
+      "desktop": {
+        "x": 8.372703412073491,
+        "y": 990,
+        "width": 202,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 202,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "1aa57e13-819a-43ef-bd41-6ccbdbb30fe4",
+      "name": "img/content/11/10.gif",
+      "file": "img/content/11/10.gif",
+      "still": "stills/img-content-11-10-gif.png",
+      "width": 100,
+      "height": 100,
+      "foreground": false,
+      "desktop": {
+        "x": 85.06561679790026,
+        "y": 435,
+        "width": 100,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "3853edb8-e219-4b27-9946-f3683919cd3f",
+      "name": "img/content/11/8.gif",
+      "file": "img/content/11/8.gif",
+      "still": "stills/img-content-11-8-gif.png",
+      "width": 290,
+      "height": 100,
+      "foreground": false,
+      "desktop": {
+        "x": 89.73753280839894,
+        "y": 802,
+        "width": 290,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 240,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "2ef5afb0-7011-4110-9655-a7c5cfdc9abb",
+      "name": "img/content/11/19.gif",
+      "file": "img/content/11/19.gif",
+      "still": "stills/img-content-11-19-gif.png",
+      "width": 141,
+      "height": 98,
+      "foreground": false,
+      "desktop": {
+        "x": 4.068241469816272,
+        "y": 634,
+        "width": 141,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 141,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "6d2965a2-ab64-49ed-a6e2-1ad74dca346d",
+      "name": "img/content/11/17.gif",
+      "file": "img/content/11/17.gif",
+      "still": "stills/img-content-11-17-gif.png",
+      "width": 267,
+      "height": 68,
+      "foreground": false,
+      "desktop": {
+        "x": 28.74015748031496,
+        "y": 837,
+        "width": 267,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 240,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "5ce42911-fced-458b-b3eb-20b5bdf6dfdd",
+      "name": "img/content/11/26.gif",
+      "file": "img/content/11/26.gif",
+      "still": "stills/img-content-11-26-gif.png",
+      "width": 109,
+      "height": 82,
+      "foreground": false,
+      "desktop": {
+        "x": 14.094488188976378,
+        "y": 741,
+        "width": 109,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 109,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c6a02e22-f9ed-4422-b567-615467a90555",
+      "name": "img/content/11/27.gif",
+      "file": "img/content/11/27.gif",
+      "still": "stills/img-content-11-27-gif.png",
+      "width": 100,
+      "height": 37,
+      "foreground": true,
+      "desktop": {
+        "x": 27.21784776902887,
+        "y": 313,
+        "width": 100,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "d994015c-f691-43b7-a06a-c8a74a450679",
+      "name": "img/content/11/29.gif",
+      "file": "img/content/11/29.gif",
+      "still": "stills/img-content-11-29-gif.png",
+      "width": 150,
+      "height": 105,
+      "foreground": true,
+      "desktop": {
+        "x": 79.97375328083989,
+        "y": 1134,
+        "width": 150,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 179,
+        "width": 150,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "1cb27651-fe15-4bba-9d7b-ebfbb2aec3d8",
+      "name": "img/content/12/2.gif",
+      "file": "img/content/12/2.gif",
+      "still": "stills/img-content-12-2-gif.png",
+      "width": 490,
+      "height": 63,
+      "foreground": false,
+      "desktop": {
+        "x": 57.40157480314961,
+        "y": 219,
+        "width": 320,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 240,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c1197df4-e84d-4fc4-8611-dbd4402b5093",
+      "name": "extracted/tile-232817a66a55e45b.png",
+      "file": "extracted/tile-232817a66a55e45b.png",
+      "still": "extracted/tile-232817a66a55e45b.png",
+      "width": 32,
+      "height": 32,
+      "foreground": false,
+      "desktop": {
+        "x": 22.70341207349081,
+        "y": 301,
+        "width": 32,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 32,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "64b127c5-2be6-45d6-8dcb-f99622a3ed8a",
+      "name": "img/content/12/5.gif",
+      "file": "img/content/12/5.gif",
+      "still": "stills/img-content-12-5-gif.png",
+      "width": 109,
+      "height": 69,
+      "foreground": false,
+      "desktop": {
+        "x": 22.073490813648295,
+        "y": 267,
+        "width": 109,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 109,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "27d3c977-8e03-4ca1-a4a1-a6adf3e0735d",
+      "name": "img/content/12/8.gif",
+      "file": "img/content/12/8.gif",
+      "still": "stills/img-content-12-8-gif.png",
+      "width": 99,
+      "height": 46,
+      "foreground": false,
+      "desktop": {
+        "x": 8.845144356955382,
+        "y": 1231,
+        "width": 99,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 99,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "7e481362-f22e-4db5-ac5d-b4cb266a0842",
+      "name": "img/content/12/21.gif",
+      "file": "img/content/12/21.gif",
+      "still": "stills/img-content-12-21-gif.png",
+      "width": 128,
+      "height": 100,
+      "foreground": false,
+      "desktop": {
+        "x": 15.301837270341208,
+        "y": 391,
+        "width": 128,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 479,
+        "width": 128,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "04fd46c9-a7e0-4ca0-91fd-74703a81a9e3",
+      "name": "img/content/12/22.gif",
+      "file": "img/content/12/22.gif",
+      "still": "stills/img-content-12-22-gif.png",
+      "width": 249,
+      "height": 192,
+      "foreground": false,
+      "desktop": {
+        "x": 16.03674540682415,
+        "y": 1086,
+        "width": 249,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 240,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "94ce8f72-5f01-430d-a1e1-a3cf9412639b",
+      "name": "extracted/tile-ad47f466d8b30cc0.png",
+      "file": "extracted/tile-ad47f466d8b30cc0.png",
+      "still": "extracted/tile-ad47f466d8b30cc0.png",
+      "width": 100,
+      "height": 74,
+      "foreground": false,
+      "desktop": {
+        "x": 96.92913385826772,
+        "y": 10,
+        "width": 100,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "83662729-302e-4332-b7df-47eefb01ae93",
+      "name": "extracted/tile-b7e9422f10f15f4b.png",
+      "file": "extracted/tile-b7e9422f10f15f4b.png",
+      "still": "extracted/tile-b7e9422f10f15f4b.png",
+      "width": 40,
+      "height": 42,
+      "foreground": true,
+      "desktop": {
+        "x": 27.58530183727034,
+        "y": 678,
+        "width": 40,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 320,
+        "width": 40,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "14ef8045-ea8d-40c5-bc2f-e9dd9d77c6f9",
+      "name": "img/content/1/13.png",
+      "file": "img/content/1/13.png",
+      "still": "img/content/1/13.png",
+      "width": 63,
+      "height": 63,
+      "foreground": false,
+      "desktop": {
+        "x": 2.8083989501312345,
+        "y": 14,
+        "width": 63,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 63,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "fbcf5c0c-f6cd-479d-8471-cfe2d16ba275",
+      "name": "img/content/12/4.gif",
+      "file": "img/content/12/4.gif",
+      "still": "stills/img-content-12-4-gif.png",
+      "width": 128,
+      "height": 128,
+      "foreground": false,
+      "desktop": {
+        "x": 31.0498687664042,
+        "y": 1140,
+        "width": 128,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 479,
+        "width": 128,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "da88bd43-c11d-4756-9433-12bd0e18fbdb",
+      "name": "img/content/15/11.gif",
+      "file": "img/content/15/11.gif",
+      "still": "stills/img-content-15-11-gif.png",
+      "width": 32,
+      "height": 32,
+      "foreground": false,
+      "desktop": {
+        "x": 11.207349081364832,
+        "y": 94,
+        "width": 32,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 32,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "73351436-b8da-4cb9-9f55-609ea9c9f634",
+      "name": "img/content/16/9.png",
+      "file": "img/content/16/9.png",
+      "still": "img/content/16/9.png",
+      "width": 162,
+      "height": 50,
+      "foreground": false,
+      "desktop": {
+        "x": 40.656167979002625,
+        "y": 147,
+        "width": 162,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 162,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "623dd9e1-1efb-40e4-b2c9-5ced7b9d9989",
+      "name": "img/content/16/21.gif",
+      "file": "img/content/16/21.gif",
+      "still": "stills/img-content-16-21-gif.png",
+      "width": 94,
+      "height": 80,
+      "foreground": true,
+      "desktop": {
+        "x": 70.6299212598425,
+        "y": 870,
+        "width": 94,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 94,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "0a6433a1-9c7b-4d59-b8cb-d5dc3152532d",
+      "name": "img/content/16/3.gif",
+      "file": "img/content/16/3.gif",
+      "still": "stills/img-content-16-3-gif.png",
+      "width": 153,
+      "height": 166,
+      "foreground": true,
+      "desktop": {
+        "x": 65.74803149606299,
+        "y": 887,
+        "width": 153,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 153,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "b3ec053d-d777-4f61-afaa-474a6b29ceb2",
+      "name": "img/content/21/21.gif",
+      "file": "img/content/21/21.gif",
+      "still": "stills/img-content-21-21-gif.png",
+      "width": 50,
+      "height": 120,
+      "foreground": false,
+      "desktop": {
+        "x": 34.25196850393701,
+        "y": 1156,
+        "width": 50,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 50,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c0680ede-8bd8-43af-be1b-67cf075d5352",
+      "name": "img/content/21/19.gif",
+      "file": "img/content/21/19.gif",
+      "still": "stills/img-content-21-19-gif.png",
+      "width": 78,
+      "height": 75,
+      "foreground": false,
+      "desktop": {
+        "x": 16.66666666666667,
+        "y": 954,
+        "width": 78,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 479,
+        "width": 78,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "e148d395-4cff-4a25-ab92-d867ae84204e",
+      "name": "img/content/23/frame-6/1.gif",
+      "file": "img/content/23/frame-6/1.gif",
+      "still": "stills/img-content-23-frame-6-1-gif.png",
+      "width": 120,
+      "height": 50,
+      "foreground": false,
+      "desktop": {
+        "x": 3.2808398950131235,
+        "y": 164,
+        "width": 120,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 120,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "af4775eb-729e-49aa-8be4-84c30c5ba4aa",
+      "name": "img/content/24/63.gif",
+      "file": "img/content/24/63.gif",
+      "still": "stills/img-content-24-63-gif.png",
+      "width": 50,
+      "height": 50,
+      "foreground": true,
+      "desktop": {
+        "x": 72.46719160104986,
+        "y": 1177,
+        "width": 50,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 50,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "7b886a28-8577-46ce-858b-f0e9a00081e4",
+      "name": "img/content/26/shelf/2.gif",
+      "file": "img/content/26/shelf/2.gif",
+      "still": "stills/img-content-26-shelf-2-gif.png",
+      "width": 105,
+      "height": 87,
+      "foreground": true,
+      "desktop": {
+        "x": 22.073490813648295,
+        "y": 1012,
+        "width": 105,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 485,
+        "width": 105,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "5bc1ac23-6704-4e79-a7ba-36c1b91caea2",
+      "name": "img/content/28/16.gif",
+      "file": "img/content/28/16.gif",
+      "still": "stills/img-content-28-16-gif.png",
+      "width": 130,
+      "height": 130,
+      "foreground": false,
+      "desktop": {
+        "x": 73.98950131233595,
+        "y": 248,
+        "width": 130,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 485,
+        "width": 130,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "1467874a-fb14-43e7-9049-b0c452b0569f",
+      "name": "img/content/32/treasure-room/17.gif",
+      "file": "img/content/32/treasure-room/17.gif",
+      "still": "stills/img-content-32-treasure-room-17-gif.png",
+      "width": 44,
+      "height": 26,
+      "foreground": false,
+      "desktop": {
+        "x": 87.00787401574803,
+        "y": 1047,
+        "width": 44,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 44,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "970c6a30-fa3c-4a6b-8058-c1dbc7cc31a4",
+      "name": "img/content/32/treasure-room/28.gif",
+      "file": "img/content/32/treasure-room/28.gif",
+      "still": "stills/img-content-32-treasure-room-28-gif.png",
+      "width": 71,
+      "height": 57,
+      "foreground": false,
+      "desktop": {
+        "x": 75.35433070866141,
+        "y": 1222,
+        "width": 71,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 71,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "209b9d8e-a8a4-4b70-b731-be1712b65ae6",
+      "name": "img/content/32/treasure-room/47.gif",
+      "file": "img/content/32/treasure-room/47.gif",
+      "still": "stills/img-content-32-treasure-room-47-gif.png",
+      "width": 95,
+      "height": 120,
+      "foreground": false,
+      "desktop": {
+        "x": 2.913385826771652,
+        "y": 1159,
+        "width": 95,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 485,
+        "width": 95,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "73f9b8e1-9942-4c4c-98ed-b12c43f38048",
+      "name": "img/content/11/15.gif",
+      "file": "img/content/11/15.gif",
+      "still": "stills/img-content-11-15-gif.png",
+      "width": 138,
+      "height": 52,
+      "foreground": false,
+      "desktop": {
+        "x": 94.30446194225722,
+        "y": 387,
+        "width": 182,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 138,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "179597a5-4e3f-4c3a-85f5-ae53feb372bc",
+      "name": "img/content/11/9.gif",
+      "file": "img/content/11/9.gif",
+      "still": "stills/img-content-11-9-gif.png",
+      "width": 150,
+      "height": 45,
+      "foreground": false,
+      "desktop": {
+        "x": 95.66929133858268,
+        "y": 657,
+        "width": 150,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 150,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "6050e3ad-3aa4-48e1-9dba-23a422743095",
+      "name": "extracted/tile-bb5d356e1dd91060.png",
+      "file": "extracted/tile-bb5d356e1dd91060.png",
+      "still": "extracted/tile-bb5d356e1dd91060.png",
+      "width": 141,
+      "height": 64,
+      "foreground": false,
+      "desktop": {
+        "x": 92.0997375328084,
+        "y": 545,
+        "width": 141,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 141,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "ae67dcd5-8a53-4af9-996f-2ea929a63d79",
+      "name": "img/content/11/18.gif",
+      "file": "img/content/11/18.gif",
+      "still": "stills/img-content-11-18-gif.png",
+      "width": 200,
+      "height": 81,
+      "foreground": false,
+      "desktop": {
+        "x": 94.40944881889763,
+        "y": 1002,
+        "width": 200,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 200,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "a11cdbb0-0bbf-429b-a898-89abee0d51f3",
+      "name": "img/content/13/14.gif",
+      "file": "img/content/13/14.gif",
+      "still": "stills/img-content-13-14-gif.png",
+      "width": 120,
+      "height": 300,
+      "foreground": false,
+      "desktop": {
+        "x": 31.78477690288714,
+        "y": 715,
+        "width": 120,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 120,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "e0722d28-b7f3-43fd-a9e2-c817151b33c8",
+      "name": "img/content/15/12.gif",
+      "file": "img/content/15/12.gif",
+      "still": "stills/img-content-15-12-gif.png",
+      "width": 59,
+      "height": 38,
+      "foreground": false,
+      "desktop": {
+        "x": 78.66141732283465,
+        "y": 31,
+        "width": 59,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 59,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "ca3a986c-b365-4ca0-89d6-03617dffe5d2",
+      "name": "img/content/26/container/8.gif",
+      "file": "img/content/26/container/8.gif",
+      "still": "stills/img-content-26-container-8-gif.png",
+      "width": 116,
+      "height": 53,
+      "foreground": false,
+      "desktop": {
+        "x": 34.40944881889764,
+        "y": 283,
+        "width": 116,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 116,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "7eeb54da-3b09-4814-a6d0-f6719f0e3492",
+      "name": "img/content/26/left-side/16.gif",
+      "file": "img/content/26/left-side/16.gif",
+      "still": "stills/img-content-26-left-side-16-gif.png",
+      "width": 150,
+      "height": 144,
+      "foreground": true,
+      "desktop": {
+        "x": 66.7979002624672,
+        "y": 1130,
+        "width": 150,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 150,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "52981179-0cd9-4cdd-aedf-ed2c51d2a0ea",
+      "name": "img/content/26/left-side/12.gif",
+      "file": "img/content/26/left-side/12.gif",
+      "still": "stills/img-content-26-left-side-12-gif.png",
+      "width": 115,
+      "height": 62,
+      "foreground": true,
+      "desktop": {
+        "x": 59.86876640419948,
+        "y": 752,
+        "width": 115,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 115,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "9d94cced-3e06-4dbf-8017-b20691af1027",
+      "name": "img/content/17/34.gif",
+      "file": "img/content/17/34.gif",
+      "still": "stills/img-content-17-34-gif.png",
+      "width": 90,
+      "height": 20,
+      "foreground": false,
+      "desktop": {
+        "x": 27.58530183727034,
+        "y": 1243,
+        "width": 90,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 90,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "46699517-43f4-44c6-8f8a-14ae097235f1",
+      "name": "img/content/20/7.gif",
+      "file": "img/content/20/7.gif",
+      "still": "stills/img-content-20-7-gif.png",
+      "width": 100,
+      "height": 163,
+      "foreground": true,
+      "desktop": {
+        "x": 74.7244094488189,
+        "y": 757,
+        "width": 33,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "a0b8a361-f861-41e2-b115-20c9f10edd0b",
+      "name": "img/content/19/54.gif",
+      "file": "img/content/19/54.gif",
+      "still": "stills/img-content-19-54-gif.png",
+      "width": 60,
+      "height": 41,
+      "foreground": true,
+      "desktop": {
+        "x": 77.29658792650919,
+        "y": 770,
+        "width": 38,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 60,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "14ca4d9a-1631-4b63-9c86-6c6de3e1f353",
+      "name": "img/content/23/frame-7/2.gif",
+      "file": "img/content/23/frame-7/2.gif",
+      "still": "stills/img-content-23-frame-7-2-gif.png",
+      "width": 33,
+      "height": 35,
+      "foreground": true,
+      "desktop": {
+        "x": 45.380577427821514,
+        "y": 757,
+        "width": 47,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 33,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "fd27f9e1-2737-45c6-9bda-4e21babd6136",
+      "name": "img/content/26/right-side/9.gif",
+      "file": "img/content/26/right-side/9.gif",
+      "still": "stills/img-content-26-right-side-9-gif.png",
+      "width": 94,
+      "height": 71,
+      "foreground": false,
+      "desktop": {
+        "x": 62.23097112860893,
+        "y": 1193,
+        "width": 94,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 94,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "d68ed575-2c99-44f8-b3cf-295ecb9935b6",
+      "name": "img/content/31/rainbow/10.gif",
+      "file": "img/content/31/rainbow/10.gif",
+      "still": "stills/img-content-31-rainbow-10-gif.png",
+      "width": 75,
+      "height": 50,
+      "foreground": false,
+      "desktop": {
+        "x": 85.59055118110237,
+        "y": 661,
+        "width": 75,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 188,
+        "width": 75,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "b7f2a44e-b1b9-47aa-a731-e4ea7aeaefb5",
+      "name": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "file": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "still": "extracted/tile-2b5faf6d9d72fbf2.png",
+      "width": 26,
+      "height": 25,
+      "foreground": false,
+      "desktop": {
+        "x": 38.92388451443569,
+        "y": 309,
+        "width": 26,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 120,
+        "width": 26,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c86de288-fbfa-41a4-a7bb-75c908c05c67",
+      "name": "extracted/tile-6e3c257258a0dadf.png",
+      "file": "extracted/tile-6e3c257258a0dadf.png",
+      "still": "extracted/tile-6e3c257258a0dadf.png",
+      "width": 146,
+      "height": 95,
+      "foreground": false,
+      "desktop": {
+        "x": 41.023622047244096,
+        "y": 1170,
+        "width": 146,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 146,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "c363f849-fce7-4210-af9b-01304b93bc07",
+      "name": "extracted/tile-b70fe8612417e861.png",
+      "file": "extracted/tile-b70fe8612417e861.png",
+      "still": "extracted/tile-b70fe8612417e861.png",
+      "width": 95,
+      "height": 25,
+      "foreground": false,
+      "desktop": {
+        "x": 48.21522309711286,
+        "y": 1234,
+        "width": 95,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 95,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "0a0c8d9c-645e-42f4-8e02-43046a541640",
+      "name": "extracted/tile-ae1361b45b123e8d.png",
+      "file": "extracted/tile-ae1361b45b123e8d.png",
+      "still": "extracted/tile-ae1361b45b123e8d.png",
+      "width": 63,
+      "height": 55,
+      "foreground": false,
+      "desktop": {
+        "x": 48.16272965879265,
+        "y": 1166,
+        "width": 63,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 63,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "91daa9e9-4e6a-4e23-9c94-4db0862228e3",
+      "name": "extracted/tile-bf906a0475ff7529.png",
+      "file": "extracted/tile-bf906a0475ff7529.png",
+      "still": "extracted/tile-bf906a0475ff7529.png",
+      "width": 100,
+      "height": 77,
+      "foreground": false,
+      "desktop": {
+        "x": 54.82939632545932,
+        "y": 1200,
+        "width": 100,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 100,
+        "rotation": 0
+      }
+    },
+    {
+      "id": "5a987598-fb69-498c-bb9b-abcb2a0b708b",
+      "name": "extracted/tile-b8524b7b018139d4.png",
+      "file": "extracted/tile-b8524b7b018139d4.png",
+      "still": "extracted/tile-b8524b7b018139d4.png",
+      "width": 94,
+      "height": 91,
+      "foreground": false,
+      "desktop": {
+        "x": 55.09186351706037,
+        "y": 1128,
+        "width": 94,
+        "rotation": 0
+      },
+      "mobile": {
+        "x": 50,
+        "y": 488,
+        "width": 94,
+        "rotation": 0
+      }
+    }
+  ],
+  "settings": {
+    "desktop": {
+      "skyHeight": 255,
+      "rippleTop": 247,
+      "oceanX": 0,
+      "rippleScale": 135,
+      "rippleHeight": 129,
+      "skyTop": 0,
+      "contentTop": 335,
+      "mainMinHeight": 0
+    }
+  }
+}
