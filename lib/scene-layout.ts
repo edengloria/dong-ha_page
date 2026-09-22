@@ -1,4 +1,10 @@
-export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean }
+export const sceneAnchors = {
+  sky: "노을", sea: "바다 / 물결", sidebar: "왼쪽 패널", "sidebar-extras": "왼쪽 링크 / 하단",
+  main: "본문 패널", intro: "소개", research: "Research 카드", photos: "Photo 카드", records: "Record 카드",
+  publications: "메인 연구 목록", footer: "페이지 하단",
+} as const
+export type SceneAnchor = keyof typeof sceneAnchors
+export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor }
 export type SceneItem = {
   id: string; name: string; file: string; still: string; width: number; height: number
   foreground: boolean; desktop: Placement; mobile: Placement
@@ -47,7 +53,8 @@ const numberIn = (value: unknown, min: number, max: number) => typeof value === 
 function isPlacement(value: unknown): value is Placement {
   if (!value || typeof value !== "object") return false
   const p = value as Placement
-  return numberIn(p.x, -50, 150) && numberIn(p.y, 0, 50000) && numberIn(p.width, 8, 2400) &&
+  return (p.anchor === undefined || Object.prototype.hasOwnProperty.call(sceneAnchors, p.anchor)) &&
+    numberIn(p.x, p.anchor ? -1000 : -50, p.anchor ? 1000 : 150) && numberIn(p.y, p.anchor ? -50000 : 0, 50000) && numberIn(p.width, 8, 2400) &&
     numberIn(p.rotation, -180, 180) && (p.hidden === undefined || typeof p.hidden === "boolean")
 }
 export function parseLayout(value: unknown): SceneLayout {

@@ -30,6 +30,15 @@ for (const route of routes) {
 
       await page.goto(`${route.path}?beamTime=8`, { waitUntil: "networkidle" })
       await expect(page.locator('.beam-stage')).toHaveAttribute("data-renderer", "gl", { timeout: 20000 })
+      await expect(page.locator('.ocean-world')).toHaveAttribute("data-scene-ready", "true")
+      // A full-page capture must include offscreen decorations despite native lazy loading.
+      await page.locator('.scene-sprite img').evaluateAll(async (images) => {
+        await Promise.all(images.map(async (element) => {
+          const img = element as HTMLImageElement
+          img.loading = "eager"
+          await img.decode()
+        }))
+      })
       const mask = route.slug === "gallery-photos"
         ? [page.locator('img[src*="/asset/life-thumbs/"]')]
         : []

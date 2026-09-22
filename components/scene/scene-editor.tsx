@@ -2,14 +2,15 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState, type PointerEvent } from "react"
-import { assetPath, layoutFields, parseLayout, SCENE_EVENT, SCENE_STORAGE, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
+import { assetPath, layoutFields, parseLayout, sceneAnchors, SCENE_EVENT, SCENE_STORAGE, type SceneAnchor, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
+import { attachPlacement, movePlacement, resolvePlacement, type AnchorBoxes } from "@/lib/scene-anchors"
 import { withBasePath } from "@/lib/utils"
 
-type Props = { layout: SceneLayout; onChange: (layout: SceneLayout) => void; defaults: SceneLayout }
+type Props = { layout: SceneLayout; onChange: (layout: SceneLayout) => void; defaults: SceneLayout; geometry: { boxes: AnchorBoxes; viewport: number } }
 type Drag = { x: number; y: number; scroll: number; before: SceneLayout; id: string; placement: Placement }
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
 
-export default function SceneEditor({ layout, onChange, defaults }: Props) {
+export default function SceneEditor({ layout, onChange, defaults, geometry }: Props) {
   const [catalog, setCatalog] = useState<SceneAsset[]>([])
   const [catalogStatus, setCatalogStatus] = useState("에셋을 불러오는 중…")
   const [group, setGroup] = useState("all"), [query, setQuery] = useState("")
@@ -50,9 +51,7 @@ export default function SceneEditor({ layout, onChange, defaults }: Props) {
   function move(event: PointerEvent<HTMLButtonElement>) {
     const state = drag.current
     if (!state) return
-    const next = { ...state.placement,
-      x: clamp(state.placement.x + (event.clientX - state.x) / document.documentElement.clientWidth * 100, -50, 150),
-      y: clamp(state.placement.y + event.clientY - state.y + scrollY - state.scroll, 0, 50000) }
+    const next = movePlacement(state.placement, event.clientX - state.x, event.clientY - state.y + scrollY - state.scroll, geometry.boxes, geometry.viewport)
     onChange({ ...state.before, items: state.before.items.map((entry) => entry.id === state.id ? { ...entry, [mode]: next } : entry) })
   }
   function end() {
@@ -89,17 +88,17 @@ export default function SceneEditor({ layout, onChange, defaults }: Props) {
     {!preview && <div className="scene-handles" aria-label="배치 캔버스">
       {layout.items.filter((entry) => !entry[mode].hidden).map((entry, index) => {
         const p = entry[mode]
+        const rendered = resolvePlacement(p, geometry.boxes, geometry.viewport)
         return <button key={entry.id} className={`scene-handle ${selected === entry.id ? "is-selected" : ""}`}
           aria-label={`이동: ${entry.name}`} aria-pressed={selected === entry.id}
-          style={{ left: `${p.x}%`, top: p.y, width: p.width, height: p.width * entry.height / entry.width, transform: `translateX(-50%) rotate(${p.rotation}deg)`, zIndex: index }}
+          style={{ left: rendered.left, top: rendered.top, width: rendered.width, height: rendered.width * entry.height / entry.width, transform: `translateX(-50%) rotate(${p.rotation}deg)`, zIndex: index }}
           onPointerDown={(event) => start(event, entry)} onPointerMove={move} onPointerUp={end} onPointerCancel={end}
           onFocus={() => setSelected(entry.id)} onKeyDown={(event) => {
             if (!event.key.startsWith("Arrow")) return
             event.preventDefault()
             const step = event.shiftKey ? 10 : 1
-            place(event.key === "ArrowLeft" || event.key === "ArrowRight"
-              ? { x: clamp(p.x + (event.key === "ArrowLeft" ? -step : step) / innerWidth * 100, -50, 150) }
-              : { y: clamp(p.y + (event.key === "ArrowUp" ? -step : step), 0, 50000) })
+            place(movePlacement(p, event.key === "ArrowLeft" ? -step : event.key === "ArrowRight" ? step : 0,
+              event.key === "ArrowUp" ? -step : event.key === "ArrowDown" ? step : 0, geometry.boxes, geometry.viewport))
           }} />
       })}
     </div>}
@@ -138,8 +137,12 @@ export default function SceneEditor({ layout, onChange, defaults }: Props) {
       </details>
       <label>배치한 에셋 ({layout.items.length})<select value={selected || ""} onChange={(event) => setSelected(event.target.value)}><option value="">선택</option>{layout.items.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label>
       {item && <fieldset className="scene-properties"><legend>{item.name}</legend>
+        <label>붙일 영역<select aria-label="붙일 영역" value={item[mode].anchor || ""} onChange={(event) => place(attachPlacement(item[mode], (event.target.value || undefined) as SceneAnchor | undefined, geometry.boxes, geometry.viewport))}>
+          <option value="">화면 전체 (기존 좌표)</option>{Object.entries(sceneAnchors).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+        </select></label>
+        {item[mode].anchor && <p className="scene-help">위치는 선택한 영역의 가로·세로 %입니다. 크기는 FHD 기준이며 좁은 영역에 맞춰 줄어듭니다. 왼쪽 패널에 붙인 앞쪽 장식은 다른 페이지에서도 패널 위에 표시됩니다.</p>}
         <div className="scene-fields">{([
-          ["x", "가로 위치 (%)", -50, 150, .1], ["y", "세로 위치 (px)", 0, 50000, 1],
+          ["x", "가로 위치 (%)", item[mode].anchor ? -1000 : -50, item[mode].anchor ? 1000 : 150, .1], ["y", item[mode].anchor ? "세로 위치 (%)" : "세로 위치 (px)", item[mode].anchor ? -50000 : 0, 50000, item[mode].anchor ? .1 : 1],
           ["width", "너비 (px)", 8, 2400, 1], ["rotation", "회전 (°)", -180, 180, 1],
         ] as const).map(([key, label, min, max, step]) => <label key={key}>{label}<input key={`${item.id}-${mode}-${item[mode][key]}`} type="number" min={min} max={max} step={step} defaultValue={Math.round(item[mode][key] * 10) / 10}
           onBlur={(event) => {

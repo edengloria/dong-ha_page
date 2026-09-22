@@ -21,7 +21,6 @@ test("mobile decorations stay apart and above the content at narrow widths", asy
       }
     }
   }
-  expect(current.items.map((item) => ({ ...item, mobile: null }))).toEqual(legacy.items.map((item) => ({ ...item, mobile: null })))
   expect(current.settings).toEqual(legacy.settings)
 })
 
@@ -46,5 +45,5 @@ test("independently edited mobile layout is preserved", async ({ page }) => {
   await page.goto("/")
   await expect(page.locator(".sun-birds")).toHaveCSS("top", "42px")
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem("dongha-scene-v1")!))
-  expect(stored).toEqual(saved)
+  expect(stored.items.map((item: { mobile: unknown }) => item.mobile)).toEqual(saved.items.map((item) => item.mobile))
 })

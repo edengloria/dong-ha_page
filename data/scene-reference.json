@@ -1,0 +1,71 @@
+{
+  "width": 1905,
+  "boxes": {
+    "sky": {
+      "left": 0,
+      "top": 0,
+      "width": 1905,
+      "height": 255
+    },
+    "sea": {
+      "left": 0,
+      "top": 247,
+      "width": 1905,
+      "height": 129
+    },
+    "sidebar": {
+      "left": 356.5,
+      "top": 335,
+      "width": 210,
+      "height": 824.96875
+    },
+    "sidebar-extras": {
+      "left": 375.5,
+      "top": 922.46875,
+      "width": 172,
+      "height": 218.5
+    },
+    "main": {
+      "left": 594.5,
+      "top": 335,
+      "width": 954,
+      "height": 803.421875
+    },
+    "intro": {
+      "left": 624.5,
+      "top": 365,
+      "width": 894,
+      "height": 355.328125
+    },
+    "research": {
+      "left": 624.5,
+      "top": 746.328125,
+      "width": 290,
+      "height": 72.09375
+    },
+    "photos": {
+      "left": 926.5,
+      "top": 746.328125,
+      "width": 290,
+      "height": 72.09375
+    },
+    "records": {
+      "left": 1228.5,
+      "top": 746.328125,
+      "width": 290,
+      "height": 72.09375
+    },
+    "publications": {
+      "left": 624.5,
+      "top": 850.421875,
+      "width": 894,
+      "height": 246
+    },
+    "footer": {
+      "left": 356.5,
+      "top": 1187.96875,
+      "width": 1192,
+      "height": 17.59375
+    }
+  }
+}
