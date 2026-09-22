@@ -16,9 +16,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 47,
-        "y": 77,
-        "width": 330,
+        "x": 40,
+        "y": 45,
+        "width": 190,
         "rotation": 0
       }
     },
@@ -37,9 +37,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 89,
-        "y": 15,
-        "width": 112,
+        "x": 85,
+        "y": 18,
+        "width": 70,
         "rotation": 0
       }
     },
@@ -58,9 +58,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 77,
-        "y": 122,
-        "width": 60,
+        "x": 68,
+        "y": 132,
+        "width": 40,
         "rotation": 0
       }
     },
@@ -79,9 +79,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 12,
-        "y": 195,
-        "width": 125,
+        "x": 17,
+        "y": 186,
+        "width": 90,
         "rotation": 0
       }
     },
@@ -122,9 +122,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 70,
-        "y": 175,
-        "width": 100,
+        "x": 72,
+        "y": 180,
+        "width": 80,
         "rotation": 0
       }
     },
@@ -143,9 +143,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 12,
-        "y": 245,
-        "width": 70,
+        "x": 18,
+        "y": 238,
+        "width": 48,
         "rotation": 0
       }
     },
@@ -164,9 +164,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 86,
-        "y": 250,
-        "width": 65,
+        "x": 83,
+        "y": 238,
+        "width": 36,
         "rotation": 0
       }
     },
@@ -229,9 +229,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 66,
-        "y": 260,
-        "width": 420,
+        "x": 50,
+        "y": 282,
+        "width": 280,
         "rotation": 0
       }
     },
@@ -253,7 +253,8 @@
         "x": 50,
         "y": 120,
         "width": 82,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -274,7 +275,8 @@
         "x": 50,
         "y": 120,
         "width": 76,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -295,7 +297,8 @@
         "x": 50,
         "y": 120,
         "width": 70,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -316,7 +319,8 @@
         "x": 50,
         "y": 120,
         "width": 39,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -338,7 +342,8 @@
         "x": 50,
         "y": 179,
         "width": 240,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -359,7 +364,8 @@
         "x": 50,
         "y": 120,
         "width": 67,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -380,7 +386,8 @@
         "x": 50,
         "y": 479,
         "width": 129,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -401,7 +408,8 @@
         "x": 50,
         "y": 120,
         "width": 54,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -422,7 +430,8 @@
         "x": 50,
         "y": 120,
         "width": 202,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -443,7 +452,8 @@
         "x": 50,
         "y": 120,
         "width": 100,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -464,7 +474,8 @@
         "x": 50,
         "y": 179,
         "width": 240,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -485,7 +496,8 @@
         "x": 50,
         "y": 179,
         "width": 141,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -506,7 +518,8 @@
         "x": 50,
         "y": 179,
         "width": 240,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -527,7 +540,8 @@
         "x": 50,
         "y": 179,
         "width": 109,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -548,7 +562,8 @@
         "x": 50,
         "y": 179,
         "width": 100,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -569,7 +584,8 @@
         "x": 50,
         "y": 179,
         "width": 150,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -590,7 +606,8 @@
         "x": 50,
         "y": 120,
         "width": 240,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -611,7 +628,8 @@
         "x": 50,
         "y": 120,
         "width": 32,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -632,7 +650,8 @@
         "x": 50,
         "y": 120,
         "width": 109,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -653,7 +672,8 @@
         "x": 50,
         "y": 120,
         "width": 99,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -674,7 +694,8 @@
         "x": 50,
         "y": 479,
         "width": 128,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -695,7 +716,8 @@
         "x": 50,
         "y": 120,
         "width": 240,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -716,7 +738,8 @@
         "x": 50,
         "y": 120,
         "width": 100,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -737,7 +760,8 @@
         "x": 50,
         "y": 320,
         "width": 40,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -755,9 +779,9 @@
         "rotation": 0
       },
       "mobile": {
-        "x": 50,
-        "y": 120,
-        "width": 63,
+        "x": 10,
+        "y": 8,
+        "width": 26,
         "rotation": 0
       }
     },
@@ -779,7 +803,8 @@
         "x": 50,
         "y": 479,
         "width": 128,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -800,7 +825,8 @@
         "x": 50,
         "y": 120,
         "width": 32,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -821,7 +847,8 @@
         "x": 50,
         "y": 120,
         "width": 162,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -842,7 +869,8 @@
         "x": 50,
         "y": 120,
         "width": 94,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -863,7 +891,8 @@
         "x": 50,
         "y": 120,
         "width": 153,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -884,7 +913,8 @@
         "x": 50,
         "y": 120,
         "width": 50,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -905,7 +935,8 @@
         "x": 50,
         "y": 479,
         "width": 78,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -926,7 +957,8 @@
         "x": 50,
         "y": 120,
         "width": 120,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -947,7 +979,8 @@
         "x": 50,
         "y": 120,
         "width": 50,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -968,7 +1001,8 @@
         "x": 50,
         "y": 485,
         "width": 105,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -989,7 +1023,8 @@
         "x": 50,
         "y": 485,
         "width": 130,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1010,7 +1045,8 @@
         "x": 50,
         "y": 120,
         "width": 44,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1031,7 +1067,8 @@
         "x": 50,
         "y": 120,
         "width": 71,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1052,7 +1089,8 @@
         "x": 50,
         "y": 485,
         "width": 95,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1073,7 +1111,8 @@
         "x": 50,
         "y": 488,
         "width": 138,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1094,7 +1133,8 @@
         "x": 50,
         "y": 188,
         "width": 150,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1115,7 +1155,8 @@
         "x": 50,
         "y": 188,
         "width": 141,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1136,7 +1177,8 @@
         "x": 50,
         "y": 188,
         "width": 200,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1157,7 +1199,8 @@
         "x": 50,
         "y": 120,
         "width": 120,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1178,7 +1221,8 @@
         "x": 50,
         "y": 120,
         "width": 59,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1199,7 +1243,8 @@
         "x": 50,
         "y": 120,
         "width": 116,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1220,7 +1265,8 @@
         "x": 50,
         "y": 488,
         "width": 150,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1241,7 +1287,8 @@
         "x": 50,
         "y": 488,
         "width": 115,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1262,7 +1309,8 @@
         "x": 50,
         "y": 488,
         "width": 90,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1283,7 +1331,8 @@
         "x": 50,
         "y": 488,
         "width": 100,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1304,7 +1353,8 @@
         "x": 50,
         "y": 488,
         "width": 60,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1325,7 +1375,8 @@
         "x": 50,
         "y": 488,
         "width": 33,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1346,7 +1397,8 @@
         "x": 50,
         "y": 120,
         "width": 94,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1367,7 +1419,8 @@
         "x": 50,
         "y": 188,
         "width": 75,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1388,7 +1441,8 @@
         "x": 50,
         "y": 120,
         "width": 26,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1409,7 +1463,8 @@
         "x": 50,
         "y": 488,
         "width": 146,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1430,7 +1485,8 @@
         "x": 50,
         "y": 488,
         "width": 95,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1451,7 +1507,8 @@
         "x": 50,
         "y": 488,
         "width": 63,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1472,7 +1529,8 @@
         "x": 50,
         "y": 488,
         "width": 100,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     },
     {
@@ -1493,7 +1551,8 @@
         "x": 50,
         "y": 488,
         "width": 94,
-        "rotation": 0
+        "rotation": 0,
+        "hidden": true
       }
     }
   ],
