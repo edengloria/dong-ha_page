@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
 import { useEffect, useState, type CSSProperties } from "react"
 import defaultLayout from "@/data/scene-layout.json"
-import { assetPath, parseLayout, SCENE_EVENT, SCENE_STORAGE, type SceneLayout } from "@/lib/scene-layout"
+import { assetPath, layoutCss, parseLayout, SCENE_EVENT, SCENE_STORAGE, type SceneLayout } from "@/lib/scene-layout"
 import { withBasePath } from "@/lib/utils"
 import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
 
@@ -31,6 +31,7 @@ export function OceanWorld() {
     "--ripple": `url("${asset("12/bg.gif")}")`, "--ripple-still": `url("${asset("12/bg-still.png")}")`,
   } as CSSProperties
   return <>
+    <style>{layoutCss(layout)}</style>
     <div className="ocean-world" style={textures} aria-hidden="true">
       <div className="ocean-depth" /><div className="ocean-ripple" />
       <div className="ocean-light"><BeamsBackgroundClient /></div>

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState, type PointerEvent } from "react"
-import { assetPath, parseLayout, SCENE_EVENT, SCENE_STORAGE, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
+import { assetPath, layoutFields, parseLayout, SCENE_EVENT, SCENE_STORAGE, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
 import { withBasePath } from "@/lib/utils"
 
 type Props = { layout: SceneLayout; onChange: (layout: SceneLayout) => void; defaults: SceneLayout }
@@ -112,13 +112,30 @@ export default function SceneEditor({ layout, onChange, defaults }: Props) {
     </div>
     {open && <aside className="scene-panel" aria-label="에셋과 배치 속성">
       <h1>Scene editor</h1>
-      <p className="scene-help">이미지를 선택한 뒤 드래그하세요. 방향키로 1px, Shift와 함께 10px 이동합니다. 560px 이하 화면에서는 모바일 위치를 별도로 편집합니다.</p>
+      <p className="scene-help">이미지를 선택한 뒤 드래그하세요. 방향키로 1px, Shift와 함께 10px 이동합니다. 560px 이하 화면에서는 모바일 위치를 별도로 편집합니다. 편집창 오른쪽 아래 모서리를 드래그하면 창 크기도 바뀝니다.</p>
       <div className="scene-actions">
         <button disabled={!past.length} onClick={() => { const last = past.at(-1)!; setPast(past.slice(0, -1)); setFuture([...future, layout]); onChange(last); setMessage("저장하지 않은 변경") }}>되돌리기</button>
         <button disabled={!future.length} onClick={() => { const next = future.at(-1)!; setFuture(future.slice(0, -1)); setPast([...past, layout]); onChange(next); setMessage("저장하지 않은 변경") }}>다시 실행</button>
         <button onClick={() => commit(defaults)}>기본 배치</button>
       </div>
       <p role="status" className="scene-status">{message}</p>
+      <details className="scene-save" open><summary>배경 / 패널 레이아웃</summary>
+        <p>현재 화면 크기의 설정입니다. 너비는 화면에 맞춰 줄어들며, 높이는 내용이 잘리지 않도록 최소 높이로 적용됩니다. 왼쪽 패널 너비는 두 열 화면(900px 초과)에 적용됩니다.</p>
+        {["배경", "패널"].map((section) => <fieldset key={section} className="scene-properties"><legend>{section}</legend>
+          <div className="scene-fields">{(Object.entries(layoutFields) as [LayoutField, (typeof layoutFields)[LayoutField]][]).filter(([, field]) => field.group === section).map(([key, field]) => {
+            const value = layout.settings?.[mode]?.[key] ?? field[mode]
+            return <label key={key}>{field.label} ({field.unit})<input key={`${mode}-${value}`} type="number" min={field.min} max={field.max} step="1" defaultValue={value}
+              onBlur={(event) => {
+                const next = event.target.valueAsNumber
+                if (!Number.isFinite(next)) { event.target.value = String(value); return }
+                const bounded = clamp(next, field.min, field.max)
+                event.target.value = String(bounded)
+                if (bounded !== value) commit({ ...layout, settings: { ...layout.settings, [mode]: { ...layout.settings?.[mode], [key]: bounded } } })
+              }} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur() }} /></label>
+          })}</div>
+        </fieldset>)}
+        <button onClick={() => commit({ ...layout, settings: { ...layout.settings, [mode]: {} } })}>이 화면의 배경 / 패널 초기화</button>
+      </details>
       <label>배치한 에셋 ({layout.items.length})<select value={selected || ""} onChange={(event) => setSelected(event.target.value)}><option value="">선택</option>{layout.items.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label>
       {item && <fieldset className="scene-properties"><legend>{item.name}</legend>
         <div className="scene-fields">{([

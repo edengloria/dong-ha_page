@@ -29,10 +29,10 @@
 }
 
 @layer components {
-  .site-grid { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 28px; align-items: start; }
-  .site-wrap { max-width: 1240px; margin: auto; padding: 32px 24px 64px; }
-  .page-sheet { background: #efecdf; border: 2px solid #17182b; padding: 28px; box-shadow: 7px 7px 0 #080a19; }
-  .desk-sidebar { background: #e1dfcf; border: 2px solid #18192e; box-shadow: 5px 5px 0 #080a19; }
+  .site-grid { display: grid; grid-template-columns: min(45%, var(--scene-sidebarWidth, 210px)) minmax(0, 1fr); gap: var(--scene-panelGap, 28px); align-items: start; }
+  .site-wrap { container-type: inline-size; max-width: var(--scene-contentWidth, 1240px); margin: auto; padding: 32px 24px 64px; }
+  .page-sheet { min-height: var(--scene-mainMinHeight, 0px); background: #efecdf; border: 2px solid #17182b; padding: 28px; box-shadow: 7px 7px 0 #080a19; }
+  .desk-sidebar { min-width: 0; overflow-wrap: anywhere; min-height: var(--scene-sidebarMinHeight, 0px); background: #e1dfcf; border: 2px solid #18192e; box-shadow: 5px 5px 0 #080a19; }
   .window-strip { background: #30285b; color: #f4eddb; font: bold 12px/1.4 "Courier New", monospace; padding: 7px 10px; letter-spacing: .05em; display: flex; justify-content: space-between; }
   .sidebar-body { padding: 17px; }
   .portrait-print { border: 1px solid #24233c; background: #faf6e9; padding: 6px 6px 20px; transform: rotate(-3deg); margin: 7px 10px 20px; }
@@ -82,22 +82,22 @@
 .beam-stage canvas { position: absolute; inset: 0; }
 .intro-note { display: grid; gap: 16px; }
 .ocean-world { --sky-height: 280px; position: absolute; inset: 0; min-height: 100svh; overflow: hidden; pointer-events: none; }
-.ocean-depth { position: fixed; inset: 0; background: linear-gradient(#12378822, #151536d9), var(--ocean) repeat; }
-.ocean-light { position: fixed; inset: 0; z-index: 1; }
-.sunset-sky { position: absolute; inset: 0 0 auto; height: var(--sky-height); z-index: 2; background: var(--sunset) repeat-x top / 48px var(--sky-height); }
-.ocean-ripple { position: absolute; top: var(--sky-height); width: 100%; height: 96px; background: var(--ripple) repeat; mask-image: linear-gradient(transparent, #000 12%, #000 60%, transparent); }
-.site-wrap.ocean-content { padding-top: 394px; }
+.ocean-depth { position: fixed; inset: 0; background: linear-gradient(#12378822, #151536d9), var(--ocean) repeat; background-position: 0 0, var(--scene-oceanX, 0px) var(--scene-oceanY, 0px); }
+.ocean-light { position: fixed; top: var(--scene-beamTop, 0px); left: 0; right: 0; height: var(--scene-beamHeight, 100svh); opacity: var(--scene-beamOpacity, 100%); z-index: 1; }
+.sunset-sky { position: absolute; inset: var(--scene-skyTop, 0px) 0 auto; height: var(--scene-skyHeight, var(--sky-height)); z-index: 2; background: var(--sunset) repeat-x top / 48px var(--scene-skyHeight, var(--sky-height)); }
+.ocean-ripple { position: absolute; top: var(--scene-rippleTop, var(--sky-height)); width: 100%; height: var(--scene-rippleHeight, 96px); background: var(--ripple) repeat; background-size: calc(150px * var(--scene-rippleScale, 1)) calc(150px * var(--scene-rippleScale, 1)); mask-image: linear-gradient(transparent, #000 12%, #000 60%, transparent); }
+.site-wrap.ocean-content { padding-top: var(--scene-contentTop, 394px); }
 .ocean-credit { margin-top: 28px; color: #e9e6ff; font: 11px/1.6 Verdana, sans-serif; text-align: right; }
 .ocean-credit a { text-decoration: underline; }
 @media (max-width: 560px) {
   .ocean-world { --sky-height: 230px; }
-  .site-wrap.ocean-content { padding-top: 334px; }
+  .site-wrap.ocean-content { padding-top: var(--scene-contentTop, 334px); }
   .ocean-credit { text-align: center; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes musicBar { 0%, 100% { height: 30%; } 50% { height: 100%; } }
 @media (max-width: 900px) {
-  .site-grid { grid-template-columns: 1fr; gap: 24px; }
+  .site-grid { grid-template-columns: 1fr; gap: var(--scene-panelGap, 24px); }
   .sidebar-body { display: grid; grid-template-columns: 100px 1fr; gap: 0 20px; }
   .portrait-print { grid-row: span 3; margin: 4px 0; }
   .sidebar-body .directory { grid-column: 1 / -1; display: flex; flex-wrap: wrap; margin-bottom: 0; }
@@ -117,6 +117,19 @@
   .room-photos, .room-records { margin-top: 0; }
   .room h2 { font-size: 18px; }
 }
+/* A narrow custom panel layout must stack even on a wide monitor. */
+@media (min-width: 901px) {
+ @container (max-width: 700px) {
+  .site-grid { grid-template-columns: 1fr; }
+  .room-grid { grid-template-columns: 1fr; }
+  .sidebar-body { display: grid; grid-template-columns: minmax(60px, 100px) minmax(0, 1fr); gap: 0 20px; }
+  .portrait-print { grid-row: span 3; margin: 4px 0; }
+  .sidebar-body .directory { grid-column: 1 / -1; display: flex; flex-wrap: wrap; margin-bottom: 0; }
+  .directory a { flex: 1; justify-content: center; }
+  .sidebar-extras { grid-column: 1 / -1; margin-top: 16px; }
+  .sidebar-extras .eyebrow, .sidebar-extras .web-badges, .sidebar-extras footer { display: none; }
+ }
+}
 @media (prefers-reduced-motion: reduce) {
   .ocean-ripple { background-image: var(--ripple-still); }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -131,7 +144,7 @@
 .scene-toolbar { position: fixed; left: 12px; top: 12px; z-index: 60; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; max-width: calc(100% - 24px); background: #fff5d7; border: 2px solid #27213e; box-shadow: 3px 3px #151127; font-size: 12px; }
 .scene-toolbar button, .scene-toolbar a, .scene-panel button, .scene-panel a { border: 1px solid #625773; background: #faf6e6; padding: 6px 9px; min-height: 36px; text-decoration: underline; }
 .scene-toolbar button[aria-pressed=true] { background: #d9d0ef; }
-.scene-panel { position: fixed; right: 12px; top: 74px; width: 330px; max-height: calc(100svh - 90px); overflow-y: auto; overscroll-behavior: contain; z-index: 60; background: #efecdf; color: #202138; border: 2px solid #27213e; box-shadow: 4px 4px #151127; padding: 14px; font-size: 12px; }
+.scene-panel { position: fixed; right: 12px; top: 74px; width: 330px; min-width: 280px; max-width: calc(100% - 24px); min-height: 180px; max-height: calc(100svh - 90px); resize: both; overflow: auto; overscroll-behavior: contain; z-index: 60; background: #efecdf; color: #202138; border: 2px solid #27213e; box-shadow: 4px 4px #151127; padding: 14px; font-size: 12px; }
 .scene-panel h1 { font-size: 22px; font-weight: bold; }
 .scene-panel h2 { font-size: 16px; font-weight: bold; margin: 18px 0 8px; }
 .scene-panel label { display: block; margin: 8px 0; }
