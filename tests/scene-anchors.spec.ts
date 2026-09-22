@@ -5,7 +5,7 @@ import legacy from "../data/scene-layout (1).json"
 test("anchoring preserves the FHD composition and follows reflowed panels", async ({ page }) => {
   await page.setViewportSize({ width: reference.width, height: 1000 })
   await page.goto("/", { waitUntil: "networkidle" })
-  const positions = await page.locator(".scene-sprite").evaluateAll((sprites) => Object.fromEntries(sprites.map((sprite) => {
+  const positions = await page.locator(".scene-sprite:visible").evaluateAll((sprites) => Object.fromEntries(sprites.map((sprite) => {
     const r = sprite.getBoundingClientRect()
     return [sprite.classList[1], { x: r.left + r.width / 2, y: r.top, width: r.width }]
   })))

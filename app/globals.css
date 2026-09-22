@@ -134,9 +134,9 @@
   .ocean-ripple { background-image: var(--ripple-still); }
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-.scene-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow-x: clip; }
+.scene-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; container-type: inline-size; }
 .scene-foreground { z-index: 20; }
-.scene-sprite { position: absolute; display: var(--show); left: var(--x); top: var(--y); width: var(--w); transform: translateX(-50%) rotate(var(--r)); }
+.scene-sprite { position: absolute; display: block; pointer-events: none; }
 .scene-sprite img { width: 100%; height: auto; max-width: none; }
 .scene-handles { position: absolute; inset: 0; z-index: 40; pointer-events: none; }
 .scene-handle { position: absolute; pointer-events: auto; touch-action: none; border: 1px dashed #fff9; background: transparent; cursor: move; }
@@ -166,8 +166,34 @@
 .asset-grid span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 9px; }
 .asset-grid small { position: absolute; top: 4px; right: 4px; background: #28223b; color: #fff; padding: 0 2px; font-size: 8px; }
 @media (max-width: 560px) {
-  .scene-sprite { display: var(--mshow); left: var(--mx); top: var(--my); width: var(--mw); transform: translateX(-50%) rotate(var(--mr)); }
+
   .scene-toolbar { top: 4px; left: 4px; max-width: calc(100% - 8px); gap: 4px; padding: 4px; }
   .scene-toolbar strong { width: 100%; }
   .scene-panel { top: auto; bottom: 8px; right: 8px; width: calc(100% - 16px); max-height: 42svh; }
 }
+
+/* Native scene regions: border-box coordinates match the saved FHD export. */
+.site-viewport { position: relative; overflow-x: clip; }
+.page-sheet, .desk-sidebar, .sidebar-extras, .intro-note, .room-region, [aria-label="On the research desk"], .ocean-credit { position: relative; }
+.scene-slot { position: absolute; inset: 0; display: block; pointer-events: none; }
+.page-sheet > .scene-slot, .desk-sidebar > .scene-slot { inset: -2px; }
+[aria-label="On the research desk"] > .scene-slot { top: -2px; }
+.scene-slot-viewport { container-type: normal; }
+.scene-slot-viewport .scene-layer { z-index: 2; }
+.scene-slot-viewport .scene-foreground, .scene-foreground { z-index: 20; }
+.scene-sprite picture { display: block; }
+.scene-image-link { pointer-events: auto; }
+.scene-image-link:focus-visible { outline: 3px dashed #ffff00; outline-offset: 3px; }
+.scene-mobile { display: none; }
+.scene-home-fallback { position: absolute; inset: -2px; container-type: inline-size; pointer-events: none; z-index: -1; }
+.scene-fallback-region { position: absolute; display: block; }
+.sky-region { position: absolute; top: var(--scene-skyTop, 0px); width: 100%; height: var(--scene-skyHeight, var(--sky-height)); }
+.sea-region { position: absolute; top: var(--scene-rippleTop, var(--sky-height)); width: 100%; height: var(--scene-rippleHeight, 96px); }
+.sky-region > .sunset-sky, .sea-region > .ocean-ripple { inset: 0; height: 100%; }
+.sky-region > .sunset-sky { z-index: 2; }
+.ocean-world .scene-layer { z-index: 3; }
+.ocean-world .scene-foreground { z-index: 20; }
+.room-region { min-width: 0; }
+.copy-paragraph a:link, .meta-link:link, .glass-chip:link { color: #0000b8; }
+.copy-paragraph a:visited, .meta-link:visited, .glass-chip:visited { color: #800080; }
+@media(max-width:560px) { .scene-desktop { display: none; } .scene-mobile { display: block; } }

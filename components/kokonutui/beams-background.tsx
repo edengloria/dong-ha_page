@@ -16,7 +16,7 @@ export default function BeamsBackground() {
     const host = hostRef.current!
     const motion = matchMedia("(prefers-reduced-motion: reduce)")
     const abort = new AbortController()
-    let disposed = false
+    let disposed = false, initializing = false
     let canvas: Canvas | undefined
     let engine: ThorVGNamespace | undefined
     let element: HTMLCanvasElement | undefined
@@ -102,59 +102,75 @@ export default function BeamsBackground() {
       destroyScene()
       host.dataset.renderer = "static"
     }
-    startup = startup.catch(() => {}).then(async () => {
-      if (disposed) return
-      try {
-        const [{ default: ThorVG }, textures] = await Promise.all([
-          import("@thorvg/webcanvas"),
-          Promise.all([0, 1, 2].map(async (i) => {
-            const response = await fetch(withBasePath(`/asset/beams/${i}.png`), { signal: abort.signal })
-            if (!response.ok) throw new Error("Beam texture unavailable")
-            return new Uint8Array(await response.arrayBuffer())
-          })),
-        ])
-        if (disposed) return
-        for (const renderer of ["wg", "gl"] as const) {
-          if (renderer === "wg" && !Reflect.get(navigator, "gpu")) continue
-          try {
-            engine = await ThorVG.init({ renderer, locateFile: () => withBasePath("/vendor/thorvg/thorvg.wasm") })
-            if (disposed) { destroyScene(); return }
-            element = document.createElement("canvas")
-            element.id = "thorvg-beams"
-            element.setAttribute("aria-hidden", "true")
-            host.append(element)
-            canvas = new engine.Canvas("#thorvg-beams", { width: 1, height: 1, enableDevicePixelRatio: false })
-            for (let i = 0; i < COUNTS[0]; i++) {
-              const picture = new engine.Picture()
-              pictures.push(picture)
-              picture.load(textures[i % 3], { type: "png" })
-              canvas.add(picture)
+    function initialize() {
+      if (disposed || initializing || canvas) return
+      // Fixed time is a development-only visual fixture. Public reduced motion loads no engine.
+      if (motion.matches && fixedTime === null) { host.dataset.renderer = "static"; return }
+      initializing = true
+      host.dataset.renderer = "loading"
+      startup = startup.catch(() => {}).then(async () => {
+        if (disposed || (motion.matches && fixedTime === null)) return
+        try {
+          const [{ default: ThorVG }, textures] = await Promise.all([
+            import("@thorvg/webcanvas"),
+            Promise.all([0, 1, 2].map(async (i) => {
+              const response = await fetch(withBasePath(`/asset/beams/${i}.png`), { signal: abort.signal })
+              if (!response.ok) throw new Error("Beam texture unavailable")
+              return new Uint8Array(await response.arrayBuffer())
+            })),
+          ])
+          if (disposed || (motion.matches && fixedTime === null)) return
+          for (const renderer of ["wg", "gl"] as const) {
+            if (renderer === "wg" && !Reflect.get(navigator, "gpu")) continue
+            try {
+              engine = await ThorVG.init({ renderer, locateFile: () => withBasePath("/vendor/thorvg/thorvg.wasm") })
+              if (disposed || (motion.matches && fixedTime === null)) { destroyScene(); return }
+              element = document.createElement("canvas")
+              element.id = "thorvg-beams"
+              element.setAttribute("aria-hidden", "true")
+              host.append(element)
+              canvas = new engine.Canvas("#thorvg-beams", { width: 1, height: 1, enableDevicePixelRatio: false })
+              for (let i = 0; i < COUNTS[0]; i++) {
+                const picture = new engine.Picture()
+                pictures.push(picture)
+                picture.load(textures[i % 3], { type: "png" })
+                canvas.add(picture)
+              }
+              resize()
+              draw(fixedTime === null ? 0 : Number(fixedTime))
+              host.dataset.renderer = renderer
+              element.addEventListener("webglcontextlost", (event) => { event.preventDefault(); fallback() }, { once: true })
+              resume()
+              return
+            } catch {
+              // init can fail after loading its singleton. Reset it before GL retry.
+              if (!engine) { try { engine = await ThorVG.init() } catch {} }
+              destroyScene()
+              if (disposed) return
             }
-            resize()
-            draw(fixedTime === null ? 0 : Number(fixedTime))
-            host.dataset.renderer = renderer
-            element.addEventListener("webglcontextlost", (event) => { event.preventDefault(); fallback() }, { once: true })
-            resume()
-            return
-          } catch {
-            // init can fail after loading its singleton. Reset it before GL retry.
-            if (!engine) { try { engine = await ThorVG.init() } catch {} }
-            destroyScene()
-            if (disposed) return
           }
-        }
-        fallback()
-      } catch { if (!disposed) fallback() }
-    })
+          fallback()
+        } catch { if (!disposed) fallback() }
+      }).finally(() => {
+        initializing = false
+        if (!disposed && motion.matches && fixedTime === null) { destroyScene(); host.dataset.renderer = "static" }
+      })
+    }
+    function preferencesChanged() {
+      if (motion.matches && fixedTime === null) { destroyScene(); host.dataset.renderer = "static" }
+      else if (canvas) resume()
+      else initialize()
+    }
+    initialize()
     window.addEventListener("resize", resize)
     document.addEventListener("visibilitychange", resume)
-    motion.addEventListener("change", resume)
+    motion.addEventListener("change", preferencesChanged)
     return () => {
       disposed = true
       abort.abort()
       window.removeEventListener("resize", resize)
       document.removeEventListener("visibilitychange", resume)
-      motion.removeEventListener("change", resume)
+      motion.removeEventListener("change", preferencesChanged)
       destroyScene()
     }
   }, [])
