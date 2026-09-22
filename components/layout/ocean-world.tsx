@@ -15,7 +15,9 @@ const defaults = parseLayout(defaultLayout)
 const asset = (file: string) => withBasePath(`/asset/camerons-world/${file}`)
 
 export function OceanWorld() {
-  const editing = usePathname().replace(/\/$/, "").endsWith("/scene-editor")
+  const pathname = usePathname().replace(/\/$/, "")
+  const editing = pathname === withBasePath("/scene-editor")
+  const showForeground = editing || pathname === withBasePath("/").replace(/\/$/, "")
   const [layout, setLayout] = useState<SceneLayout>(defaults)
   useEffect(() => {
     const read = () => {
@@ -46,7 +48,7 @@ export function OceanWorld() {
       <div className="ocean-light"><BeamsBackgroundClient /></div>
       <div className="sunset-sky" />
     </div>
-    {[false, true].map((foreground) => <div key={String(foreground)} className={`scene-layer ${foreground ? "scene-foreground" : ""}`} aria-hidden="true">
+    {[false, true].map((foreground) => <div key={String(foreground)} className={`scene-layer ${foreground && showForeground ? "scene-foreground" : ""}`} aria-hidden="true">
       {layout.items.filter((item) => item.foreground === foreground).map((item, index) => <picture key={item.id} className={`scene-sprite ${item.id}`} style={{
         "--x": `${item.desktop.x}%`, "--y": `${item.desktop.y}px`, "--w": `${item.desktop.width}px`, "--r": `${item.desktop.rotation}deg`, "--show": item.desktop.hidden ? "none" : "block",
         "--mx": `${item.mobile.x}%`, "--my": `${item.mobile.y}px`, "--mw": `${item.mobile.width}px`, "--mr": `${item.mobile.rotation}deg`, "--mshow": item.mobile.hidden ? "none" : "block", zIndex: index,
