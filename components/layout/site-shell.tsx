@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import Link from "next/link"
 import { SiteSidebar } from "@/components/layout/site-sidebar"
 import { OceanWorld } from "@/components/layout/ocean-world"
 
@@ -24,7 +23,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <div className="page-sheet">{children}</div>
             </main>
           </div>
-          <p className="ocean-credit">Graphics from <a href="https://www.cameronsworld.net/" target="_blank" rel="noopener noreferrer">Cameron’s World / GeoCities archives</a><span aria-hidden="true"> · </span><Link href="/scene-editor">배치 편집</Link></p>
+          <p className="ocean-credit">Graphics from <a href="https://www.cameronsworld.net/" target="_blank" rel="noopener noreferrer">Cameron’s World / GeoCities archives</a></p>
         </div>
       </div>
     </>
