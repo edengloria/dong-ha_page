@@ -4,7 +4,7 @@ export const profile: ProfileContent = {
   name: "Dong-Ha Shin",
   nativeName: "신동하",
   role: "MS Student @ POSTECH AI",
-  email: "0218sdh@gmail.com",
+  email: "d.shin@postech.ac.kr",
   location: "Pohang, South Korea",
 
   portrait: "/asset/gradshot-profile.webp",
@@ -49,9 +49,9 @@ export const profile: ProfileContent = {
       external: true,
     },
     {
-      label: "Instagram",
-      href: "https://www.instagram.com/shindong__/",
-      icon: "instagram",
+      label: "Google Scholar",
+      href: "https://scholar.google.com/citations?user=jH50QLoAAAAJ",
+      icon: "scholar",
       external: true,
     },
   ],
