@@ -8,6 +8,7 @@ import defaultLayout from "@/data/scene-layout.json"
 import { assetPath, layoutCss, parseLayout, SCENE_EVENT, SCENE_STORAGE, type SceneLayout } from "@/lib/scene-layout"
 import { withBasePath } from "@/lib/utils"
 import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
+import { migrateMobileScene } from "@/lib/migrate-mobile-scene"
 
 const SceneEditor = dynamic(() => import("@/components/scene/scene-editor"), { ssr: false })
 const defaults = parseLayout(defaultLayout)
@@ -18,7 +19,15 @@ export function OceanWorld() {
   const [layout, setLayout] = useState<SceneLayout>(defaults)
   useEffect(() => {
     const read = () => {
-      try { const raw = localStorage.getItem(SCENE_STORAGE); setLayout(raw ? parseLayout(JSON.parse(raw)) : defaults) } catch { setLayout(defaults) }
+      try {
+        const raw = localStorage.getItem(SCENE_STORAGE)
+        const saved = raw ? parseLayout(JSON.parse(raw)) : defaults
+        const next = raw ? migrateMobileScene(saved, defaults) : defaults
+        setLayout(next)
+        if (next !== saved) {
+          try { localStorage.setItem(SCENE_STORAGE, JSON.stringify(next)) } catch { /* Still show the corrected layout if storage is full. */ }
+        }
+      } catch { setLayout(defaults) }
     }
     read()
     const stored = (event: StorageEvent) => { if (event.key === SCENE_STORAGE || event.key === null) read() }
