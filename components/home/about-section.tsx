@@ -2,16 +2,13 @@ import Link from "next/link"
 import { profile } from "@/content/profile"
 import { publications } from "@/content/publications"
 import { RichText } from "@/components/content/rich-text"
-import { AboutDialog } from "@/components/home/about-dialog"
 
 export function AboutSection() {
   return (
     <section>
       <header className="intro-note">
         <h1 className="page-title">Dong-Ha Shin</h1>
-        <p className="copy-paragraph"><RichText blocks={profile.about[0]} /></p>
-        <p className="copy-paragraph">My research interests broadly lie in co-designing novel systems at the intersection of optics, vision, graphics, and artificial intelligence.</p>
-        <AboutDialog />
+        {profile.about.map((paragraph, index) => <p key={index} className="copy-paragraph"><RichText blocks={paragraph} /></p>)}
       </header>
       <nav className="room-grid" aria-label="Explore">
         <Link href="/publications" className="room room-research"><span className="room-number">01</span><h2>Research desk ↗</h2></Link>
