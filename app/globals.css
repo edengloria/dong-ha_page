@@ -97,7 +97,7 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes musicBar { 0%, 100% { height: 30%; } 50% { height: 100%; } }
 @media (max-width: 900px) {
-  .site-grid { grid-template-columns: 1fr; gap: var(--scene-panelGap, 24px); }
+  .site-grid { grid-template-columns: 1fr; gap: max(var(--scene-panelGap, 24px), calc(var(--scene-main-top-space, 0px) + 12px)); }
   .sidebar-body { display: grid; grid-template-columns: 100px 1fr; gap: 0 20px; }
   .portrait-print { grid-row: span 3; margin: 4px 0; }
   .sidebar-body .directory { grid-column: 1 / -1; display: flex; flex-wrap: wrap; margin-bottom: 0; }
@@ -120,7 +120,7 @@
 /* A narrow custom panel layout must stack even on a wide monitor. */
 @media (min-width: 901px) {
  @container (max-width: 700px) {
-  .site-grid { grid-template-columns: 1fr; }
+  .site-grid { grid-template-columns: 1fr; row-gap: max(var(--scene-panelGap, 28px), calc(var(--scene-main-top-space, 0px) + 12px)); }
   .room-grid { grid-template-columns: 1fr; }
   .sidebar-body { display: grid; grid-template-columns: minmax(60px, 100px) minmax(0, 1fr); gap: 0 20px; }
   .portrait-print { grid-row: span 3; margin: 4px 0; }

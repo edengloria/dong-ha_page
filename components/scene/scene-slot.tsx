@@ -17,14 +17,15 @@ function Sprite({ item, mode, index }: { item: SceneItem; mode: "desktop" | "mob
   const media = mode === "desktop" ? "(min-width: 561px)" : "(max-width: 560px)"
   const width = p.size === "original" ? `${item.width}px` : p.size === "integer" ? `${item.width * (p.pixelScale || 1)}px`
     : p.anchor ? `min(${p.width}px, ${p.width / reference.boxes[p.anchor].width * 100}cqw)` : `${p.width}px`
-  const style = { left: `${p.x}%`, top: `${p.y}${p.anchor ? "%" : "px"}`, width, transform: `translateX(-50%) rotate(${p.rotation}deg)`, zIndex: index,
+  const top = p.edge === "top" && p.anchor ? `${p.y < 0 ? "max" : "min"}(${p.y}px, ${p.y / reference.boxes[p.anchor].width * 100}cqw)` : `${p.y}${p.anchor ? "%" : "px"}`
+  const style = { left: `${p.x}%`, top, width, transform: `translate(-50%, ${p.edge === "top" ? "-100%" : "0"}) rotate(${p.rotation}deg)`, zIndex: index,
     imageRendering: item.pixelated ? "pixelated" : "auto" } as CSSProperties
   const picture = <picture>
     <source media={`${media} and (prefers-reduced-motion: reduce)`} srcSet={withBasePath(assetPath(item.still))} />
     <source media={media} srcSet={withBasePath(assetPath(file))} />
     <Image src={blank} alt="" width={item.width} height={item.height} unoptimized loading="lazy" />
   </picture>
-  const props = { className: `scene-sprite ${item.id}`, "data-anchor": p.anchor || "viewport", "data-scene-id": item.id, style }
+  const props = { className: `scene-sprite ${item.id}`, "data-anchor": p.anchor || "viewport", "data-edge": p.edge, "data-scene-id": item.id, style }
   return item.link ? <a {...props} className={`${props.className} scene-image-link`} href={item.link === "email" ? links.email : withBasePath(links[item.link])} aria-label={labels[item.link]}>{picture}</a>
     : <span {...props} aria-hidden="true">{picture}</span>
 }

@@ -1,6 +1,7 @@
 import { test, expect } from "./fixtures"
 import layout from "../data/scene-layout.json"
 import reference from "../data/scene-reference.json"
+import type { Placement } from "../lib/scene-layout"
 
 test("panel decorations reflow without JavaScript and retain the FHD composition", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: "reduce", viewport: { width: 1905, height: 1000 } })
@@ -17,12 +18,15 @@ test("panel decorations reflow without JavaScript and retain the FHD composition
       return { id: el.getAttribute("data-scene-id"), left: r.left + r.width / 2, top: r.top, width: r.width, slot: { left: slot.left, top: slot.top, width: slot.width, height: slot.height } }
     }))
     for (const box of boxes) {
-      const p = layout.items.find((item) => item.id === box.id)![width <= 560 ? "mobile" : "desktop"]
-      if (!("anchor" in p)) continue
+      const item = layout.items.find((item) => item.id === box.id)!
+      const p: Placement = item[width <= 560 ? "mobile" : "desktop"]
+      if (!p.anchor) continue
       expect(Math.abs(box.left - (box.slot.left + p.x / 100 * box.slot.width))).toBeLessThan(1)
-      expect(Math.abs(box.top - (box.slot.top + p.y / 100 * box.slot.height))).toBeLessThan(1)
       const anchor = p.anchor as keyof typeof reference.boxes
-      expect(Math.abs(box.width - p.width * Math.min(1, box.slot.width / reference.boxes[anchor].width))).toBeLessThan(1)
+      const scale = Math.min(1, box.slot.width / reference.boxes[anchor].width)
+      const top = p.edge === "top" ? box.slot.top + p.y * scale - box.width * item.height / item.width : box.slot.top + p.y / 100 * box.slot.height
+      expect(Math.abs(box.top - top)).toBeLessThan(1)
+      expect(Math.abs(box.width - p.width * scale)).toBeLessThan(1)
     }
   }
   await context.close()

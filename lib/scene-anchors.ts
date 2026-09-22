@@ -1,5 +1,5 @@
 import reference from "@/data/scene-reference.json"
-import type { Placement, SceneAnchor, SceneLayout } from "@/lib/scene-layout"
+import type { Placement, SceneAnchor, SceneItem, SceneLayout } from "@/lib/scene-layout"
 
 export type AnchorBox = { left: number; top: number; width: number; height: number }
 export type AnchorBoxes = Partial<Record<SceneAnchor, AnchorBox>>
@@ -18,24 +18,27 @@ export function anchorBox(anchor: SceneAnchor, boxes: AnchorBoxes): AnchorBox {
   return { left: main.left + (original.left - reference.boxes.main.left) * scale,
     top: main.top + (original.top - reference.boxes.main.top) * scale, width: original.width * scale, height: original.height * scale }
 }
-export function resolvePlacement(p: Placement, boxes: AnchorBoxes, viewport: number) {
-  if (!p.anchor) return { left: p.x / 100 * viewport, top: p.y, width: p.width, scale: 1 }
-  const box = anchorBox(p.anchor, boxes)
-  const scale = Math.min(1, box.width / reference.boxes[p.anchor].width)
-  return { left: box.left + p.x / 100 * box.width, top: box.top + p.y / 100 * box.height, width: p.width * scale, scale }
+type ImageSize = Pick<SceneItem, "width" | "height">
+export function resolvePlacement(p: Placement, boxes: AnchorBoxes, viewport: number, image: ImageSize) {
+  const box = p.anchor ? anchorBox(p.anchor, boxes) : { left: 0, top: 0, width: viewport, height: 100 }
+  const scale = p.anchor ? Math.min(1, box.width / reference.boxes[p.anchor].width) : 1
+  const width = p.size === "original" ? image.width : p.size === "integer" ? image.width * (p.pixelScale || 1) : p.width * scale
+  const height = width * image.height / image.width
+  const top = p.edge === "top" ? box.top + p.y * scale - height : box.top + p.y / 100 * box.height
+  return { left: box.left + p.x / 100 * box.width, top, width, height, scale }
 }
 export function movePlacement(p: Placement, dx: number, dy: number, boxes: AnchorBoxes, viewport: number): Placement {
   const box = p.anchor ? anchorBox(p.anchor, boxes) : { width: viewport, height: 100 }
   return { ...p, x: clamp(p.x + dx / Math.max(1, box.width) * 100, p.anchor ? -1000 : -50, p.anchor ? 1000 : 150),
-    y: clamp(p.y + dy / Math.max(1, box.height) * 100, p.anchor ? -50000 : 0, 50000) }
+    y: clamp(p.y + (p.edge === "top" && p.anchor ? dy / Math.max(.01, Math.min(1, box.width / reference.boxes[p.anchor].width)) : dy / Math.max(1, box.height) * 100), p.anchor ? -50000 : 0, 50000) }
 }
-export function attachPlacement(p: Placement, anchor: SceneAnchor | undefined, boxes: AnchorBoxes, viewport: number): Placement {
-  const old = resolvePlacement(p, boxes, viewport)
-  if (!anchor) return { ...p, anchor: undefined, x: clamp(old.left / viewport * 100, -50, 150), y: clamp(old.top, 0, 50000), width: clamp(old.width, 8, 2400) }
+export function attachPlacement(p: Placement, anchor: SceneAnchor | undefined, boxes: AnchorBoxes, viewport: number, image: ImageSize, edge: Placement["edge"]): Placement {
+  const old = resolvePlacement(p, boxes, viewport, image)
+  if (!anchor) return { ...p, anchor: undefined, edge: undefined, x: clamp(old.left / viewport * 100, -50, 150), y: clamp(old.top, 0, 50000), width: clamp(old.width, 8, 2400) }
   const box = anchorBox(anchor, boxes)
   const scale = Math.min(1, box.width / reference.boxes[anchor].width)
-  return { ...p, anchor, x: clamp((old.left - box.left) / Math.max(1, box.width) * 100, -1000, 1000),
-    y: clamp((old.top - box.top) / Math.max(1, box.height) * 100, -50000, 50000), width: clamp(old.width / Math.max(.01, scale), 8, 2400) }
+  return { ...p, anchor, edge, x: clamp((old.left - box.left) / Math.max(1, box.width) * 100, -1000, 1000),
+    y: clamp(edge === "top" ? (old.top + old.height - box.top) / Math.max(.01, scale) : (old.top - box.top) / Math.max(1, box.height) * 100, -50000, 50000), width: clamp(old.width / Math.max(.01, scale), 8, 2400) }
 }
 export function sidebarPlacement(p: Placement) { return p.anchor === "sidebar" || p.anchor === "sidebar-extras" }
 
@@ -44,10 +47,12 @@ export function migrateAnchors(saved: SceneLayout, defaults: SceneLayout): Scene
   let changed = false
   const items = saved.items.map((item) => {
     const next = defaults.items.find((entry) => entry.id === item.id && entry.file === item.file)
-    if (!next?.desktop.anchor || item.desktop.anchor) return item
-    const original = resolvePlacement(next.desktop, reference.boxes, reference.width)
-    if (Math.abs(item.desktop.x / 100 * reference.width - original.left) > .01 ||
-      Math.abs(item.desktop.y - original.top) > .01 || Math.abs(item.desktop.width - original.width) > .01 ||
+    if (!next?.desktop.anchor || item.desktop.edge || (item.desktop.anchor && !next.desktop.edge)) return item
+    const original = resolvePlacement(next.desktop, reference.boxes, reference.width, next)
+    const savedPosition = resolvePlacement(item.desktop, reference.boxes, reference.width, item)
+    if (Math.abs(savedPosition.left - original.left) > .01 ||
+      Math.abs(savedPosition.top - original.top) > .01 || Math.abs(savedPosition.width - original.width) > .01 ||
+      (item.desktop.size || "responsive") !== (next.desktop.size || "responsive") ||
       item.desktop.rotation !== next.desktop.rotation || !!item.desktop.hidden !== !!next.desktop.hidden) return item
     changed = true
     return { ...item, desktop: { ...next.desktop } }
