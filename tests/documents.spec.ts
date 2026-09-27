@@ -23,10 +23,13 @@ test("public pages navigate as complete documents without framework scripts", as
   const report = await (await request.get("/document-build.json")).json()
   expect(report.frameworkRuntime).toBe(false)
   expect(report.entryBytes).toBeLessThan(12000)
+  expect(report.initialBytes).toBeLessThan(12000)
   // Editor and management retain their own interactive application.
   for (const route of ["/scene-editor/", "/gallery/admin/"]) {
     const html = await (await request.get(route)).text()
-    expect(html).toContain("/_next/static/")
+    expect(html).toContain("<astro-island")
+    expect(html).toContain('client="load"')
+    expect(html).not.toContain("/_next/")
     expect(html).not.toContain("data-document-page=")
   }
 })

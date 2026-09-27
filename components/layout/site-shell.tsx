@@ -4,9 +4,9 @@ import { OceanWorld } from "@/components/layout/ocean-world"
 import { SceneProvider } from "@/components/scene/scene-context"
 import { SceneSlot, HomeSceneFallback } from "@/components/scene/scene-slot"
 
-export function SiteShell({ children }: { children: ReactNode }) {
+export function SiteShell({ children, path }: { children: ReactNode; path: string }) {
   return (
-    <SceneProvider>
+    <SceneProvider path={path}>
       <div className="site-viewport">
       <OceanWorld />
 

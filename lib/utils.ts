@@ -5,19 +5,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/**
- * Prefixes a public asset path with Next.js `basePath` (useful for `output: "export"`).
- * Expects `path` like "/asset/..." or "/placeholder.svg".
- */
-export function withBasePath(path: string) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
-  if (!basePath) return path
-  if (!path.startsWith("/")) return `${basePath}/${path}`
-  return `${basePath}${path}`
-}
-
-/** Next may supply a base-path-free pathname; also accept the browser form. */
-export function withoutBasePath(path: string) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
-  return basePath && (path === basePath || path.startsWith(`${basePath}/`)) ? path.slice(basePath.length) || "/" : path
-}
+export { withBasePath, withoutBasePath } from "./paths"

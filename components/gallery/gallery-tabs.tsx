@@ -1,9 +1,9 @@
 "use client"
-import { withBasePath, withoutBasePath } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { withBasePath } from "@/lib/paths"
+import { useScene } from "@/components/scene/scene-context"
 
 export function GalleryTabs() {
-  const isPhotos = withoutBasePath(usePathname()).startsWith("/gallery/photos")
+  const isPhotos = useScene().pathname.startsWith("/gallery/photos")
   return <header className="gallery-heading">
     <div><p className="eyebrow mb-2">The personal collection</p><h1 className="page-title">{isPhotos ? "Photo diary" : "Record room"}</h1></div>
     <nav className="gallery-tabs" aria-label="Collections">

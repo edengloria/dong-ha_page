@@ -1,0 +1,9 @@
+---
+import PublicDocument from "../../layouts/PublicDocument.astro"
+import { projects } from "@/content/projects"
+export function getStaticPaths() {
+  return projects.map(project => ({ params: { slug: project.slug }, props: { project } }))
+}
+const { project } = Astro.props
+---
+<PublicDocument path={`/projects/${project.slug}/`} kind={project.status === "published" ? "project" : "not-found"} project={project} title={project.title} description={project.summary} noindex={project.status !== "published"} />

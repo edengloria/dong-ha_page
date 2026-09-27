@@ -1,14 +1,15 @@
 "use client"
-import dynamic from "next/dynamic"
-import type { CSSProperties } from "react"
-import { withBasePath } from "@/lib/utils"
+import SceneEditor from "@/components/scene/scene-editor"
+import { useEffect, useState, type CSSProperties } from "react"
+import { withBasePath } from "@/lib/paths"
 import { BeamsBackgroundClient } from "@/components/layout/beams-background-client"
 import { useScene } from "@/components/scene/scene-context"
 import { SceneSlot } from "@/components/scene/scene-slot"
-const SceneEditor = dynamic(() => import("@/components/scene/scene-editor"), { ssr: false })
 const asset = (file: string) => withBasePath(`/asset/camerons-world/${file}`)
 export function OceanWorld() {
   const { editing } = useScene()
+  const [ready, setReady] = useState(false)
+  useEffect(() => { setReady(true) }, [])
   const textures = {
     "--sunset": `url("${asset("10/bg.png")}")`, "--ocean": `url("${asset("11/bg.png")}")`,
     "--ripple": `url("${asset("12/bg.gif")}")`, "--ripple-still": `url("${asset("12/bg-still.png")}")`,
@@ -21,6 +22,6 @@ export function OceanWorld() {
       <div className="sky-region"><div className="sunset-sky" aria-hidden="true" /><SceneSlot anchor="sky" /></div>
     </div>
     <SceneSlot />
-    {editing && <SceneEditor />}
+    {editing && ready && <SceneEditor />}
   </>
 }

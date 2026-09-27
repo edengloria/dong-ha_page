@@ -1,9 +1,9 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This is a **Next.js App Router** TypeScript site organized for content-first composition.
+This is a **Astro** TypeScript site organized for content-first composition.
 
-- `app/` contains routes and layouts, including route components and API handlers.
+- `src/pages/` contains Astro file routes; `src/layouts/` owns the document head and native entry. Public React templates render only at build time; editor/admin use React islands.
 - `components/` holds reusable UI, grouped by area (`home`, `layout`, `gallery`, `content`).
 - `content/` stores typed content models consumed by pages (profile, publications, projects, site settings).
 - `lib/` contains shared data/utility logic (Discogs, metadata, preview helpers, utilities).
@@ -15,7 +15,7 @@ This is a **Next.js App Router** TypeScript site organized for content-first com
 - `npm install` — install dependencies.
 - `npm run dev` — start local development server.
 - `npm run build` — production build.
-- `npm run lint` — run ESLint with Next config.
+- `npm run lint` — run Astro/TypeScript checks and flat-config ESLint.
 - `npm run test:visual` — compare Playwright screenshots for core routes and viewports.
 - `npm run test:visual:update` — intentionally refresh visual snapshots after approved UI changes.
 - `npm run start` — run built app.
@@ -29,7 +29,7 @@ This is a **Next.js App Router** TypeScript site organized for content-first com
 - Use 2-space indentation, omit semicolons, and follow existing component/style patterns in neighboring files.
 - Keep component filenames in `kebab-case.tsx` for pages/layouts and `camelCase` or `PascalCase` as currently used in React components.
 - Use `PascalCase` for React components and `camelCase` for variables/functions.
-- Follow `next/core-web-vitals` lint expectations; address lint warnings instead of suppressing.
+- Follow Astro, TypeScript and React hook lint expectations; address lint warnings instead of suppressing.
 
 ## Testing Guidelines
 - Use `npm run lint`, `npm run build`, and `npm run test:visual` as the standard verification path for UI-safe changes.

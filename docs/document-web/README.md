@@ -3,9 +3,11 @@
 The site's overall composition is retained: sunset/ocean scene, left directory,
 main sheet, three home destinations, and the owner's attached GIFs. The public
 experience now uses independent HTML documents instead of a hydrated React app.
-Next/React remain build-time templates and the runtime for `/scene-editor/` and
+Astro now generates the documents directly; React templates hydrate only for `/scene-editor/` and
 `/gallery/admin/`. This is a modern-browser implementation of late-1990s document
 conventions, not a claim of compatibility with Netscape or Internet Explorer 4.
+
+The measurements below record the earlier document conversion, before the Astro migration.
 
 ## Changes
 
@@ -26,12 +28,7 @@ conventions, not a claim of compatibility with Netscape or Internet Explorer 4.
   WASM is separate. These are emitted file sizes, not network transfer totals.
   Initial reduced motion loads neither ThorVG nor its WASM/textures.
 
-`scripts/build-documents.mjs` removes framework scripts, Flight data, and JS
-preloads from the fully rendered export, copies the stylesheet, and attaches the
-native entry. It fails on incomplete markup or React/Next in the native bundle.
-Known notFound exports receive the complete exported 404 document. Explicitly
-enabled Google Analytics and JSON-LD remain supported. Private application pages
-are excluded. All navigation, including links out of the editor, is ordinary
+Astro emits complete documents without HTML postprocessing. `scripts/document-audit.mjs` checks public markup and the reachable native module graph for framework leakage. All navigation, including links out of the editor, is ordinary
 document navigation. Local scene migrations use the same sprite styles and
 coordinate helpers as the editor, and custom edits survive.
 
@@ -41,7 +38,7 @@ coordinate helpers as the editor, and custom edits survive.
 - A separate `/subpath` production export passed Chrome smoke checks for active
   navigation, home foreground decorations, photo expansion, editor save/reload,
   and WebGPU resources with no failed local requests or page errors. Pathname
-  normalization accepts both Next's stripped path and the browser's full path.
+  normalization accepts both logical route paths and the browser's deployment-prefixed path.
 - Windows Chrome: all 37 functional tests passed; after the final collection
   grid adjustment, six photo/audio/overflow tests passed again.
   Six document/anchor/layering checks also passed after pathname normalization.

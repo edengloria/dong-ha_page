@@ -1,4 +1,5 @@
 import { expect, test } from "./fixtures"
+import visualLayout from "./visual-layout.fixture.json"
 
 const routes = [
   { path: "/", slug: "home" },
@@ -19,6 +20,9 @@ for (const route of routes) {
     test(`${route.slug} ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height })
       await page.emulateMedia({ reducedMotion: "reduce" })
+      // The owner can publish new placements independently. Compare the same
+      // authored scene as the checked-in Linux images, without changing it.
+      await page.addInitScript(layout => localStorage.setItem("dongha-scene-v1", JSON.stringify(layout)), visualLayout)
       await page.addInitScript(() => {
         Object.defineProperty(navigator, "gpu", { value: undefined })
         let seed = 42

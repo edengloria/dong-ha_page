@@ -1,0 +1,46 @@
+---
+import "../styles/global.css"
+import { createMetadata, type PageMetadata } from "@/lib/metadata"
+import { profile } from "@/content/profile"
+import { siteConfig } from "@/content/site"
+import { withBasePath } from "@/lib/paths"
+
+interface Props extends PageMetadata { interactive?: boolean }
+const { interactive = false, path = "/" } = Astro.props
+const meta = createMetadata(Astro.props)
+const ga = import.meta.env.PUBLIC_GA_MEASUREMENT_ID
+const analytics = import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS === "true" && ga
+if (analytics && !/^G-[A-Z0-9]+$/.test(ga)) throw new Error("Invalid analytics measurement ID")
+---
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="application-name" content={siteConfig.title} />
+    <meta name="author" content={profile.name} />
+    <meta name="creator" content={profile.name} />
+    <meta name="keywords" content={siteConfig.keywords.join(",")} />
+    <link rel="canonical" href={meta.canonical} />
+    <link rel="icon" type="image/png" href={withBasePath("/icon.png")} />
+    {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={meta.canonical} />
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:locale" content={siteConfig.locale} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={meta.image} />
+    <meta property="og:image:alt" content={profile.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={meta.image} />
+    {analytics && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>}
+    {analytics && <script is:inline define:vars={{ ga }}>window.dataLayer=window.dataLayer||[];function gtag(...args){window.dataLayer.push(args)}gtag('js',new Date());gtag('config',ga);</script>}
+    <slot name="scripts" />
+  </head>
+  <body data-document-page={interactive ? undefined : path}><slot /></body>
+</html>

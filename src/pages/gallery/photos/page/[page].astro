@@ -1,0 +1,10 @@
+---
+import PublicDocument from "../../../../layouts/PublicDocument.astro"
+import { getGalleryImages, PHOTOS_PER_PAGE, photoPagePath } from "@/lib/gallery"
+export async function getStaticPaths() {
+  const images = await getGalleryImages()
+  return Array.from({ length: Math.max(0, Math.ceil(images.length / PHOTOS_PER_PAGE) - 1) }, (_, i) => ({ params: { page: String(i + 2) } }))
+}
+const page = Number(Astro.params.page), images = await getGalleryImages()
+---
+<PublicDocument path={photoPagePath(page)} kind="photos" title={`Gallery / Photos / ${page}`} galleryItems={images.slice((page - 1) * PHOTOS_PER_PAGE, page * PHOTOS_PER_PAGE)} page={page} pages={Math.ceil(images.length / PHOTOS_PER_PAGE)} total={images.length} />

@@ -1,10 +1,10 @@
 "use client"
-import { withBasePath, withoutBasePath } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { withBasePath } from "@/lib/paths"
+import { useScene } from "@/components/scene/scene-context"
 import type { NavigationItem } from "@/content/types"
 
 export function SiteNavbar({ items }: { items: NavigationItem[] }) {
-  const pathname = withoutBasePath(usePathname()).replace(/\/$/, "") || "/"
+  const { pathname } = useScene()
   return <nav className="directory" aria-label="Primary">{items.map((item, index) => {
     const href = withBasePath(item.href)
     const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`)) || (item.href === "/gallery/vinyl" && pathname === "/gallery")

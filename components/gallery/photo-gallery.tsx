@@ -1,10 +1,10 @@
 "use client"
 
-import Image from "next/image"
+import Image from "@/components/content/image"
 import { useEffect, useRef } from "react"
 import type { GalleryItem } from "@/lib/gallery"
 import { mountPhotos } from "@/lib/native/photos"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 
 const pagePath = (page: number) => withBasePath(page === 1 ? "/gallery/photos/" : `/gallery/photos/page/${page}/`)
 export function PhotoGallery({ galleryItems, page, pages, total }: {
@@ -22,7 +22,7 @@ export function PhotoGallery({ galleryItems, page, pages, total }: {
     {paging}
     <div className="photo-index">
       {galleryItems.map((item) => <a key={item.id} href={withBasePath(item.imageUrl)} aria-label={`Open photo ${item.id}`} className="photo-print" data-image-id={item.id}>
-        <Image src={withBasePath(item.imageUrl.replace("/life-images/", "/life-thumbs/") + ".webp")} alt={`Photo ${item.id}`} width={item.width} height={item.height} loading="lazy" unoptimized />
+        <Image src={withBasePath(item.imageUrl.replace("/life-images/", "/life-thumbs/") + ".webp")} alt={`Photo ${item.id}`} width={item.width} height={item.height} loading="lazy" />
         <span>Photo {String(item.id).padStart(2, "0")}</span>
       </a>)}
     </div>

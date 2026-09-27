@@ -1,9 +1,10 @@
 import { test, expect } from "./fixtures"
 import reference from "../data/scene-reference.json"
 import legacy from "../data/scene-layout (1).json"
-import layout from "../data/scene-layout.json"
+import layout from "./visual-layout.fixture.json"
 
 test("anchoring preserves the FHD composition and follows reflowed panels", async ({ page }) => {
+  await page.addInitScript(saved => localStorage.setItem("dongha-scene-v1", JSON.stringify(saved)), layout)
   await page.setViewportSize({ width: reference.width, height: 1000 })
   await page.goto("/", { waitUntil: "networkidle" })
   const positions = await page.locator(".scene-sprite:visible").evaluateAll((sprites) => Object.fromEntries(sprites.map((sprite) => {
@@ -13,7 +14,7 @@ test("anchoring preserves the FHD composition and follows reflowed panels", asyn
       sectionHeight: sprite.closest("[data-scene-slot]")!.getBoundingClientRect().height }]
   })))
   for (const item of legacy.items) {
-    expect(Math.abs(positions[item.id].x - item.desktop.x / 100 * reference.width)).toBeLessThan(1)
+    expect(Math.abs(positions[item.id].x - item.desktop.x / 100 * reference.width), item.id).toBeLessThan(1)
     // Shorter copy can move a whole section upward. The artwork must retain
     // its authored position relative to that section, rather than the viewport.
     const p = layout.items.find((entry) => entry.id === item.id)!.desktop

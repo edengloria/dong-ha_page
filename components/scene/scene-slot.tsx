@@ -1,12 +1,12 @@
 "use client"
-import Image from "next/image"
+import Image from "@/components/content/image"
 import reference from "@/data/scene-reference.json"
 import optimized from "@/data/scene-optimized.json"
 import { profile } from "@/content/profile"
 import { useScene } from "./scene-context"
 import { assetPath, type SceneAnchor, type SceneItem } from "@/lib/scene-layout"
 import { sidebarPlacement } from "@/lib/scene-anchors"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 import { blankSprite, spriteStyle, textStyle } from "@/lib/scene-sprite"
 const links = { email: `mailto:${profile.email}`, research: "/publications/", photos: "/gallery/photos/", records: "/gallery/vinyl/" }
 const labels = { email: "Email Dong-Ha", research: "Research publications", photos: "Photo diary", records: "Record collection" }
@@ -18,7 +18,7 @@ function Sprite({ item, mode, index }: { item: SceneItem; mode: "desktop" | "mob
   const picture = item.custom?.kind === "text" ? <span style={textStyle(item, mode)}>{item.custom.text}</span> : <picture>
     <source media={`${media} and (prefers-reduced-motion: reduce)`} srcSet={item.custom?.kind === "image" ? item.custom.still : withBasePath(assetPath(item.still))} />
     <source media={media} srcSet={item.custom?.kind === "image" ? item.custom.src : withBasePath(assetPath(file))} />
-    <Image src={blankSprite} alt="" width={item.width} height={item.height} unoptimized loading="lazy" />
+    <Image src={blankSprite} alt="" width={item.width} height={item.height} loading="lazy" />
   </picture>
   const props = { className: `scene-sprite ${item.id}`, "data-anchor": p.anchor || "viewport", "data-edge": p.edge, "data-scene-id": item.id, style }
   const href = item.href ? (item.href.startsWith("/") ? withBasePath(item.href) : item.href) : item.link ? (item.link === "email" ? links.email : withBasePath(links[item.link])) : undefined
