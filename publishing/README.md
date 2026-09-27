@@ -100,8 +100,12 @@ scheduled backups are still to be implemented before production publishing.
   media reuse, live equation editing, Python paste and table cell edits were
   exercised in Chrome against the real Content Lake. The browser automation's
   file chooser/drop capability could not complete the OS upload test.
-- Automatic slug generation and first/repeat/unpublish actions need browser
-  workflow coverage before the public publishing pipeline is enabled.
-- Resolve the remaining npm audit findings in the new Sanity CLI dependency tree
-  before deploying the authoring service. Do not downgrade Sanity or upgrade the
-  screenshot-test browser blindly just to suppress an audit report.
+- Automatic slug generation and preservation of a manually chosen slug were
+  exercised in Chrome. First/repeat/unpublish actions still need browser workflow
+  coverage before the public publishing pipeline is enabled.
+- The new Sanity CLI dependency findings are addressed with targeted root
+  overrides. The root scripts import the CLI directly, so Sanity is also an
+  explicit root development dependency. This avoids npm's workspace-link override
+  propagation issue. Existing Playwright 1.51 and Sharp 0.34 audit findings still
+  need a separate tested tooling update; the screenshot browser stays unchanged
+  for this authoring proof.

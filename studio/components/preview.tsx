@@ -28,6 +28,6 @@ export function ArticlePreview({ document }: { document: { displayed: { _id?: st
       <Text size={1} muted>Private preview · Refresh to load saved changes</Text>
     </Flex>
     {error && <Box padding={3}><Text>{error}</Text></Box>}
-    {url && <iframe title="Private dhsh.in article preview" src={url} style={{ width, maxWidth: '100%', margin: '0 auto', flex: 1, minHeight: 600, border: 0 }} referrerPolicy="no-referrer" />}
+    {url && <iframe title="Private dhsh.in article preview" src={url} style={{ width, maxWidth: '100%', margin: '0 auto', flex: 1, minHeight: 600, border: 0 }} referrerPolicy="no-referrer" allow="clipboard-write" />}
   </Flex>
 }

@@ -3,6 +3,7 @@ import { MathInput, MathPreview, InlineMathPreview } from '../components/math-in
 import { TableInput } from '../components/table-input'
 import { CodePreview, CalloutPreview } from '../components/block-previews'
 import { plainText, type TextBlock } from '../../lib/publishing/types'
+import { validateFigurePresence, validateFigureAlt } from './validation'
 
 const link = defineArrayMember({
   name: 'link', type: 'object', title: 'Link',
@@ -27,10 +28,10 @@ export const blocks = [
   defineType({
     name: 'figure', title: 'Figure / image', type: 'image',
     options: { hotspot: false, accept: 'image/png,image/jpeg,image/webp,image/gif,image/avif' },
-    validation: rule => rule.custom(value => !value || value.asset?._ref ? true : 'Add an image or remove this empty figure.'),
+    validation: rule => rule.custom(validateFigurePresence),
     fields: [
       defineField({ name: 'caption', title: 'Caption', type: 'text', rows: 2 }),
-      defineField({ name: 'alt', title: 'Alt text', type: 'string', description: 'Describe the figure for readers who cannot see it.', validation: r => r.required() }),
+      defineField({ name: 'alt', title: 'Alt text', type: 'string', description: 'Describe the figure for readers who cannot see it.', validation: r => r.custom(validateFigureAlt) }),
       defineField({ name: 'credit', title: 'Credit / source', type: 'string' }),
       defineField({ name: 'creditUrl', title: 'Source URL', type: 'url', validation: r => r.uri({ scheme: ['https', 'http'] }) }),
       defineField({ name: 'layout', title: 'Layout', type: 'string', options: { list: [{ title: 'Normal', value: 'normal' }, { title: 'Wide', value: 'wide' }, { title: 'Full width', value: 'full' }], layout: 'radio' }, initialValue: 'normal' }),

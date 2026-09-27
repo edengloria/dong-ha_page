@@ -36,7 +36,7 @@ export const documents = [
       defineField({ name: 'translationOf', title: 'Translation of', type: 'reference', group: 'organize', to: [{ type: 'post' }], options: { filter: ({ document }) => ({ filter: 'language != $language && _id != $id', params: { language: document.language || 'ko', id: document._id.replace(/^drafts\./, '') } }) } }),
       defineField({ ...slug, options: { ...slug.options, isUnique: uniquePostSlug }, group: 'settings', readOnly: ({ document }) => Boolean(document?.publishedAt), description: 'Generated from the title before first publication. Locked after publication to keep links stable.' }),
       defineField({ name: 'authors', title: 'Authors', type: 'array', group: 'settings', of: [defineArrayMember({ type: 'reference', to: [{ type: 'author' }] })], validation: rule => rule.required().min(1) }),
-      defineField({ name: 'heroImage', title: 'Cover image (optional)', type: 'figure', group: 'settings' }),
+      defineField({ name: 'heroImage', title: 'Cover image (optional)', type: 'figure', group: 'settings', options: { collapsible: true, collapsed: true } }),
       defineField({ name: 'publishedAt', title: 'First published', type: 'datetime', group: 'settings', fieldset: 'dates', readOnly: true }),
       defineField({ name: 'updatedAt', title: 'Last published update', type: 'datetime', group: 'settings', fieldset: 'dates', readOnly: true }),
       defineField({ name: 'canonicalSlug', type: 'string', hidden: true, readOnly: true }),

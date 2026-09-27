@@ -5,10 +5,22 @@ import { parse } from 'node-html-parser'
 import { renderBody } from '../../lib/publishing/render'
 import type { BodyBlock, TextBlock } from '../../lib/publishing/types'
 import { createSession, validSession } from '../../publishing/src/lib/auth'
+import { validateFigurePresence, validateFigureAlt } from '../../studio/schema/validation'
 
 const paragraph = (text: string, marks: TextBlock['markDefs'] = []): TextBlock => ({
   _type: 'block', _key: 'paragraph', style: 'normal', markDefs: marks,
   children: [{ _type: 'span', _key: 'text', text, marks: marks.map(mark => mark._key) }],
+})
+
+test('a post can omit its cover, while inserted figures need images and alt text', () => {
+  const defaults = { asset: undefined }
+  assert.equal(validateFigurePresence(defaults, { path: ['heroImage'] }), true)
+  assert.equal(validateFigurePresence(defaults, { path: ['seo', 'socialImage'] }), true)
+  assert.equal(validateFigureAlt(undefined, { parent: defaults }), true)
+  assert.notEqual(validateFigurePresence(defaults, { path: ['body', { _key: 'figure' }] }), true)
+  assert.notEqual(validateFigurePresence({ caption: 'An intended cover' }, { path: ['heroImage'] }), true)
+  assert.notEqual(validateFigureAlt('  ', { parent: { asset: { _ref: 'image-abc-100x100-png' } } }), true)
+  assert.equal(validateFigureAlt('A labeled plot', { parent: { asset: { _ref: 'image-abc-100x100-png' } } }), true)
 })
 
 test('CMS text, attributes and links cannot inject executable markup', async () => {
