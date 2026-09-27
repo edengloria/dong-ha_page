@@ -1,0 +1,18 @@
+{
+  "name": "dhsh-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev --host 127.0.0.1",
+    "build": "sanity build",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "sanity": "6.16.0",
+    "@sanity/code-input": "7.3.8",
+    "@sanity/ui": "^3.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "styled-components": "^6.1.19"
+  }
+}

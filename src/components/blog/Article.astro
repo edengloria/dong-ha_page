@@ -1,0 +1,42 @@
+---
+import { renderBody } from '../../../lib/publishing/render'
+import { articleTypes, readingMinutes, type Post } from '../../../lib/publishing/types'
+import 'katex/dist/katex.min.css'
+import '../../styles/blog.css'
+interface Props { post: Post; preview?: boolean }
+const { post, preview = false } = Astro.props
+const { html, referenceHtml, toc } = await renderBody(post)
+const date = (value?: string) => value ? new Intl.DateTimeFormat(post.language === 'ko' ? 'ko-KR' : 'en-US', { dateStyle: 'long', timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
+---
+<div class="publishing-shell">
+  <a class="blog-skip" href="#article-body">Skip to article</a>
+  <header class="blog-masthead"><a class="blog-site-name" href="https://dhsh.in/">Dong-Ha Shin</a><nav aria-label="Primary"><a href="https://dhsh.in/">Home</a><a href="https://dhsh.in/publications/">Research</a><a href="https://dhsh.in/projects/">Projects</a><a href="https://dhsh.in/blog/" aria-current="page">Blog</a><a href="https://dhsh.in/about/">About</a></nav></header>
+  {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
+  <main id="main-content" class="article-page" data-pagefind-body>
+    <article lang={post.language}>
+      <header class="article-heading">
+        <div class="article-taxonomy">{articleTypes.find(type => type.value === post.articleType)?.title || 'Research Note'}{post.topics?.map(topic => <><span aria-hidden="true"> · </span><a href={`https://dhsh.in/blog/topics/${topic.slug.current}/`}>{topic.title}</a></>)}</div>
+        <h1 data-pagefind-meta="title">{post.title || 'Untitled post'}</h1>
+        <p class="article-excerpt">{post.excerpt}</p>
+        <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'}<br /><time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && post.updatedAt !== post.publishedAt && <> · Updated <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} min read</p>
+      </header>
+      <div class="article-with-toc">
+        {toc.length > 0 && <aside class="article-toc" aria-label="Table of contents" data-pagefind-ignore><details open><summary>{post.language === 'ko' ? '목차' : 'On this page'}</summary><ol>{toc.map(item => <li class={`toc-level-${item.level}`}><a href={`#${item.id}`}>{item.text}</a></li>)}</ol></details></aside>}
+        <div id="article-body" class="article-body"><Fragment set:html={html} /><Fragment set:html={referenceHtml} /></div>
+      </div>
+    </article>
+  </main>
+  <footer class="blog-footer"><a href="https://dhsh.in/">dhsh.in</a><span>Research &amp; engineering notes</span></footer>
+</div>
+<script>
+  document.addEventListener('click', async event => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-code]')
+    if (!button) return
+    const code = button.closest('.code-block')?.querySelector('code')?.textContent || ''
+    try {
+      await navigator.clipboard.writeText(code)
+      button.textContent = 'Copied'; button.setAttribute('aria-live', 'polite')
+    } catch { button.textContent = 'Select code to copy' }
+    setTimeout(() => { button.textContent = 'Copy' }, 2500)
+  })
+</script>

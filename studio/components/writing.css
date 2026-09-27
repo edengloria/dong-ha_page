@@ -1,0 +1,4 @@
+/* Scope the larger writing surface to article bodies, leaving compact dialogs intact. */
+.research-editor [data-fullscreen='false'] { height: max(540px, 65vh); }
+.research-editor [data-pt-editor] { font-size: 17px; line-height: 1.75; }
+@media (max-width: 600px) { .research-editor [data-fullscreen='false'] { height: 65vh; min-height: 380px; } }

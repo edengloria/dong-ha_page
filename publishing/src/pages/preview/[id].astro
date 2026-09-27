@@ -1,0 +1,13 @@
+---
+import Article from '../../../../src/components/blog/Article.astro'
+import { getDraftPost } from '../../../../lib/publishing/query'
+import { cookieName, validSession, readToken } from '../../lib/auth'
+Astro.response.headers.set('Cache-Control', 'private, no-store')
+Astro.response.headers.set('Referrer-Policy', 'no-referrer')
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive')
+Astro.response.headers.set('Content-Security-Policy', "frame-ancestors 'self' https://studio.dhsh.in" + (import.meta.env.DEV ? ' http://localhost:3333 http://127.0.0.1:3333' : ''))
+if (!validSession(Astro.cookies.get(cookieName)?.value)) return new Response('Sign in through Sanity Studio to preview drafts.', { status: 401, headers: Astro.response.headers })
+const post = await getDraftPost(Astro.params.id || '', readToken())
+if (!post) return new Response('Draft not found.', { status: 404, headers: Astro.response.headers })
+---
+<!doctype html><html lang={post.language || 'ko'}><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow,noarchive" /><title>Private preview · {post.title}</title></head><body><Article post={post} preview /></body></html>
