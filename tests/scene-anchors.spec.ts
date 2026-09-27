@@ -9,15 +9,21 @@ test("anchoring preserves the FHD composition and follows reflowed panels", asyn
   const positions = await page.locator(".scene-sprite:visible").evaluateAll((sprites) => Object.fromEntries(sprites.map((sprite) => {
     const r = sprite.getBoundingClientRect()
     return [sprite.classList[1], { x: r.left + r.width / 2, y: r.top, width: r.width,
-      sectionTop: sprite.closest("[data-scene-slot]")!.getBoundingClientRect().top }]
+      sectionTop: sprite.closest("[data-scene-slot]")!.getBoundingClientRect().top,
+      sectionHeight: sprite.closest("[data-scene-slot]")!.getBoundingClientRect().height }]
   })))
   for (const item of legacy.items) {
     expect(Math.abs(positions[item.id].x - item.desktop.x / 100 * reference.width)).toBeLessThan(1)
     // Shorter copy can move a whole section upward. The artwork must retain
     // its authored position relative to that section, rather than the viewport.
-    const anchor = layout.items.find((entry) => entry.id === item.id)!.desktop.anchor as keyof typeof reference.boxes
+    const p = layout.items.find((entry) => entry.id === item.id)!.desktop
+    const anchor = p.anchor as keyof typeof reference.boxes
     const sectionShift = positions[item.id].sectionTop - reference.boxes[anchor].top
-    expect(Math.abs(positions[item.id].y - item.desktop.y - sectionShift)).toBeLessThan(2)
+    // Removing the title bar shortens the sidebar. Its interior decorations
+    // already compress into short panels; top-edge attachments never compress.
+    const compactShift = ["sidebar", "sidebar-extras"].includes(anchor) && !p.edge
+      ? p.y / 100 * Math.min(0, positions[item.id].sectionHeight - reference.boxes[anchor].height) : 0
+    expect(Math.abs(positions[item.id].y - item.desktop.y - sectionShift - compactShift), item.id).toBeLessThan(2)
     expect(Math.abs(positions[item.id].width - item.desktop.width)).toBeLessThan(1)
   }
   for (const width of [2560, 1440, 1280, 960, 768]) {

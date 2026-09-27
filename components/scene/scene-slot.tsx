@@ -7,7 +7,7 @@ import { useScene } from "./scene-context"
 import { assetPath, type SceneAnchor, type SceneItem } from "@/lib/scene-layout"
 import { sidebarPlacement } from "@/lib/scene-anchors"
 import { withBasePath } from "@/lib/utils"
-import { blankSprite, spriteStyle } from "@/lib/scene-sprite"
+import { blankSprite, spriteStyle, textStyle } from "@/lib/scene-sprite"
 const links = { email: `mailto:${profile.email}`, research: "/publications/", photos: "/gallery/photos/", records: "/gallery/vinyl/" }
 const labels = { email: "Email Dong-Ha", research: "Research publications", photos: "Photo diary", records: "Record collection" }
 function Sprite({ item, mode, index }: { item: SceneItem; mode: "desktop" | "mobile"; index: number }) {
@@ -15,14 +15,15 @@ function Sprite({ item, mode, index }: { item: SceneItem; mode: "desktop" | "mob
   const file = (optimized as Record<string, string>)[item.file] || item.file
   const media = mode === "desktop" ? "(min-width: 561px)" : "(max-width: 560px)"
   const style = spriteStyle(item, mode, index)
-  const picture = <picture>
-    <source media={`${media} and (prefers-reduced-motion: reduce)`} srcSet={withBasePath(assetPath(item.still))} />
-    <source media={media} srcSet={withBasePath(assetPath(file))} />
+  const picture = item.custom?.kind === "text" ? <span style={textStyle(item, mode)}>{item.custom.text}</span> : <picture>
+    <source media={`${media} and (prefers-reduced-motion: reduce)`} srcSet={item.custom?.kind === "image" ? item.custom.still : withBasePath(assetPath(item.still))} />
+    <source media={media} srcSet={item.custom?.kind === "image" ? item.custom.src : withBasePath(assetPath(file))} />
     <Image src={blankSprite} alt="" width={item.width} height={item.height} unoptimized loading="lazy" />
   </picture>
   const props = { className: `scene-sprite ${item.id}`, "data-anchor": p.anchor || "viewport", "data-edge": p.edge, "data-scene-id": item.id, style }
-  return item.link ? <a {...props} className={`${props.className} scene-image-link`} href={item.link === "email" ? links.email : withBasePath(links[item.link])} aria-label={labels[item.link]}>{picture}</a>
-    : <span {...props} aria-hidden="true">{picture}</span>
+  const href = item.href ? (item.href.startsWith("/") ? withBasePath(item.href) : item.href) : item.link ? (item.link === "email" ? links.email : withBasePath(links[item.link])) : undefined
+  return href ? <a {...props} className={`${props.className} scene-image-link`} href={href} aria-label={item.custom?.kind === "text" ? undefined : item.href ? item.name : labels[item.link!]}>{picture}</a>
+    : <span {...props} aria-hidden={item.custom?.kind === "text" ? undefined : true}>{picture}</span>
 }
 // Public slots need no DOM measurement, including before hydration.
 export function SceneSlot({ anchor }: { anchor?: SceneAnchor }) {

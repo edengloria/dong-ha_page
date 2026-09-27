@@ -9,7 +9,6 @@ import { SceneSlot } from "@/components/scene/scene-slot"
 export function SiteSidebar() {
   return <aside className="desk-sidebar">
     <SceneSlot anchor="sidebar" />
-    <div className="window-strip"><span>dong-ha / home</span><span aria-hidden="true">− □ ×</span></div>
     <div className="sidebar-body">
       <div className="portrait-print"><div className="relative aspect-square"><Image src={withBasePath(profile.portrait)} alt={profile.heroAlt} fill priority className="object-cover" sizes="160px" /></div></div>
       <div><p className="sidebar-name">{profile.name}<br /><span className="text-sm font-normal">신동하</span></p><p className="sidebar-role">{profile.role}<br />{profile.location}</p></div>

@@ -1,5 +1,6 @@
 import { test, expect } from "./fixtures"
 import layout from "../data/scene-layout.json"
+import reference from "../data/scene-reference.json"
 
 test("centred lockups keep pixel spacing as their containers grow", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
@@ -7,7 +8,7 @@ test("centred lockups keep pixel spacing as their containers grow", async ({ pag
   await page.goto("/")
   const offsets = () => page.locator(".scene-desktop .scene-sprite").evaluateAll((elements) => elements.map((el) => {
     const sprite = el.getBoundingClientRect(), slot = el.closest("[data-scene-slot]")!.getBoundingClientRect()
-    return { id: el.getAttribute("data-scene-id"), x: sprite.x + sprite.width / 2 - slot.x - slot.width / 2, y: sprite.y - slot.y, width: sprite.width }
+    return { id: el.getAttribute("data-scene-id"), x: sprite.x + sprite.width / 2 - slot.x - slot.width / 2, y: sprite.y - slot.y, width: sprite.width, height: slot.height }
   }))
   const before = await offsets()
   await page.setViewportSize({ width: 2560, height: 1000 })
@@ -18,7 +19,9 @@ test("centred lockups keep pixel spacing as their containers grow", async ({ pag
     const item = layout.items.find((item) => item.id === first.id)!
     if (!["sky", "sea", "main", "sidebar"].includes(item.desktop.anchor)) continue
     const second = after.find((entry) => entry.id === first.id)!
-    for (const key of ["x", "y", "width"] as const) expect(Math.abs(first[key] - second[key])).toBeLessThan(1)
+    const compactShift = item.desktop.anchor === "sidebar" && !item.desktop.edge
+      ? item.desktop.y / 100 * (Math.min(first.height, reference.boxes.sidebar.height) - Math.min(second.height, reference.boxes.sidebar.height)) : 0
+    for (const key of ["x", "y", "width"] as const) expect(Math.abs(first[key] - second[key] - (key === "y" ? compactShift : 0)), item.id).toBeLessThan(1)
   }
   // Sky sprites remain pixel sized as the visible window narrows.
   await page.setViewportSize({ width: 1000, height: 900 })

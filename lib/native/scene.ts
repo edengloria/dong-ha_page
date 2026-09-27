@@ -3,25 +3,33 @@ import { profile } from "@/content/profile"
 import { layoutCss, parseLayout, assetPath, SCENE_STORAGE, SCENE_EVENT, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
 import { migrateMobileScene } from "@/lib/migrate-mobile-scene"
 import { migrateAnchors, sidebarPlacement } from "@/lib/scene-anchors"
-import { blankSprite, spriteStyle } from "@/lib/scene-sprite"
+import { blankSprite, spriteStyle, textStyle } from "@/lib/scene-sprite"
 import { withBasePath } from "@/lib/utils"
 
 function sprite(item: SceneItem, mode: "desktop" | "mobile", index: number) {
-  const p = item[mode], element = document.createElement(item.link ? "a" : "span")
-  element.className = `scene-sprite ${item.id}${item.link ? " scene-image-link" : ""}`
+  const linked = !!(item.href || item.link)
+  const p = item[mode], element = document.createElement(linked ? "a" : "span")
+  element.className = `scene-sprite ${item.id}${linked ? " scene-image-link" : ""}`
   element.dataset.sceneId = item.id; element.dataset.anchor = p.anchor || "viewport"
   if (p.edge) element.dataset.edge = p.edge
   Object.assign(element.style, spriteStyle(item, mode, index))
-  if (item.link) {
+  if (linked) {
     const links = { email: `mailto:${profile.email}`, research: withBasePath("/publications/"), photos: withBasePath("/gallery/photos/"), records: withBasePath("/gallery/vinyl/") }
     const labels = { email: "Email Dong-Ha", research: "Research publications", photos: "Photo diary", records: "Record collection" }
-    element.setAttribute("href", links[item.link]); element.setAttribute("aria-label", labels[item.link])
-  } else element.setAttribute("aria-hidden", "true")
+    element.setAttribute("href", item.href ? (item.href.startsWith("/") ? withBasePath(item.href) : item.href) : links[item.link!])
+    if (item.custom?.kind !== "text") element.setAttribute("aria-label", item.href ? item.name : labels[item.link!])
+  } else if (item.custom?.kind !== "text") element.setAttribute("aria-hidden", "true")
+  if (item.custom?.kind === "text") {
+    const text = document.createElement("span")
+    text.textContent = item.custom.text
+    Object.assign(text.style, textStyle(item, mode)); element.append(text)
+    return element
+  }
   const picture = document.createElement("picture")
   const media = mode === "desktop" ? "(min-width: 561px)" : "(max-width: 560px)"
   const still = document.createElement("source"), animated = document.createElement("source")
-  still.media = `${media} and (prefers-reduced-motion: reduce)`; still.srcset = withBasePath(assetPath(item.still))
-  animated.media = media; animated.srcset = withBasePath(assetPath((optimized as Record<string, string>)[item.file] || item.file))
+  still.media = `${media} and (prefers-reduced-motion: reduce)`; still.srcset = item.custom?.src ? item.custom.still : withBasePath(assetPath(item.still))
+  animated.media = media; animated.srcset = item.custom?.src || withBasePath(assetPath((optimized as Record<string, string>)[item.file] || item.file))
   const img = new Image(item.width, item.height); img.src = blankSprite; img.alt = ""; img.loading = "lazy"
   picture.append(still, animated, img); element.append(picture)
   return element
