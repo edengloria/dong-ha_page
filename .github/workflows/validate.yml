@@ -21,7 +21,11 @@ jobs:
       - run: npm run test:server
       - run: npx playwright install --with-deps chromium
       - name: Install baseline fonts
-        run: sudo apt-get install -y fonts-dejavu-core fonts-dejavu-extra fonts-noto-cjk
+        run: |
+          sudo apt-get install -y fonts-dejavu-core fonts-dejavu-extra fonts-noto-cjk
+          mkdir -p .visual-baseline/baseline-fonts
+          cp /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc .visual-baseline/baseline-fonts/
+          FONTCONFIG_FILE="$GITHUB_WORKSPACE/tests/fontconfig.conf" fc-cache -f
       - name: Compare existing Linux screenshots and functional behavior
         env:
           PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL: "1"

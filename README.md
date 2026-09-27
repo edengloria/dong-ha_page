@@ -89,6 +89,9 @@ Visual tests freeze `tests/visual-layout.fixture.json` (the composition used by
 the existing baselines); geometry and functional tests also cover the current
 published layout. Linux CI pins Ubuntu 24.04 and `tests/fontconfig.conf` to
 match baseline font metrics. New owner uploads do not silently refresh snapshots.
+The font profile reads DejaVu from `/usr/share/fonts/truetype/dejavu` and only
+`NotoSansCJK-Regular.ttc` from `.visual-baseline/baseline-fonts/`; CI prepares
+that folder. This excludes host-specific CJK serif/bold substitutions.
 See [document behavior and earlier measurements](docs/document-web/README.md);
 earlier timing measurements are not new Astro performance results.
 
