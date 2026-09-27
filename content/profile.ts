@@ -11,7 +11,7 @@ export const profile: ProfileContent = {
   heroAlt: "Dong-Ha Shin",
   about: [
     [
-      { type: "text", value: "I am Dong-Ha Shin, a first-year M.S. student at POSTECH, advised by " },
+      { type: "text", value: "I am a first-year M.S. student at POSTECH, advised by " },
       { type: "link", label: "Prof. Seung-Hwan Baek", href: "https://www.shbaek.com/team/biography" },
       { type: "text", value: " in the " },
       { type: "link", label: "Computational Imaging Group", href: "https://www.shbaek.com/" },

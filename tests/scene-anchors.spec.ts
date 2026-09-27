@@ -1,17 +1,23 @@
 import { test, expect } from "./fixtures"
 import reference from "../data/scene-reference.json"
 import legacy from "../data/scene-layout (1).json"
+import layout from "../data/scene-layout.json"
 
 test("anchoring preserves the FHD composition and follows reflowed panels", async ({ page }) => {
   await page.setViewportSize({ width: reference.width, height: 1000 })
   await page.goto("/", { waitUntil: "networkidle" })
   const positions = await page.locator(".scene-sprite:visible").evaluateAll((sprites) => Object.fromEntries(sprites.map((sprite) => {
     const r = sprite.getBoundingClientRect()
-    return [sprite.classList[1], { x: r.left + r.width / 2, y: r.top, width: r.width }]
+    return [sprite.classList[1], { x: r.left + r.width / 2, y: r.top, width: r.width,
+      sectionTop: sprite.closest("[data-scene-slot]")!.getBoundingClientRect().top }]
   })))
   for (const item of legacy.items) {
     expect(Math.abs(positions[item.id].x - item.desktop.x / 100 * reference.width)).toBeLessThan(1)
-    expect(Math.abs(positions[item.id].y - item.desktop.y)).toBeLessThan(2)
+    // Shorter copy can move a whole section upward. The artwork must retain
+    // its authored position relative to that section, rather than the viewport.
+    const anchor = layout.items.find((entry) => entry.id === item.id)!.desktop.anchor as keyof typeof reference.boxes
+    const sectionShift = positions[item.id].sectionTop - reference.boxes[anchor].top
+    expect(Math.abs(positions[item.id].y - item.desktop.y - sectionShift)).toBeLessThan(2)
     expect(Math.abs(positions[item.id].width - item.desktop.width)).toBeLessThan(1)
   }
   for (const width of [2560, 1440, 1280, 960, 768]) {
