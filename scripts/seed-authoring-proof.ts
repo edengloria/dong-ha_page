@@ -26,8 +26,8 @@ if (await client.getDocument('drafts.authoring-proof-asm')) {
   await mkdir(folder, { recursive: true })
   await writeFile(resolve(folder, 'gaussian-reference.png'), png)
   const asset = await client.assets.upload('image', png, { filename: 'gaussian-reference.png', contentType: 'image/png' })
-  await client.createIfNotExists({ _id: 'reference.band-limited-asm', _type: 'referenceRecord', title: 'Band-limited angular spectrum method for numerical simulation of free-space propagation in far and near fields', authors: ['Kyoji Matsushima', 'Tomoyoshi Shimobaba'], venue: 'Optics Express', year: 2009, doi: '10.1364/OE.17.019662', url: 'https://doi.org/10.1364/OE.17.019662' })
-  await client.createIfNotExists({ _id: 'reference.pytorch-fft', _type: 'referenceRecord', title: 'torch.fft — PyTorch documentation', authors: ['PyTorch contributors'], url: 'https://docs.pytorch.org/docs/stable/fft.html' })
+  await client.createIfNotExists({ _id: 'reference-band-limited-asm', _type: 'referenceRecord', title: 'Band-limited angular spectrum method for numerical simulation of free-space propagation in far and near fields', authors: ['Kyoji Matsushima', 'Tomoyoshi Shimobaba'], venue: 'Optics Express', year: 2009, doi: '10.1364/OE.17.019662', url: 'https://doi.org/10.1364/OE.17.019662' })
+  await client.createIfNotExists({ _id: 'reference-pytorch-fft', _type: 'referenceRecord', title: 'torch.fft — PyTorch documentation', authors: ['PyTorch contributors'], url: 'https://docs.pytorch.org/docs/stable/fft.html' })
   let count = 0
   const span = (text: string, marks: string[] = []) => ({ _type: 'span', _key: `s${++count}`, text, marks })
   const p = (text: string, style = 'normal') => ({ _type: 'block', _key: `b${++count}`, style, markDefs: [], children: [span(text)] })
@@ -59,10 +59,10 @@ def angular_spectrum(u0, wavelength, dx, z):
     title: 'Angular Spectrum Method를 PyTorch로 구현하기',
     slug: { _type: 'slug', current: 'angular-spectrum-method-pytorch' }, language: 'ko', articleType: 'tutorial',
     excerpt: '복소 광장의 공간 주파수 표현부터 PyTorch 구현까지. 샘플링과 경계 조건을 명시하고, Gaussian beam을 기준으로 계산을 점검하는 기술 글 작성 예제입니다.',
-    authors: [{ _type: 'reference', _ref: 'author.dong-ha-shin', _key: 'author' }],
-    topics: ['optics', 'programming'].map(slug => ({ _type: 'reference', _ref: `topic.${slug}`, _key: slug })),
-    tags: ['pytorch', 'wave-optics'].map(slug => ({ _type: 'reference', _ref: `tag.${slug}`, _key: slug })),
-    references: ['band-limited-asm', 'pytorch-fft'].map(id => ({ _type: 'reference', _ref: `reference.${id}`, _key: id })),
+    authors: [{ _type: 'reference', _ref: 'author-dong-ha-shin', _key: 'author' }],
+    topics: ['optics', 'programming'].map(slug => ({ _type: 'reference', _ref: `topic-${slug}`, _key: slug })),
+    tags: ['pytorch', 'wave-optics'].map(slug => ({ _type: 'reference', _ref: `tag-${slug}`, _key: slug })),
+    references: ['band-limited-asm', 'pytorch-fft'].map(id => ({ _type: 'reference', _ref: `reference-${id}`, _key: id })),
     body: [
       { _type: 'callout', _key: 'scope', tone: 'note', title: '작성 환경 검증용 초안', body: [p('이 글은 CMS에서 수식, 그림, 코드, 표와 인용을 함께 작성하는 흐름을 확인하기 위한 예제입니다. 그림은 해석적 모델로 생성했으며, 실험 결과나 실제 PyTorch 실행 성능을 보고하는 글이 아닙니다.')] },
       p('1. 복소 광장을 전파한다', 'h2'),
@@ -81,7 +81,7 @@ def angular_spectrum(u0, wavelength, dx, z):
       { _type: 'figure', _key: 'gaussian-figure', asset: { _type: 'reference', _ref: asset._id }, alt: '532 nm, waist 80 micrometer Gaussian beam의 0, 30, 60 mm 전파 거리별 정규화 intensity 곡선. 거리가 증가하면 폭이 넓어지고 중심 intensity가 낮아진다.', caption: 'Paraxial Gaussian beam의 해석적 기준. 입력 중심 intensity로 정규화했으며, 각 곡선을 독립적으로 재정규화하지 않았다.', credit: 'Generated for the dhsh.in authoring proof', layout: 'wide', numbered: true, expandable: true },
       { _type: 'equation', _key: 'rayleigh-equation', latex: 'w(z)=w_0\\sqrt{1+\\left(\\frac{z}{z_R}\\right)^2},\\qquad z_R=\\frac{\\pi w_0^2}{\\lambda}', numbered: true, label: 'Gaussian beam width' },
       p('5. 다음 단계', 'h2'),
-      { _type: 'block', _key: 'citation-example', style: 'normal', markDefs: [{ _type: 'citation', _key: 'cite-blasm', reference: { _type: 'reference', _ref: 'reference.band-limited-asm' } }], children: [span('전파 거리가 길어질 때 커널의 빠른 위상 변화를 어떻게 샘플링할지 검토하려면 band-limited ASM 문헌을 함께 읽는 것이 좋다.', ['cite-blasm'])] },
+      { _type: 'block', _key: 'citation-example', style: 'normal', markDefs: [{ _type: 'citation', _key: 'cite-blasm', reference: { _type: 'reference', _ref: 'reference-band-limited-asm' } }], children: [span('전파 거리가 길어질 때 커널의 빠른 위상 변화를 어떻게 샘플링할지 검토하려면 band-limited ASM 문헌을 함께 읽는 것이 좋다.', ['cite-blasm'])] },
       { _type: 'block', _key: 'pytorch-link', style: 'normal', markDefs: [{ _type: 'link', _key: 'torch-link', href: 'https://docs.pytorch.org/docs/stable/fft.html' }], children: [span('FFT API의 정확한 정규화 규칙과 데이터 형식은 '), span('PyTorch 공식 문서', ['torch-link']), span('에서 확인한다.')] },
     ],
   })

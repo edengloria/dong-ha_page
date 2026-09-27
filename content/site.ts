@@ -24,4 +24,7 @@ export const primaryNavigation: NavigationItem[] = [
   { label: "Research", href: "/publications" },
   { label: "Photos", href: "/gallery/photos" },
   { label: "Records", href: "/gallery/vinyl" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
 ]

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { set, type ObjectInputProps } from 'sanity'
 import { slugify } from './slug-input'
+import { DeploymentStatus } from './deployment-status'
 
 export function PostInput(props: ObjectInputProps) {
   const title = String(props.value?.title || '')
@@ -15,5 +16,5 @@ export function PostInput(props: ObjectInputProps) {
     const timeout = setTimeout(() => onChange([set({ _type: 'slug', current: slug }, ['slug']), set(slug, ['generatedSlug'])]), 400)
     return () => clearTimeout(timeout)
   }, [title, current, generated, published, onChange])
-  return props.renderDefault(props)
+  return <>{props.value?._id && <DeploymentStatus id={String(props.value._id)} />}{props.renderDefault(props)}</>
 }

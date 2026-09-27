@@ -2,8 +2,9 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 import { MathInput, MathPreview, InlineMathPreview } from '../components/math-input'
 import { TableInput } from '../components/table-input'
 import { CodePreview, CalloutPreview } from '../components/block-previews'
-import { plainText, type TextBlock } from '../../lib/publishing/types'
+import { plainText, type TextBlock, type BodyBlock } from '../../lib/publishing/types'
 import { validateFigurePresence, validateFigureAlt } from './validation'
+import { CrossReferenceInput } from '../components/cross-reference-input'
 
 const link = defineArrayMember({
   name: 'link', type: 'object', title: 'Link',
@@ -19,12 +20,30 @@ export const paragraph = defineArrayMember({
   lists: [{ title: 'Bullet list', value: 'bullet' }, { title: 'Numbered list', value: 'number' }],
   marks: {
     decorators: [{ title: 'Bold', value: 'strong' }, { title: 'Italic', value: 'em' }, { title: 'Inline code', value: 'code' }],
-    annotations: [link, defineArrayMember({ name: 'citation', title: 'Cite a reference', type: 'object', fields: [defineField({ name: 'reference', title: 'Reference', type: 'reference', to: [{ type: 'referenceRecord' }], validation: r => r.required() })] })],
+    annotations: [link, defineArrayMember({ name: 'citation', title: 'Cite a reference', type: 'object', fields: [defineField({ name: 'reference', title: 'Reference', type: 'reference', to: [{ type: 'referenceRecord' }], options: { filter: '!defined(migratedTo)' }, validation: r => r.required() })] })],
   },
-  of: [defineArrayMember({ type: 'inlineMath' })],
+  of: [defineArrayMember({ type: 'inlineMath' }), defineArrayMember({ type: 'crossReference' })],
 })
 
 export const blocks = [
+  defineType({ name: 'crossReference', title: 'Figure / equation reference', type: 'object', fields: [
+    defineField({ name: 'target', title: 'Refer to', type: 'string', components: { input: CrossReferenceInput }, validation: r => r.required().custom((value, context) => {
+      if (!value) return true
+      const body = (context.document?.body || []) as BodyBlock[]
+      return body.flatMap(block => block._type === 'figureGallery' ? block.figures || [] : [block]).some(block => (block._type === 'figure' || block._type === 'equation') && block._key === value && block.numbered !== false) || 'The selected numbered block was removed. Choose another target.'
+    }) }),
+  ], preview: { prepare: () => ({ title: 'Figure / equation reference' }) } }),
+  defineType({ name: 'figureGallery', title: 'Figure gallery', type: 'object', fields: [
+    defineField({ name: 'figures', title: 'Figures', type: 'array', of: [{ type: 'figure' }], validation: r => r.required().min(2).max(12) }),
+    defineField({ name: 'columns', title: 'Desktop columns', type: 'number', options: { list: [2, 3], layout: 'radio' }, initialValue: 2 }),
+    defineField({ name: 'caption', title: 'Gallery caption (optional)', type: 'string' }),
+  ], preview: { select: { title: 'caption', media: 'figures.0.asset' }, prepare: ({ title, media }) => ({ title: title || 'Figure gallery', media }) } }),
+  defineType({ name: 'paper', title: 'Paper card', type: 'object', fields: [defineField({ name: 'reference', title: 'Paper from reference library', type: 'reference', to: [{ type: 'referenceRecord' }], options: { filter: '!defined(migratedTo)' }, validation: r => r.required() })], preview: { select: { title: 'reference.title', subtitle: 'reference.venue' } } }),
+  defineType({ name: 'demo', title: 'Interactive optical demo', type: 'object', fields: [
+    defineField({ name: 'kind', title: 'Registered demo', type: 'string', options: { list: [{ title: '1D Angular Spectrum propagation', value: 'angular-spectrum' }] }, initialValue: 'angular-spectrum', validation: r => r.required() }),
+    defineField({ name: 'wavelength', title: 'Initial wavelength (nm)', type: 'number', initialValue: 532, validation: r => r.min(380).max(780) }),
+    defineField({ name: 'distance', title: 'Initial distance (mm)', type: 'number', initialValue: 30, validation: r => r.min(0).max(120) }),
+  ], preview: { prepare: () => ({ title: 'Angular Spectrum Demo', subtitle: 'Registered component · no CMS scripts' }) } }),
   defineType({
     name: 'figure', title: 'Figure / image', type: 'image',
     options: { hotspot: false, accept: 'image/png,image/jpeg,image/webp,image/gif,image/avif' },
@@ -78,5 +97,5 @@ export const blocks = [
     ], preview: { select: { title: 'caption' }, prepare: ({ title }) => ({ title: title || 'Table' }) },
   }),
   defineType({ name: 'separator', title: 'Horizontal separator', type: 'object', fields: [defineField({ name: 'style', type: 'string', hidden: true, initialValue: 'rule' })], preview: { prepare: () => ({ title: '────────────' }) } }),
-  defineType({ name: 'body', title: 'Article', type: 'array', of: [paragraph, ...['figure', 'equation', 'codeBlock', 'callout', 'table', 'separator'].map(type => defineArrayMember({ type }))] }),
+  defineType({ name: 'body', title: 'Article', type: 'array', of: [paragraph, ...['figure', 'equation', 'codeBlock', 'callout', 'table', 'separator', 'figureGallery', 'paper', 'demo'].map(type => defineArrayMember({ type }))] }),
 ]

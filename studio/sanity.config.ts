@@ -13,16 +13,16 @@ const structure: StructureResolver = S => S.list().title('dhsh.in').items([
   S.listItem().title('Korean').child(S.documentList().apiVersion(apiVersion).title('Korean posts').filter('_type == "post" && language == "ko"')),
   S.listItem().title('English').child(S.documentList().apiVersion(apiVersion).title('English posts').filter('_type == "post" && language == "en"')),
   S.divider(),
-  S.documentTypeListItem('series').title('Series'), S.documentTypeListItem('referenceRecord').title('References'),
-  S.documentTypeListItem('topic').title('Topics'), S.documentTypeListItem('tag').title('Tags'),
+  ...[['series', 'Series'], ['referenceRecord', 'References'], ['topic', 'Topics'], ['tag', 'Tags']].map(([type, title]) => S.listItem().title(title).child(S.documentList().apiVersion(apiVersion).title(title).filter('_type == $type && !defined(migratedTo)').params({ type }))),
   S.divider(),
   S.listItem().title('Media').child(S.documentList().apiVersion(apiVersion).title('Uploaded images').filter('_type == "sanity.imageAsset"')),
-  S.documentTypeListItem('author').title('Authors'),
+  S.listItem().title('Authors').child(S.documentList().apiVersion(apiVersion).title('Authors').filter('_type == "author" && !defined(migratedTo)')),
   S.listItem().title('Site Settings').child(S.document().schemaType('siteSettings').documentId('site-settings')),
 ])
 
 export default defineConfig({
   name: 'dhsh', title: 'dhsh.in · Research & Engineering', projectId, dataset,
+  basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
   releases: { enabled: false }, tasks: { enabled: false }, scheduledDrafts: { enabled: false },
   plugins: [codeInput(), structureTool({ structure, defaultDocumentNode: (S, { schemaType }) => schemaType === 'post' ? S.document().views([S.view.form().title('Write'), S.view.component(ArticlePreview).title('Preview')]) : S.document().views([S.view.form()]) })],
   schema: { types: [...blocks, ...documents] },

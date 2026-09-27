@@ -91,6 +91,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/node": "11.1.6",
+    "@astrojs/vercel": "11.0.11",
     "@playwright/test": "^1.51.1",
     "@types/katex": "0.16.8",
     "@types/node": "^22",
@@ -105,17 +106,27 @@
     "node-html-parser": "7.0.1",
     "pagefind": "1.5.2",
     "postcss": "^8",
-    "sharp": "^0.34.5",
     "sanity": "6.16.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.5",
     "typescript": "^5",
     "typescript-eslint": "^8.70.1"
   },
   "overrides": {
-    "@module-federation/dts-plugin": { "adm-zip": "0.6.1" },
-    "@vercel/frameworks": { "js-yaml": "3.15.2", "smol-toml": "1.9.0" },
-    "typeid-js": { "uuid": "11.1.1" }
+    "@module-federation/dts-plugin": {
+      "adm-zip": "0.6.1"
+    },
+    "@vercel/frameworks": {
+      "js-yaml": "3.15.2",
+      "smol-toml": "1.9.0"
+    },
+    "typeid-js": {
+      "uuid": "11.1.1"
+    },
+    "@vercel/routing-utils": {
+      "path-to-regexp": "6.3.0"
+    }
   },
   "engines": {
     "node": ">=22.12.0"

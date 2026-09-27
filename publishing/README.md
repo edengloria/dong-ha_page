@@ -1,34 +1,48 @@
-# dhsh.in authoring proof — Phase 1
+# dhsh.in research publishing
 
-This is the private authoring/preview application. The public website remains the
-existing static Astro build deployed by GitHub Pages. No public blog routes or
-publishing webhook have been enabled yet. Progression to Phase 2 is gated on the
-owner trying the writing experience.
+The public website is a static Astro build on GitHub Pages. Sanity is the writing
+backend. A separate authoring deployment at studio.dhsh.in serves Studio,
+authenticated draft previews and the signed deployment webhook. Canonical article
+URLs always belong to dhsh.in.
 
-## Run locally
+## Current rollout
 
-Use Node 24 and run `npm ci` from the repository root. Then, in two terminals:
+Implemented: bilingual static articles, taxonomy and series, Portable Text figures,
+math, code, tables, citations, galleries, paper cards, registered optical demos,
+private preview, deployment status, sitemap/RSS/Pagefind and full content export.
+The realistic Korean authoring proof is an unpublished draft in the real CMS.
 
-```sh
-npm run dev:studio
-npm run dev:preview
-```
+**Production authoring hosting, DNS and the live webhook are not connected yet.**
+Until verified, publishing saves to Content Lake without automatically deploying
+dhsh.in. Do not describe that state as live.
 
-Open `http://127.0.0.1:3333/`. Sign into Sanity using GitHub. Open **Posts → Angular
-Spectrum Method를 PyTorch로 구현하기**. The preview server runs on port 4322;
-open it through the Studio's **Preview** tab to authenticate. A direct anonymous
-request to the preview is rejected.
+## Local development
 
-Project: `f0xserx3`; dataset: `production`. These identifiers are public, not
-credentials. A read-only project robot token and a random preview session secret
-must exist in ignored `publishing/.env.local`:
+Use Node 24 and `npm ci` at the repository root. In separate terminals run
+`npm run dev:studio`, `npm run dev:preview`, and `npm run dev`.
 
-```dotenv
-SANITY_READ_TOKEN=<project viewer token>
-PREVIEW_SESSION_SECRET=<at least 32 random characters>
-```
+Studio runs at http://127.0.0.1:3333/; preview runs on port 4322. Open it through
+Studio's **Preview** tab to authenticate the HttpOnly session with Sanity's
+short-lived preview secret. Direct anonymous previews are rejected. The public
+Astro application reads anonymous published content only.
 
-The owner-authenticated bootstrap is run once from `studio/`:
+Project `f0xserx3`, dataset `production` are public identifiers. Server credentials
+belong only in ignored `publishing/.env.local` or the authoring host's environment:
+
+| Variable | Purpose |
+| --- | --- |
+| SANITY_READ_TOKEN | Project Viewer robot token for draft preview |
+| PREVIEW_SESSION_SECRET | At least 32 random characters for preview cookies |
+| SANITY_DEPLOY_TOKEN | Project Editor robot token for private deployment records |
+| SANITY_WEBHOOK_SECRET | Signature shared with the Sanity webhook |
+| GITHUB_DEPLOY_TOKEN | Fine-grained token: this repository, Actions read/write |
+| DEPLOY_CALLBACK_SECRET | Signature shared with the GitHub Actions callback |
+
+None uses a PUBLIC_ or SANITY_STUDIO_ prefix. Never paste credentials into source,
+chat or browser bundles. The callback secret also belongs in GitHub Actions secrets.
+Routine article writing does not require setup commands or credentials.
+
+Initial bootstrap, from studio/ after owner authentication:
 
 ```sh
 npx sanity login --provider github
@@ -36,82 +50,119 @@ npx sanity exec ../scripts/setup-publishing.ts --with-user-token
 npx sanity exec ../scripts/seed-authoring-proof.ts --with-user-token
 ```
 
-The seed creates only an unpublished example draft and never overwrites it on
-subsequent runs. Its figure is an analytical Gaussian reference, not a physical
-measurement or a benchmark of the example Python code.
+The seed does not overwrite edited drafts. Its Gaussian figure is an analytical
+reference, not a physical measurement or benchmark. The one-time
+`migrate-publishing-seed-ids.ts` converts earlier dotted seed IDs and references
+atomically. Sanity dotted IDs are private subpaths; public taxonomy IDs must stay
+at the root. Old migrated records are retained privately and hidden from pickers.
 
-## Writing
+## Writing and publishing
 
-- Write ordinary paragraphs; use the toolbar for headings, lists and links.
-- Paste a screenshot at the text cursor with Ctrl+V. Figures also expose a file
-  picker, drag target and reuse of uploaded media. Add alt text and a caption.
-- Double-click a block to edit it. Equations show a live KaTeX preview. Code has a
-  language selector, filename, line highlighting and caption. Tables support
-  direct cell edits and pasted tab-separated cells.
-- **Preview → Refresh preview** loads the latest saved draft using the shared
-  Astro article component. Desktop/Mobile controls change the preview width.
-- The title generates a URL name automatically until it is edited manually.
-  After first publication, the language and URL name are locked. Titles and
-  categories remain editable. Translation pairs can share a slug across languages.
-- **Publish currently only publishes to Sanity Content Lake. It does not deploy
-  an article to dhsh.in yet.** The deployment/status workflow is Phase 3.
+1. Open Studio, sign in with GitHub and create a Post.
+2. Write ordinary paragraphs using the heading, list, link and formatting toolbar.
+3. Paste a screenshot at the cursor with Ctrl+V or use the image picker/drop target.
+   Add alt text and captions; scientific images retain their aspect ratio.
+4. Insert equation, code, table, figure or callout blocks. Equations provide live
+   KaTeX preview, tables accept tab-separated cells and references are reusable.
+5. Use **Preview → Refresh preview** for the saved draft's actual Astro layout.
+6. Publish. After production setup, status advances from CMS publication through
+   deployment to **Live on dhsh.in** only when the public manifest matches the
+   document revision. A failed build leaves the previous site live.
 
-## Checks
+Double-click structured blocks to edit their fields. Cover images are optional.
+Language defaults to Korean, author to Dong-Ha Shin and slug to the title. Dates
+and reading time are automatic; advanced SEO is collapsed. Slug/language lock
+after first publication, including after unpublish, preserving existing URLs.
+Intentional published-slug changes are currently unsupported.
+
+Translations are explicitly linked; untranslated posts are valid. Series order
+controls previous/next navigation. Figure/equation references use stable keys and
+renumber after reordering. Demo blocks select registered components and bounded
+parameters; CMS article content cannot execute arbitrary JavaScript.
+
+Unpublish triggers a fresh static deployment. After success, the old URL returns
+404 and disappears from listings, RSS, sitemap and search. The draft and its
+canonical slug remain in Studio for editing and republishing.
+
+## Production authoring deployment
+
+1. Create a separate Vercel project for this repository using Node 24. Keep public
+   GitHub Pages and apex DNS unchanged. The repository's vercel.json runs
+   `node scripts/build-authoring.mjs` after `npm ci`, building only authoring.
+2. Configure the six server environment variables above. Limit the GitHub token
+   to edengloria/dong-ha_page with Actions permission; no Contents write or broad
+   account token is needed. Register credentials through authenticated tooling.
+3. Assign studio.dhsh.in in Vercel. Add the exact DNS record supplied by Vercel at
+   Porkbun and verify HTTPS. Do not guess the target or modify apex records.
+4. Add https://studio.dhsh.in as a credentialed Sanity CORS origin. Studio uses
+   /studio/ with a root redirect; previews and APIs share the same origin.
+5. From studio/, run `npx sanity exec ../scripts/setup-publishing-services.ts
+   --with-user-token`. It saves missing local secrets, configures the GitHub
+   callback secret, and creates/updates a **disabled** webhook. Sanity requires
+   the hostname to resolve even for a disabled webhook.
+6. Merge the reviewed code so main contains the cms_event workflow input and
+   status callback. Deploy authoring from the same source revision.
+7. Rerun the setup command with ENABLE_PUBLISHING_WEBHOOK=1 to enable it. Test
+   publish/update/unpublish using a temporary noindex post, including actual
+   public HTML, manifest, search/index generation and old URL removal.
+8. Verify preview authentication, deployment status and owner writing comfort
+   before considering rollout complete, then publish reviewed real content.
+
+The webhook verifies a timestamped HMAC, size, project/dataset/type, ID and revision.
+Persistent revision-locked leases deduplicate deliveries. It dispatches only the
+existing deploy.yml workflow on main. Deployment records are private subpaths.
+GitHub callbacks are signed; completion additionally requires the public manifest
+to contain the matching workflow run ID.
+
+## Verification
 
 ```sh
+npm run lint
 npm run check --workspace studio
 npm run test:publishing
-npm run lint
-npm run build:studio
-npm run build:preview
 npm run build
+npm run build:preview
+# Set VERCEL=1 in the environment:
+node scripts/build-authoring.mjs
+npm run test:visual
 ```
 
-With both development servers running, from `studio/`:
+CI builds both applications and runs unit, functional and Linux screenshot checks.
+DOCUMENT_VISUAL_TEST=1 enables deterministic synthetic articles only for tests;
+production deployment rejects that flag. Tests cover static HTML without JS,
+Korean/English search, metadata, series, 390–1440 px reading layouts and demo code
+loading only when a registered demo is present.
+
+With preview running, from studio/:
 
 ```sh
 npx sanity schema validate
 npx sanity exec ../scripts/check-private-preview.ts --with-user-token
 ```
 
-The real-service check validates the Sanity preview secret, HttpOnly session,
-anonymous/invalid-secret rejection, no-store headers and complete article HTML.
-No draft content, read token or session secret belongs in the public site's build.
+From the root, `node scripts/check-webhook-rejection.mjs` checks unsigned, stale,
+draft and oversized requests against the real local endpoint without deployment.
+The authoring build scans browser output for configured secrets. Public document
+audits reject framework runtimes on reading pages.
 
-## Hosting and content ownership
+Real Chrome checks passed for clipboard PNG insertion, media reuse, equation
+editing, Python paste, table editing, automatic/manual slugs, first publication,
+immediate republish during autosave and unpublish. A real OS file drop and owner
+comfort review still need confirmation. Native publication deliberately uses
+Studio's mutation queue; an independent read/patch/publish sequence caused an
+observed revision conflict during autosave.
 
-`studio.dhsh.in` still needs a separate authoring host and a Porkbun DNS record.
-The public Pages deployment is preserved. The authoring service will host the
-Studio, private previews and the verified webhook; it will not serve canonical
-public article URLs.
+Linux comparisons reviewed intentional navigation additions: 10 desktop/mobile
+baselines changed; tablet baselines stayed unchanged. Existing Playwright 1.51
+and Sharp 0.34 audit findings remain a separate tested tooling-update task.
 
-The dataset's published documents and uploaded assets are public. Draft documents
-need authentication, but image asset URLs are not private storage. Upload only
-material safe for this asset architecture; keep confidential research, embargoed
-figures, company data and credentials elsewhere.
+## Ownership and backup
 
-Documents use Portable Text and stable references; media uses Sanity asset IDs.
-Keep schemas and rendering code in Git. The full export/restore procedure and
-scheduled backups are still to be implemented before production publishing.
+See [BACKUP.md](BACKUP.md) for full documents/media export, checksums, restore into
+a separate dataset and migration away from Sanity. A real export containing drafts
+and original assets has been created and its inventory verified. A restore into
+a second dataset has not yet been exercised.
 
-## Remaining verification before production
-
-- Owner's writing-comfort review and a real OS file drop. Clipboard PNG paste,
-  media reuse, live equation editing, Python paste and table cell edits were
-  exercised in Chrome against the real Content Lake. The browser automation's
-  file chooser/drop capability could not complete the OS upload test.
-- Chrome verification covered automatic slug generation, manual-slug preservation,
-  first publication, editing immediately followed by republishing, and unpublish.
-  The public Content Lake read confirmed the latest text, unchanged canonical URL
-  and first-publication date, and a newer update date. Unpublish restored a draft
-  and removed anonymous access. These checks do not yet prove deployment or public
-  URL removal, because the public publishing pipeline is still unconnected.
-- Publication metadata uses Studio's own mutation queue followed by the built-in
-  publish handler. Do not replace it with an independent read/patch/action request:
-  a real browser test caught a revision conflict when publishing during autosave.
-- The new Sanity CLI dependency findings are addressed with targeted root
-  overrides. The root scripts import the CLI directly, so Sanity is also an
-  explicit root development dependency. This avoids npm's workspace-link override
-  propagation issue. Existing Playwright 1.51 and Sharp 0.34 audit findings still
-  need a separate tested tooling update; the screenshot browser stays unchanged
-  for this authoring proof.
+Published documents and uploaded asset URLs are public. Authenticated drafts do
+not make asset URLs private storage. Keep confidential research, embargoed figures,
+company material and credentials outside this publishing asset system.

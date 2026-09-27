@@ -4,7 +4,7 @@ import { slugify } from '../components/slug-input'
 import { PostInput } from '../components/post-input'
 import { BodyInput } from '../components/body-input'
 
-const slug = defineField({ name: 'slug', title: 'URL name', type: 'slug', options: { source: 'title', slugify }, validation: rule => rule.required() })
+const slug = defineField({ name: 'slug', title: 'URL name', type: 'slug', options: { source: 'title', slugify }, validation: rule => rule.required().custom(value => !value?.current || /^[\p{L}\p{N}][\p{L}\p{N}_-]*$/u.test(value.current) ? true : 'Start with a letter or number. Use letters, numbers, hyphens or underscores; no spaces or slashes.') })
 const url = (name: string, title: string) => defineField({ name, title, type: 'url', validation: rule => rule.uri({ scheme: ['http', 'https'] }) })
 async function uniquePostSlug(value: string, { document, getClient }: SlugValidationContext) {
   const id = String(document?._id || '').replace(/^drafts\./, '')
@@ -21,21 +21,21 @@ export const documents = [
     components: { input: PostInput },
     groups: [{ name: 'write', title: 'Write', default: true }, { name: 'organize', title: 'Organize' }, { name: 'settings', title: 'Settings' }],
     fieldsets: [{ name: 'seo', title: 'Advanced SEO', options: { collapsible: true, collapsed: true } }, { name: 'dates', title: 'Publication details', options: { collapsible: true, collapsed: true } }],
-    initialValue: { language: 'ko', articleType: 'research-note', authors: [{ _type: 'reference', _ref: 'author.dong-ha-shin', _key: 'dongha' }] },
+    initialValue: { language: 'ko', articleType: 'research-note', authors: [{ _type: 'reference', _ref: 'author-dong-ha-shin', _key: 'dongha' }] },
     fields: [
       defineField({ name: 'title', title: 'Title', type: 'string', group: 'write', validation: rule => rule.required().max(180) }),
       defineField({ name: 'excerpt', title: 'Short introduction', description: 'Shown below the title and in search results.', type: 'text', rows: 3, group: 'write', validation: rule => rule.required().max(500) }),
       defineField({ name: 'body', title: 'Article', type: 'body', group: 'write', components: { input: BodyInput }, validation: rule => rule.required().min(1) }),
       defineField({ name: 'language', title: 'Language', type: 'string', group: 'organize', options: { list: [{ title: '한국어', value: 'ko' }, { title: 'English', value: 'en' }], layout: 'radio' }, readOnly: ({ document }) => Boolean(document?.publishedAt), validation: rule => rule.required() }),
       defineField({ name: 'articleType', title: 'Article type', type: 'string', group: 'organize', options: { list: [...articleTypes] }, validation: rule => rule.required() }),
-      defineField({ name: 'topics', title: 'Topics', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'topic' }] })], validation: rule => rule.unique() }),
-      defineField({ name: 'tags', title: 'Tags', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }] })], validation: rule => rule.unique() }),
-      defineField({ name: 'series', title: 'Series', type: 'reference', group: 'organize', to: [{ type: 'series' }] }),
+      defineField({ name: 'topics', title: 'Topics', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'topic' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.unique() }),
+      defineField({ name: 'tags', title: 'Tags', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.unique() }),
+      defineField({ name: 'series', title: 'Series', type: 'reference', group: 'organize', to: [{ type: 'series' }], options: { filter: '!defined(migratedTo)' } }),
       defineField({ name: 'seriesOrder', title: 'Part number', type: 'number', group: 'organize', hidden: ({ document }) => !document?.series, validation: rule => rule.integer().positive() }),
-      defineField({ name: 'references', title: 'References', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'referenceRecord' }] })], validation: rule => rule.unique() }),
+      defineField({ name: 'references', title: 'References', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'referenceRecord' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.unique() }),
       defineField({ name: 'translationOf', title: 'Translation of', type: 'reference', group: 'organize', to: [{ type: 'post' }], options: { filter: ({ document }) => ({ filter: 'language != $language && _id != $id', params: { language: document.language || 'ko', id: document._id.replace(/^drafts\./, '') } }) } }),
       defineField({ ...slug, options: { ...slug.options, isUnique: uniquePostSlug }, group: 'settings', readOnly: ({ document }) => Boolean(document?.publishedAt), description: 'Generated from the title before first publication. Locked after publication to keep links stable.' }),
-      defineField({ name: 'authors', title: 'Authors', type: 'array', group: 'settings', of: [defineArrayMember({ type: 'reference', to: [{ type: 'author' }] })], validation: rule => rule.required().min(1) }),
+      defineField({ name: 'authors', title: 'Authors', type: 'array', group: 'settings', of: [defineArrayMember({ type: 'reference', to: [{ type: 'author' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.required().min(1) }),
       defineField({ name: 'heroImage', title: 'Cover image (optional)', type: 'figure', group: 'settings', options: { collapsible: true, collapsed: true } }),
       defineField({ name: 'publishedAt', title: 'First published', type: 'datetime', group: 'settings', fieldset: 'dates', readOnly: true }),
       defineField({ name: 'updatedAt', title: 'Last published update', type: 'datetime', group: 'settings', fieldset: 'dates', readOnly: true }),

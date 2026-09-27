@@ -1,34 +1,49 @@
 ---
-import { renderBody } from '../../../lib/publishing/render'
-import { articleTypes, readingMinutes, type Post } from '../../../lib/publishing/types'
+import { renderBody, imageAsset } from '../../../lib/publishing/render'
+import { articleTypes, readingMinutes, postPath, type Post } from '../../../lib/publishing/types'
+import { withBasePath } from '../../../lib/paths'
+import BlogShell from './BlogShell.astro'
+import PostList from './PostList.astro'
 import 'katex/dist/katex.min.css'
 import '../../styles/blog.css'
-interface Props { post: Post; preview?: boolean }
-const { post, preview = false } = Astro.props
+interface Props { post: Post; preview?: boolean; parts?: Post[]; related?: Post[]; translations?: Post[] }
+const { post, preview = false, parts = [], related = [], translations = [] } = Astro.props
 const { html, referenceHtml, toc } = await renderBody(post)
+const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
+const index = parts.findIndex(item => item._id === post._id), previous = parts[index - 1], next = parts[index + 1]
+const hero = imageAsset(post.heroImage)
 const date = (value?: string) => value ? new Intl.DateTimeFormat(post.language === 'ko' ? 'ko-KR' : 'en-US', { dateStyle: 'long', timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
 ---
-<div class="publishing-shell">
-  <a class="blog-skip" href="#article-body">Skip to article</a>
-  <header class="blog-masthead"><a class="blog-site-name" href="https://dhsh.in/">Dong-Ha Shin</a><nav aria-label="Primary"><a href="https://dhsh.in/">Home</a><a href="https://dhsh.in/publications/">Research</a><a href="https://dhsh.in/projects/">Projects</a><a href="https://dhsh.in/blog/" aria-current="page">Blog</a><a href="https://dhsh.in/about/">About</a></nav></header>
-  {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
+<BlogShell preview={preview}>
   <main id="main-content" class="article-page" data-pagefind-body>
     <article lang={post.language}>
       <header class="article-heading">
-        <div class="article-taxonomy">{articleTypes.find(type => type.value === post.articleType)?.title || 'Research Note'}{post.topics?.map(topic => <><span aria-hidden="true"> · </span><a href={`https://dhsh.in/blog/topics/${topic.slug.current}/`}>{topic.title}</a></>)}</div>
+        <div class="article-taxonomy"><a href={href(`/blog/types/${post.articleType}/`)}>{articleTypes.find(type => type.value === post.articleType)?.title || 'Research Note'}</a>{post.topics?.map(topic => <><span aria-hidden="true"> · </span><a href={href(`/blog/topics/${topic.slug.current}/`)}>{topic.title}</a></>)}</div>
         <h1 data-pagefind-meta="title">{post.title || 'Untitled post'}</h1>
+        {!!translations.length && <nav class="article-translations" aria-label="Translations" data-pagefind-ignore>{translations.filter(item => item._id !== post._id).map(item => <a href={href(postPath(item))} hreflang={item.language} lang={item.language}>{item.language === 'ko' ? '한국어로 읽기' : 'Read in English'}</a>)}</nav>}
         <p class="article-excerpt">{post.excerpt}</p>
+        {post.series && <p class="article-series-label"><a href={href(`/blog/series/${post.series.slug.current}/`)}>{post.series.title}</a>{post.seriesOrder && <> · Part {post.seriesOrder}</>}</p>}
         <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'}<br /><time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && post.updatedAt !== post.publishedAt && <> · Updated <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} min read</p>
       </header>
+      {hero && <figure class="article-cover"><img src={`${hero.url}?w=1600&fit=max&auto=format&q=90`} srcset={[480, 768, 1200, 1600, 2400].filter(width => width <= hero.width).map(width => `${hero.url}?w=${width}&fit=max&auto=format&q=90 ${width}w`).join(', ')} sizes="(max-width: 800px) calc(100vw - 40px), 1200px" width={hero.width} height={hero.height} alt={post.heroImage?.alt || ''} fetchpriority="high" />{post.heroImage?.caption && <figcaption>{post.heroImage.caption}</figcaption>}</figure>}
       <div class="article-with-toc">
         {toc.length > 0 && <aside class="article-toc" aria-label="Table of contents" data-pagefind-ignore><details open><summary>{post.language === 'ko' ? '목차' : 'On this page'}</summary><ol>{toc.map(item => <li class={`toc-level-${item.level}`}><a href={`#${item.id}`}>{item.text}</a></li>)}</ol></details></aside>}
         <div id="article-body" class="article-body"><Fragment set:html={html} /><Fragment set:html={referenceHtml} /></div>
       </div>
+      {!!post.tags?.length && <ul class="article-tags" aria-label="Tags">{post.tags.map(tag => <li><a href={href(`/blog/tags/${tag.slug.current}/`)}>#{tag.title}</a></li>)}</ul>}
+      {post.series && <section class="series-navigation" aria-labelledby="series-heading" data-pagefind-ignore>
+        <h2 id="series-heading"><a href={href(`/blog/series/${post.series.slug.current}/`)}>{post.series.title}</a>{post.seriesOrder && <> · Part {post.seriesOrder}</>}</h2>
+        <nav aria-label="Series navigation">{previous && <a rel="prev" href={href(postPath(previous))}>← {previous.title}</a>}{next && <a rel="next" href={href(postPath(next))}>{next.title} →</a>}</nav>
+        <details><summary>{post.language === 'ko' ? '시리즈 전체 글' : 'All parts'}</summary><ol>{parts.map(part => <li><a href={href(postPath(part))} aria-current={part._id === post._id ? 'page' : undefined}>{part.seriesOrder ? `${part.seriesOrder}. ` : ''}{part.title}</a></li>)}</ol></details>
+      </section>}
+      {!!related.length && <section class="related-posts" aria-labelledby="related-heading" data-pagefind-ignore><h2 id="related-heading">{post.language === 'ko' ? '관련 글' : 'Related articles'}</h2><PostList posts={related} /></section>}
     </article>
   </main>
-  <footer class="blog-footer"><a href="https://dhsh.in/">dhsh.in</a><span>Research &amp; engineering notes</span></footer>
-</div>
+</BlogShell>
 <script>
+  if (document.querySelector('[data-registered-demo]')) {
+    void import('../../../lib/publishing/demos/runtime').then(module => module.mountDemos())
+  }
   document.addEventListener('click', async event => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-code]')
     if (!button) return

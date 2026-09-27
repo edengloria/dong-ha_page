@@ -1,6 +1,8 @@
 import { toHTML } from '@portabletext/to-html'
 import { codeToHtml } from 'shiki'
 import katex from 'katex'
+import { renderDemo } from './demos/render'
+import type { DemoBlock } from './types'
 import { dataset, projectId, type BodyBlock, type Figure, type Post, type Paper, type TextBlock } from './types'
 
 export const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!)
@@ -91,9 +93,9 @@ export async function renderBody(post: Pick<Post, 'body' | 'references'>) {
           separator: () => '<hr>',
           table: ({ value }) => `<figure class="article-table"><div class="table-scroll" tabindex="0" role="region" aria-label="${escapeHtml(value.caption || 'Table')}"><table>${value.caption ? `<caption>${escapeHtml(value.caption)}</caption>` : ''}${(value.rows || []).map((row: { cells: string[] }, i: number) => { const heading = i === 0 && value.header !== false; return `${heading ? '<thead>' : i === 1 || (i === 0 && !heading) ? '<tbody>' : ''}<tr>${row.cells.map(cell => heading ? `<th scope="col">${escapeHtml(cell)}</th>` : `<td>${escapeHtml(cell)}</td>`).join('')}</tr>${heading ? '</thead>' : ''}` }).join('')}${value.rows?.length > (value.header !== false ? 1 : 0) ? '</tbody>' : ''}</table></div></figure>`,
           paper: ({ value }) => papers.has(value.reference?._ref) ? `<aside class="paper-card">${paperHtml(papers.get(value.reference._ref)!)}</aside>` : '',
-          figureGallery: ({ value }) => `<div class="figure-gallery columns-${value.columns === 3 ? 3 : 2}">${(value.figures || []).map(figure).join('')}</div>`,
+          figureGallery: ({ value }) => `<div class="figure-gallery columns-${value.columns === 3 ? 3 : 2}">${(value.figures || []).map(figure).join('')}${value.caption ? `<p class="gallery-caption">${escapeHtml(value.caption)}</p>` : ''}</div>`,
           crossReference: ({ value }) => { const target = figureNumbers.get(value.target) || equationNumbers.get(value.target); return target ? `<a href="#${target.id}">${figureNumbers.has(value.target) ? `Figure ${target.number}` : `Eq. (${target.number})`}</a>` : '<span>[reference unavailable]</span>' },
-          demo: () => '<p class="content-placeholder">Interactive demo</p>',
+          demo: ({ value }) => renderDemo(value as DemoBlock),
         },
       },
     })

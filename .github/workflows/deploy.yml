@@ -1,9 +1,15 @@
 name: Deploy to GitHub Pages
+run-name: ${{ github.event.inputs.cms_event && format('CMS {0}', github.event.inputs.cms_event) || 'Deploy source update' }}
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      cms_event:
+        description: Verified publishing event ID
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -24,6 +30,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - name: Report deployment started
+        if: inputs.cms_event != ''
+        env:
+          CMS_EVENT: ${{ inputs.cms_event }}
+          DEPLOY_CALLBACK_SECRET: ${{ secrets.DEPLOY_CALLBACK_SECRET }}
+        run: node scripts/report-deployment.mjs building
       - name: Install dependencies
         run: npm ci
       - name: Optimize images
@@ -51,3 +63,24 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  report:
+    if: always() && github.event.inputs.cms_event != ''
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Report verified public deployment
+        env:
+          CMS_EVENT: ${{ inputs.cms_event }}
+          DEPLOY_CALLBACK_SECRET: ${{ secrets.DEPLOY_CALLBACK_SECRET }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+        run: |
+          if [ "$DEPLOY_RESULT" = "success" ]; then
+            node scripts/report-deployment.mjs complete
+          else
+            node scripts/report-deployment.mjs failed
+          fi

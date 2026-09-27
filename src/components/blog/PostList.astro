@@ -1,0 +1,11 @@
+---
+import { articleTypes, postPath, type Post } from '../../../lib/publishing/types'
+import { withBasePath } from '../../../lib/paths'
+interface Props { posts: Post[]; empty?: string }
+const { posts, empty = '아직 발행된 글이 없습니다.' } = Astro.props
+---
+{posts.length ? <ol class="post-list">{posts.map(post => <li><article>
+  <p class="post-list-meta">{articleTypes.find(type => type.value === post.articleType)?.title} · {post.language === 'ko' ? '한국어' : 'English'} · <time datetime={post.publishedAt}>{post.publishedAt?.slice(0, 10)}</time></p>
+  <h2><a href={withBasePath(postPath(post))}>{post.title}</a></h2><p>{post.excerpt}</p>
+  <div class="post-list-topics">{post.topics?.map(topic => <a href={withBasePath(`/blog/topics/${topic.slug.current}/`)}>{topic.title}</a>)}</div>
+</article></li>)}</ol> : <p class="blog-empty">{empty}</p>}

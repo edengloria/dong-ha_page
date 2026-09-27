@@ -6,6 +6,114 @@ import { renderBody } from '../../lib/publishing/render'
 import type { BodyBlock, TextBlock } from '../../lib/publishing/types'
 import { createSession, validSession } from '../../publishing/src/lib/auth'
 import { validateFigurePresence, validateFigureAlt } from '../../studio/schema/validation'
+import { translationsFor, safeJson } from '../../lib/publishing/seo'
+import { publishingFixture } from '../../tests/fixtures/publishing'
+import { seriesParts } from '../../lib/publishing/query'
+import { encodeSignatureHeader } from '@sanity/webhook'
+import { verifySignature, parseEvent, eventId, readSmallBody } from '../../publishing/src/lib/webhook'
+import { angularSpectrumProfile } from '../../lib/publishing/demos/angular-spectrum-model'
+import { dispatchPublication } from '../../publishing/src/lib/deploy'
+
+function deploymentStore() {
+  let record: Record<string, unknown> | undefined, revision = 0
+  const client = {
+    async createIfNotExists(value: Record<string, unknown>) {
+      record ||= { ...value, _rev: String(++revision) }
+      return structuredClone(record)
+    },
+    async getDocument() { return structuredClone(record) },
+    patch() {
+      let expected: unknown, changes: Record<string, unknown>
+      const patch = {
+        ifRevisionId(value: unknown) { expected = value; return patch },
+        set(value: Record<string, unknown>) { changes = value; return patch },
+        async commit() {
+          if (record?._rev !== expected) throw new Error('Revision conflict')
+          record = { ...record, ...changes, _rev: String(++revision) }
+          return structuredClone(record)
+        },
+      }
+      return patch
+    },
+  }
+  return client as unknown as NonNullable<Parameters<typeof dispatchPublication>[1]>['client']
+}
+
+test('concurrent webhook deliveries claim one deployment and acknowledge later duplicates', async () => {
+  const event = parseEvent(JSON.stringify({ id: 'dedupe-test', type: 'post', operation: 'update', revision: 'revision-1', projectId: 'f0xserx3', dataset: 'production' }))!
+  let dispatches = 0
+  const dependencies = { client: deploymentStore(), request: async (_path: string, body?: unknown) => {
+    assert.deepEqual(body, { ref: 'main', inputs: { cms_event: eventId(event) } })
+    dispatches++
+    return { workflow_run_id: 123 }
+  } }
+  const results = await Promise.allSettled([dispatchPublication(event, dependencies), dispatchPublication(event, dependencies)])
+  assert.equal(results.filter(result => result.status === 'fulfilled').length, 1)
+  assert.equal(dispatches, 1)
+  assert.equal((await dispatchPublication(event, dependencies)).duplicate, true)
+  assert.equal(dispatches, 1)
+})
+
+test('a lost GitHub response recovers the accepted workflow without dispatching twice', async () => {
+  const event = parseEvent(JSON.stringify({ id: 'response-loss-test', type: 'post', operation: 'delete', revision: 'revision-2', projectId: 'f0xserx3', dataset: 'production' }))!
+  let dispatches = 0
+  const dependencies = { client: deploymentStore(), request: async (path: string) => {
+    if (path.includes('/runs?')) return { workflow_runs: [{ display_title: `CMS ${eventId(event)}`, id: 456 }] }
+    dispatches++
+    throw new Error('Response lost after GitHub accepted the run')
+  } }
+  await assert.rejects(dispatchPublication(event, dependencies), /Response lost/)
+  const recovered = await dispatchPublication(event, dependencies)
+  assert.equal(recovered.duplicate, true)
+  assert.equal(dispatches, 1)
+})
+
+test('registered optical demo preserves the zero-distance field and sampled energy', () => {
+  const atSource = angularSpectrumProfile(532, 0), propagated = angularSpectrumProfile(532, 60)
+  atSource.forEach((value, x) => assert(Math.abs(value - Math.exp(-2 * (((x - 64) * 8) / 60) ** 2)) < 1e-12))
+  assert(Math.abs(atSource.reduce((a, b) => a + b, 0) - propagated.reduce((a, b) => a + b, 0)) < 1e-10)
+  assert(propagated[64] < atSource[64])
+})
+test('cross references track target keys through inserted figures and equations', async () => {
+  const target: BodyBlock = { _type: 'equation', _key: 'chosen', latex: 'z=1' }
+  const reference: BodyBlock = { _type: 'block', _key: 'xref', style: 'normal', children: [{ _type: 'crossReference', _key: 'ref', target: 'chosen' }] }
+  const original = parse((await renderBody({ body: [target, reference] })).html)
+  const inserted = parse((await renderBody({ body: [{ _type: 'equation', _key: 'inserted', latex: 'x=0' }, target, reference] })).html)
+  assert.equal(original.querySelector('a')?.textContent, 'Eq. (1)')
+  assert.equal(inserted.querySelector('a')?.textContent, 'Eq. (2)')
+  assert.equal(inserted.querySelector('a')?.getAttribute('href'), '#equation-chosen')
+})
+
+test('webhook accepts signed public changes and rejects tampering, replay, foreign and draft events', async () => {
+  const secret = 'a-test-only-webhook-secret-that-is-not-used-in-production'
+  const event = { id: 'article-123', type: 'post', operation: 'update', revision: 'revision-2', projectId: 'f0xserx3', dataset: 'production' }
+  const body = JSON.stringify(event), now = Date.now(), signature = await encodeSignatureHeader(body, now, secret)
+  assert(await verifySignature(body, signature, secret, now))
+  assert(!await verifySignature(body + ' ', signature, secret, now))
+  assert(!await verifySignature(body, signature, secret, now + 301_000))
+  assert(!await verifySignature(body, null, secret, now))
+  const parsed = parseEvent(body)!
+  assert(parsed)
+  assert.equal(eventId(parsed), eventId(parseEvent(JSON.stringify({ ...event, unused: 'ignored' }))!))
+  assert.notEqual(eventId(parsed), eventId({ ...parsed, operation: 'delete' }))
+  assert.equal(parseEvent(JSON.stringify({ ...event, id: 'drafts.article-123' })), null)
+  assert.equal(parseEvent(JSON.stringify({ ...event, projectId: 'foreign' })), null)
+  assert.equal(parseEvent(JSON.stringify({ ...event, type: 'publishingEvent' })), null)
+  assert.equal(parseEvent('{bad-json'), null)
+})
+test('webhook body reader enforces byte limits even without content-length', async () => {
+  await assert.rejects(readSmallBody(new Request('https://example.test/', { method: 'POST', body: 'x'.repeat(17_000) })), /too large/)
+  assert.equal(await readSmallBody(new Request('https://example.test/', { method: 'POST', body: '{}' })), '{}')
+})
+
+test('translation pairs are reciprocal and series navigation follows numeric order', () => {
+  const { posts } = publishingFixture
+  assert.deepEqual(translationsFor(posts[0], posts).map(item => item.language), ['ko', 'en'])
+  assert.deepEqual(translationsFor(posts[1], posts).map(item => item.language), ['ko', 'en'])
+  assert.deepEqual(translationsFor(posts[2], posts), [])
+  assert.deepEqual(seriesParts(posts[0], [...posts].reverse()).map(item => item.seriesOrder), [1, 2])
+  assert(!safeJson({ title: '</script><script>alert(1)</script>' }).includes('<'))
+})
 
 const paragraph = (text: string, marks: TextBlock['markDefs'] = []): TextBlock => ({
   _type: 'block', _key: 'paragraph', style: 'normal', markDefs: marks,

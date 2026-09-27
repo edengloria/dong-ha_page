@@ -18,6 +18,8 @@
     "**/node_modules",
     "**/dist",
     "**/.sanity",
+    "**/.vercel",
+    "publishing/public/studio",
     "out",
     ".next",
     ".visual-baseline",

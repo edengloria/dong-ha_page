@@ -1,0 +1,11 @@
+---
+import TaxonomyPage from '../../../components/blog/TaxonomyPage.astro'
+import { getPublishingData } from '../../../../lib/publishing/query'
+export async function getStaticPaths() {
+  const { posts, topics } = await getPublishingData()
+  return topics.map(item => ({ params: { slug: item.slug.current }, props: { item, posts: posts.filter(post => post.topics?.some(value => value._id === item._id)) } }))
+}
+const { item, posts } = Astro.props
+---
+<TaxonomyPage kind="topics" title={item.title} description={item.description} path={`/blog/topics/${item.slug.current}/`} posts={posts} />
+

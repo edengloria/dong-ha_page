@@ -1,0 +1,7 @@
+---
+import { withBasePath } from '../../../lib/paths'
+interface Props { active?: string }
+const { active = 'all' } = Astro.props
+const items = [['all', 'All', '/blog/'], ['topics', 'Topics', '/blog/topics/'], ['series', 'Series', '/blog/series/'], ['types', 'Article Types', '/blog/types/'], ['search', 'Search', '/blog/search/']]
+---
+<nav class="blog-navigation" aria-label="Blog">{items.map(([key, title, path]) => <a href={withBasePath(path)} aria-current={active === key ? 'page' : undefined}>{title}</a>)}</nav>

@@ -1,0 +1,12 @@
+---
+import BlogDocument from '../../layouts/BlogDocument.astro'
+import BlogShell from './BlogShell.astro'
+import BlogNavigation from './BlogNavigation.astro'
+import PostList from './PostList.astro'
+import type { Post } from '../../../lib/publishing/types'
+interface Props { title: string; description?: string; path: string; kind: string; posts: Post[] }
+const { title, description = '', path, kind, posts } = Astro.props
+---
+<BlogDocument title={title} description={description || `${title} — Research & engineering notes by Dong-Ha Shin.`} path={path}>
+  <BlogShell><main id="main-content" class="blog-index"><BlogNavigation active={kind} /><h1>{title}</h1>{description && <p class="article-excerpt">{description}</p>}<PostList posts={posts} /></main></BlogShell>
+</BlogDocument>
