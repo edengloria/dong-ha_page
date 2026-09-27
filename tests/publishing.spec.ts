@@ -57,6 +57,10 @@ test('taxonomies, series and main navigation link to generated pages', async ({ 
     expect(response?.status()).toBe(200)
     await expect(page.locator('#main-content')).toBeVisible()
   }
+  await page.goto(article)
+  await page.getByRole('link', { name: 'PADO: PyTorch Automatic Differentiable Optics', exact: true }).click()
+  await expect(page).toHaveURL(/\/projects\/#pado$/)
+  await expect(page.locator('#pado').getByRole('link', { name: 'Angular Spectrum Method 구현 노트', exact: true })).toHaveAttribute('href', article)
 })
 
 test('registered demo hydrates only where present and responds to keyboard controls', async ({ page }) => {

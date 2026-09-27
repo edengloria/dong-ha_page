@@ -1,4 +1,4 @@
-import type { Publication } from "@/content/types"
+import type { Publication } from "./types"
 
 export const publications: Publication[] = [
   {
@@ -26,6 +26,7 @@ export const publications: Publication[] = [
   },
   {
     kind: "Open-source",
+    projectSlug: "pado",
     title: "PADO: PyTorch Automatic Differentiable Optics",
     authors: "Seung-Hwan Baek, Dong-Ha Shin, Yujin Jeon, Seung-Woo Yoon, Eunsue Choi, Gawoon Ban, Hyunmo Kang",
     venue: "2025",

@@ -10,9 +10,11 @@ import { ProjectsIndex } from "@/components/content/projects-index"
 import type { GalleryItem } from "@/lib/gallery"
 import type { DiscogsRelease } from "@/lib/discogs"
 import type { ProjectContent } from "@/content/types"
+import type { Post } from "@/lib/publishing/types"
 
 export type PublicPageProps = { path: string } & (
-  { kind: "home" | "about" | "projects" | "publications" | "records" | "not-found" } |
+  { kind: "home" | "about" | "publications" | "records" | "not-found" } |
+  { kind: "projects"; posts: Post[] } |
   { kind: "photos"; galleryItems: GalleryItem[]; page: number; pages: number; total: number } |
   { kind: "record"; release: DiscogsRelease } |
   { kind: "project"; project: ProjectContent }
@@ -23,7 +25,7 @@ export default function PublicPage(props: PublicPageProps) {
   switch (props.kind) {
     case "home": content = <AboutSection />; break
     case "about": content = <AboutSection showOverview={false} />; break
-    case "projects": content = <ProjectsIndex />; break
+    case "projects": content = <ProjectsIndex posts={props.posts} />; break
     case "publications": content = <div><PublicationsSection className="space-y-6" titleClassName="mb-8" /></div>; break
     case "records": content = <VinylGalleryView />; break
     case "photos": content = <PhotoGallery {...props} />; break

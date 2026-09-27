@@ -42,6 +42,7 @@ export interface PublicationLink {
 
 export interface Publication {
   kind: "Open-source" | "Journals"
+  projectSlug?: string
   title: string
   authors: string
   venue: string

@@ -3,6 +3,7 @@ import { articleTypes, apiVersion } from '../../lib/publishing/types'
 import { slugify } from '../components/slug-input'
 import { PostInput } from '../components/post-input'
 import { BodyInput } from '../components/body-input'
+import { publishingProjects } from '../../content/publishing-projects'
 
 const slug = defineField({ name: 'slug', title: 'URL name', type: 'slug', options: { source: 'title', slugify }, validation: rule => rule.required().custom(value => !value?.current || /^[\p{L}\p{N}][\p{L}\p{N}_-]*$/u.test(value.current) ? true : 'Start with a letter or number. Use letters, numbers, hyphens or underscores; no spaces or slashes.') })
 const url = (name: string, title: string) => defineField({ name, title, type: 'url', validation: rule => rule.uri({ scheme: ['http', 'https'] }) })
@@ -32,6 +33,7 @@ export const documents = [
       defineField({ name: 'tags', title: 'Tags', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.unique() }),
       defineField({ name: 'series', title: 'Series', type: 'reference', group: 'organize', to: [{ type: 'series' }], options: { filter: '!defined(migratedTo)' } }),
       defineField({ name: 'seriesOrder', title: 'Part number', type: 'number', group: 'organize', hidden: ({ document }) => !document?.series, validation: rule => rule.integer().positive() }),
+      defineField({ name: 'projects', title: 'Related projects', description: 'Links appear on the article and the project index after deployment.', type: 'array', group: 'organize', of: [{ type: 'string' }], options: { list: publishingProjects.map(project => ({ title: project.title, value: project.id })) }, validation: rule => rule.unique() }),
       defineField({ name: 'references', title: 'References', type: 'array', group: 'organize', of: [defineArrayMember({ type: 'reference', to: [{ type: 'referenceRecord' }], options: { filter: '!defined(migratedTo)' } })], validation: rule => rule.unique() }),
       defineField({ name: 'translationOf', title: 'Translation of', type: 'reference', group: 'organize', to: [{ type: 'post' }], options: { filter: ({ document }) => ({ filter: 'language != $language && _id != $id', params: { language: document.language || 'ko', id: document._id.replace(/^drafts\./, '') } }) } }),
       defineField({ ...slug, options: { ...slug.options, isUnique: uniquePostSlug }, group: 'settings', readOnly: ({ document }) => Boolean(document?.publishedAt), description: 'Generated from the title before first publication. Locked after publication to keep links stable.' }),

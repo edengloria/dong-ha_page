@@ -47,6 +47,7 @@ export interface Post {
   title: string; slug: { current: string }; language: Language; articleType: ArticleType
   excerpt: string; body: BodyBlock[]; heroImage?: Figure
   topics?: Taxonomy[]; tags?: Taxonomy[]; series?: Taxonomy; seriesOrder?: number
+  projects?: string[]
   authors?: Author[]; references?: Paper[]; publishedAt?: string; updatedAt?: string
   translationOf?: Reference; translations?: { language: Language; slug: { current: string } }[]
   seo?: { title?: string; description?: string; socialImage?: Figure; noindex?: boolean }

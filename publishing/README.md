@@ -79,6 +79,9 @@ Translations are explicitly linked; untranslated posts are valid. Series order
 controls previous/next navigation. Figure/equation references use stable keys and
 renumber after reordering. Demo blocks select registered components and bounded
 parameters; CMS article content cannot execute arbitrary JavaScript.
+Choose **Organize → Related projects** to link an article with an existing project
+such as PADO. Both the article and Projects index update automatically on publish;
+no hand-edited reverse links are needed.
 
 Unpublish triggers a fresh static deployment. After success, the old URL returns
 404 and disappears from listings, RSS, sitemap and search. The draft and its
@@ -160,8 +163,10 @@ and Sharp 0.34 audit findings remain a separate tested tooling-update task.
 
 See [BACKUP.md](BACKUP.md) for full documents/media export, checksums, restore into
 a separate dataset and migration away from Sanity. A real export containing drafts
-and original assets has been created and its inventory verified. A restore into
-a second dataset has not yet been exercised.
+and original assets was restored into the separate private restore-check dataset:
+41 content documents, 2 original image hashes/dimensions and 2 rendered drafts
+passed comparison; anonymous queries exposed no documents. See the read-only
+verification command and export media format details in BACKUP.md.
 
 Published documents and uploaded asset URLs are public. Authenticated drafts do
 not make asset URLs private storage. Keep confidential research, embargoed figures,

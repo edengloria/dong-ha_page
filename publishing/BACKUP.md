@@ -30,6 +30,12 @@ hosting environment configuration are managed separately from content backups.
 4. Compare document counts, IDs, slugs/languages, body blocks, references and media
    dimensions with the original export. Preview representative Korean/English
    articles including math, code and figures against the restored dataset.
+   For this project's private `restore-check` dataset, set `PUBLISHING_BACKUP` to
+   the absolute archive path and run `npx sanity exec
+   ../scripts/check-publishing-restore.ts --with-user-token` from `studio/`.
+   This read-only verifier checks the archive checksum, exact document content,
+   restored references, original asset bytes/dimensions, shared article rendering
+   and absence of anonymous document access. It never changes production.
 5. Switch the public build and Studio project/dataset configuration only after
    review, or import into an empty replacement production dataset during planned
    recovery. Recreate CORS, robot tokens, webhook and server secrets separately.
@@ -39,11 +45,30 @@ hosting environment configuration are managed separately from content backups.
 
 Extract `data.ndjson`, `assets.json`, `images/` and `files/`. Preserve each post's
 language and slug as its URL. Resolve `_ref` relationships by `_id`; keep `_key`
-values because figure/equation references use them. Map Portable Text paragraphs,
+values because figure/equation references use them. Exports represent media with
+`_sanityAsset` markers such as `image@file://./images/hash-1200x800.png` instead of
+the live `asset._ref`. Resolve these archive-relative paths and retain the matching
+`assets.json` metadata; the official importer reconstructs asset references.
+Map Portable Text paragraphs,
 marks and structured objects with `lib/publishing/types.ts` and `render.ts` as the
 format contract. Move original asset binaries to your own storage and replace
 `imageAsset()` URL resolution. Preserve dates, citations, alt text, caption,
 credits, translations and series order. The Astro public routes need no URL change.
 
+## Verified restore drill
+
+On 2026-09-27, the full export was imported into the separate **private**
+`restore-check` dataset. All 41 content documents matched the archive, both images
+matched their original SHA-1 hashes and dimensions, and both restored drafts
+rendered through the shared article renderer. Anonymous querying exposed zero
+documents. The dataset remains available for inspection; production was unchanged.
+
+Ordinary Sanity image delivery may strip metadata and therefore have different
+bytes from the upload. Exact byte verification uses authenticated `dlRaw` against
+the allowlisted Sanity asset host; never add that credential to public image URLs.
+The export itself contains the original bytes. Public click-to-expand links serve
+the full-resolution image, not a promise of byte-identical original metadata.
+
 References: [Sanity export](https://www.sanity.io/docs/content-lake/exporting-data),
-[import including assets](https://www.sanity.io/docs/content-lake/importing-data).
+[import including assets](https://www.sanity.io/docs/content-lake/importing-data),
+[original image downloads](https://www.sanity.io/docs/content-lake/image-urls).

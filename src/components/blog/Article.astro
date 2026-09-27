@@ -3,6 +3,7 @@ import { renderBody, imageAsset } from '../../../lib/publishing/render'
 import { articleTypes, readingMinutes, postPath, type Post } from '../../../lib/publishing/types'
 import { withBasePath } from '../../../lib/paths'
 import BlogShell from './BlogShell.astro'
+import { publishingProjects } from '../../../content/publishing-projects'
 import PostList from './PostList.astro'
 import 'katex/dist/katex.min.css'
 import '../../styles/blog.css'
@@ -12,6 +13,7 @@ const { html, referenceHtml, toc } = await renderBody(post)
 const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
 const index = parts.findIndex(item => item._id === post._id), previous = parts[index - 1], next = parts[index + 1]
 const hero = imageAsset(post.heroImage)
+const linkedProjects = publishingProjects.filter(project => post.projects?.includes(project.id))
 const date = (value?: string) => value ? new Intl.DateTimeFormat(post.language === 'ko' ? 'ko-KR' : 'en-US', { dateStyle: 'long', timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
 ---
 <BlogShell preview={preview}>
@@ -31,6 +33,7 @@ const date = (value?: string) => value ? new Intl.DateTimeFormat(post.language =
         <div id="article-body" class="article-body"><Fragment set:html={html} /><Fragment set:html={referenceHtml} /></div>
       </div>
       {!!post.tags?.length && <ul class="article-tags" aria-label="Tags">{post.tags.map(tag => <li><a href={href(`/blog/tags/${tag.slug.current}/`)}>#{tag.title}</a></li>)}</ul>}
+      {!!linkedProjects.length && <section class="related-posts" aria-labelledby="projects-heading"><h2 id="projects-heading">{post.language === 'ko' ? '관련 프로젝트' : 'Related projects'}</h2><ul>{linkedProjects.map(project => <li><a href={href(project.href)}>{project.title}</a></li>)}</ul></section>}
       {post.series && <section class="series-navigation" aria-labelledby="series-heading" data-pagefind-ignore>
         <h2 id="series-heading"><a href={href(`/blog/series/${post.series.slug.current}/`)}>{post.series.title}</a>{post.seriesOrder && <> · Part {post.seriesOrder}</>}</h2>
         <nav aria-label="Series navigation">{previous && <a rel="prev" href={href(postPath(previous))}>← {previous.title}</a>}{next && <a rel="next" href={href(postPath(next))}>{next.title} →</a>}</nav>
