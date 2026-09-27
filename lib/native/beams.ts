@@ -1,5 +1,5 @@
 import type { Canvas, Picture, ThorVGNamespace } from "@thorvg/webcanvas"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 
 // ThorVG owns a global engine. Serialize startup across StrictMode mounts.
 let startup = Promise.resolve()
@@ -18,7 +18,7 @@ export function mountBeams(host: HTMLElement) {
   let raf = 0, frames = 0, quality = 0, fps = 60
   let width = 1, height = 1, previous = 0, rendered = 0, sampleStart = 0, slow = 0, samples = 0
   const epoch = performance.now()
-  const fixedTime = process.env.NODE_ENV !== "production"
+  const fixedTime = import.meta.env.DEV || __VISUAL_FIXTURE__
     ? new URLSearchParams(location.search).get("beamTime") : null
 
   function destroyScene() {

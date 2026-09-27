@@ -1,4 +1,4 @@
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 import { profile } from "@/content/profile"
 import { publications } from "@/content/publications"
 import { RichText } from "@/components/content/rich-text"

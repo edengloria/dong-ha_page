@@ -1,0 +1,11 @@
+---
+import Document from "./Document.astro"
+import PublicPage, { type PublicPageProps } from "@/components/layout/public-page"
+import type { PageMetadata } from "@/lib/metadata"
+type Props = PageMetadata & PublicPageProps
+---
+<Document {...Astro.props}>
+
+  <PublicPage {...Astro.props} />
+</Document>
+<script src="../../lib/native/document.ts"></script>

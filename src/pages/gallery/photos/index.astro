@@ -1,0 +1,6 @@
+---
+import PublicDocument from "../../../layouts/PublicDocument.astro"
+import { getGalleryImages, PHOTOS_PER_PAGE } from "@/lib/gallery"
+const images = await getGalleryImages()
+---
+<PublicDocument path="/gallery/photos/" kind="photos" title="Gallery / Photos" description="Personal photographs from Dong-Ha Shin." galleryItems={images.slice(0, PHOTOS_PER_PAGE)} page={1} pages={Math.ceil(images.length / PHOTOS_PER_PAGE)} total={images.length} />

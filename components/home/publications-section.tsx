@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react"
-import Image from "next/image"
+import Image from "@/components/content/image"
 import { publications } from "@/content/publications"
 import { cn, withBasePath } from "@/lib/utils"
 

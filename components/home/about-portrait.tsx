@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
-import { withBasePath } from "@/lib/utils"
+import Image from "@/components/content/image"
+import { withBasePath } from "@/lib/paths"
 
 export function AboutPortrait({
   alt,

@@ -1,16 +1,15 @@
 "use client"
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { usePathname } from "next/navigation"
 import defaultLayout from "@/data/scene-layout.json"
 import { layoutCss, parseLayout, SCENE_EVENT, SCENE_STORAGE, type SceneLayout } from "@/lib/scene-layout"
 import { migrateMobileScene } from "@/lib/migrate-mobile-scene"
 import { migrateAnchors } from "@/lib/scene-anchors"
-import { withoutBasePath } from "@/lib/utils"
+import { withoutBasePath } from "@/lib/paths"
 const defaults = parseLayout(defaultLayout)
-const SceneContext = createContext({ layout: defaults, setLayout: (() => {}) as (layout: SceneLayout) => void, home: true, editing: false })
+const SceneContext = createContext({ layout: defaults, setLayout: (() => {}) as (layout: SceneLayout) => void, home: true, editing: false, pathname: "/" })
 export const useScene = () => useContext(SceneContext)
-export function SceneProvider({ children }: { children: ReactNode }) {
-  const pathname = withoutBasePath(usePathname()).replace(/\/$/, "")
+export function SceneProvider({ children, path }: { children: ReactNode; path: string }) {
+  const pathname = withoutBasePath(path).replace(/\/$/, "")
   const editing = pathname === "/scene-editor"
   const home = editing || pathname === ""
   const [layout, setLayout] = useState(defaults)
@@ -30,7 +29,7 @@ export function SceneProvider({ children }: { children: ReactNode }) {
     window.addEventListener(SCENE_EVENT, read)
     return () => { window.removeEventListener("storage", stored); window.removeEventListener(SCENE_EVENT, read) }
   }, [editing])
-  return <SceneContext.Provider value={{ layout, setLayout, home, editing }}>
+  return <SceneContext.Provider value={{ layout, setLayout, home, editing, pathname: pathname || "/" }}>
     <style id="scene-layout">{layoutCss(layout)}</style>{children}
   </SceneContext.Provider>
 }

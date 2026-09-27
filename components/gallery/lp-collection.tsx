@@ -1,11 +1,11 @@
 "use client"
 
-import Image from "next/image"
+import Image from "@/components/content/image"
 import { useEffect, useRef } from "react"
 import type { DiscogsRelease, TrackPreferences } from "@/lib/discogs"
 import { resolvePreferredPreviewQuery } from "@/lib/music-preview"
 import { mountRecords } from "@/lib/native/records"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 
 export default function LPCollection({ releases, prefs }: { releases: DiscogsRelease[]; prefs: TrackPreferences }) {
   const root = useRef<HTMLDivElement>(null)
@@ -18,7 +18,7 @@ export default function LPCollection({ releases, prefs }: { releases: DiscogsRel
         const href = withBasePath(`/gallery/vinyl/${release.instance_id}/`)
         return <div key={release.instance_id} className="group cursor-pointer record-card" data-record={release.id} data-album={release.title} data-artist={release.artist} data-query={preferredQuery} data-custom-query={customQuery}>
           <a className="record-cover aspect-square" href={href} aria-label={`${release.title} — ${release.artist}`}>
-            <Image src={release.cover_image || withBasePath("/placeholder.svg")} alt={`${release.title} cover`} width={300} height={300} loading="lazy" unoptimized />
+            <Image src={release.cover_image || withBasePath("/placeholder.svg")} alt={`${release.title} cover`} width={300} height={300} loading="lazy" />
           </a>
           <h2><a href={href}>{release.title}</a></h2>
           <p>{release.artist}<br />{release.year || ""}</p>

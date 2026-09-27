@@ -1,0 +1,32 @@
+name: Validate Astro site
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:server
+      - run: npx playwright install --with-deps chromium
+      - name: Compare existing Linux screenshots and functional behavior
+        env:
+          PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL: "1"
+        run: npm run test:visual -- --reporter=line
+      - name: Preserve failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/

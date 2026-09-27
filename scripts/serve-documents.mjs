@@ -9,7 +9,7 @@ http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, "http://localhost")
     const path = decodeURIComponent(url.pathname)
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || ""
+    const base = process.env.PUBLIC_BASE_PATH || ""
     if (base && path !== base && !path.startsWith(`${base}/`)) { res.writeHead(404).end(); return }
     let file = resolve(root, `.${path.slice(base.length) || "/"}`)
     if (file !== root && !file.startsWith(`${root}${sep}`)) { res.writeHead(403).end(); return }

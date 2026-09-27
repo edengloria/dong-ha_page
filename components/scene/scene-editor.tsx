@@ -1,17 +1,25 @@
 "use client"
 
-import Image from "next/image"
-import { useEffect, useRef, useState, type PointerEvent } from "react"
+import Image from "@/components/content/image"
+import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent } from "react"
 import { assetPath, layoutFields, parseLayout, sceneAnchors, sceneLinks, SCENE_EVENT, SCENE_STORAGE, type SceneAnchor, type LayoutField, type Placement, type SceneAsset, type SceneItem, type SceneLayout } from "@/lib/scene-layout"
 import { attachPlacement, movePlacement, resolvePlacement } from "@/lib/scene-anchors"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 import { MAX_LAYOUT_BYTES } from "@/lib/scene-content"
 import { AppearanceProperties, ContentProperties, fitText, uploadedImage } from "./editor-content"
 
 import { useScene, defaults } from "./scene-context"
 import { useSceneAnchors } from "./use-scene-anchors"
+import { LayoutNumberInput } from "./layout-number-input"
 type Drag = { x: number; y: number; scroll: number; before: SceneLayout; ids: string[]; id: string; resize: boolean; changed: boolean; mode: "desktop" | "mobile"; geometry: ReturnType<typeof useSceneAnchors> }
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
+const mobileSnapshot = () => matchMedia("(max-width: 560px)").matches
+const serverMobileSnapshot = () => false
+function subscribeMobile(update: () => void) {
+  const media = matchMedia("(max-width: 560px)")
+  media.addEventListener("change", update)
+  return () => media.removeEventListener("change", update)
+}
 
 export default function SceneEditor() {
   const { layout, setLayout: onChange } = useScene()
@@ -24,7 +32,8 @@ export default function SceneEditor() {
   const [selected, setSelected] = useState<string | null>("sun-birds")
   const [selection, setSelection] = useState<string[]>(["sun-birds"])
   const [grid, setGrid] = useState(0)
-  const [mobile, setMobile] = useState(false), [preview, setPreview] = useState(false), [open, setOpen] = useState(true)
+  const mobile = useSyncExternalStore(subscribeMobile, mobileSnapshot, serverMobileSnapshot)
+  const [preview, setPreview] = useState(false), [open, setOpen] = useState(true)
   const [dockLeft, setDockLeft] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState("")
@@ -45,12 +54,6 @@ export default function SceneEditor() {
     target?.scrollIntoView({ block: "start" })
   }
   function chooseImage(id: string | null = null) { replaceImageId.current = id; imageInput.current?.click() }
-  useEffect(() => {
-    const media = matchMedia("(max-width: 560px)")
-    const update = () => setMobile(media.matches)
-    update(); media.addEventListener("change", update)
-    return () => media.removeEventListener("change", update)
-  }, [])
   useEffect(() => {
     const abort = new AbortController()
     fetch(withBasePath("/asset/camerons-world/archive/catalog.json"), { signal: abort.signal })
@@ -277,14 +280,13 @@ export default function SceneEditor() {
         {["배경", "패널"].map((section) => <fieldset key={section} className="scene-properties"><legend>{section}</legend>
           <div className="scene-fields">{(Object.entries(layoutFields) as [LayoutField, (typeof layoutFields)[LayoutField]][]).filter(([, field]) => field.group === section).map(([key, field]) => {
             const value = layout.settings?.[mode]?.[key] ?? field[mode]
-            return <label key={key}>{field.label} ({field.unit})<input key={`${mode}-${value}`} type="number" min={field.min} max={field.max} step="1" defaultValue={value}
-              onBlur={(event) => {
-                const next = event.target.valueAsNumber
-                if (!Number.isFinite(next)) { event.target.value = String(value); return }
-                const bounded = clamp(next, field.min, field.max)
-                event.target.value = String(bounded)
-                if (bounded !== value) commit({ ...layout, settings: { ...layout.settings, [mode]: { ...layout.settings?.[mode], [key]: bounded } } })
-              }} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur() }} /></label>
+            return <label key={key}>{field.label} ({field.unit})<LayoutNumberInput value={value} mode={mode} min={field.min} max={field.max}
+              onCommit={bounded => {
+                const activeMode = mobileSnapshot() ? "mobile" : "desktop", latest = current.current
+                if (bounded !== (latest.settings?.[activeMode]?.[key] ?? field[activeMode])) {
+                  commit({ ...latest, settings: { ...latest.settings, [activeMode]: { ...latest.settings?.[activeMode], [key]: bounded } } })
+                }
+              }} /></label>
           })}</div>
         </fieldset>)}
         <button onClick={() => commit({ ...layout, settings: { ...layout.settings, [mode]: {} } })}>이 화면의 배경 / 패널 초기화</button>
@@ -351,7 +353,7 @@ export default function SceneEditor() {
       <label><input type="checkbox" checked={animated} onChange={(event) => { setAnimated(event.target.checked); setPage(0) }} /> 움직이는 에셋만</label>
       {catalogStatus && <p role="status">{catalogStatus}</p>}
       <div className="asset-grid">{filtered.slice(page * 36, page * 36 + 36).map((asset) => <button key={asset.id} onClick={() => add(asset)} title={`추가: ${asset.file} (${asset.width}×${asset.height})`} aria-label={`추가: ${asset.file}`}>
-        <Image src={withBasePath(assetPath(asset.thumbnail))} alt="" width={160} height={120} unoptimized loading="lazy" />
+        <Image src={withBasePath(assetPath(asset.thumbnail))} alt="" width={160} height={120} loading="lazy" />
         <span>{asset.file.replace("img/content/", "")}</span>{asset.frames > 1 && <small>GIF</small>}
       </button>)}</div>
       <div className="scene-actions"><button disabled={page === 0} onClick={() => setPage(page - 1)}>이전</button><span>{filtered.length ? page + 1 : 0} / {Math.ceil(filtered.length / 36)}</span><button disabled={(page + 1) * 36 >= filtered.length} onClick={() => setPage(page + 1)}>다음</button></div>

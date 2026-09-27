@@ -1,191 +1,102 @@
 # Dong-Ha Shin Website
 
-Static personal website for [https://dhsh.in/](https://dhsh.in/), refactored to keep the existing visual identity while making the codebase easier to extend.
+Static personal website for [dhsh.in](https://dhsh.in/).
 
-## Stack
+## Stack and rendering
 
-- Next.js App Router as build-time templates and a separate scene editor/admin app
-- TypeScript
-- Tailwind CSS
-- Plain HTML public documents with small native DOM enhancements
-- ThorVG WebGPU / WebGL background
-- GitHub Pages static export
+- Astro 7: file routes, metadata, HTML and static asset generation.
+- TypeScript, React templates and Tailwind CSS.
+- Public pages are complete HTML with small native DOM enhancements. They
+  contain no hydrated React or Next runtime.
+- Only `/scene-editor/` and `/gallery/admin/` hydrate React islands.
+- ThorVG WebGPU / WebGL background; GitHub Pages deployment.
 
-## Project Structure
-
-```text
-app/
-  api/save-preferences/route.ts
-  gallery/
-    admin/page.tsx
-    layout.tsx
-    page.tsx
-    photos/page.tsx
-    vinyl/page.tsx
-  globals.css
-  layout.tsx
-  page.tsx
-  publications/page.tsx
-components/
-  content/rich-text.tsx
-  gallery/
-    gallery-tabs.tsx
-    lp-collection.tsx
-    photo-gallery.tsx
-  home/
-    about-portrait.tsx
-    about-section.tsx
-    publications-section.tsx
-  layout/
-    site-container.tsx
-    site-footer.tsx
-    site-navbar.tsx
-    site-shell.tsx
-    site-sidebar.tsx
-content/
-  profile.ts
-  projects.ts
-  publications.ts
-  site.ts
-  types.ts
-data/
-  discogs-collection.json
-  track-preferences.json
-lib/
-  discogs.ts
-  gallery.ts
-  metadata.ts
-  music-preview.ts
-  utils.ts
-public/
-  CNAME
-  robots.txt
-  sitemap.xml
-```
-
-## Content Model
-
-- `content/profile.ts`: biography, contact info, links, portrait
-- `content/publications.ts`: publication cards and external links
-- `content/projects.ts`: reserved for future project detail routes
-- `content/site.ts`: navigation and site-wide SEO/deployment settings
-- `data/*.json`: generated or workflow-managed datasets
+Astro renders the existing React presentation components at build time. The
+two-panel layout, saved scene coordinates, mobile layout, content and URLs are
+preserved. Links perform ordinary document navigation. Photo pagination and
+record details work without JavaScript; native modules add photo expansion,
+hover/Play/Retry audio, local scene previews and continuously moving beams.
 
 ## Setup
 
-```bash
-npm install
-npm run dev
-```
+Use Node.js 24 LTS (minimum 22.12).
 
-## Scripts
-
-```bash
+```sh
+npm ci
 npm run dev
-npm run build
-node scripts/serve-documents.mjs
 npm run lint
-npm run fetch-discogs
-npm run optimize-images -- --replace
+npm run build
+npm run start
 ```
 
-## Background graphics profiling
+`astro build` writes directly to `out/`. `scripts/document-audit.mjs` checks
+the generated documents and the entire reachable public JavaScript graph,
+including lazy imports, for framework leakage. It writes sizes and route
+information to `out/document-build.json`. It does not rewrite HTML.
 
-ThorVG renders precomputed beam textures on one canvas, trying WebGPU before
-WebGL. Rendering is capped at DPR 1 and 921,600 pixels; sustained load first
-reduces resolution/beam count, then background cadence. Scrolling never pauses
-animation. Hidden tabs pause scheduling, and reduced motion releases the GPU
-scene. Loading or GPU failure leaves the same-colored CSS background.
+## Structure
 
-`lib/native/beams.ts` is shared by the public document and editor preview.
-Run `npx playwright test tests/beams.spec.ts` for lifecycle checks. Use
-`PLAYWRIGHT_CHANNEL=chrome` for Windows hardware GPU validation. Run
-`PROFILE_DPR=1 node scripts/profile-retro.mjs http://127.0.0.1:3100` against a
-production export for browser rAF/main-thread measurements; these are not
-physical display or GPU execution timings.
+- `src/pages/`: Astro routes and generated photo/record/project documents.
+- `src/layouts/`: shared HTML head and public native script entry.
+- `src/styles/global.css`: existing site and scene styling.
+- `components/`: build-time presentation and editor/admin React islands.
+- `content/`: biography, publications, projects, site metadata and links.
+- `data/`: published scene, record collection and track preferences.
+- `lib/native/`: framework-free background, photos, audio and saved scenes.
+- `scripts/`: asset preparation, development persistence, auditing and maintenance.
+- `public/`: images, archived assets, `CNAME`, robots and sitemap.
 
-The default Playwright server builds a test-only export with frozen beam time.
-Linux visual comparisons use `PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL=1 npm run test:visual`.
-This software path is not a performance measurement. A manually provided
-`PLAYWRIGHT_BASE_URL` must serve a `DOCUMENT_VISUAL_TEST=1` build for screenshots.
-The Pages workflow rejects that fixture flag. Windows screenshots must never
-replace Linux baselines.
+Edit `content/profile.ts` for the biography, `content/publications.ts` for
+research, and `content/projects.ts` for projects. Published projects get their
+own static route automatically; drafts display a noindex not-found document.
 
-## Public documents
+## Editor and record administration
 
-`npm run build` exports Next's fully rendered HTML, then runs
-`scripts/build-documents.mjs`. Public pages lose the framework bootstrap, Flight
-payload, and script preloads. They use copied CSS and a small esbuild module
-entry, with separate lazy modules for photos, previews, saved scene edits, and
-ThorVG. The build rejects React/Next dependencies in these public modules.
-`out/document-build.json` records the emitted documents and script sizes.
+The [scene editor guide](docs/scene-editor.md) covers image uploads, editable
+text and links, multiple selection, locking, resizing, appearance and portable
+JSON. Browser saves remain device-local. Commit the exported JSON to
+`data/scene-layout.json` to publish it. No editor controls appear on public pages.
 
-The two-panel shell is a presentation table which stacks on narrow screens.
-Links load ordinary HTML documents. All 89 photographs are reachable through
-numbered index pages; originals work without JavaScript. Every record has a
-track-list document. Optional native scripts add a keyboard photo dialog and
-hover/Play/Retry audio. The editor and admin routes retain React, and links
-leaving them also perform full document navigation.
+`/gallery/admin/` keeps its existing client-side convenience password gate
+(`PUBLIC_ADMIN_PASSWORD`); it is not server authentication. Track preference
+writes use a local Vite middleware during `npm run dev` only. It validates
+same-origin requests and serializes file writes to `data/track-preferences.json`.
+Static production has no write endpoint. Commit local changes to publish them.
 
-Published placements remain in `data/scene-layout.json`. Only browsers with a
-saved local scene load its migration/rendering module. LocalStorage previews
-are still device-local; commit the exported JSON to publish for everyone.
-Panel-edge coordinates, sidebar foreground layering, and the mobile scene are
-preserved. See [implementation and validation](docs/document-web/README.md).
+`npm run fetch-discogs`, `npm run optimize-images -- --replace` and
+`npm run sort-by-color` remain available.
 
-The [scene editor guide](docs/scene-editor.md) covers personal image uploads,
-editable text and links, multiple selection, locks, grid/resize tools, appearance
-settings, keyboard shortcuts and portable JSON publishing.
+## Graphics and verification
 
-## Deployment
+ThorVG uses one canvas, tries WebGPU then WebGL, and caps rendering at DPR 1 /
+921,600 pixels. Sustained load reduces resolution and beam count before frame
+rate. Scrolling never pauses it. Hidden tabs and reduced motion stop scheduling;
+GPU failure retains a readable static background. WASM is served locally.
 
-The site is configured for GitHub Pages static export.
-
-1. Push to `main`.
-2. GitHub Actions builds the static export into `out/`.
-3. The Pages workflow deploys `out/`.
-4. `public/CNAME` preserves the custom domain.
-
-If you need a repository subpath deployment instead of a custom domain, set `NEXT_PUBLIC_BASE_PATH` before building.
-
-## Migration Notes
-
-### Before
-
-- Page components owned both content and presentation.
-- Shared shell markup lived directly in `app/layout.tsx`.
-- Publication/profile copy was duplicated across multiple files.
-- Vinyl preview matching logic was duplicated between the gallery and admin route.
-- SEO and Pages config were mixed with generated `v0` scaffolding.
-
-### After
-
-- Layout is composed from `SiteShell`, `SiteSidebar`, `SiteNavbar`, and `SiteFooter`.
-- Public copy lives in `content/`, and UI components render typed data.
-- Gallery/photo/vinyl pages stay route-level thin and import focused components.
-- Shared Discogs and preview-search logic lives in `lib/`.
-- Metadata, robots, sitemap, and GitHub Pages config are explicit and predictable.
-
-## Extending the Site
-
-### Add or edit biography
-
-Update `content/profile.ts`.
-
-### Add a publication
-
-Append a new object in `content/publications.ts`.
-
-### Add a future project page
-
-Add a new item to `content/projects.ts`, then wire a route such as `app/projects/[slug]/page.tsx`.
-
-### Update vinyl data
-
-Use:
-
-```bash
-npm run fetch-discogs
+```sh
+npm run test:server
+npm run test:visual
+npm run test:zoom
 ```
 
-The admin route helps curate track previews, while `data/track-preferences.json` remains version-controlled.
+The Playwright server builds a test-only fixture with frozen beam time.
+Linux screenshots require `PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL=1`. If providing
+`PLAYWRIGHT_BASE_URL` yourself, serve a `DOCUMENT_VISUAL_TEST=1` build.
+The Pages workflow rejects that flag. Do not replace Linux snapshots with
+Windows screenshots. `PLAYWRIGHT_CHANNEL=chrome` selects installed Windows
+Chrome for hardware GPU checks. `test:zoom` checks actual browser zoom.
+See [document behavior and earlier measurements](docs/document-web/README.md);
+earlier timing measurements are not new Astro performance results.
+
+## Deployment and environment
+
+Push to `main`; GitHub Actions uses Node 24 to build and deploy `out/` to
+Pages. `public/CNAME` retains the domain. Set `PUBLIC_BASE_PATH=/subpath`
+before building for a subdirectory deployment. Local static test serving with
+`scripts/serve-documents.mjs` accepts the same variable.
+
+Optional analytics uses `PUBLIC_ENABLE_ANALYTICS=true` and
+`PUBLIC_GA_MEASUREMENT_ID=G-...`. The workflow maps the existing repository
+admin-password secret to `PUBLIC_ADMIN_PASSWORD`, so no secret rename is needed.
+Never put Discogs API tokens in public environment variables; collection sync
+uses `DISCOGS_TOKEN`.

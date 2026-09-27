@@ -1,0 +1,9 @@
+---
+import PublicDocument from "../../../layouts/PublicDocument.astro"
+import { getDiscogsCollection } from "@/lib/discogs"
+export function getStaticPaths() {
+  return getDiscogsCollection().releases.map(release => ({ params: { id: String(release.instance_id) }, props: { release } }))
+}
+const { release } = Astro.props
+---
+<PublicDocument path={`/gallery/vinyl/${release.instance_id}/`} kind="record" release={release} title={release.title} description={`${release.title} by ${release.artist}. Track list from Dong-Ha Shin’s record collection.`} />

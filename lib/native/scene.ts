@@ -4,7 +4,7 @@ import { layoutCss, parseLayout, assetPath, SCENE_STORAGE, SCENE_EVENT, type Sce
 import { migrateMobileScene } from "@/lib/migrate-mobile-scene"
 import { migrateAnchors, sidebarPlacement } from "@/lib/scene-anchors"
 import { blankSprite, spriteStyle, textStyle } from "@/lib/scene-sprite"
-import { withBasePath } from "@/lib/utils"
+import { withBasePath } from "@/lib/paths"
 
 function sprite(item: SceneItem, mode: "desktop" | "mobile", index: number) {
   const linked = !!(item.href || item.link)

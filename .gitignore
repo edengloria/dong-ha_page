@@ -38,3 +38,5 @@ next-env.d.ts
 
 # Exploratory WebP candidates; original GIFs performed better in decode traces.
 /public/asset/camerons-world/archive/optimized/
+
+.astro/
