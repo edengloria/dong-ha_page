@@ -85,6 +85,10 @@ Linux screenshots require `PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL=1`. If providing
 The Pages workflow rejects that flag. Do not replace Linux snapshots with
 Windows screenshots. `PLAYWRIGHT_CHANNEL=chrome` selects installed Windows
 Chrome for hardware GPU checks. `test:zoom` checks actual browser zoom.
+Visual tests freeze `tests/visual-layout.fixture.json` (the composition used by
+the existing baselines); geometry and functional tests also cover the current
+published layout. Linux CI pins Ubuntu 24.04 and `tests/fontconfig.conf` to
+match baseline font metrics. New owner uploads do not silently refresh snapshots.
 See [document behavior and earlier measurements](docs/document-web/README.md);
 earlier timing measurements are not new Astro performance results.
 

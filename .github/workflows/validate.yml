@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,9 +20,12 @@ jobs:
       - run: npm run lint
       - run: npm run test:server
       - run: npx playwright install --with-deps chromium
+      - name: Install baseline fonts
+        run: sudo apt-get install -y fonts-dejavu-core fonts-dejavu-extra fonts-noto-cjk
       - name: Compare existing Linux screenshots and functional behavior
         env:
           PLAYWRIGHT_ALLOW_SOFTWARE_WEBGL: "1"
+          FONTCONFIG_FILE: ${{ github.workspace }}/tests/fontconfig.conf
         run: npm run test:visual -- --reporter=line
       - name: Preserve failure evidence
         if: failure()
