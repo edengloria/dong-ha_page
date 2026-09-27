@@ -100,9 +100,15 @@ scheduled backups are still to be implemented before production publishing.
   media reuse, live equation editing, Python paste and table cell edits were
   exercised in Chrome against the real Content Lake. The browser automation's
   file chooser/drop capability could not complete the OS upload test.
-- Automatic slug generation and preservation of a manually chosen slug were
-  exercised in Chrome. First/repeat/unpublish actions still need browser workflow
-  coverage before the public publishing pipeline is enabled.
+- Chrome verification covered automatic slug generation, manual-slug preservation,
+  first publication, editing immediately followed by republishing, and unpublish.
+  The public Content Lake read confirmed the latest text, unchanged canonical URL
+  and first-publication date, and a newer update date. Unpublish restored a draft
+  and removed anonymous access. These checks do not yet prove deployment or public
+  URL removal, because the public publishing pipeline is still unconnected.
+- Publication metadata uses Studio's own mutation queue followed by the built-in
+  publish handler. Do not replace it with an independent read/patch/action request:
+  a real browser test caught a revision conflict when publishing during autosave.
 - The new Sanity CLI dependency findings are addressed with targeted root
   overrides. The root scripts import the CLI directly, so Sanity is also an
   explicit root development dependency. This avoids npm's workspace-link override
