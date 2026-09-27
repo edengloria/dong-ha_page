@@ -1,0 +1,978 @@
+{
+  "browser": "Chrome/153.0.8010.48",
+  "target": "http://127.0.0.1:3100",
+  "results": [
+    {
+      "width": 1920,
+      "zoom": 0.75,
+      "route": "/",
+      "viewport": 2530,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 0.75,
+      "route": "/publications/",
+      "viewport": 2530,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 0.75,
+      "route": "/gallery/photos/",
+      "viewport": 2530,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 0.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 2530,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1,
+      "route": "/",
+      "viewport": 1898,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1,
+      "route": "/publications/",
+      "viewport": 1898,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1,
+      "route": "/gallery/photos/",
+      "viewport": 1898,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1,
+      "route": "/gallery/vinyl/",
+      "viewport": 1898,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.25,
+      "route": "/",
+      "viewport": 1518,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.25,
+      "route": "/publications/",
+      "viewport": 1518,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.25,
+      "route": "/gallery/photos/",
+      "viewport": 1518,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.25,
+      "route": "/gallery/vinyl/",
+      "viewport": 1518,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.5,
+      "route": "/",
+      "viewport": 1265,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.5,
+      "route": "/publications/",
+      "viewport": 1265,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.5,
+      "route": "/gallery/photos/",
+      "viewport": 1265,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 1265,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.75,
+      "route": "/",
+      "viewport": 1084,
+      "dpr": 1.75,
+      "maxEdgeError": 0.009431075249949572,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.75,
+      "route": "/publications/",
+      "viewport": 1084,
+      "dpr": 1.75,
+      "maxEdgeError": 0.009431075249949572,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.75,
+      "route": "/gallery/photos/",
+      "viewport": 1084,
+      "dpr": 1.75,
+      "maxEdgeError": 0.009431075249949572,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 1.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 1084,
+      "dpr": 1.75,
+      "maxEdgeError": 0.009431075249949572,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2,
+      "route": "/",
+      "viewport": 949,
+      "dpr": 2,
+      "maxEdgeError": 0.007468553459091254,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2,
+      "route": "/publications/",
+      "viewport": 949,
+      "dpr": 2,
+      "maxEdgeError": 0.007468553459091254,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2,
+      "route": "/gallery/photos/",
+      "viewport": 949,
+      "dpr": 2,
+      "maxEdgeError": 0.007468553459091254,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2,
+      "route": "/gallery/vinyl/",
+      "viewport": 949,
+      "dpr": 2,
+      "maxEdgeError": 0.007468553459091254,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2.5,
+      "route": "/",
+      "viewport": 759,
+      "dpr": 2.5,
+      "maxEdgeError": 0.010810844053594337,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2.5,
+      "route": "/publications/",
+      "viewport": 759,
+      "dpr": 2.5,
+      "maxEdgeError": 0.010810844053594337,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2.5,
+      "route": "/gallery/photos/",
+      "viewport": 759,
+      "dpr": 2.5,
+      "maxEdgeError": 0.010810844053594337,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 2.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 759,
+      "dpr": 2.5,
+      "maxEdgeError": 0.010810844053594337,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 3,
+      "route": "/",
+      "viewport": 632,
+      "dpr": 3,
+      "maxEdgeError": 0.008216985866511095,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 3,
+      "route": "/publications/",
+      "viewport": 632,
+      "dpr": 3,
+      "maxEdgeError": 0.008216985866511095,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 3,
+      "route": "/gallery/photos/",
+      "viewport": 632,
+      "dpr": 3,
+      "maxEdgeError": 0.008216985866511095,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 3,
+      "route": "/gallery/vinyl/",
+      "viewport": 632,
+      "dpr": 3,
+      "maxEdgeError": 0.008216985866511095,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 4,
+      "route": "/",
+      "viewport": 474,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 4,
+      "route": "/publications/",
+      "viewport": 474,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 4,
+      "route": "/gallery/photos/",
+      "viewport": 474,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1920,
+      "zoom": 4,
+      "route": "/gallery/vinyl/",
+      "viewport": 474,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 0.75,
+      "route": "/",
+      "viewport": 1792,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 0.75,
+      "route": "/publications/",
+      "viewport": 1792,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 0.75,
+      "route": "/gallery/photos/",
+      "viewport": 1792,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 0.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 1792,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1,
+      "route": "/",
+      "viewport": 1344,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1,
+      "route": "/publications/",
+      "viewport": 1344,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1,
+      "route": "/gallery/photos/",
+      "viewport": 1344,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1,
+      "route": "/gallery/vinyl/",
+      "viewport": 1344,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.25,
+      "route": "/",
+      "viewport": 1075,
+      "dpr": 1.25,
+      "maxEdgeError": 0.011887433727167718,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.25,
+      "route": "/publications/",
+      "viewport": 1075,
+      "dpr": 1.25,
+      "maxEdgeError": 0.011887433727167718,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.25,
+      "route": "/gallery/photos/",
+      "viewport": 1075,
+      "dpr": 1.25,
+      "maxEdgeError": 0.011887433727167718,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.25,
+      "route": "/gallery/vinyl/",
+      "viewport": 1075,
+      "dpr": 1.25,
+      "maxEdgeError": 0.011887433727167718,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.5,
+      "route": "/",
+      "viewport": 896,
+      "dpr": 1.5,
+      "maxEdgeError": 0.00881155508534448,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.5,
+      "route": "/publications/",
+      "viewport": 896,
+      "dpr": 1.5,
+      "maxEdgeError": 0.00881155508534448,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.5,
+      "route": "/gallery/photos/",
+      "viewport": 896,
+      "dpr": 1.5,
+      "maxEdgeError": 0.00881155508534448,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 896,
+      "dpr": 1.5,
+      "maxEdgeError": 0.00881155508534448,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.75,
+      "route": "/",
+      "viewport": 768,
+      "dpr": 1.75,
+      "maxEdgeError": 0.011063365816198711,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.75,
+      "route": "/publications/",
+      "viewport": 768,
+      "dpr": 1.75,
+      "maxEdgeError": 0.011063365816198711,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.75,
+      "route": "/gallery/photos/",
+      "viewport": 768,
+      "dpr": 1.75,
+      "maxEdgeError": 0.011063365816198711,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 1.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 768,
+      "dpr": 1.75,
+      "maxEdgeError": 0.011063365816198711,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2,
+      "route": "/",
+      "viewport": 672,
+      "dpr": 2,
+      "maxEdgeError": 0.0075045859538249715,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2,
+      "route": "/publications/",
+      "viewport": 672,
+      "dpr": 2,
+      "maxEdgeError": 0.0075045859538249715,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2,
+      "route": "/gallery/photos/",
+      "viewport": 672,
+      "dpr": 2,
+      "maxEdgeError": 0.0075045859538249715,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2,
+      "route": "/gallery/vinyl/",
+      "viewport": 672,
+      "dpr": 2,
+      "maxEdgeError": 0.0075045859538249715,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2.5,
+      "route": "/",
+      "viewport": 537,
+      "dpr": 2.5,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2.5,
+      "route": "/publications/",
+      "viewport": 537,
+      "dpr": 2.5,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2.5,
+      "route": "/gallery/photos/",
+      "viewport": 537,
+      "dpr": 2.5,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 2.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 537,
+      "dpr": 2.5,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 3,
+      "route": "/",
+      "viewport": 448,
+      "dpr": 3,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 3,
+      "route": "/publications/",
+      "viewport": 448,
+      "dpr": 3,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 3,
+      "route": "/gallery/photos/",
+      "viewport": 448,
+      "dpr": 3,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 3,
+      "route": "/gallery/vinyl/",
+      "viewport": 448,
+      "dpr": 3,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 4,
+      "route": "/",
+      "viewport": 336,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 4,
+      "route": "/publications/",
+      "viewport": 336,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 4,
+      "route": "/gallery/photos/",
+      "viewport": 336,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 1366,
+      "zoom": 4,
+      "route": "/gallery/vinyl/",
+      "viewport": 336,
+      "dpr": 4,
+      "maxEdgeError": 0,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 0.75,
+      "route": "/",
+      "viewport": 3384,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 0.75,
+      "route": "/publications/",
+      "viewport": 3384,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 0.75,
+      "route": "/gallery/photos/",
+      "viewport": 3384,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 0.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 3384,
+      "dpr": 0.75,
+      "maxEdgeError": 0.012497456868459267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1,
+      "route": "/",
+      "viewport": 2538,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1,
+      "route": "/publications/",
+      "viewport": 2538,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1,
+      "route": "/gallery/photos/",
+      "viewport": 2538,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1,
+      "route": "/gallery/vinyl/",
+      "viewport": 2538,
+      "dpr": 1,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.25,
+      "route": "/",
+      "viewport": 2030,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.25,
+      "route": "/publications/",
+      "viewport": 2030,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.25,
+      "route": "/gallery/photos/",
+      "viewport": 2030,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.25,
+      "route": "/gallery/vinyl/",
+      "viewport": 2030,
+      "dpr": 1.25,
+      "maxEdgeError": 0.008331807454396767,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.5,
+      "route": "/",
+      "viewport": 1692,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.5,
+      "route": "/publications/",
+      "viewport": 1692,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.5,
+      "route": "/gallery/photos/",
+      "viewport": 1692,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 1692,
+      "dpr": 1.5,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.75,
+      "route": "/",
+      "viewport": 1450,
+      "dpr": 1.75,
+      "maxEdgeError": 0.006546529134084267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.75,
+      "route": "/publications/",
+      "viewport": 1450,
+      "dpr": 1.75,
+      "maxEdgeError": 0.006546529134084267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.75,
+      "route": "/gallery/photos/",
+      "viewport": 1450,
+      "dpr": 1.75,
+      "maxEdgeError": 0.006546529134084267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 1.75,
+      "route": "/gallery/vinyl/",
+      "viewport": 1450,
+      "dpr": 1.75,
+      "maxEdgeError": 0.006546529134084267,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2,
+      "route": "/",
+      "viewport": 1269,
+      "dpr": 2,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2,
+      "route": "/publications/",
+      "viewport": 1269,
+      "dpr": 2,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2,
+      "route": "/gallery/photos/",
+      "viewport": 1269,
+      "dpr": 2,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2,
+      "route": "/gallery/vinyl/",
+      "viewport": 1269,
+      "dpr": 2,
+      "maxEdgeError": 0.002083333333303017,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2.5,
+      "route": "/",
+      "viewport": 1015,
+      "dpr": 2.5,
+      "maxEdgeError": 0.011859957777119234,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2.5,
+      "route": "/publications/",
+      "viewport": 1015,
+      "dpr": 2.5,
+      "maxEdgeError": 0.011859957777119234,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2.5,
+      "route": "/gallery/photos/",
+      "viewport": 1015,
+      "dpr": 2.5,
+      "maxEdgeError": 0.011859957777119234,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 2.5,
+      "route": "/gallery/vinyl/",
+      "viewport": 1015,
+      "dpr": 2.5,
+      "maxEdgeError": 0.011859957777119234,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 3,
+      "route": "/",
+      "viewport": 846,
+      "dpr": 3,
+      "maxEdgeError": 0.0049685592171044846,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 3,
+      "route": "/publications/",
+      "viewport": 846,
+      "dpr": 3,
+      "maxEdgeError": 0.0049685592171044846,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 3,
+      "route": "/gallery/photos/",
+      "viewport": 846,
+      "dpr": 3,
+      "maxEdgeError": 0.0049685592171044846,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 3,
+      "route": "/gallery/vinyl/",
+      "viewport": 846,
+      "dpr": 3,
+      "maxEdgeError": 0.0049685592171044846,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 4,
+      "route": "/",
+      "viewport": 634,
+      "dpr": 4,
+      "maxEdgeError": 0.003095518867894498,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 4,
+      "route": "/publications/",
+      "viewport": 634,
+      "dpr": 4,
+      "maxEdgeError": 0.003095518867894498,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 4,
+      "route": "/gallery/photos/",
+      "viewport": 634,
+      "dpr": 4,
+      "maxEdgeError": 0.003095518867894498,
+      "font": "14px"
+    },
+    {
+      "width": 2560,
+      "zoom": 4,
+      "route": "/gallery/vinyl/",
+      "viewport": 634,
+      "dpr": 4,
+      "maxEdgeError": 0.003095518867894498,
+      "font": "14px"
+    }
+  ]
+}

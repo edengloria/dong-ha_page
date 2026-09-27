@@ -64,7 +64,7 @@ export default function SceneEditor() {
   }
   function add(asset: SceneAsset) {
     if (layout.items.length >= 200) { setMessage("배치는 최대 200개까지 지원합니다."); return }
-    const placement: Placement = { anchor: insertAnchor, x: 50, y: 50, width: clamp(asset.width, 8, 320), rotation: 0 }
+    const placement: Placement = { anchor: insertAnchor, coordinateSpace: insertAnchor ? "group" : undefined, x: 50, y: 50, width: clamp(asset.width, 8, 320), rotation: 0 }
     const entry: SceneItem = { id: crypto.randomUUID(), name: asset.file, file: asset.file, still: asset.still,
       width: asset.width, height: asset.height, foreground: false, desktop: placement,
       mobile: { ...placement, width: Math.min(placement.width, 240) } }
@@ -145,8 +145,9 @@ export default function SceneEditor() {
           <option value="">화면 전체 (기존 좌표)</option>{Object.entries(sceneAnchors).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
         </select></label>
         {item[mode].anchor && <>
-          <label><input type="checkbox" checked={item[mode].edge === "top"} onChange={(event) => place(attachPlacement(item[mode], item[mode].anchor, geometry.boxes, geometry.viewport, item, event.target.checked ? "top" : undefined))} /> 윗변에 붙이기</label>
-          <p className="scene-help">{item[mode].edge === "top" ? "이미지 아래쪽을 영역 윗변에 맞춥니다. 아래쪽 간격 0은 윗변에 닿고, 양수는 패널 안쪽, 음수는 위쪽입니다. 패널 높이가 바뀌어도 유지됩니다." : "위치는 선택한 영역의 가로·세로 %입니다."} 크기는 FHD 기준이며 좁은 영역에 맞춰 줄어듭니다. 왼쪽 패널의 앞쪽 장식은 다른 페이지에서도 유지됩니다.</p>
+          <label><input type="checkbox" checked={item[mode].coordinateSpace === "group"} onChange={(event) => place(attachPlacement(item[mode], item[mode].anchor, geometry.boxes, geometry.viewport, item, item[mode].edge, event.target.checked))} /> 묶음 기준 배치</label>
+          <label><input type="checkbox" checked={item[mode].edge === "top"} onChange={(event) => place(attachPlacement(item[mode], item[mode].anchor, geometry.boxes, geometry.viewport, item, event.target.checked ? "top" : undefined, item[mode].coordinateSpace === "group"))} /> 윗변에 붙이기</label>
+          <p className="scene-help">{item[mode].coordinateSpace === "group" ? "좌표는 FHD 배치 묶음 기준입니다. 영역 중앙과 윗변을 따라가며 본문 높이가 바뀌어도 간격이 유지됩니다. 노을·바다는 픽셀 크기를 유지하고, 패널 묶음은 공간이 좁을 때 함께 줄어듭니다." : "위치는 선택한 영역의 가로·세로 %입니다."} {item[mode].edge === "top" && "이미지 아래쪽을 영역 윗변에 맞춥니다. 간격 0은 윗변에 닿고, 양수는 패널 안쪽, 음수는 위쪽입니다."} 왼쪽 패널의 앞쪽 장식은 다른 페이지에서도 유지됩니다.</p>
         </>}
         <div className="scene-fields">{([
           ["x", "가로 위치 (%)", item[mode].anchor ? -1000 : -50, item[mode].anchor ? 1000 : 150, .1], ["y", item[mode].edge === "top" ? "윗변과 아래쪽 간격 (px)" : item[mode].anchor ? "세로 위치 (%)" : "세로 위치 (px)", item[mode].anchor ? -50000 : 0, 50000, item[mode].anchor ? .1 : 1],

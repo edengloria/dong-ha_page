@@ -21,10 +21,13 @@ test("panel decorations reflow without JavaScript and retain the FHD composition
       const item = layout.items.find((item) => item.id === box.id)!
       const p: Placement = item[width <= 560 ? "mobile" : "desktop"]
       if (!p.anchor) continue
-      expect(Math.abs(box.left - (box.slot.left + p.x / 100 * box.slot.width))).toBeLessThan(1)
       const anchor = p.anchor as keyof typeof reference.boxes
-      const scale = Math.min(1, box.slot.width / reference.boxes[anchor].width)
-      const top = p.edge === "top" ? box.slot.top + p.y * scale - box.width * item.height / item.width : box.slot.top + p.y / 100 * box.slot.height
+      const group = p.coordinateSpace === "group", ref = reference.boxes[anchor]
+      const scale = group && ["sky", "sea"].includes(anchor) ? 1 : Math.min(1, box.slot.width / ref.width)
+      const left = group ? box.slot.left + box.slot.width / 2 + (p.x / 100 - .5) * ref.width * scale : box.slot.left + p.x / 100 * box.slot.width
+      expect(Math.abs(box.left - left)).toBeLessThan(1)
+      const height = group ? ["sidebar", "sidebar-extras"].includes(anchor) ? Math.min(box.slot.height, ref.height * scale) : ref.height * scale : box.slot.height
+      const top = p.edge === "top" ? box.slot.top + p.y * scale - box.width * item.height / item.width : box.slot.top + p.y / 100 * height
       expect(Math.abs(box.top - top)).toBeLessThan(1)
       expect(Math.abs(box.width - p.width * scale)).toBeLessThan(1)
     }

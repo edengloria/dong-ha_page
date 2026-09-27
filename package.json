@@ -14,6 +14,7 @@
     "profile:serve": "npm exec --yes --package serve -- serve out -l 3001",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
+    "test:zoom": "node scripts/check-scene-zoom.mjs",
     "predev": "node scripts/prepare-thorvg.mjs",
     "prebuild": "node scripts/prepare-thorvg.mjs"
   },
