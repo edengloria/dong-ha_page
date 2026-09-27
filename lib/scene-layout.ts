@@ -4,7 +4,7 @@ export const sceneAnchors = {
   publications: "메인 연구 목록", footer: "페이지 하단",
 } as const
 export type SceneAnchor = keyof typeof sceneAnchors
-export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor; edge?: "top"; size?: "responsive" | "original" | "integer"; pixelScale?: number }
+export type Placement = { x: number; y: number; width: number; rotation: number; hidden?: boolean; anchor?: SceneAnchor; coordinateSpace?: "group" | "region"; edge?: "top"; size?: "responsive" | "original" | "integer"; pixelScale?: number }
 export const sceneLinks = { email: "이메일", research: "연구", photos: "사진", records: "바이닐" } as const
 export type SceneItem = {
   id: string; name: string; file: string; still: string; width: number; height: number
@@ -64,6 +64,7 @@ function isPlacement(value: unknown): value is Placement {
   if (!value || typeof value !== "object") return false
   const p = value as Placement
   return (p.anchor === undefined || Object.prototype.hasOwnProperty.call(sceneAnchors, p.anchor)) &&
+    (p.coordinateSpace === undefined || (["group", "region"].includes(p.coordinateSpace) && p.anchor !== undefined)) &&
     (p.edge === undefined || (p.edge === "top" && p.anchor !== undefined)) &&
     (p.size === undefined || ["responsive", "original", "integer"].includes(p.size)) &&
     (p.pixelScale === undefined || (Number.isInteger(p.pixelScale) && numberIn(p.pixelScale, 1, 8))) &&
