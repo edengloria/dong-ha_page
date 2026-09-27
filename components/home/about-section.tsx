@@ -9,7 +9,7 @@ export function AboutSection() {
     <section>
       <header className="intro-note">
         <SceneSlot anchor="intro" />
-        <h1 className="page-title">Dong-Ha Shin</h1>
+        <h1 className="page-title">About</h1>
         {profile.about.map((paragraph, index) => <p key={index} className="copy-paragraph"><RichText blocks={paragraph} /></p>)}
       </header>
       <nav className="room-grid" aria-label="Explore">
