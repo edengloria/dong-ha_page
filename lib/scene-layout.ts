@@ -1,3 +1,5 @@
+import { appearanceCss, validAppearance, validContent, safeHref, MAX_LAYOUT_BYTES, type CustomContent, type SceneAppearance } from "./scene-content"
+
 export const sceneAnchors = {
   sky: "노을", sea: "바다 / 물결", sidebar: "왼쪽 패널", "sidebar-extras": "왼쪽 링크 / 하단",
   main: "본문 패널", intro: "소개", research: "Research 카드", photos: "Photo 카드", records: "Record 카드",
@@ -10,6 +12,7 @@ export type SceneItem = {
   id: string; name: string; file: string; still: string; width: number; height: number
   foreground: boolean; desktop: Placement; mobile: Placement
   link?: keyof typeof sceneLinks; pixelated?: boolean
+  custom?: CustomContent; href?: string; locked?: boolean; opacity?: number; flipX?: boolean; flipY?: boolean
 }
 export const layoutFields = {
   skyTop: { label: "노을 위쪽 위치", group: "배경", min: 0, max: 3000, desktop: 0, mobile: 0, unit: "px" },
@@ -28,15 +31,19 @@ export const layoutFields = {
   panelGap: { label: "패널 간격", group: "패널", min: 0, max: 160, desktop: 28, mobile: 24, unit: "px" },
   mainMinHeight: { label: "본문 패널 최소 높이", group: "패널", min: 0, max: 5000, desktop: 0, mobile: 0, unit: "px" },
   sidebarMinHeight: { label: "왼쪽 패널 최소 높이", group: "패널", min: 0, max: 5000, desktop: 0, mobile: 0, unit: "px" },
+  mainPadding: { label: "본문 안쪽 여백", group: "패널", min: 0, max: 100, desktop: 28, mobile: 14, unit: "px" },
+  sidebarPadding: { label: "왼쪽 안쪽 여백", group: "패널", min: 0, max: 100, desktop: 17, mobile: 17, unit: "px" },
+  borderWidth: { label: "패널 테두리 두께", group: "패널", min: 0, max: 16, desktop: 2, mobile: 2, unit: "px" },
+  fontSize: { label: "본문 글자 크기", group: "패널", min: 12, max: 32, desktop: 16, mobile: 16, unit: "px" },
 } as const
 export type LayoutField = keyof typeof layoutFields
 export type LayoutSettings = Partial<Record<LayoutField, number>>
-export type SceneLayout = { version: 1; items: SceneItem[]; settings?: { desktop?: LayoutSettings; mobile?: LayoutSettings } }
+export type SceneLayout = { version: 1; items: SceneItem[]; settings?: { desktop?: LayoutSettings; mobile?: LayoutSettings }; appearance?: SceneAppearance }
 
-// Only validated, known numeric fields are interpolated into the stylesheet.
+// Numeric fields and appearance values are validated before stylesheet interpolation.
 export function layoutCss(layout: SceneLayout) {
   const declarations = (mode: "desktop" | "mobile") => Object.entries(layoutFields).map(([key, field]) => {
-    const value = layout.settings?.[mode]?.[key as LayoutField]
+    const value = key === "borderWidth" && layout.appearance?.borderStyle === "none" ? 0 : layout.settings?.[mode]?.[key as LayoutField]
     return `--scene-${key}:${value === undefined ? "initial" : key === "rippleScale" ? value / 100 : `${value}${field.unit}`}`
   }).join(";") + `;--scene-main-top-space:${Math.ceil(Math.max(0, ...layout.items.map((item) => {
     const p = item[mode]
@@ -47,7 +54,7 @@ export function layoutCss(layout: SceneLayout) {
     const gap = p.size === "original" || p.size === "integer" ? Math.min(0, p.y) : p.y
     return (height + Math.abs(Math.cos(angle)) * height + Math.abs(Math.sin(angle)) * width) / 2 - gap
   })))}px`
-  return `:root{${declarations("desktop")}}@media(max-width:560px){:root{${declarations("mobile")}}}`
+  return `:root{${appearanceCss(layout.appearance)};${declarations("desktop")}}@media(max-width:560px){:root{${declarations("mobile")}}}`
 }
 export type SceneAsset = {
   id: string; file: string; still: string; thumbnail: string; width: number; height: number
@@ -74,7 +81,9 @@ function isPlacement(value: unknown): value is Placement {
 export function parseLayout(value: unknown): SceneLayout {
   if (!value || typeof value !== "object") throw new Error("올바른 배치 파일이 아닙니다.")
   const layout = value as SceneLayout
+  if (new TextEncoder().encode(JSON.stringify(value, null, 2) + "\n").length > MAX_LAYOUT_BYTES) throw new Error("이미지를 포함한 배치 파일은 4MB까지 지원합니다.")
   if (layout.version !== 1 || !Array.isArray(layout.items) || layout.items.length > 200) throw new Error("배치는 최대 200개까지 지원합니다.")
+  if (layout.appearance !== undefined && !validAppearance(layout.appearance)) throw new Error("색상이나 글꼴 설정이 올바르지 않습니다.")
   if (layout.settings !== undefined) {
     if (!layout.settings || typeof layout.settings !== "object" || Array.isArray(layout.settings)) throw new Error("레이아웃 설정이 올바르지 않습니다.")
     for (const [mode, settings] of Object.entries(layout.settings)) {
@@ -88,10 +97,14 @@ export function parseLayout(value: unknown): SceneLayout {
   const ids = new Set<string>()
   for (const item of layout.items) {
     if (!item || typeof item.id !== "string" || !/^[\w-]{1,100}$/.test(item.id) || ids.has(item.id) ||
-      typeof item.name !== "string" || item.name.length > 120 || !safeFile(item.file) || !safeFile(item.still) ||
+      typeof item.name !== "string" || item.name.length > 120 ||
+      (item.custom === undefined ? !safeFile(item.file) || !safeFile(item.still) : !validContent(item.custom) || item.file !== "" || item.still !== "") ||
       !numberIn(item.width, 1, 50000) || !numberIn(item.height, 1, 50000) || typeof item.foreground !== "boolean" ||
       (item.link !== undefined && !Object.prototype.hasOwnProperty.call(sceneLinks, item.link)) ||
       (item.pixelated !== undefined && typeof item.pixelated !== "boolean") ||
+      (item.href !== undefined && !safeHref(item.href)) ||
+      [item.locked, item.flipX, item.flipY].some((v) => v !== undefined && typeof v !== "boolean") ||
+      (item.opacity !== undefined && !numberIn(item.opacity, 0, 1)) ||
       !isPlacement(item.desktop) || !isPlacement(item.mobile)) throw new Error("배치의 이미지 경로나 위치 값이 올바르지 않습니다.")
     ids.add(item.id)
   }

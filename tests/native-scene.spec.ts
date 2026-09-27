@@ -19,7 +19,7 @@ test("panel decorations reflow without JavaScript and retain the FHD composition
     }))
     for (const box of boxes) {
       const item = layout.items.find((item) => item.id === box.id)!
-      const p: Placement = item[width <= 560 ? "mobile" : "desktop"]
+      const p = item[width <= 560 ? "mobile" : "desktop"] as Placement
       if (!p.anchor) continue
       const anchor = p.anchor as keyof typeof reference.boxes
       const group = p.coordinateSpace === "group", ref = reference.boxes[anchor]

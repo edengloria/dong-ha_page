@@ -133,6 +133,10 @@ are still device-local; commit the exported JSON to publish for everyone.
 Panel-edge coordinates, sidebar foreground layering, and the mobile scene are
 preserved. See [implementation and validation](docs/document-web/README.md).
 
+The [scene editor guide](docs/scene-editor.md) covers personal image uploads,
+editable text and links, multiple selection, locks, grid/resize tools, appearance
+settings, keyboard shortcuts and portable JSON publishing.
+
 ## Deployment
 
 The site is configured for GitHub Pages static export.

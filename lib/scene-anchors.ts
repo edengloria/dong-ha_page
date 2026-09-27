@@ -8,7 +8,7 @@ const clamp = (value: number, min: number, max: number) => Math.max(min, Math.mi
 export const anchorSelectors: Record<SceneAnchor, string> = {
   sky: ".sky-region", sea: ".sea-region", sidebar: ".desk-sidebar", "sidebar-extras": ".sidebar-extras",
   main: ".page-sheet", intro: ".intro-note", research: ".room-research", photos: ".room-photos", records: ".room-records",
-  publications: '[aria-label="On the research desk"]', footer: ".ocean-credit",
+  publications: '[aria-label="On the research desk"]', footer: ".scene-footer",
 }
 export function anchorBox(anchor: SceneAnchor, boxes: AnchorBoxes): AnchorBox {
   if (boxes[anchor]) return boxes[anchor]!

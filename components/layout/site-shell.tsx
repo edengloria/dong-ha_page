@@ -28,7 +28,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </main>
             </td>
           </tr></tbody></table>
-          <div className="ocean-credit"><SceneSlot anchor="footer" />Graphics from <a href="https://www.cameronsworld.net/" target="_blank" rel="noopener noreferrer">Cameron’s World / GeoCities archives</a></div>
+          <div className="scene-footer"><SceneSlot anchor="footer" /></div>
         </div>
       </div>
       </div>
