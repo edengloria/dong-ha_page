@@ -7,6 +7,10 @@ URLs always belong to dhsh.in.
 
 ## Current rollout
 
+The public blog is currently a flat list of posts. Topic, tag, article-type and
+series pages and labels are intentionally omitted, including from sitemap/RSS.
+The Studio records and fields remain available for the owner to organize later.
+
 Implemented: bilingual static articles, taxonomy and series, Portable Text figures,
 math, code, tables, citations, galleries, paper cards, registered optical demos,
 private preview, deployment status, sitemap/RSS/Pagefind and full content export.

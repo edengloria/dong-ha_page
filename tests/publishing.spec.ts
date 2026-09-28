@@ -14,11 +14,12 @@ test('technical article is complete without JavaScript, with stable SEO and tran
   await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', 'https://dhsh.in/blog/en/angular-spectrum-method/')
   const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || '{}')
   expect(schema['@graph'].find((entry: { '@type': string }) => entry['@type'] === 'BlogPosting').inLanguage).toBe('ko')
-  await expect(page.locator('a[rel="next"]')).toHaveAttribute('href', '/blog/ko/propagation-sampling/')
+  await expect(page.locator('a[href^="/blog/topics/"], a[href^="/blog/tags/"], a[href^="/blog/types/"], a[href^="/blog/series/"]')).toHaveCount(0)
   expect(await page.locator('astro-island, canvas, .beam-stage').count()).toBe(0)
   const xml = await (await request.get('/sitemap.xml')).text()
   expect(xml).toContain(`https://dhsh.in${article}`)
   expect(xml).not.toContain('/scene-editor/')
+  expect(xml).not.toMatch(/\/blog\/(topics|tags|types|series)\//)
   expect(await (await request.get('/feed.xml')).text()).toContain('Angular Spectrum')
   await context.close()
 })
@@ -37,7 +38,7 @@ for (const width of [390, 768, 1440]) {
   })
 }
 
-test('static search finds Korean prose, English titles, tags and references', async ({ page }) => {
+test('static search finds Korean prose, English titles and references', async ({ page }) => {
   await page.goto('/blog/search/')
   for (const query of ['PyTorch', '전파', 'Matsushima']) {
     await page.getByRole('searchbox').fill(query)
@@ -47,11 +48,19 @@ test('static search finds Korean prose, English titles, tags and references', as
   }
 })
 
-test('taxonomies, series and main navigation link to generated pages', async ({ page }) => {
-  await page.goto('/blog/topics/optics/')
+test('flat blog and compact home navigation retain working article and collection links', async ({ page }) => {
+  await page.goto('/blog/')
   await expect(page.getByRole('link', { name: 'Angular Spectrum Method 구현 노트' })).toBeVisible()
-  await page.goto('/blog/series/fourier-optics/')
+  await expect(page.locator('#main-content h1')).toHaveCount(0)
   await expect(page.getByRole('link', { name: '전파 커널의 샘플링', exact: true })).toBeVisible()
+  for (const route of ['/blog/topics/', '/blog/topics/optics/', '/blog/types/tutorial/', '/blog/tags/pytorch/', '/blog/series/fourier-optics/']) {
+    expect((await page.goto(route))?.status()).toBe(404)
+  }
+  await page.goto('/')
+  await expect(page.locator('.directory li')).toHaveCount(3)
+  await expect(page.locator('.directory a')).toHaveText(['Home', 'Publications', 'Photos', 'Vinyl'])
+  await expect(page.locator('.sidebar-extras a').last()).toHaveText('Blog')
+  await expect(page.locator('.sidebar-extras a').last()).toHaveAttribute('href', '/blog/')
   for (const route of ['/projects/', '/about/', '/blog/']) {
     const response = await page.goto(route)
     expect(response?.status()).toBe(200)

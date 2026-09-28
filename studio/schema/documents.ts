@@ -68,7 +68,7 @@ export const documents = [
     defineField({ name: 'bibtex', title: 'BibTeX (optional)', type: 'text', rows: 5 }),
   ], preview: { select: { title: 'title', subtitle: 'venue' } } }),
   defineType({ name: 'siteSettings', title: 'Site Settings', type: 'document', fields: [
-    defineField({ name: 'blogTitle', title: 'Blog title', type: 'string', initialValue: 'Research & Engineering Notes' }),
+    defineField({ name: 'blogTitle', title: 'Blog title', type: 'string', initialValue: 'Blog' }),
     defineField({ name: 'blogDescription', title: 'Blog description', type: 'text', rows: 3 }),
   ] }),
 ]

@@ -30,8 +30,7 @@ export function articleStructuredData(post: Post, canonical = new URL(postPath(p
         datePublished: post.publishedAt, dateModified: post.updatedAt || post.publishedAt,
         author: (post.authors?.length ? post.authors : [{ name: 'Dong-Ha Shin', url: siteUrl }]).map(author => ({ '@type': 'Person', name: author.name, url: author.url })),
         image: image ? [image.url] : undefined,
-        articleSection: post.topics?.map(topic => topic.title), keywords: post.tags?.map(tag => tag.title),
-        isPartOf: { '@type': 'Blog', '@id': `${siteUrl}/blog/`, name: 'Research & Engineering Notes' } },
+        isPartOf: { '@type': 'Blog', '@id': `${siteUrl}/blog/`, name: 'Blog' } },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
         { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog/` },
