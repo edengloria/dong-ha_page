@@ -5,12 +5,12 @@ import BlogNavigation from '../../components/blog/BlogNavigation.astro'
 import { withBasePath } from '../../../lib/paths'
 ---
 <BlogDocument title="Search" description="Search Korean and English research and engineering notes." path="/blog/search/" noindex>
-  <BlogShell><main id="main-content" class="blog-index"><BlogNavigation /><h1>Search</h1>
+  <BlogShell><main id="main-content" class="blog-index"><BlogNavigation active="search" /><h1>Search</h1>
     <form id="blog-search" data-index={withBasePath('/pagefind/pagefind.js')} role="search">
       <label for="search-query">한국어 · English</label>
       <div class="search-input-row"><input id="search-query" name="q" type="search" autocomplete="off" placeholder="광학, PyTorch, holography…" /><button type="submit">Search</button></div>
     </form>
-    <p id="search-status" role="status" aria-live="polite">검색어를 입력하세요.</p><ol id="search-results" class="post-list"></ol>
+    <p id="search-status" role="status" aria-live="polite">검색어를 입력하세요.</p><ol id="search-results" class="search-results"></ol>
     <noscript>Search needs JavaScript. Browse <a href={withBasePath('/blog/topics/')}>topics</a> or <a href={withBasePath('/blog/')}>all articles</a>.</noscript>
   </main></BlogShell>
 </BlogDocument>
@@ -51,7 +51,8 @@ import { withBasePath } from '../../../lib/paths'
   if (input.value) void search()
 </script>
 <style>
-  .search-input-row { display: flex; gap: 12px; margin-block: 12px; }
-  input { min-width: 0; flex: 1; font: inherit; padding: 10px; border: 1px solid #777; background: white; color: #20213a; }
-  button { font: inherit; background: #303278; color: white; border: 0; padding: 10px 20px; cursor: pointer; }
+  .search-input-row { display: flex; gap: 8px; margin-block: 8px; }
+  input { min-width: 0; flex: 1; }
+  input, button { font: inherit; padding: 4px 8px; }
+  button { cursor: pointer; }
 </style>
