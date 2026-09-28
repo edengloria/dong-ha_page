@@ -22,7 +22,7 @@ const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { time
       <header class="article-heading">
         <h1 data-pagefind-meta="title">{post.title || 'Untitled post'}</h1>
         <p class="article-excerpt">{post.excerpt}</p>
-        <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'} · <time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && date(post.updatedAt) !== date(post.publishedAt) && <> · {t.updated} <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} {t.minutes}</p>
+        <p class="article-byline"><time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && date(post.updatedAt) !== date(post.publishedAt) && <> · {t.updated} <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} {t.minutes}</p>
       </header>
       {hero && <figure class="article-cover"><img src={`${hero.url}?w=1600&fit=max&auto=format&q=90`} srcset={[480, 768, 1200, 1600, 2400].filter(width => width <= hero.width).map(width => `${hero.url}?w=${width}&fit=max&auto=format&q=90 ${width}w`).join(', ')} sizes="(max-width: 760px) calc(100vw - 40px), 720px" width={hero.width} height={hero.height} alt={post.heroImage?.alt || ''} fetchpriority="high" />{post.heroImage?.caption && <figcaption>{post.heroImage.caption}</figcaption>}</figure>}
       {toc.length > 0 && <details class="article-toc" data-pagefind-ignore><summary>{post.language === 'ko' ? '목차' : 'On this page'}</summary><nav aria-label="Table of contents"><ol>{toc.map(item => <li class={`toc-level-${item.level}`}><a href={`#${item.id}`}>{item.text}</a></li>)}</ol></nav></details>}

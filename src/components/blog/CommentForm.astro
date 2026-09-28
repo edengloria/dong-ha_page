@@ -5,6 +5,10 @@ const { thread, endpoint, disabled = false, language = 'en' } = Astro.props
 const t = messages[language]
 ---
 <form action={endpoint} method="post" class="comment-form" data-comment-form>
+  <h2 class="comment-form-heading">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M21 19H9a6 6 0 0 1 0-12h12m-4-4 4 4-4 4" /></svg>
+    <span>{thread === 'guestbook' ? t.leaveGuestbook : t.leaveComment}</span>
+  </h2>
   <input type="hidden" name="thread" value={thread} />
   <input type="hidden" name="action" value="create" />
   <input type="hidden" name="language" value={language} />
@@ -20,3 +24,7 @@ const t = messages[language]
   </fieldset>
   <p class="comment-status" role="status" aria-live="polite">{disabled ? t.previewDisabled : ''}</p>
 </form>
+<style>
+  .comment-form-heading { display: flex; align-items: center; gap: 7px; margin: 0 0 16px; font-size: 15px; line-height: 1.4; }
+  .comment-form-heading svg { flex-shrink: 0; }
+</style>
