@@ -1,15 +1,29 @@
 ---
 import { withBasePath } from '../../../lib/paths'
-import { primaryNavigation } from '../../../content/site'
+import BlogBackdrop from './BlogBackdrop.astro'
+import CommentForm from './CommentForm.astro'
+import Comments from './Comments.astro'
+import '../../styles/global.css'
 import '../../styles/blog.css'
-interface Props { preview?: boolean; active?: string }
-const { preview = false, active = '/blog/' } = Astro.props
+interface Props { preview?: boolean; thread?: string; comments?: boolean }
+const { preview = false, thread = 'guestbook', comments = true } = Astro.props
 const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
+const endpoint = `${import.meta.env.PUBLIC_COMMENTS_ORIGIN || 'https://studio.dhsh.in'}/api/comments/`
 ---
-<div class="publishing-shell">
+<div class="site-viewport blog-world">
+  <BlogBackdrop preview={preview} />
   <a class="blog-skip" href="#main-content">Skip to content</a>
-  <header class="blog-masthead"><a class="blog-site-name" href={href('/')}>Dong-Ha Shin</a><nav aria-label="Primary">{primaryNavigation.filter(item => !item.href.startsWith('/gallery')).map(item => <a href={href(`${item.href.replace(/\/$/, '')}/`)} aria-current={active.startsWith(item.href) && item.href !== '/' ? 'page' : undefined}>{item.label}</a>)}</nav></header>
-  {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
-  <slot />
-  <footer class="blog-footer"><a href={href('/')}>dhsh.in</a><nav aria-label="Personal collections"><a href={href('/gallery/photos/')}>Photos</a><a href={href('/gallery/vinyl/')}>Records</a></nav><a href={href('/blog/search/')}>Search</a><a href={href('/feed.xml')}>RSS</a></footer>
+  <div class="site-wrap ocean-content blog-panels">
+    <table class="site-grid" role="presentation"><tbody><tr>
+      <td class="sidebar-cell"><aside class="desk-sidebar comment-sidebar" aria-label={thread === 'guestbook' ? 'Write in the guestbook' : 'Write a comment'}><CommentForm thread={thread} endpoint={endpoint} disabled={preview} /></aside></td>
+      <td class="panel-gap" aria-hidden="true"></td>
+      <td class="main-cell"><div class="page-sheet"><div class="publishing-shell">
+        <nav class="blog-masthead" aria-label="Primary"><a href={href('/')}>Home</a> / <a href={href('/blog/')}>Blog</a></nav>
+        {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
+        <slot />
+        {comments && <Comments thread={thread} endpoint={endpoint} preview={preview} />}
+        <footer class="blog-footer"><a href={href('/blog/search/')}>Search</a><a href={href('/feed.xml')}>RSS</a></footer>
+      </div></div></td>
+    </tr></tbody></table>
+  </div>
 </div>

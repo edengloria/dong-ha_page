@@ -13,7 +13,7 @@ const hero = imageAsset(post.heroImage)
 const linkedProjects = publishingProjects.filter(project => post.projects?.includes(project.id))
 const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
 ---
-<BlogShell preview={preview}>
+<BlogShell preview={preview} thread={`post:${post._id.replace(/^drafts\./, '')}`}>
   <main id="main-content" class="article-page" data-pagefind-body>
     <article lang={post.language}>
       <header class="article-heading">
