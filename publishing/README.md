@@ -11,6 +11,39 @@ The public blog is currently a flat list of posts. Topic, tag, article-type and
 series pages and labels are intentionally omitted, including from sitemap/RSS.
 The Studio records and fields remain available for the owner to organize later.
 
+## Guestbook and article comments
+
+The static blog shares the homepage's table/panel layout and background textures,
+but only emits sprites anchored to the sky. The left panel is an ordinary HTML
+form. `/blog/` uses `guestbook`; an article uses `post:<Sanity document ID>`, so its
+comments survive title/slug changes. Visitor text is plain text, never HTML.
+
+`studio.dhsh.in/api/comments/` handles reads and form submissions using the
+existing server-only `SANITY_DEPLOY_TOKEN`. Without JavaScript, submissions return
+to the server-rendered `/comments/` page, which also offers password deletion.
+The Astro origin check is retained in middleware for other forms; this endpoint
+accepts only the explicit website/Studio origins. Previews cannot submit comments.
+
+Records have private `blogComment.<uuid>` IDs, following Sanity's fixed
+[non-root document access rules](https://www.sanity.io/docs/content-lake/ids).
+The API projects only ID, name, message and creation time. Salted scrypt hashes
+use a domain-separated HMAC of `PREVIEW_SESSION_SECRET`; raw passwords and IPs
+are not stored. Back up that server secret separately if migrating, because
+changing it invalidates existing deletion passwords. Content exports now include
+`blogComment` records and must remain private. Deletion clears message, name,
+salt and hash from the current record and leaves an unlisted tombstone; Sanity's
+document history follows the provider's retention policy.
+
+Persistent revision-locked limits apply to writes (3/minute and 20/day per client,
+200/day site-wide) and deletion attempts (10/minute per client and per comment).
+Private `blogRate` records contain keyed identifiers and counters, not raw IPs.
+The owner can moderate existing messages in Studio's **Comments & Guestbook**;
+new records can only be created through the validated endpoint. Comment changes
+do not trigger static-site builds. Draft/unpublished posts have no public thread.
+
+For local integration only, build with `PUBLIC_COMMENTS_ORIGIN=http://127.0.0.1:4322`
+and run `npm run dev:preview`. Production defaults to `https://studio.dhsh.in`.
+
 Implemented: bilingual static articles, taxonomy and series, Portable Text figures,
 math, code, tables, citations, galleries, paper cards, registered optical demos,
 private preview, deployment status, sitemap/RSS/Pagefind and full content export.

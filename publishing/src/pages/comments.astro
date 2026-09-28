@@ -1,0 +1,48 @@
+---
+import { CommentError, commentClient, listComments, threadPath } from '../lib/comments'
+import CommentForm from '../../../src/components/blog/CommentForm.astro'
+Astro.response.headers.set('Cache-Control', 'no-store')
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+const thread = Astro.url.searchParams.get('thread') || 'guestbook'
+let data: Awaited<ReturnType<typeof listComments>> = { entries: [], next: null }, path = '/blog/', error = ''
+try {
+  path = await threadPath(thread, commentClient())
+  data = await listComments(thread, Astro.url.searchParams.get('before') || '')
+} catch (failure) {
+  error = failure instanceof CommentError ? failure.message : '댓글 서비스를 불러올 수 없습니다.'
+  Astro.response.status = failure instanceof CommentError ? failure.status : 503
+}
+---
+<!doctype html><html lang="ko"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow" /><title>{thread === 'guestbook' ? 'Guestbook' : 'Comments'} · dhsh.in</title></head>
+<body>
+  <a href={`https://dhsh.in${path}#comments`}>← Back to {thread === 'guestbook' ? 'Blog' : 'article'}</a>
+  <h1>{thread === 'guestbook' ? 'Guestbook' : 'Comments'}</h1>
+  {Astro.url.searchParams.has('done') && <p role="status">저장했습니다.</p>}
+  {(error || Astro.url.searchParams.get('error')) && <p role="alert">{error || Astro.url.searchParams.get('error')?.slice(0, 200)}</p>}
+  {!error && <>
+    <CommentForm thread={thread} endpoint="/api/comments/" />
+    <hr />
+    {data.entries.length ? <ol>{data.entries.map(entry => <li>
+      <strong>{entry.name}</strong> <time datetime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</time>
+      <p class="message">{entry.message}</p>
+      <details><summary>Delete</summary><form action="/api/comments/" method="post">
+        <input type="hidden" name="thread" value={thread} /><input type="hidden" name="action" value="delete" /><input type="hidden" name="id" value={entry._id} />
+        <label>Password <input name="password" type="password" required minlength="4" maxlength="128" autocomplete="off" /></label> <button>Delete</button>
+      </form></details>
+    </li>)}</ol> : <p>아직 남겨진 글이 없습니다.</p>}
+    {data.next && <a href={`?thread=${encodeURIComponent(thread)}&before=${encodeURIComponent(data.next)}`}>More →</a>}
+  </>}
+</body></html>
+<style is:global>
+  body { max-width: 720px; margin: 24px auto; padding: 0 16px; color: #000; background: #efecdf; font: 16px/1.5 'Times New Roman', serif; overflow-wrap: anywhere; }
+  a { color: #0000ee; } a:visited { color: #551a8b; }
+  fieldset { border: 0; padding: 0; }
+  .comment-form { max-width: 360px; }
+  .comment-form label { display: block; }
+  input, textarea { box-sizing: border-box; max-width: 100%; }
+  .comment-form input:not([type=hidden]), textarea { display: block; width: 100%; margin: 4px 0 12px; }
+  button { padding: 4px 12px; }
+  .comment-trap { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  li { margin: 24px 0; } .message { white-space: pre-wrap; }
+</style>

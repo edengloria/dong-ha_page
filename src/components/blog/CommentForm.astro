@@ -1,0 +1,19 @@
+---
+interface Props { thread: string; endpoint: string; disabled?: boolean }
+const { thread, endpoint, disabled = false } = Astro.props
+---
+<form action={endpoint} method="post" class="comment-form" data-comment-form>
+  <input type="hidden" name="thread" value={thread} />
+  <input type="hidden" name="action" value="create" />
+  <fieldset disabled={disabled}>
+    <label for="comment-name">Name</label>
+    <input id="comment-name" name="name" type="text" required maxlength="60" autocomplete="nickname" />
+    <label for="comment-password">Password <small>(삭제 시 입력)</small></label>
+    <input id="comment-password" name="password" type="password" required minlength="4" maxlength="128" autocomplete="new-password" />
+    <label for="comment-message" class="sr-only">{thread === 'guestbook' ? '방명록 내용' : '댓글 내용'}</label>
+    <textarea id="comment-message" name="message" rows="10" required maxlength="4000"></textarea>
+    <label class="comment-trap" aria-hidden="true">Website<input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+    <button type="submit">Write</button>
+  </fieldset>
+  <p class="comment-status" role="status" aria-live="polite">{disabled ? '미리보기에서는 댓글을 작성할 수 없습니다.' : ''}</p>
+</form>

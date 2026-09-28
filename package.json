@@ -12,7 +12,7 @@
     "dev:preview": "npm run dev --workspace publishing",
     "build:studio": "npm run build --workspace studio",
     "build:preview": "npm run build --workspace publishing",
-    "test:publishing": "tsx --test scripts/tests/publishing.test.ts",
+    "test:publishing": "tsx --test scripts/tests/publishing.test.ts scripts/tests/comments.test.ts",
     "build": "astro build",
     "start": "astro preview",
     "lint": "astro check && eslint . --max-warnings=0",

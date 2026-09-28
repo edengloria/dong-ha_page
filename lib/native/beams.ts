@@ -8,6 +8,7 @@ const QUALITY = [1, .75, .5]
 const COUNTS = [18, 14, 10]
 
 export function mountBeams(host: HTMLElement) {
+  const asset = (path: string) => host.dataset.assetOrigin ? new URL(path, host.dataset.assetOrigin).href : withBasePath(path)
   const motion = matchMedia("(prefers-reduced-motion: reduce)")
   const abort = new AbortController()
   let disposed = false, initializing = false
@@ -18,7 +19,7 @@ export function mountBeams(host: HTMLElement) {
   let raf = 0, frames = 0, quality = 0, fps = 60
   let width = 1, height = 1, previous = 0, rendered = 0, sampleStart = 0, slow = 0, samples = 0
   const epoch = performance.now()
-  const fixedTime = import.meta.env.DEV || __VISUAL_FIXTURE__
+  const fixedTime = import.meta.env.DEV || (typeof __VISUAL_FIXTURE__ !== 'undefined' && __VISUAL_FIXTURE__)
     ? new URLSearchParams(location.search).get("beamTime") : null
 
   function destroyScene() {
@@ -114,7 +115,7 @@ export function mountBeams(host: HTMLElement) {
         const [{ default: ThorVG }, textures] = await Promise.all([
           import("@thorvg/webcanvas"),
           Promise.all([0, 1, 2].map(async (i) => {
-            const response = await fetch(withBasePath(`/asset/beams/${i}.png`), { signal: abort.signal })
+            const response = await fetch(asset(`/asset/beams/${i}.png`), { signal: abort.signal })
             if (!response.ok) throw new Error("Beam texture unavailable")
             return new Uint8Array(await response.arrayBuffer())
           })),
@@ -123,7 +124,7 @@ export function mountBeams(host: HTMLElement) {
         for (const renderer of ["wg", "gl"] as const) {
           if (renderer === "wg" && !Reflect.get(navigator, "gpu")) continue
           try {
-            engine = await ThorVG.init({ renderer, locateFile: () => withBasePath("/vendor/thorvg/thorvg.wasm") })
+            engine = await ThorVG.init({ renderer, locateFile: () => asset("/vendor/thorvg/thorvg.wasm") })
             if (disposed || (motion.matches && fixedTime === null)) { destroyScene(); return }
             element = document.createElement("canvas")
             element.id = "thorvg-beams"

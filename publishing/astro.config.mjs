@@ -15,5 +15,8 @@ export default defineConfig({
   output: 'server',
   adapter: process.env.VERCEL === '1' ? vercel() : node({ mode: 'standalone' }),
   trailingSlash: 'always',
+  // The public dhsh.in form posts to this separate origin. Middleware retains
+  // the same-origin form check elsewhere; comments also enforce their allowlist.
+  security: { checkOrigin: false },
   vite: { server: { fs: { allow: [fileURLToPath(new URL('../', import.meta.url))] } } },
 })

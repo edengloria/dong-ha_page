@@ -1,0 +1,12 @@
+---
+interface Props { thread: string; endpoint: string; preview?: boolean }
+const { thread, endpoint, preview = false } = Astro.props
+---
+{!preview && <section id="comments" class="comments" data-comments data-thread={thread} data-endpoint={endpoint} data-pagefind-ignore aria-labelledby="comments-title">
+  <h2 id="comments-title">{thread === 'guestbook' ? 'Guestbook' : 'Comments'}</h2>
+  <p data-comment-list-status role="status" aria-live="polite"></p>
+  <ol class="comment-list" data-comment-list></ol>
+  <button type="button" data-comment-more hidden>More</button>
+  <noscript><a href={`${endpoint.replace('/api/comments/', '/comments/')}?thread=${encodeURIComponent(thread)}`}>방명록 / 댓글 읽기</a></noscript>
+</section>}
+<script src="../../../lib/publishing/comments-client.ts"></script>

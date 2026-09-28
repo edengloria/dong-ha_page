@@ -1,0 +1,35 @@
+---
+import saved from '../../../data/scene-layout.json'
+import optimized from '../../../data/scene-optimized.json'
+import { parseLayout, layoutCss, assetPath } from '../../../lib/scene-layout'
+import { spriteStyle, textStyle, blankSprite } from '../../../lib/scene-sprite'
+import { withBasePath } from '../../../lib/paths'
+const { preview = false } = Astro.props
+const layout = parseLayout(saved)
+const asset = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
+const css = (style: object) => Object.entries(style).map(([key, value]) => `${key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)}:${value}`).join(';')
+const textures = `--sunset:url("${asset('/asset/camerons-world/10/bg.png')}");--ocean:url("${asset('/asset/camerons-world/11/bg.png')}");--ripple:url("${asset('/asset/camerons-world/12/bg.gif')}");--ripple-still:url("${asset('/asset/camerons-world/12/bg-still.png')}")`
+// Keep the authored sky lockup. No sea, panel, viewport or footer sprites are emitted.
+---
+<style is:inline set:html={layoutCss({ ...layout, items: [] })} />
+<div class="ocean-world blog-backdrop" style={textures} aria-hidden="true">
+  <div class="ocean-depth"></div>
+  <div class="sea-region"><div class="ocean-ripple"></div></div>
+  <div class="ocean-light"><div class="beam-stage" data-blog-beams data-asset-origin={preview ? 'https://dhsh.in' : undefined}></div></div>
+  <div class="sky-region"><div class="sunset-sky"></div>
+    {(['desktop', 'mobile'] as const).map(mode => <span class={`scene-layer scene-${mode}`}>
+      {layout.items.map((item, index) => ({ item, index })).filter(({ item }) => item[mode].anchor === 'sky' && !item[mode].hidden).map(({ item, index }) => <span class="scene-sprite" data-anchor="sky" data-scene-id={item.id} style={css(spriteStyle(item, mode, index))}>
+        {item.custom?.kind === 'text' ? <span style={css(textStyle(item, mode))}>{item.custom.text}</span> : <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset={item.custom?.kind === 'image' ? item.custom.still : asset(assetPath(item.still))} />
+          <source media={mode === 'desktop' ? '(min-width: 561px)' : '(max-width: 560px)'} srcset={item.custom?.kind === 'image' ? item.custom.src : asset(assetPath((optimized as Record<string, string>)[item.file] || item.file))} />
+          <img src={blankSprite} width={item.width} height={item.height} alt="" loading="lazy" />
+        </picture>}
+      </span>)}
+    </span>)}
+  </div>
+</div>
+<script>
+  import { mountBeams } from '../../../lib/native/beams'
+  const host = document.querySelector<HTMLElement>('[data-blog-beams]')
+  if (host) mountBeams(host)
+</script>
