@@ -43,6 +43,9 @@ jobs:
       - name: Build
         env:
           PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD }}
+          PUBLIC_ENABLE_ANALYTICS: ${{ vars.PUBLIC_ENABLE_ANALYTICS }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
+          PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.PUBLIC_GOOGLE_SITE_VERIFICATION }}
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4

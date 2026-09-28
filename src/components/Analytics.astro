@@ -1,0 +1,8 @@
+---
+import tracker from '../../lib/analytics.js?raw'
+interface Props { exclude?: boolean }
+const websiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID
+const enabled = import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS === 'true' && websiteId && !Astro.props.exclude && process.env.DOCUMENT_VISUAL_TEST !== '1'
+if (enabled && !/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/i.test(websiteId)) throw new Error('Invalid Umami website ID')
+---
+{enabled && <script is:inline data-site-analytics data-website-id={websiteId} set:html={tracker} />}
