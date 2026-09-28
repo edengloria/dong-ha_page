@@ -1,5 +1,5 @@
 import { test, expect } from "./fixtures"
-import { getDiscogsCollection } from "../lib/discogs"
+import discogsFixture from "./fixtures/discogs-collection.json"
 import { getLifeImageFilenames } from "../lib/gallery"
 
 test("public pages navigate as complete documents without framework scripts", async ({ page, request }) => {
@@ -46,7 +46,7 @@ test("every photograph and album has a working no-JavaScript document path", asy
   }
   expect(images.length).toBe(getLifeImageFilenames().length)
   expect(new Set(images).size).toBe(images.length)
-  for (const release of getDiscogsCollection().releases) {
+  for (const release of discogsFixture.releases) {
     const response = await request.get(`/gallery/vinyl/${release.instance_id}/`)
     expect(response.ok()).toBe(true)
     expect(await response.text()).toContain(`https://www.discogs.com/release/${release.id}`)
