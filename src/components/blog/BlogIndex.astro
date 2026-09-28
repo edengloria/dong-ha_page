@@ -1,0 +1,13 @@
+---
+import BlogDocument from '../../layouts/BlogDocument.astro'
+import BlogShell from './BlogShell.astro'
+import PostList from './PostList.astro'
+import { getPublishingData, blogSettings } from '../../../lib/publishing/query'
+import { blogPath, messages, type Language } from '../../../lib/publishing/language'
+const { language = 'en' } = Astro.props as { language?: Language }
+const data = await getPublishingData(), settings = blogSettings(data), t = messages[language]
+---
+<BlogDocument title={t.blog} description={settings.description} path={blogPath(language)} language={language}>
+  <Fragment slot="head"><link rel="alternate" hreflang="en" href="https://dhsh.in/blog/" /><link rel="alternate" hreflang="ko" href="https://dhsh.in/blog/ko/" /><link rel="alternate" hreflang="x-default" href="https://dhsh.in/blog/" /></Fragment>
+  <BlogShell language={language}><main id="main-content" aria-label={t.blog}><PostList posts={data.posts.filter(post => post.language === language)} empty={t.emptyPosts} /></main></BlogShell>
+</BlogDocument>

@@ -1,3 +1,4 @@
+import { languageOf, messages } from './language'
 import { toHTML } from '@portabletext/to-html'
 import { codeToHtml } from 'shiki'
 import katex from 'katex'
@@ -20,7 +21,8 @@ const anchor = (prefix: string, key = '') => `${prefix}-${key.replace(/[^a-zA-Z0
 type Numbered = { id: string; number: number; label: string }
 export interface TocItem { id: string; text: string; level: number }
 
-export async function renderBody(post: Pick<Post, 'body' | 'references'>) {
+export async function renderBody(post: Pick<Post, 'body' | 'references'> & Partial<Pick<Post, 'language'>>) {
+  const t = messages[languageOf(post.language)]
   const body = post.body || [], papers = new Map((post.references || []).map(paper => [paper._id, paper]))
   const figureNumbers = new Map<string, Numbered>(), equationNumbers = new Map<string, Numbered>(), citations = new Map<string, number>()
   const code = new Map<string, string>(), toc: TocItem[] = []
@@ -88,7 +90,7 @@ export async function renderBody(post: Pick<Post, 'body' | 'references'>) {
           figure: ({ value }) => figure(value as Figure),
           inlineMath: ({ value }) => `<span class="inline-equation">${math(value.latex, false)}</span>`,
           equation: ({ value }) => `<div class="equation" id="${anchor('equation', value._key)}"><div class="equation-scroll" tabindex="0" aria-label="Equation">${math(value.latex, true)}</div>${equationNumbers.has(value._key) ? `<span class="equation-number">(${equationNumbers.get(value._key)!.number})</span>` : ''}</div>`,
-          codeBlock: ({ value }) => `<figure class="code-block"><div class="code-toolbar"><span>${escapeHtml(value.source?.filename || value.source?.language || 'Code')}</span><button type="button" data-copy-code>Copy</button></div>${code.get(value._key) || `<pre><code>${escapeHtml(value.source?.code)}</code></pre>`}${value.caption ? `<figcaption>${escapeHtml(value.caption)}</figcaption>` : ''}</figure>`,
+          codeBlock: ({ value }) => `<figure class="code-block"><div class="code-toolbar"><span>${escapeHtml(value.source?.filename || value.source?.language || 'Code')}</span><button type="button" data-copy-code>${t.copy}</button></div>${code.get(value._key) || `<pre><code>${escapeHtml(value.source?.code)}</code></pre>`}${value.caption ? `<figcaption>${escapeHtml(value.caption)}</figcaption>` : ''}</figure>`,
           callout: ({ value }) => `<aside class="callout tone-${['note', 'important', 'warning', 'summary'].includes(value.tone) ? value.tone : 'note'}"><strong>${escapeHtml(value.title || value.tone || 'Note')}</strong>${blocksHtml((value.body || []) as TextBlock[])}</aside>`,
           separator: () => '<hr>',
           table: ({ value }) => `<figure class="article-table"><div class="table-scroll" tabindex="0" role="region" aria-label="${escapeHtml(value.caption || 'Table')}"><table>${value.caption ? `<caption>${escapeHtml(value.caption)}</caption>` : ''}${(value.rows || []).map((row: { cells: string[] }, i: number) => { const heading = i === 0 && value.header !== false; return `${heading ? '<thead>' : i === 1 || (i === 0 && !heading) ? '<tbody>' : ''}<tr>${row.cells.map(cell => heading ? `<th scope="col">${escapeHtml(cell)}</th>` : `<td>${escapeHtml(cell)}</td>`).join('')}</tr>${heading ? '</thead>' : ''}` }).join('')}${value.rows?.length > (value.header !== false ? 1 : 0) ? '</tbody>' : ''}</table></div></figure>`,
@@ -101,6 +103,6 @@ export async function renderBody(post: Pick<Post, 'body' | 'references'>) {
     })
   }
   const html = blocksHtml(body)
-  const referenceHtml = citations.size ? `<section class="references" aria-labelledby="references-heading"><h2 id="references-heading">References</h2><ol>${[...citations].map(([id, number]) => `<li id="reference-${number}">${papers.has(id) ? paperHtml(papers.get(id)!) : '<p>Reference unavailable.</p>'}</li>`).join('')}</ol></section>` : ''
+  const referenceHtml = citations.size ? `<section class="references" aria-labelledby="references-heading"><h2 id="references-heading">${t.references}</h2><ol>${[...citations].map(([id, number]) => `<li id="reference-${number}">${papers.has(id) ? paperHtml(papers.get(id)!) : '<p>Reference unavailable.</p>'}</li>`).join('')}</ol></section>` : ''
   return { html, referenceHtml, toc }
 }

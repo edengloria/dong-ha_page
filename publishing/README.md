@@ -214,6 +214,17 @@ Linux comparisons reviewed intentional navigation additions: 10 desktop/mobile
 baselines changed; tablet baselines stayed unchanged. Existing Playwright 1.51
 and Sharp 0.34 audit findings remain a separate tested tooling-update task.
 
+## Blog languages
+
+The upper-right EN / KR links use ordinary static navigation. `/blog/` defaults
+to English and `/blog/ko/` lists Korean posts. Each list and search page only
+returns its selected language. Article links use the published translation group
+from `translationOf`; when no translation exists, the other language links to
+that language's blog index and says so in its title. Article URLs stay unchanged.
+There is no automatic translation or browser-language redirect. The guestbook
+is shared across both languages; comment forms, feedback and the no-JavaScript
+server page use the selected language without changing stored visitor messages.
+
 ## Ownership and backup
 
 See [BACKUP.md](BACKUP.md) for full documents/media export, checksums, restore into

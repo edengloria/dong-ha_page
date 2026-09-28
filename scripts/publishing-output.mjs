@@ -31,6 +31,7 @@ export function publishingOutput() {
             // Pagefind otherwise drops pages without data-pagefind-body once any
             // article uses it. Add the marker to the indexing copy, never the site.
             doc.querySelector('#main-content').setAttribute('data-pagefind-body', '')
+            doc.querySelector('#main-content').setAttribute('data-pagefind-filter', `language:${doc.querySelector('html')?.getAttribute('lang') === 'ko' ? 'ko' : 'en'}`)
             // KaTeX carries visual math, MathML and LaTeX annotations. Indexing
             // all three makes prose search snippets repeat unreadable equations.
             // Keep the accessible equations intact in the actual article HTML.

@@ -34,24 +34,33 @@ for (const width of [390, 768, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     await expect(page.locator('.research-figure img')).toHaveAttribute('width', '1200')
     await expect(page.locator('.research-figure img')).toHaveAttribute('height', '800')
-    await page.getByRole('button', { name: 'Copy', exact: true }).click()
-    await expect(page.getByRole('button', { name: 'Copied', exact: true })).toBeVisible()
+    await page.getByRole('button', { name: '복사', exact: true }).click()
+    await expect(page.getByRole('button', { name: '복사됨', exact: true })).toBeVisible()
     expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('spectrum = torch.fft.fft2(field)')
   })
 }
 
-test('static search finds Korean prose, English titles and references', async ({ page }) => {
-  await page.goto('/blog/search/')
-  for (const query of ['PyTorch', '전파', 'Matsushima']) {
-    await page.getByRole('searchbox').fill(query)
-    await page.getByRole('button', { name: 'Search', exact: true }).click()
-    await expect(page.locator('#search-results')).toContainText('Angular Spectrum Method 구현 노트')
-    await expect(page.locator('#search-results')).toContainText('Angular Spectrum Method in PyTorch')
+test('static search respects language while matching technical terms and references', async ({ page }) => {
+  for (const [path, title, other, button] of [
+    ['/blog/search/', 'Angular Spectrum Method in PyTorch', 'Angular Spectrum Method 구현 노트', 'Search'],
+    ['/blog/search/ko/', 'Angular Spectrum Method 구현 노트', 'Angular Spectrum Method in PyTorch', '검색'],
+  ]) {
+    await page.goto(path)
+    for (const query of ['PyTorch', 'Matsushima']) {
+      await page.getByRole('searchbox').fill(query)
+      await page.getByRole('button', { name: button, exact: true }).click()
+      await expect(page.locator('#search-results')).toContainText(title)
+      await expect(page.locator('#search-results h2')).not.toContainText([other])
+    }
   }
+  await page.getByRole('searchbox').fill('전파')
+  await expect(page.locator('#search-results')).toContainText('Angular Spectrum Method 구현 노트')
 })
 
 test('flat blog and compact home navigation retain working article and collection links', async ({ page }) => {
   await page.goto('/blog/')
+  await expect(page.getByRole('link', { name: 'Angular Spectrum Method in PyTorch' })).toBeVisible()
+  await page.getByRole('link', { name: 'KR', exact: true }).click()
   await expect(page.getByRole('link', { name: 'Angular Spectrum Method 구현 노트' })).toBeVisible()
   await expect(page.locator('#main-content h1')).toHaveCount(0)
   await expect(page.getByRole('link', { name: '전파 커널의 샘플링', exact: true })).toBeVisible()
@@ -86,4 +95,29 @@ test('registered demo hydrates only where present and responds to keyboard contr
   await slider.focus(); await slider.press('ArrowRight')
   await expect(page.locator('[data-demo-distance-label]')).toHaveText('31 mm')
   await expect(page.locator('[data-demo-profile]')).not.toHaveAttribute('points', before!)
+})
+
+test('EN is the default and language links switch lists and published translations without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto('/blog/')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  await expect(page.locator('.blog-languages [aria-current=page]')).toHaveText('EN')
+  await expect(page.locator('.post-list a')).toHaveText(['Angular Spectrum Method in PyTorch'])
+  await page.getByRole('link', { name: 'KR', exact: true }).click()
+  await expect(page).toHaveURL(/\/blog\/ko\/$/)
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
+  await expect(page.locator('.post-list a')).toHaveCount(2)
+  await expect(page.getByLabel('이름', { exact: true })).toBeVisible()
+  await page.getByRole('link', { name: 'Angular Spectrum Method 구현 노트', exact: true }).click()
+  await page.getByRole('link', { name: 'EN', exact: true }).click()
+  await expect(page).toHaveURL(/\/blog\/en\/angular-spectrum-method\/$/)
+  await expect(page.locator('h1')).toHaveText('Angular Spectrum Method in PyTorch')
+  await page.getByRole('link', { name: 'KR', exact: true }).click()
+  await expect(page).toHaveURL(/\/blog\/ko\/angular-spectrum-method\/$/)
+  await page.goto('/blog/ko/propagation-sampling/')
+  await expect(page.getByRole('link', { name: 'EN', exact: true })).toHaveAttribute('title', /No English translation/)
+  await page.getByRole('link', { name: 'EN', exact: true }).click()
+  await expect(page).toHaveURL(/\/blog\/$/)
+  await context.close()
 })
