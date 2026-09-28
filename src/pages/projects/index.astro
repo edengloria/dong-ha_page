@@ -1,0 +1,6 @@
+---
+import PublicDocument from '../../layouts/PublicDocument.astro'
+import { getPublishingData } from '../../../lib/publishing/query'
+const { posts } = await getPublishingData()
+---
+<PublicDocument path="/projects/" kind="projects" posts={posts} title="Projects" description="Open-source projects and engineering work by Dong-Ha Shin." />

@@ -1,0 +1,13 @@
+.git
+.visual-baseline
+out
+node_modules
+test-results
+playwright-report
+backups
+public/asset
+public/vendor
+public/audio
+data/discogs.json
+.env*
+**/.env*

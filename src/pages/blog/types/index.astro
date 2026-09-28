@@ -1,0 +1,8 @@
+---
+import TaxonomyIndex from '../../../components/blog/TaxonomyIndex.astro'
+import { getPublishingData } from '../../../../lib/publishing/query'
+import { articleTypes } from '../../../../lib/publishing/types'
+const { posts } = await getPublishingData()
+const items = articleTypes.map(type => ({ title: type.title, slug: type.value, count: posts.filter(post => post.articleType === type.value).length }))
+---
+<TaxonomyIndex kind="types" title="Article Types" items={items} />

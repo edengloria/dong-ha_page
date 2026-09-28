@@ -19,6 +19,14 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test:server
+      - run: npm run check --workspace studio
+      - run: npm run test:publishing
+      - run: npm run build:studio
+      - run: npm run build:preview
+      - name: Build the separate authoring deployment
+        env:
+          VERCEL: "1"
+        run: node scripts/build-authoring.mjs
       - run: npx playwright install --with-deps chromium
       - name: Install baseline fonts
         run: |

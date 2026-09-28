@@ -40,3 +40,13 @@ next-env.d.ts
 /public/asset/camerons-world/archive/optimized/
 
 .astro/
+
+# Separate authoring application and local CMS credentials / exports
+studio/node_modules/
+studio/dist/
+publishing/node_modules/
+publishing/dist/
+publishing/.vercel/
+publishing/public/studio/
+.sanity/
+backups/

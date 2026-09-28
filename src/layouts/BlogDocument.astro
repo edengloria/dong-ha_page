@@ -1,0 +1,33 @@
+---
+import { withBasePath } from '../../lib/paths'
+import { siteConfig } from '../../content/site'
+import { imageAsset } from '../../lib/publishing/render'
+import type { Post } from '../../lib/publishing/types'
+import { postPath } from '../../lib/publishing/types'
+import { articleStructuredData, safeJson } from '../../lib/publishing/seo'
+interface Props { title: string; description: string; path: string; language?: 'ko' | 'en'; post?: Post; noindex?: boolean; translations?: Post[] }
+const { title, description, path, post, language = post?.language || 'ko', noindex = false, translations = [] } = Astro.props
+const canonical = new URL(withBasePath(path), siteConfig.url).href
+const image = imageAsset(post?.seo?.socialImage || post?.heroImage)?.url || new URL(withBasePath(siteConfig.ogImage), siteConfig.url).href
+---
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{post?.seo?.title || title} | Dong-Ha Shin</title>
+    <meta name="description" content={post?.seo?.description || description} /><meta name="author" content="Dong-Ha Shin" />
+    <link rel="canonical" href={canonical} /><link rel="icon" type="image/png" href={withBasePath('/icon.png')} />
+    <link rel="alternate" type="application/rss+xml" title="dhsh.in — Research & Engineering" href={withBasePath('/feed.xml')} />
+    {translations.map(item => <link rel="alternate" hreflang={item.language} href={new URL(withBasePath(postPath(item)), siteConfig.url).href} />)}
+    {(noindex || post?.seo?.noindex) && <meta name="robots" content="noindex,follow" />}
+    <meta property="og:type" content={post ? 'article' : 'website'} /><meta property="og:title" content={post?.seo?.title || title} />
+    <meta property="og:description" content={post?.seo?.description || description} /><meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="dhsh.in" /><meta property="og:image" content={image} /><meta property="og:locale" content={language === 'ko' ? 'ko_KR' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={post?.seo?.title || title} />
+    <meta name="twitter:description" content={post?.seo?.description || description} /><meta name="twitter:image" content={image} />
+    {post && <><meta property="article:published_time" content={post.publishedAt} /><meta property="article:modified_time" content={post.updatedAt || post.publishedAt} /></>}
+    {post && <script type="application/ld+json" set:html={safeJson(articleStructuredData(post, canonical))} />}
+    <slot name="head" />
+  </head>
+  <body data-document-page={path} data-reading-page><slot /></body>
+</html>

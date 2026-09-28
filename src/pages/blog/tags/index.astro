@@ -1,0 +1,8 @@
+---
+import TaxonomyIndex from '../../../components/blog/TaxonomyIndex.astro'
+import { getPublishingData } from '../../../../lib/publishing/query'
+const { posts, tags } = await getPublishingData()
+const items = tags.map(item => ({ title: item.title, slug: item.slug.current, description: item.description, count: posts.filter(post => post.tags?.some(value => value._id === item._id)).length }))
+---
+<TaxonomyIndex kind="tags" title="Tags" items={items} />
+
