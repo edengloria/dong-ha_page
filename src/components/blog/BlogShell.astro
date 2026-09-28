@@ -11,5 +11,5 @@ const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href :
   <header class="blog-masthead"><a class="blog-site-name" href={href('/')}>Dong-Ha Shin</a><nav aria-label="Primary">{primaryNavigation.filter(item => !item.href.startsWith('/gallery')).map(item => <a href={href(`${item.href.replace(/\/$/, '')}/`)} aria-current={active.startsWith(item.href) && item.href !== '/' ? 'page' : undefined}>{item.label}</a>)}</nav></header>
   {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
   <slot />
-  <footer class="blog-footer"><a href={href('/')}>dhsh.in</a><nav aria-label="Personal collections"><a href={href('/gallery/photos/')}>Photos</a><a href={href('/gallery/vinyl/')}>Records</a></nav><a href={href('/feed.xml')}>RSS</a></footer>
+  <footer class="blog-footer"><a href={href('/')}>dhsh.in</a><nav aria-label="Personal collections"><a href={href('/gallery/photos/')}>Photos</a><a href={href('/gallery/vinyl/')}>Records</a></nav><a href={href('/blog/search/')}>Search</a><a href={href('/feed.xml')}>RSS</a></footer>
 </div>

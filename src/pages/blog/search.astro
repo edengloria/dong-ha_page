@@ -1,17 +1,16 @@
 ---
 import BlogDocument from '../../layouts/BlogDocument.astro'
 import BlogShell from '../../components/blog/BlogShell.astro'
-import BlogNavigation from '../../components/blog/BlogNavigation.astro'
 import { withBasePath } from '../../../lib/paths'
 ---
 <BlogDocument title="Search" description="Search Korean and English research and engineering notes." path="/blog/search/" noindex>
-  <BlogShell><main id="main-content" class="blog-index"><BlogNavigation active="search" /><h1>Search</h1>
+  <BlogShell><main id="main-content"><h1>Search</h1>
     <form id="blog-search" data-index={withBasePath('/pagefind/pagefind.js')} role="search">
       <label for="search-query">한국어 · English</label>
       <div class="search-input-row"><input id="search-query" name="q" type="search" autocomplete="off" placeholder="광학, PyTorch, holography…" /><button type="submit">Search</button></div>
     </form>
     <p id="search-status" role="status" aria-live="polite">검색어를 입력하세요.</p><ol id="search-results" class="search-results"></ol>
-    <noscript>Search needs JavaScript. Browse <a href={withBasePath('/blog/topics/')}>topics</a> or <a href={withBasePath('/blog/')}>all articles</a>.</noscript>
+    <noscript>Search needs JavaScript. Browse <a href={withBasePath('/blog/')}>all articles</a>.</noscript>
   </main></BlogShell>
 </BlogDocument>
 <script>
@@ -43,7 +42,7 @@ import { withBasePath } from '../../../lib/paths'
         heading.append(link); li.append(heading, excerpt); list.append(li)
       }
       history.replaceState(null, '', `${location.pathname}?q=${encodeURIComponent(query)}`)
-    } catch { if (current === sequence) status.textContent = 'Search could not load. Please reload or browse Topics.' }
+    } catch { if (current === sequence) status.textContent = 'Search could not load. Please reload or browse the blog.' }
   }
   input.value = new URLSearchParams(location.search).get('q') || ''
   form.addEventListener('submit', event => { event.preventDefault(); clearTimeout(timer); void search() })

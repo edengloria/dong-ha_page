@@ -1,11 +1,10 @@
 ---
 import BlogDocument from '../../layouts/BlogDocument.astro'
 import BlogShell from '../../components/blog/BlogShell.astro'
-import BlogNavigation from '../../components/blog/BlogNavigation.astro'
 import PostList from '../../components/blog/PostList.astro'
 import { getPublishingData, blogSettings } from '../../../lib/publishing/query'
 const data = await getPublishingData(), { posts } = data, settings = blogSettings(data)
 ---
-<BlogDocument title={settings.title} description={settings.description} path="/blog/">
-  <BlogShell><main id="main-content" class="blog-index"><BlogNavigation /><h1>{settings.title}</h1><PostList posts={posts} /></main></BlogShell>
+<BlogDocument title="Blog" description={settings.description} path="/blog/">
+  <BlogShell><main id="main-content" aria-label="Blog"><PostList posts={posts} /></main></BlogShell>
 </BlogDocument>

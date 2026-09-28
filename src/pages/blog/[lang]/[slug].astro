@@ -1,15 +1,15 @@
 ---
 import BlogDocument from '../../../layouts/BlogDocument.astro'
 import Article from '../../../components/blog/Article.astro'
-import { getPublishingData, seriesParts, relatedPosts } from '../../../../lib/publishing/query'
+import { getPublishingData } from '../../../../lib/publishing/query'
 import { postPath } from '../../../../lib/publishing/types'
 import { translationsFor } from '../../../../lib/publishing/seo'
 export async function getStaticPaths() {
   const { posts } = await getPublishingData()
-  return posts.map(post => ({ params: { lang: post.language, slug: post.slug.current }, props: { post, parts: seriesParts(post, posts), related: relatedPosts(post, posts), translations: translationsFor(post, posts) } }))
+  return posts.map(post => ({ params: { lang: post.language, slug: post.slug.current }, props: { post, translations: translationsFor(post, posts) } }))
 }
-const { post, parts, related, translations } = Astro.props
+const { post, translations } = Astro.props
 ---
 <BlogDocument title={post.title} description={post.excerpt} path={postPath(post)} post={post} translations={translations}>
-  <Article post={post} parts={parts} related={related} translations={translations} />
+  <Article post={post} translations={translations} />
 </BlogDocument>

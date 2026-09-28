@@ -1,8 +1,0 @@
----
-import TaxonomyIndex from '../../../components/blog/TaxonomyIndex.astro'
-import { getPublishingData } from '../../../../lib/publishing/query'
-const { posts, series } = await getPublishingData()
-const items = series.map(item => ({ title: item.title, slug: item.slug.current, description: item.description, count: posts.filter(post => post.series?._id === item._id).length }))
----
-<TaxonomyIndex kind="series" title="Series" items={items} />
-

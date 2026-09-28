@@ -17,7 +17,7 @@ const image = imageAsset(post?.seo?.socialImage || post?.heroImage)?.url || new 
     <title>{post?.seo?.title || title} | Dong-Ha Shin</title>
     <meta name="description" content={post?.seo?.description || description} /><meta name="author" content="Dong-Ha Shin" />
     <link rel="canonical" href={canonical} /><link rel="icon" type="image/png" href={withBasePath('/icon.png')} />
-    <link rel="alternate" type="application/rss+xml" title="dhsh.in — Research & Engineering" href={withBasePath('/feed.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="dhsh.in — Blog" href={withBasePath('/feed.xml')} />
     {translations.map(item => <link rel="alternate" hreflang={item.language} href={new URL(withBasePath(postPath(item)), siteConfig.url).href} />)}
     {(noindex || post?.seo?.noindex) && <meta name="robots" content="noindex,follow" />}
     <meta property="og:type" content={post ? 'article' : 'website'} /><meta property="og:title" content={post?.seo?.title || title} />

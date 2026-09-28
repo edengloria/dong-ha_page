@@ -21,5 +21,5 @@ for (const title of ['Holography', 'Meta-optics', 'Differentiable Optics', 'PyTo
   const slug = title.toLowerCase().replaceAll(' ', '-')
   await client.createIfNotExists({ _id: `tag-${slug}`, _type: 'tag', title, slug: { _type: 'slug', current: slug } })
 }
-await client.createIfNotExists({ _id: 'site-settings', _type: 'siteSettings', blogTitle: 'Research & Engineering Notes', blogDescription: 'Notes on optics, AI, graphics, programming, and engineering.' })
+await client.createIfNotExists({ _id: 'site-settings', _type: 'siteSettings', blogTitle: 'Blog', blogDescription: 'Notes on optics, AI, graphics, programming, and engineering.' })
 console.log('Project seeded. Private preview credentials saved only to ignored .env.local; no secrets printed.')

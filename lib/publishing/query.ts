@@ -19,7 +19,7 @@ export async function getDraftPost(id: string, token: string): Promise<Post | nu
 export interface PublishingData { posts: Post[]; topics: Taxonomy[]; tags: Taxonomy[]; series: Taxonomy[]; settings?: { blogTitle?: string; blogDescription?: string } }
 export function blogSettings(data: PublishingData) {
   return {
-    title: data.settings?.blogTitle?.trim() || 'Research & Engineering Notes',
+    title: data.settings?.blogTitle?.trim() || 'Blog',
     description: data.settings?.blogDescription?.trim() || 'Research and engineering notes on optics, AI, graphics, programming, and engineering.',
   }
 }
