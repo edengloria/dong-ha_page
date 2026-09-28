@@ -4,13 +4,12 @@ import { createMetadata, type PageMetadata } from "@/lib/metadata"
 import { profile } from "@/content/profile"
 import { siteConfig } from "@/content/site"
 import { withBasePath } from "@/lib/paths"
+import Analytics from "../components/Analytics.astro"
 
 interface Props extends PageMetadata { interactive?: boolean }
 const { interactive = false, path = "/" } = Astro.props
 const meta = createMetadata(Astro.props)
-const ga = import.meta.env.PUBLIC_GA_MEASUREMENT_ID
-const analytics = import.meta.env.PROD && import.meta.env.PUBLIC_ENABLE_ANALYTICS === "true" && ga
-if (analytics && !/^G-[A-Z0-9]+$/.test(ga)) throw new Error("Invalid analytics measurement ID")
+const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION
 ---
 <!doctype html>
 <html lang="en" class="dark">
@@ -26,6 +25,7 @@ if (analytics && !/^G-[A-Z0-9]+$/.test(ga)) throw new Error("Invalid analytics m
     <link rel="canonical" href={meta.canonical} />
     <link rel="icon" type="image/png" href={withBasePath("/icon.png")} />
     {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
+    {path === '/' && verification && <meta name="google-site-verification" content={verification} />}
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={meta.canonical} />
@@ -38,8 +38,7 @@ if (analytics && !/^G-[A-Z0-9]+$/.test(ga)) throw new Error("Invalid analytics m
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />
     <meta name="twitter:image" content={meta.image} />
-    {analytics && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>}
-    {analytics && <script is:inline define:vars={{ ga }}>window.dataLayer=window.dataLayer||[];function gtag(...args){window.dataLayer.push(args)}gtag('js',new Date());gtag('config',ga);</script>}
+    <Analytics exclude={meta.noindex || interactive} />
     <slot name="scripts" />
   </head>
   <body data-document-page={interactive ? undefined : path}><slot /></body>

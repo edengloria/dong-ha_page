@@ -5,6 +5,7 @@ import { imageAsset } from '../../lib/publishing/render'
 import type { Post } from '../../lib/publishing/types'
 import { postPath } from '../../lib/publishing/types'
 import { articleStructuredData, safeJson } from '../../lib/publishing/seo'
+import Analytics from '../components/Analytics.astro'
 interface Props { title: string; description: string; path: string; language?: 'ko' | 'en'; post?: Post; noindex?: boolean; translations?: Post[] }
 const { title, description, path, post, language = post?.language || 'en', noindex = false, translations = [] } = Astro.props
 const canonical = new URL(withBasePath(path), siteConfig.url).href
@@ -27,6 +28,7 @@ const image = imageAsset(post?.seo?.socialImage || post?.heroImage)?.url || new 
     <meta name="twitter:description" content={post?.seo?.description || description} /><meta name="twitter:image" content={image} />
     {post && <><meta property="article:published_time" content={post.publishedAt} /><meta property="article:modified_time" content={post.updatedAt || post.publishedAt} /></>}
     {post && <script type="application/ld+json" set:html={safeJson(articleStructuredData(post, canonical))} />}
+    <Analytics exclude={noindex || post?.seo?.noindex} />
     <slot name="head" />
   </head>
   <body data-document-page={path} data-reading-page><slot /></body>

@@ -52,6 +52,9 @@ own static route automatically; drafts display a noindex not-found document.
 
 ## Editor and record administration
 
+Visitor statistics and Google search reporting are documented in the
+[analytics guide](docs/analytics.md).
+
 The [scene editor guide](docs/scene-editor.md) covers image uploads, editable
 text and links, multiple selection, locking, resizing, appearance and portable
 JSON. Browser saves remain device-local. Commit the exported JSON to
