@@ -22,7 +22,8 @@ const structure: StructureResolver = S => S.list().title('dhsh.in').items([
 
 export default defineConfig({
   name: 'dhsh', title: 'dhsh.in · Research & Engineering', projectId, dataset,
-  basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
+  // The CLI deployment base already prefixes workspace routes with /studio.
+  basePath: '/',
   releases: { enabled: false }, tasks: { enabled: false }, scheduledDrafts: { enabled: false },
   plugins: [codeInput(), structureTool({ structure, defaultDocumentNode: (S, { schemaType }) => schemaType === 'post' ? S.document().views([S.view.form().title('Write'), S.view.component(ArticlePreview).title('Preview')]) : S.document().views([S.view.form()]) })],
   schema: { types: [...blocks, ...documents] },

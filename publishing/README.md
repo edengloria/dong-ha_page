@@ -12,9 +12,14 @@ math, code, tables, citations, galleries, paper cards, registered optical demos,
 private preview, deployment status, sitemap/RSS/Pagefind and full content export.
 The realistic Korean authoring proof is an unpublished draft in the real CMS.
 
-**Production authoring hosting, DNS and the live webhook are not connected yet.**
-Until verified, publishing saves to Content Lake without automatically deploying
-dhsh.in. Do not describe that state as live.
+Studio is deployed at https://studio.dhsh.in on the separate Vercel `dhsh-studio`
+project. Porkbun CNAME, HTTPS, Sanity login and authenticated Astro previews were
+verified. Anonymous draft requests and unsigned webhooks return 401.
+
+**Automatic public deployment is not enabled yet.** The webhook is configured but
+disabled while the repository-scoped Actions credential and end-to-end rollout
+are being verified. Publishing currently saves to Content Lake; it does not yet
+mean the article is live on dhsh.in.
 
 ## Local development
 
