@@ -10,4 +10,4 @@ if (!validSession(Astro.cookies.get(cookieName)?.value)) return new Response('Si
 const post = await getDraftPost(Astro.params.id || '', readToken())
 if (!post) return new Response('Draft not found.', { status: 404, headers: Astro.response.headers })
 ---
-<!doctype html><html lang={post.language || 'ko'}><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow,noarchive" /><title>Private preview · {post.title}</title></head><body><Article post={post} preview /></body></html>
+<!doctype html><html lang={post.language || 'ko'}><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow,noarchive" /><title>Private preview · {post.title}</title></head><body data-reading-page><Article post={post} preview /></body></html>
