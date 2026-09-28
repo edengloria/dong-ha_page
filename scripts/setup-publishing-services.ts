@@ -30,7 +30,9 @@ const configuration = {
     projection: `{ "id": coalesce(after()._id, before()._id), "type": coalesce(after()._type, before()._type), "revision": coalesce(after()._rev, before()._rev), "operation": delta::operation(), "projectId": "${projectId}", "dataset": "${dataset}" }`,
   },
 }
-await client.request({ url: `/hooks/projects/${projectId}${existing ? `/${existing.id}` : ''}`, method: existing ? 'PATCH' : 'POST', body: configuration })
+// Webhook type is immutable: the API accepts it on creation, not PATCH.
+const { type, ...updates } = configuration
+await client.request({ url: `/hooks/projects/${projectId}${existing ? `/${existing.id}` : ''}`, method: existing ? 'PATCH' : 'POST', body: existing ? updates : { type, ...updates } })
 console.log(`Publishing secrets saved locally; GitHub callback secret set; webhook ${configuration.isDisabledByUser ? 'configured but disabled until hosting is ready' : 'enabled'}.`)
 }
 try { await setup() } catch (error) {

@@ -4,7 +4,9 @@ import { encodeSignatureHeader } from '@sanity/webhook'
 const env = await readFile(new URL('../publishing/.env.local', import.meta.url), 'utf8')
 const secret = env.match(/^SANITY_WEBHOOK_SECRET=(.+)$/m)?.[1].trim()
 assert(secret, 'Local webhook secret is missing')
-const endpoint = 'http://127.0.0.1:4322/api/sanity-webhook/'
+const endpoint = process.argv.includes('--production')
+  ? 'https://studio.dhsh.in/api/sanity-webhook/'
+  : 'http://127.0.0.1:4322/api/sanity-webhook/'
 const body = JSON.stringify({ id: 'drafts.private-post', type: 'post', operation: 'update', revision: 'v1', projectId: 'f0xserx3', dataset: 'production' })
 const send = (payload, signature) => fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(signature ? { 'sanity-webhook-signature': signature } : {}) }, body: payload })
 assert.equal((await send(body)).status, 401)
