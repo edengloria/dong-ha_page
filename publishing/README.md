@@ -16,10 +16,12 @@ Studio is deployed at https://studio.dhsh.in on the separate Vercel `dhsh-studio
 project. Porkbun CNAME, HTTPS, Sanity login and authenticated Astro previews were
 verified. Anonymous draft requests and unsigned webhooks return 401.
 
-**Automatic public deployment is not enabled yet.** The webhook is configured but
-disabled while the repository-scoped Actions credential and end-to-end rollout
-are being verified. Publishing currently saves to Content Lake; it does not yet
-mean the article is live on dhsh.in.
+Automatic public deployment is enabled. Sanity publish/update/unpublish events
+reach the signed webhook and dispatch the existing GitHub Pages workflow. Studio
+reports a version as live only after the public manifest confirms its revision.
+The production Actions credential is limited to `edengloria/dong-ha_page`; its
+current expiration is 2027-09-27. Renew it in Vercel's server Secret configuration
+before that date. Routine article writing requires no deployment credentials.
 
 ## Local development
 
@@ -88,6 +90,8 @@ Choose **Organize → Related projects** to link an article with an existing pro
 such as PADO. Both the article and Projects index update automatically on publish;
 no hand-edited reverse links are needed.
 
+To unpublish, switch the document's top **Published** selector, choose **Unpublish**
+and confirm. Return to **Draft** to keep editing the retained article.
 Unpublish triggers a fresh static deployment. After success, the old URL returns
 404 and disappears from listings, RSS, sitemap and search. The draft and its
 canonical slug remain in Studio for editing and republishing.
@@ -150,15 +154,24 @@ npx sanity exec ../scripts/check-private-preview.ts --with-user-token
 
 From the root, `node scripts/check-webhook-rejection.mjs` checks unsigned, stale,
 draft and oversized requests against the real local endpoint without deployment.
+Add `--production` to run those rejection checks against studio.dhsh.in.
 The authoring build scans browser output for configured secrets. Public document
 audits reject framework runtimes on reading pages.
 
-Real Chrome checks passed for clipboard PNG insertion, media reuse, equation
+Real Chrome checks passed for clipboard PNG insertion, local PNG file upload,
+media reuse, equation
 editing, Python paste, table editing, automatic/manual slugs, first publication,
 immediate republish during autosave and unpublish. A real OS file drop and owner
 comfort review still need confirmation. Native publication deliberately uses
 Studio's mutation queue; an independent read/patch/publish sequence caused an
 observed revision conflict during autosave.
+
+The 2026-09-28 production drill verified CMS create, update and delete webhooks
+through completed GitHub Pages runs 36365810066, 36365986367 and 36366145586.
+The article arrived as full static HTML, entered Korean search, taxonomy, RSS and
+sitemap, retained its canonical URL after a title change, then returned 404 and
+left public listings/search after unpublish. Studio's live status matched the
+public document revision. The sample article remains available as a draft.
 
 Linux comparisons reviewed intentional navigation additions: 10 desktop/mobile
 baselines changed; tablet baselines stayed unchanged. Existing Playwright 1.51
