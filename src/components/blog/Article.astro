@@ -13,7 +13,7 @@ const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href :
 const index = parts.findIndex(item => item._id === post._id), previous = parts[index - 1], next = parts[index + 1]
 const hero = imageAsset(post.heroImage)
 const linkedProjects = publishingProjects.filter(project => post.projects?.includes(project.id))
-const date = (value?: string) => value?.slice(0, 10) || 'Unpublished draft'
+const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
 ---
 <BlogShell preview={preview}>
   <main id="main-content" class="article-page" data-pagefind-body>
@@ -26,7 +26,7 @@ const date = (value?: string) => value?.slice(0, 10) || 'Unpublished draft'
         {post.series && <p class="article-series-label"><a href={href(`/blog/series/${post.series.slug.current}/`)}>{post.series.title}</a>{post.seriesOrder && <> · Part {post.seriesOrder}</>}</p>}
         <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'} · <time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && date(post.updatedAt) !== date(post.publishedAt) && <> · Updated <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} min read</p>
       </header>
-      {hero && <figure class="article-cover"><img src={`${hero.url}?w=1600&fit=max&auto=format&q=90`} srcset={[480, 768, 1200, 1600, 2400].filter(width => width <= hero.width).map(width => `${hero.url}?w=${width}&fit=max&auto=format&q=90 ${width}w`).join(', ')} sizes="(max-width: 800px) calc(100vw - 40px), 1200px" width={hero.width} height={hero.height} alt={post.heroImage?.alt || ''} fetchpriority="high" />{post.heroImage?.caption && <figcaption>{post.heroImage.caption}</figcaption>}</figure>}
+      {hero && <figure class="article-cover"><img src={`${hero.url}?w=1600&fit=max&auto=format&q=90`} srcset={[480, 768, 1200, 1600, 2400].filter(width => width <= hero.width).map(width => `${hero.url}?w=${width}&fit=max&auto=format&q=90 ${width}w`).join(', ')} sizes="(max-width: 760px) calc(100vw - 40px), 720px" width={hero.width} height={hero.height} alt={post.heroImage?.alt || ''} fetchpriority="high" />{post.heroImage?.caption && <figcaption>{post.heroImage.caption}</figcaption>}</figure>
       {toc.length > 0 && <details class="article-toc" data-pagefind-ignore><summary>{post.language === 'ko' ? '목차' : 'On this page'}</summary><nav aria-label="Table of contents"><ol>{toc.map(item => <li class={`toc-level-${item.level}`}><a href={`#${item.id}`}>{item.text}</a></li>)}</ol></nav></details>}
       <div id="article-body" class="article-body"><Fragment set:html={html} /><Fragment set:html={referenceHtml} /></div>
       {!!post.tags?.length && <ul class="article-tags" aria-label="Tags">{post.tags.map(tag => <li><a href={href(`/blog/tags/${tag.slug.current}/`)}>#{tag.title}</a></li>)}</ul>}
