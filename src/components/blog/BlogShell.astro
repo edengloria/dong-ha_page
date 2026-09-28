@@ -3,10 +3,12 @@ import { withBasePath } from '../../../lib/paths'
 import BlogBackdrop from './BlogBackdrop.astro'
 import CommentForm from './CommentForm.astro'
 import Comments from './Comments.astro'
+import { blogPath, searchPath, messages, type Language } from '../../../lib/publishing/language'
 import '../../styles/global.css'
 import '../../styles/blog.css'
-interface Props { preview?: boolean; thread?: string; comments?: boolean }
-const { preview = false, thread = 'guestbook', comments = true } = Astro.props
+interface Props { preview?: boolean; thread?: string; comments?: boolean; language?: Language; switchPaths?: Partial<Record<Language, string>> }
+const { preview = false, thread = 'guestbook', comments = true, language = 'en', switchPaths = {} } = Astro.props
+const t = messages[language]
 const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
 const endpoint = `${import.meta.env.PUBLIC_COMMENTS_ORIGIN || 'https://studio.dhsh.in'}/api/comments/`
 ---
@@ -15,14 +17,14 @@ const endpoint = `${import.meta.env.PUBLIC_COMMENTS_ORIGIN || 'https://studio.dh
   <a class="blog-skip" href="#main-content">Skip to content</a>
   <div class="site-wrap ocean-content blog-panels">
     <table class="site-grid" role="presentation"><tbody><tr>
-      <td class="sidebar-cell"><aside class="desk-sidebar comment-sidebar" aria-label={thread === 'guestbook' ? 'Write in the guestbook' : 'Write a comment'}><CommentForm thread={thread} endpoint={endpoint} disabled={preview} /></aside></td>
+      <td class="sidebar-cell"><aside class="desk-sidebar comment-sidebar" aria-label={thread === 'guestbook' ? t.guestbook : t.comments}><CommentForm thread={thread} endpoint={endpoint} disabled={preview} language={language} /></aside></td>
       <td class="panel-gap" aria-hidden="true"></td>
       <td class="main-cell"><div class="page-sheet"><div class="publishing-shell">
-        <nav class="blog-masthead" aria-label="Primary"><a href={href('/')}>Home</a> / <a href={href('/blog/')}>Blog</a></nav>
+        <header class="blog-masthead"><nav aria-label="Primary"><a href={href('/')}>{t.home}</a> / <a href={href(blogPath(language))}>{t.blog}</a></nav><nav class="blog-languages" aria-label="Language">{(['en', 'ko'] as const).map((code, index) => <>{index > 0 && ' / '}<a href={href(switchPaths[code] || blogPath(code))} lang={code} hreflang={code} aria-current={code === language ? 'page' : undefined} title={thread !== 'guestbook' && !switchPaths[code] ? (code === 'en' ? 'No English translation — browse English posts' : '한국어 번역 없음 — 한국어 글 목록') : undefined}>{code === 'en' ? 'EN' : 'KR'}</a></>)}</nav></header>
         {preview && <aside class="preview-banner" role="status">Private draft preview · This article has not been deployed.</aside>}
         <slot />
-        {comments && <Comments thread={thread} endpoint={endpoint} preview={preview} />}
-        <footer class="blog-footer"><a href={href('/blog/search/')}>Search</a><a href={href('/feed.xml')}>RSS</a></footer>
+        {comments && <Comments thread={thread} endpoint={endpoint} preview={preview} language={language} />}
+        <footer class="blog-footer"><a href={href(searchPath(language))}>{t.search}</a><a href={href('/feed.xml')}>RSS</a></footer>
       </div></div></td>
     </tr></tbody></table>
   </div>

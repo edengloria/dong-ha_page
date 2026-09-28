@@ -4,23 +4,25 @@ import { readingMinutes, postPath, type Post } from '../../../lib/publishing/typ
 import { withBasePath } from '../../../lib/paths'
 import BlogShell from './BlogShell.astro'
 import { publishingProjects } from '../../../content/publishing-projects'
+import { messages } from '../../../lib/publishing/language'
 import 'katex/dist/katex.min.css'
 interface Props { post: Post; preview?: boolean; translations?: Post[] }
 const { post, preview = false, translations = [] } = Astro.props
+const t = messages[post.language]
+const switchPaths = Object.fromEntries([post, ...translations].map(item => [item.language, postPath(item)]))
 const { html, referenceHtml, toc } = await renderBody(post)
 const href = (path: string) => preview ? new URL(path, 'https://dhsh.in').href : withBasePath(path)
 const hero = imageAsset(post.heroImage)
 const linkedProjects = publishingProjects.filter(project => post.projects?.includes(project.id))
 const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date(value)) : 'Unpublished draft'
 ---
-<BlogShell preview={preview} thread={`post:${post._id.replace(/^drafts\./, '')}`}>
+<BlogShell preview={preview} thread={`post:${post._id.replace(/^drafts\./, '')}`} language={post.language} switchPaths={preview ? undefined : switchPaths}>
   <main id="main-content" class="article-page" data-pagefind-body>
     <article lang={post.language}>
       <header class="article-heading">
         <h1 data-pagefind-meta="title">{post.title || 'Untitled post'}</h1>
-        {!!translations.length && <nav class="article-translations" aria-label="Translations" data-pagefind-ignore>{translations.filter(item => item._id !== post._id).map(item => <a href={href(postPath(item))} hreflang={item.language} lang={item.language}>{item.language === 'ko' ? '한국어로 읽기' : 'Read in English'}</a>)}</nav>}
         <p class="article-excerpt">{post.excerpt}</p>
-        <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'} · <time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && date(post.updatedAt) !== date(post.publishedAt) && <> · Updated <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} min read</p>
+        <p class="article-byline">{post.authors?.map(author => author.name).join(', ') || 'Dong-Ha Shin'} · <time datetime={post.publishedAt}>{date(post.publishedAt)}</time>{post.updatedAt && date(post.updatedAt) !== date(post.publishedAt) && <> · {t.updated} <time datetime={post.updatedAt}>{date(post.updatedAt)}</time></>} · {readingMinutes(post)} {t.minutes}</p>
       </header>
       {hero && <figure class="article-cover"><img src={`${hero.url}?w=1600&fit=max&auto=format&q=90`} srcset={[480, 768, 1200, 1600, 2400].filter(width => width <= hero.width).map(width => `${hero.url}?w=${width}&fit=max&auto=format&q=90 ${width}w`).join(', ')} sizes="(max-width: 760px) calc(100vw - 40px), 720px" width={hero.width} height={hero.height} alt={post.heroImage?.alt || ''} fetchpriority="high" />{post.heroImage?.caption && <figcaption>{post.heroImage.caption}</figcaption>}</figure>}
       {toc.length > 0 && <details class="article-toc" data-pagefind-ignore><summary>{post.language === 'ko' ? '목차' : 'On this page'}</summary><nav aria-label="Table of contents"><ol>{toc.map(item => <li class={`toc-level-${item.level}`}><a href={`#${item.id}`}>{item.text}</a></li>)}</ol></nav></details>}
@@ -30,6 +32,8 @@ const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { time
   </main>
 </BlogShell>
 <script>
+  import { languageOf, messages } from '../../../lib/publishing/language'
+  const t = messages[languageOf(document.documentElement.lang)]
   if (document.querySelector('[data-registered-demo]')) {
     void import('../../../lib/publishing/demos/runtime').then(module => module.mountDemos())
   }
@@ -39,8 +43,8 @@ const date = (value?: string) => value ? new Intl.DateTimeFormat('en-CA', { time
     const code = button.closest('.code-block')?.querySelector('code')?.textContent || ''
     try {
       await navigator.clipboard.writeText(code)
-      button.textContent = 'Copied'; button.setAttribute('aria-live', 'polite')
-    } catch { button.textContent = 'Select code to copy' }
-    setTimeout(() => { button.textContent = 'Copy' }, 2500)
+      button.textContent = t.copied; button.setAttribute('aria-live', 'polite')
+    } catch { button.textContent = t.copyFallback }
+    setTimeout(() => { button.textContent = t.copy }, 2500)
   })
 </script>

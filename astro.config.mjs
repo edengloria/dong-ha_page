@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config"
+import { fileURLToPath } from "node:url"
 import react from "@astrojs/react"
 import { documentAudit } from "./scripts/document-audit.mjs"
 import { preferencesServer } from "./scripts/preferences-server.mjs"
@@ -18,6 +19,10 @@ export default defineConfig({
   integrations: [react(), documentAudit(fixture), publishingOutput()],
   vite: {
     define: { __VISUAL_FIXTURE__: JSON.stringify(fixture) },
+    // Weekly Discogs updates must not change screenshot content or preview mocks.
+    resolve: { alias: fixture ? {
+      "@/data/discogs-collection.json": fileURLToPath(new URL("./tests/fixtures/discogs-collection.json", import.meta.url)),
+    } : {} },
     plugins: [preferencesServer(base)],
   },
 })

@@ -2,12 +2,13 @@ import { createHmac, randomBytes, randomUUID, scrypt, timingSafeEqual } from 'no
 import { promisify } from 'node:util'
 import type { SanityClient } from '@sanity/client'
 import { contentClient } from '../../../lib/publishing/query'
+import { commentError, type CommentErrorCode } from '../../../lib/publishing/language'
 import { requiredSecret } from './webhook'
 
 const derive = promisify(scrypt)
 export const commentClient = () => contentClient(requiredSecret('SANITY_DEPLOY_TOKEN')).withConfig({ perspective: 'raw' })
 export class CommentError extends Error {
-  constructor(public status: number, message: string) { super(message) }
+  constructor(public status: number, public code: CommentErrorCode) { super(commentError(code, 'en')) }
 }
 export interface CommentInput { action: 'create' | 'delete'; thread: string; name: string; message: string; password: string; id: string; website: string }
 export interface PublicComment { _id: string; name: string; message: string; createdAt: string }
@@ -19,10 +20,10 @@ export function validThread(value: unknown): value is string {
 export function parseComment(value: Record<string, unknown>): CommentInput {
   const string = (key: string) => typeof value[key] === 'string' ? value[key] as string : ''
   const input = { action: string('action'), thread: string('thread'), name: string('name').trim(), message: string('message').trim(), password: string('password'), id: string('id'), website: string('website') }
-  if (!validThread(input.thread) || !['create', 'delete'].includes(input.action)) throw new CommentError(400, '올바른 댓글 요청이 아닙니다.')
-  if (input.password.length < 4 || input.password.length > 128) throw new CommentError(400, '삭제용 비밀번호를 4~128자로 입력해주세요.')
-  if (input.action === 'create' && (!input.name || input.name.length > 60 || !input.message || input.message.length > 4000 || /[\x00-\x1f\x7f]/.test(input.name) || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(input.message))) throw new CommentError(400, 'Name은 60자, 내용은 4,000자 이내로 입력해주세요.')
-  if (input.action === 'delete' && !idPattern.test(input.id)) throw new CommentError(400, '올바른 댓글 번호가 아닙니다.')
+  if (!validThread(input.thread) || !['create', 'delete'].includes(input.action)) throw new CommentError(400, 'request')
+  if (input.password.length < 4 || input.password.length > 128) throw new CommentError(400, 'password')
+  if (input.action === 'create' && (!input.name || input.name.length > 60 || !input.message || input.message.length > 4000 || /[\x00-\x1f\x7f]/.test(input.name) || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(input.message))) throw new CommentError(400, 'content')
+  if (input.action === 'delete' && !idPattern.test(input.id)) throw new CommentError(400, 'id')
   return input as CommentInput
 }
 function keyed(value: string, secret: string) { return createHmac('sha256', secret).update(`dhsh-comments-v1:${value}`).digest('hex') }
@@ -34,11 +35,11 @@ export async function verifyPassword(password: string, salt: string, hash: strin
   return timingSafeEqual(Buffer.from(await hashPassword(password, salt, secret), 'hex'), Buffer.from(hash, 'hex'))
 }
 export async function threadPath(thread: string, client: SanityClient): Promise<string> {
-  if (!validThread(thread)) throw new CommentError(400, '올바른 게시판이 아닙니다.')
+  if (!validThread(thread)) throw new CommentError(400, 'thread')
   if (thread === 'guestbook') return '/blog/'
   // Query the published root document explicitly; a draft never opens a public thread.
   const post = await client.fetch<{ language: string; slug: string } | null>('*[_type == "post" && _id == $id && defined(publishedAt)][0]{language, "slug": slug.current}', { id: thread.slice(5) })
-  if (!post || !['ko', 'en'].includes(post.language) || !/^[\p{L}\p{N}][\p{L}\p{N}_-]*$/u.test(post.slug)) throw new CommentError(404, '발행된 글을 찾을 수 없습니다.')
+  if (!post || !['ko', 'en'].includes(post.language) || !/^[\p{L}\p{N}][\p{L}\p{N}_-]*$/u.test(post.slug)) throw new CommentError(404, 'post')
   return `/blog/${post.language}/${encodeURIComponent(post.slug)}/`
 }
 /** Dot-path IDs are private under Sanity's fixed unauthenticated read rules. */
@@ -47,17 +48,17 @@ export async function takeCommentRate(client: SanityClient, key: string, limit: 
   for (let attempt = 0; attempt < 4; attempt++) {
     const row = await client.createIfNotExists({ _id: id, _type: 'blogRate', count: 0, resetAt: 0 })
     const count = Number(row.resetAt) > now ? Number(row.count) : 0
-    if (count >= limit) throw new CommentError(429, '잠시 후 다시 시도해주세요.')
+    if (count >= limit) throw new CommentError(429, 'rate')
     try {
       await client.patch(id).ifRevisionId(row._rev).set({ count: count + 1, resetAt: count ? row.resetAt : now + windowMs, expiresAt: new Date(now + 2 * 86400_000).toISOString() }).commit()
       return
     } catch (error) { if ((error as { statusCode?: number }).statusCode !== 409) throw error }
   }
-  throw new CommentError(429, '잠시 후 다시 시도해주세요.')
+  throw new CommentError(429, 'rate')
 }
 export async function listComments(thread: string, before = '', client = commentClient()) {
   await threadPath(thread, client)
-  if (before && !/^\d{4}-\d\d-\d\dT[\d:.]+Z\|blogComment\.[a-f0-9-]{36}$/.test(before)) throw new CommentError(400, '올바른 페이지가 아닙니다.')
+  if (before && !/^\d{4}-\d\d-\d\dT[\d:.]+Z\|blogComment\.[a-f0-9-]{36}$/.test(before)) throw new CommentError(400, 'page')
   const [time = '', id = ''] = before.split('|')
   const rows = await client.fetch<PublicComment[]>(`*[_type == "blogComment" && _id in path("blogComment.*") && thread == $thread && !defined(deletedAt) && ($time == "" || createdAt < $time || (createdAt == $time && _id < $id))] | order(createdAt desc, _id desc)[0...31]{_id, name, message, createdAt}`, { thread, time, id })
   const entries = rows.slice(0, 30), last = entries.at(-1)
@@ -66,12 +67,12 @@ export async function listComments(thread: string, before = '', client = comment
 export async function mutateComment(input: CommentInput, ip: string, client = commentClient(), secret = requiredSecret('PREVIEW_SESSION_SECRET')) {
   // No raw IPs, passwords or request bodies are stored in logs or rate documents.
   await takeCommentRate(client, `attempt:${ip}`, 10, 60_000, secret)
-  if (input.website) throw new CommentError(400, '댓글을 저장할 수 없습니다.')
+  if (input.website) throw new CommentError(400, 'save')
   await threadPath(input.thread, client)
   if (input.action === 'delete') {
     await takeCommentRate(client, `delete:${input.id}`, 10, 60_000, secret)
     const row = await client.getDocument<StoredComment>(input.id)
-    if (!row || row.thread !== input.thread || !await verifyPassword(input.password, row.salt || '', row.passwordHash || '', secret)) throw new CommentError(403, '댓글 또는 비밀번호를 확인해주세요.')
+    if (!row || row.thread !== input.thread || !await verifyPassword(input.password, row.salt || '', row.passwordHash || '', secret)) throw new CommentError(403, 'credentials')
     // Clear visitor content and credentials atomically; the empty tombstone is not listed.
     await client.patch(row._id).ifRevisionId(row._rev).set({ deletedAt: new Date().toISOString() }).unset(['name', 'message', 'salt', 'passwordHash']).commit()
     return { deleted: true }

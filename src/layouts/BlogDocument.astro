@@ -6,7 +6,7 @@ import type { Post } from '../../lib/publishing/types'
 import { postPath } from '../../lib/publishing/types'
 import { articleStructuredData, safeJson } from '../../lib/publishing/seo'
 interface Props { title: string; description: string; path: string; language?: 'ko' | 'en'; post?: Post; noindex?: boolean; translations?: Post[] }
-const { title, description, path, post, language = post?.language || 'ko', noindex = false, translations = [] } = Astro.props
+const { title, description, path, post, language = post?.language || 'en', noindex = false, translations = [] } = Astro.props
 const canonical = new URL(withBasePath(path), siteConfig.url).href
 const image = imageAsset(post?.seo?.socialImage || post?.heroImage)?.url || new URL(withBasePath(siteConfig.ogImage), siteConfig.url).href
 ---

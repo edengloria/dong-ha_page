@@ -1,0 +1,62 @@
+---
+import BlogDocument from '../../layouts/BlogDocument.astro'
+import BlogShell from './BlogShell.astro'
+import { searchPath, blogPath, messages, type Language } from '../../../lib/publishing/language'
+const { language = 'en' } = Astro.props as { language?: Language }
+const t = messages[language]
+import { withBasePath } from '../../../lib/paths'
+---
+<BlogDocument title={t.search} description="Search research and engineering notes." path={searchPath(language)} language={language} noindex>
+  <BlogShell language={language} switchPaths={{ en: searchPath('en'), ko: searchPath('ko') }}><main id="main-content"><h1>{t.search}</h1>
+    <form id="blog-search" data-language={language} data-index={withBasePath('/pagefind/pagefind.js')} role="search">
+      <label for="search-query">{t.search}</label>
+      <div class="search-input-row"><input id="search-query" name="q" type="search" autocomplete="off" placeholder={t.searchHint} /><button type="submit">{t.search}</button></div>
+    </form>
+    <p id="search-status" role="status" aria-live="polite">{t.searchPrompt}</p><ol id="search-results" class="search-results"></ol>
+    <noscript>{t.noScriptSearch} <a href={withBasePath(blogPath(language))}>{t.allArticles}</a>.</noscript>
+  </main></BlogShell>
+</BlogDocument>
+<script>
+  import { languageOf, messages } from '../../../lib/publishing/language'
+  interface SearchResult { url: string; meta: { title?: string }; excerpt: string }
+  interface SearchIndex { search: (query: string, options: { filters: { language: string } }) => Promise<{ results: { data: () => Promise<SearchResult> }[] }> }
+  const form = document.querySelector<HTMLFormElement>('#blog-search')!
+  const language = languageOf(form.dataset.language), t = messages[language]
+  const input = document.querySelector<HTMLInputElement>('#search-query')!
+  const status = document.querySelector<HTMLElement>('#search-status')!
+  const list = document.querySelector<HTMLOListElement>('#search-results')!
+  let engine: Promise<SearchIndex> | undefined, sequence = 0, timer: ReturnType<typeof setTimeout>
+  async function search() {
+    const current = ++sequence, query = input.value.trim()
+    list.replaceChildren()
+    if (!query) { status.textContent = t.searchPrompt; return }
+    status.textContent = t.searching
+    try {
+      engine ||= import(/* @vite-ignore */ form.dataset.index!)
+      const results = await (await engine).search(query, { filters: { language } })
+      const data = await Promise.all(results.results.slice(0, 30).map(result => result.data()))
+      if (current !== sequence) return
+      status.textContent = `${results.results.length} ${t.results}${results.results.length > 30 ? ` · ${t.firstResults}` : ''}`
+      for (const result of data) {
+        const url = new URL(result.url, location.origin)
+        if (url.origin !== location.origin) continue
+        const li = document.createElement('li'), heading = document.createElement('h2'), link = document.createElement('a'), excerpt = document.createElement('p')
+        link.href = url.href; link.textContent = result.meta.title || url.pathname
+        // Pagefind excerpts contain highlighting markup; retain only text.
+        excerpt.textContent = new DOMParser().parseFromString(result.excerpt, 'text/html').body.textContent
+        heading.append(link); li.append(heading, excerpt); list.append(li)
+      }
+      history.replaceState(null, '', `${location.pathname}?q=${encodeURIComponent(query)}`)
+    } catch { if (current === sequence) status.textContent = t.searchFailed }
+  }
+  input.value = new URLSearchParams(location.search).get('q') || ''
+  form.addEventListener('submit', event => { event.preventDefault(); clearTimeout(timer); void search() })
+  input.addEventListener('input', () => { ++sequence; clearTimeout(timer); timer = setTimeout(() => void search(), 200) })
+  if (input.value) void search()
+</script>
+<style>
+  .search-input-row { display: flex; gap: 8px; margin-block: 8px; }
+  input { min-width: 0; flex: 1; }
+  input, button { font: inherit; padding: 4px 8px; }
+  button { cursor: pointer; }
+</style>

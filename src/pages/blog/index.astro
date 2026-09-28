@@ -1,10 +1,4 @@
 ---
-import BlogDocument from '../../layouts/BlogDocument.astro'
-import BlogShell from '../../components/blog/BlogShell.astro'
-import PostList from '../../components/blog/PostList.astro'
-import { getPublishingData, blogSettings } from '../../../lib/publishing/query'
-const data = await getPublishingData(), { posts } = data, settings = blogSettings(data)
+import BlogIndex from '../../components/blog/BlogIndex.astro'
 ---
-<BlogDocument title="Blog" description={settings.description} path="/blog/">
-  <BlogShell><main id="main-content" aria-label="Blog"><PostList posts={posts} /></main></BlogShell>
-</BlogDocument>
+<BlogIndex />
