@@ -6,6 +6,7 @@ export const messages = {
   en: {
     home: 'Home', blog: 'Blog', search: 'Search', name: 'Name', password: 'Password', passwordHint: '(for deletion)',
     write: 'Write', remove: 'Delete', more: 'More', guestbook: 'Guestbook', comments: 'Comments',
+    leaveGuestbook: 'Leave a message...', leaveComment: 'Leave a comment...',
     guestbookMessage: 'Guestbook message', commentMessage: 'Comment', emptyComments: 'No messages yet.', emptyPosts: 'No published posts yet.',
     loading: 'Loading…', saving: 'Saving…', saved: 'Saved.', loadFailed: 'Could not load comments. Please try again.',
     saveFailed: 'Could not save. Your input has been kept.', previewDisabled: 'Comments are disabled in preview.',
@@ -18,6 +19,7 @@ export const messages = {
   ko: {
     home: '홈', blog: '블로그', search: '검색', name: '이름', password: '비밀번호', passwordHint: '(삭제 시 입력)',
     write: '작성', remove: '삭제', more: '더 보기', guestbook: '방명록', comments: '댓글',
+    leaveGuestbook: '방명록 남기기...', leaveComment: '댓글 남기기...',
     guestbookMessage: '방명록 내용', commentMessage: '댓글 내용', emptyComments: '아직 남겨진 글이 없습니다.', emptyPosts: '아직 발행된 글이 없습니다.',
     loading: '불러오는 중…', saving: '저장 중…', saved: '저장했습니다.', loadFailed: '댓글을 불러올 수 없습니다. 다시 시도해주세요.',
     saveFailed: '저장하지 못했습니다. 입력 내용은 그대로 남아 있습니다.', previewDisabled: '미리보기에서는 댓글을 작성할 수 없습니다.',
