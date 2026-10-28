@@ -19,6 +19,43 @@ credential belongs in source or browser code. Keep the Google verification tag
 after verifying ownership. Submit `https://dhsh.in/sitemap.xml` in Search Console;
 the existing build adds published articles and removes unpublished ones.
 
+## Indexing and intentional exclusions
+
+`scripts/publishing-output.mjs` regenerates `out/sitemap.xml` and `out/robots.txt`
+after Astro builds. The files in `public/` are fallbacks, not the final deployed
+URL list. The sitemap is collected from generated public HTML with a canonical
+URL and main content; noindex documents, the custom 404, editor and admin are
+excluded. It includes photo pagination, record details and published blog posts.
+
+Public document canonicals and internal navigation use a trailing slash, matching
+Astro's directory output. GitHub Pages redirects slashless directory URLs to the
+slash URL. A Search Console "Page with redirect" entry for such a source URL is
+expected when the final destination is the intended, indexable page.
+
+Draft project routes are not generated. GitHub Pages serves the existing
+`404.html` with HTTP 404 and noindex for those paths, as it does for other missing
+URLs. A document that merely displays "404" while returning HTTP 200 is not a
+real not-found response. Do not redirect every missing URL to the homepage.
+
+The editor, record administration and blog search pages retain noindex. Allow
+crawling so Google can read that directive; robots.txt blocking does not enforce
+noindex. They remain absent from the sitemap and Pagefind. This is an indexing
+policy, not authentication; the existing admin convenience gate is unchanged.
+
+For a Search Console alert, export the example URLs separately for "Not found
+(404)" and "Page with redirect". Preserve scheme, hostname, case, query and
+trailing slash, and record the last crawl date. Check both all-known URLs and
+submitted-sitemap URLs. For each URL, compare the first HTTP response, redirect
+destination, final response, declared canonical and Google's selected canonical.
+Fix a 404 if an intended public page or a current internal/sitemap link requires
+it; retain intentional removals and missing/draft URLs. Keep legitimate redirects
+and inspect the destination's indexing status. An email's date is not proof that
+the latest deployment caused an exclusion. Recheck after deployment before
+requesting validation or indexing of affected public destinations.
+
+`tests/indexing.spec.ts` verifies the generated sitemap against HTTP responses,
+canonical metadata and exclusion rules, and checks real custom-404 responses.
+
 ## Collected data
 
 - Umami's standard pageview metrics: public page path/title, browser language,

@@ -2,8 +2,11 @@
 import PublicDocument from "../../layouts/PublicDocument.astro"
 import { projects } from "@/content/projects"
 export function getStaticPaths() {
-  return projects.map(project => ({ params: { slug: project.slug }, props: { project } }))
+  // Pages serves every generated HTML file with 200, regardless of its content.
+  // Leave drafts absent so the host serves our noindex 404.html with status 404.
+  return projects.filter(project => project.status === "published")
+    .map(project => ({ params: { slug: project.slug }, props: { project } }))
 }
 const { project } = Astro.props
 ---
-<PublicDocument path={`/projects/${project.slug}/`} kind={project.status === "published" ? "project" : "not-found"} project={project} title={project.title} description={project.summary} noindex={project.status !== "published"} />
+<PublicDocument path={`/projects/${project.slug}/`} kind="project" project={project} title={project.title} description={project.summary} />

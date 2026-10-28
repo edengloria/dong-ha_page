@@ -48,7 +48,8 @@ information to `out/document-build.json`. It does not rewrite HTML.
 
 Edit `content/profile.ts` for the biography, `content/publications.ts` for
 research, and `content/projects.ts` for projects. Published projects get their
-own static route automatically; drafts display a noindex not-found document.
+own static route automatically. Draft routes are not generated; GitHub Pages
+serves the shared noindex `404.html` with HTTP 404 for those URLs.
 
 ## Editor and record administration
 

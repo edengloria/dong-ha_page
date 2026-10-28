@@ -20,5 +20,14 @@ http.createServer(async (req, res) => {
     await stat(file)
     res.setHeader("Content-Type", mime[extname(file)] || "application/octet-stream")
     createReadStream(file).on("error", () => res.destroy()).pipe(res)
-  } catch { res.writeHead(404).end("Not found") }
+  } catch {
+    // Match GitHub Pages: missing routes keep their URL and use the custom
+    // error document with a real 404 response, never a redirect or 200 fallback.
+    const errorPage = join(root, "404.html")
+    try {
+      await stat(errorPage)
+      res.writeHead(404, { "Content-Type": mime[".html"] })
+      createReadStream(errorPage).on("error", () => res.destroy()).pipe(res)
+    } catch { res.writeHead(404).end("Not found") }
+  }
 }).listen(port, "127.0.0.1", () => console.log(`Public documents at http://127.0.0.1:${port}`))
