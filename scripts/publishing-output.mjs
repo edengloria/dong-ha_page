@@ -44,7 +44,9 @@ export function publishingOutput() {
         const result = await index.writeFiles({ outputPath: join(out, 'pagefind') })
         if (result.errors?.length) throw new Error(result.errors.join('\n'))
         await writeFile(join(out, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[...urls].map(([url, updated]) => `<url><loc>${xml(url)}</loc>${updated ? `<lastmod>${xml(updated)}</lastmod>` : ''}</url>`).join('')}</urlset>`)
-        await writeFile(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: ${base}/scene-editor/\nDisallow: ${base}/gallery/admin/\nSitemap: https://dhsh.in${base}/sitemap.xml\n`)
+        // Crawlers must fetch editor/admin pages to see their noindex metadata.
+        // They remain excluded from both the sitemap and the Pagefind index.
+        await writeFile(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: https://dhsh.in${base}/sitemap.xml\n`)
         console.log(`Search and sitemap: ${urls.size} public pages; drafts and noindex pages excluded`)
       } finally { await pagefind.close() }
     },

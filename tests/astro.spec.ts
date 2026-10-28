@@ -9,8 +9,9 @@ test("Astro emits canonical metadata, complete error documents and isolated appl
   expect(await page.locator("astro-island").count()).toBe(0)
   const report = await (await request.get("/document-build.json")).json()
   expect(report.generator).toBe("Astro")
-  for (const path of ["/404.html", "/projects/coming-soon/"]) {
-    await page.goto(path)
+  for (const path of ["/404.html", "/projects/coming-soon/", "/missing-page-for-test/"]) {
+    const response = await page.goto(path)
+    expect(response?.status()).toBe(path === "/404.html" ? 200 : 404)
     await expect(page.getByRole("heading", { name: "404", exact: true })).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow")
     await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible()
